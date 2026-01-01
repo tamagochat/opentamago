@@ -1,0 +1,245 @@
+{
+  "common": {
+    "appName": "OpenTamago",
+    "tagline": "오픈소스 AI 캐릭터",
+    "loading": "로딩 중...",
+    "error": "문제가 발생했습니다",
+    "retry": "다시 시도",
+    "comingSoon": "출시 예정"
+  },
+  "actions": {
+    "save": "저장",
+    "cancel": "취소",
+    "delete": "삭제",
+    "edit": "편집",
+    "close": "닫기",
+    "submit": "제출",
+    "upload": "업로드",
+    "download": "다운로드"
+  },
+  "home": {
+    "hero": {
+      "title": "당신의 AI 캐릭터",
+      "titleHighlight": "동반자",
+      "description": "AI 캐릭터를 생성하고, 보고, 대화하세요. 캐릭터 카드 관리와 AI 대화를 위한 오픈소스 플랫폼입니다."
+    },
+    "cta": {
+      "openViewer": "CharX 뷰어 열기",
+      "viewGithub": "GitHub에서 보기",
+      "tryViewer": "CharX 뷰어 사용해보기"
+    },
+    "features": {
+      "title": "필요한 모든 것",
+      "description": "AI 캐릭터 애호가를 위한 완벽한 도구 모음",
+      "charxViewer": {
+        "title": "CharX 뷰어",
+        "description": "CharX 파일에서 캐릭터 카드, 로어북, 에셋을 확인하세요. 모든 것이 브라우저에서 로컬로 실행됩니다."
+      },
+      "p2pSharing": {
+        "title": "P2P CharX 공유",
+        "description": "P2P 기술을 사용하여 다른 사람들과 캐릭터 파일을 직접 공유하세요. 서버 업로드 없이 즉시 전송됩니다."
+      }
+    },
+    "showcase": {
+      "badge": "CharX 뷰어",
+      "title": "캐릭터 파일을 쉽게 확인하세요",
+      "dragDrop": {
+        "title": "드래그 앤 드롭 업로드",
+        "description": ".charx 파일을 드롭하면 즉시 내용을 확인할 수 있습니다"
+      },
+      "cardInfo": {
+        "title": "완전한 카드 정보",
+        "description": "캐릭터 세부 정보, 시스템 프롬프트, 인사말 등을 확인하세요"
+      },
+      "clientSide": {
+        "title": "100% 클라이언트 사이드",
+        "description": "파일이 브라우저를 떠나지 않습니다 - 완벽한 프라이버시 보장"
+      },
+      "dropzone": {
+        "title": ".charx 파일을 여기에 드롭하세요",
+        "subtitle": "또는 클릭하여 찾아보기"
+      }
+    },
+    "highlights": {
+      "privacy": {
+        "title": "프라이버시 우선",
+        "description": "데이터가 기기에 남습니다. CharX 파일은 전적으로 브라우저에서 처리됩니다."
+      },
+      "fast": {
+        "title": "번개처럼 빠름",
+        "description": "즉각적인 로딩과 부드러운 상호작용을 위한 최신 웹 기술로 제작되었습니다."
+      },
+      "openSource": {
+        "title": "오픈 소스",
+        "description": "완전히 투명한 코드베이스. 감사하고, 기여하고, 필요에 맞게 커스터마이즈하세요."
+      }
+    },
+    "ready": {
+      "title": "시작할 준비가 되셨나요?",
+      "description": "프라이버시 중심 뷰어로 캐릭터 파일을 바로 탐색해보세요."
+    }
+  },
+  "charx": {
+    "title": "CharX 뷰어",
+    "subtitle": "캐릭터 카드, 로어북, 에셋을 확인하세요 — 브라우저에서 완전히 실행됩니다",
+    "upload": {
+      "title": "CharX 파일 업로드",
+      "description": ".charx 파일을 드래그 앤 드롭하거나 클릭하여 찾아보세요",
+      "dropHere": "여기에 파일을 드롭하세요",
+      "invalidFile": "유효한 .charx 파일을 업로드해주세요",
+      "dropFiles": ".charx 파일을 여기에 드롭하세요",
+      "browseMultiple": "또는 클릭하여 파일 찾아보기 (다중 선택 지원)",
+      "downloadLink": "<link>realm.risuai.net</link>에서 캐릭터 파일(.charx)을 다운로드하세요",
+      "unsupportedFile": "지원되지 않는 파일: {names}. .charx 파일만 지원됩니다.",
+      "unsupportedFiles": "지원되지 않는 파일: {names}. .charx 파일만 지원됩니다.",
+      "andMore": " 외 {count}개"
+    },
+    "tabs": {
+      "character": "캐릭터",
+      "lorebook": "로어북",
+      "assets": "에셋",
+      "module": "모듈"
+    },
+    "empty": {
+      "noCharacterCard": "캐릭터 카드를 찾을 수 없습니다",
+      "noLorebook": "로어북을 찾을 수 없습니다",
+      "noModule": "모듈을 찾을 수 없습니다",
+      "noAssets": "이 카테고리에 에셋이 없습니다",
+      "noAssetsInFile": "이 캐릭터 파일에서 에셋을 찾을 수 없습니다",
+      "noModuleContent": "모듈 콘텐츠를 찾을 수 없습니다",
+      "noTriggerScripts": "트리거 스크립트 없음",
+      "noRegexScripts": "정규식 스크립트 없음",
+      "noCommonJSCode": "CommonJS 코드 없음"
+    },
+    "files": {
+      "title": "파일",
+      "loaded": "{count}개의 파일(.charx) 로드됨",
+      "parsing": "파싱 중...",
+      "dropMore": ".charx 파일을 더 드롭하거나 클릭하여 찾아보기",
+      "queue": "대기 중",
+      "queued": "대기열"
+    },
+    "assets": {
+      "title": "에셋",
+      "totalExtracted": "총 {count}개의 에셋 추출됨",
+      "sortAZ": "A-Z 정렬",
+      "sortZA": "Z-A 정렬",
+      "sortByFilename": "파일명으로 정렬",
+      "groupByFilename": "파일명으로 그룹화",
+      "emotions": "감정",
+      "icons": "아이콘",
+      "backgrounds": "배경",
+      "other": "기타",
+      "cardMetadata": "카드 메타데이터 ({count}개 참조)",
+      "cardMetadataPlural": "카드 메타데이터 ({count}개 참조)"
+    },
+    "module": {
+      "title": "모듈: {name}",
+      "unnamed": "이름 없음",
+      "noDescription": "설명 없음",
+      "triggers": "트리거",
+      "triggersCount": "{count}개의 트리거",
+      "regex": "정규식",
+      "regexCount": "{count}개의 정규식",
+      "code": "코드",
+      "cjsCode": "CJS 코드",
+      "lowLevelAccess": "저수준 접근"
+    },
+    "character": {
+      "unnamedCharacter": "이름 없는 캐릭터",
+      "byCreator": "{creator} 제작",
+      "tabs": {
+        "basic": "기본",
+        "messages": "메시지",
+        "prompts": "프롬프트",
+        "others": "기타"
+      },
+      "viewMode": {
+        "list": "목록",
+        "raw": "원본",
+        "markdown": "마크다운"
+      },
+      "expandAll": "모두 펼치기",
+      "collapseAll": "모두 접기",
+      "saveAsFile": "파일로 저장",
+      "copyToClipboard": "클립보드에 복사",
+      "created": "생성일",
+      "modified": "수정일",
+      "empty": "비어 있음",
+      "loreCount": "{count}개 로어북",
+      "assetsCount": "{count}개 에셋"
+    },
+    "lorebook": {
+      "title": "캐릭터 로어북",
+      "entries": "{count}개 항목",
+      "noEntries": "로어북 항목이 없습니다",
+      "enabled": "활성화됨",
+      "disabled": "비활성화됨",
+      "priority": "우선순위",
+      "noKeys": "키 없음",
+      "moreKeys": "+{count}개 더",
+      "moreKeysPrefix": "+"
+    },
+    "toast": {
+      "copiedToClipboard": "클립보드에 복사됨",
+      "failedToCopy": "복사 실패",
+      "fileSaved": "파일 저장됨",
+      "lorebookCopied": "로어북 JSON이 복사되었습니다",
+      "characterCopied": "캐릭터 JSON이 복사되었습니다",
+      "couldNotCopy": "클립보드에 복사할 수 없습니다"
+    },
+    "errorBoundary": {
+      "title": "문제가 발생했습니다",
+      "description": "예기치 않은 오류가 발생했습니다. 페이지를 새로고침해 주세요.",
+      "refreshPage": "페이지 새로고침"
+    },
+    "error": "오류",
+    "warning": "경고",
+    "filesExcluded": "크기 제한(>50MB)으로 인해 {count}개의 파일이 제외되었습니다:"
+  },
+  "errors": {
+    "notFound": {
+      "title": "404",
+      "heading": "페이지를 찾을 수 없음",
+      "description": "찾으시는 페이지가 존재하지 않거나 이동되었습니다.",
+      "goHome": "홈으로 가기",
+      "openCharxViewer": "CharX 뷰어"
+    },
+    "generic": {
+      "title": "문제가 발생했습니다",
+      "description": "예상치 못한 오류가 발생했습니다. 다시 시도하거나 홈 페이지로 돌아가주세요.",
+      "retry": "다시 시도",
+      "goHome": "홈으로 가기"
+    },
+    "charx": {
+      "title": "CharX 뷰어 오류",
+      "description": "CharX 뷰어를 로드하는 중 문제가 발생했습니다. 손상된 파일이거나 브라우저 호환성 문제일 수 있습니다.",
+      "retry": "다시 시도",
+      "goHome": "홈으로 가기"
+    }
+  },
+  "footer": {
+    "description": "오픈소스 AI 캐릭터 플랫폼. AI 캐릭터를 생성하고, 공유하고, 상호작용하세요.",
+    "product": "제품",
+    "resources": "리소스",
+    "documentation": "문서",
+    "legal": "법적 고지",
+    "privacy": "개인정보 처리방침",
+    "terms": "이용약관",
+    "copyright": "OpenTamago. All rights reserved."
+  },
+  "nav": {
+    "home": "홈",
+    "charxViewer": "CharX 뷰어",
+    "chat": "채팅",
+    "github": "GitHub",
+    "toggleMenu": "메뉴 열기/닫기",
+    "navigationMenu": "내비게이션 메뉴"
+  },
+  "theme": {
+    "toggle": "테마 전환",
+    "light": "라이트",
+    "dark": "다크",
+    "system": "시스템"
+  }
+}

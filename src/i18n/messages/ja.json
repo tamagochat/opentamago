@@ -1,0 +1,245 @@
+{
+  "common": {
+    "appName": "OpenTamago",
+    "tagline": "オープンソースAIキャラクター",
+    "loading": "読み込み中...",
+    "error": "問題が発生しました",
+    "retry": "再試行",
+    "comingSoon": "近日公開"
+  },
+  "actions": {
+    "save": "保存",
+    "cancel": "キャンセル",
+    "delete": "削除",
+    "edit": "編集",
+    "close": "閉じる",
+    "submit": "送信",
+    "upload": "アップロード",
+    "download": "ダウンロード"
+  },
+  "home": {
+    "hero": {
+      "title": "あなたのAIキャラクター",
+      "titleHighlight": "コンパニオン",
+      "description": "AIキャラクターを作成、閲覧、会話しましょう。キャラクターカード管理とAI会話のためのオープンソースプラットフォームです。"
+    },
+    "cta": {
+      "openViewer": "CharXビューアーを開く",
+      "viewGithub": "GitHubで見る",
+      "tryViewer": "CharXビューアーを試す"
+    },
+    "features": {
+      "title": "必要なすべてが揃っています",
+      "description": "AIキャラクター愛好家のための完全なツールキット",
+      "charxViewer": {
+        "title": "CharXビューアー",
+        "description": "CharXファイルからキャラクターカード、ロアブック、アセットを確認できます。すべてがブラウザ上でローカルに実行されます。"
+      },
+      "p2pSharing": {
+        "title": "P2P CharX共有",
+        "description": "P2P技術を使用して他のユーザーとキャラクターファイルを直接共有できます。サーバーへのアップロードなしで即座に転送されます。"
+      }
+    },
+    "showcase": {
+      "badge": "CharXビューアー",
+      "title": "キャラクターファイルを簡単に確認",
+      "dragDrop": {
+        "title": "ドラッグ＆ドロップアップロード",
+        "description": ".charxファイルをドロップするだけで即座に内容を確認できます"
+      },
+      "cardInfo": {
+        "title": "完全なカード情報",
+        "description": "キャラクターの詳細、システムプロンプト、挨拶などを確認できます"
+      },
+      "clientSide": {
+        "title": "100%クライアントサイド",
+        "description": "ファイルがブラウザから離れることはありません - 完全なプライバシーを保証"
+      },
+      "dropzone": {
+        "title": ".charxファイルをここにドロップ",
+        "subtitle": "またはクリックして参照"
+      }
+    },
+    "highlights": {
+      "privacy": {
+        "title": "プライバシー最優先",
+        "description": "データはデバイスに残ります。CharXファイルは完全にブラウザ内で処理されます。"
+      },
+      "fast": {
+        "title": "超高速",
+        "description": "即座の読み込みとスムーズなインタラクションのための最新のWeb技術で構築されています。"
+      },
+      "openSource": {
+        "title": "オープンソース",
+        "description": "完全に透明なコードベース。監査、貢献、ニーズに合わせたカスタマイズが可能です。"
+      }
+    },
+    "ready": {
+      "title": "始める準備はできましたか？",
+      "description": "プライバシー重視のビューアーでキャラクターファイルをすぐに探索しましょう。"
+    }
+  },
+  "charx": {
+    "title": "CharXビューアー",
+    "subtitle": "キャラクターカード、ロアブック、アセットを確認 — ブラウザで完全に動作します",
+    "upload": {
+      "title": "CharXファイルをアップロード",
+      "description": ".charxファイルをドラッグ＆ドロップするか、クリックして参照してください",
+      "dropHere": "ここにファイルをドロップ",
+      "invalidFile": "有効な.charxファイルをアップロードしてください",
+      "dropFiles": ".charxファイルをここにドロップ",
+      "browseMultiple": "またはクリックしてファイルを参照（複数選択可）",
+      "downloadLink": "<link>realm.risuai.net</link>でキャラクターファイル（.charx）をダウンロード",
+      "unsupportedFile": "サポートされていないファイル: {names}。.charxファイルのみサポートされています。",
+      "unsupportedFiles": "サポートされていないファイル: {names}。.charxファイルのみサポートされています。",
+      "andMore": " 他{count}件"
+    },
+    "tabs": {
+      "character": "キャラクター",
+      "lorebook": "ロアブック",
+      "assets": "アセット",
+      "module": "モジュール"
+    },
+    "empty": {
+      "noCharacterCard": "キャラクターカードが見つかりません",
+      "noLorebook": "ロアブックが見つかりません",
+      "noModule": "モジュールが見つかりません",
+      "noAssets": "このカテゴリにアセットがありません",
+      "noAssetsInFile": "このキャラクターファイルにアセットが見つかりません",
+      "noModuleContent": "モジュールコンテンツが見つかりません",
+      "noTriggerScripts": "トリガースクリプトなし",
+      "noRegexScripts": "正規表現スクリプトなし",
+      "noCommonJSCode": "CommonJSコードなし"
+    },
+    "files": {
+      "title": "ファイル",
+      "loaded": "{count}個のファイル（.charx）がロードされました",
+      "parsing": "解析中...",
+      "dropMore": ".charxファイルをドロップまたはクリックして参照",
+      "queue": "待機中",
+      "queued": "キュー"
+    },
+    "assets": {
+      "title": "アセット",
+      "totalExtracted": "合計{count}個のアセットを抽出",
+      "sortAZ": "A-Z順",
+      "sortZA": "Z-A順",
+      "sortByFilename": "ファイル名で並べ替え",
+      "groupByFilename": "ファイル名でグループ化",
+      "emotions": "感情",
+      "icons": "アイコン",
+      "backgrounds": "背景",
+      "other": "その他",
+      "cardMetadata": "カードメタデータ（{count}件の参照）",
+      "cardMetadataPlural": "カードメタデータ（{count}件の参照）"
+    },
+    "module": {
+      "title": "モジュール: {name}",
+      "unnamed": "名前なし",
+      "noDescription": "説明なし",
+      "triggers": "トリガー",
+      "triggersCount": "{count}個のトリガー",
+      "regex": "正規表現",
+      "regexCount": "{count}個の正規表現",
+      "code": "コード",
+      "cjsCode": "CJSコード",
+      "lowLevelAccess": "低レベルアクセス"
+    },
+    "character": {
+      "unnamedCharacter": "名前のないキャラクター",
+      "byCreator": "{creator} 作成",
+      "tabs": {
+        "basic": "基本",
+        "messages": "メッセージ",
+        "prompts": "プロンプト",
+        "others": "その他"
+      },
+      "viewMode": {
+        "list": "リスト",
+        "raw": "Raw",
+        "markdown": "マークダウン"
+      },
+      "expandAll": "すべて展開",
+      "collapseAll": "すべて折りたたむ",
+      "saveAsFile": "ファイルとして保存",
+      "copyToClipboard": "クリップボードにコピー",
+      "created": "作成日",
+      "modified": "更新日",
+      "empty": "空",
+      "loreCount": "{count}件のロアブック",
+      "assetsCount": "{count}件のアセット"
+    },
+    "lorebook": {
+      "title": "キャラクターロアブック",
+      "entries": "{count}件のエントリ",
+      "noEntries": "ロアブックのエントリがありません",
+      "enabled": "有効",
+      "disabled": "無効",
+      "priority": "優先度",
+      "noKeys": "キーなし",
+      "moreKeys": "+{count}件",
+      "moreKeysPrefix": "+"
+    },
+    "toast": {
+      "copiedToClipboard": "クリップボードにコピーしました",
+      "failedToCopy": "コピーに失敗しました",
+      "fileSaved": "ファイルを保存しました",
+      "lorebookCopied": "ロアブックJSONをコピーしました",
+      "characterCopied": "キャラクターJSONをコピーしました",
+      "couldNotCopy": "クリップボードにコピーできませんでした"
+    },
+    "errorBoundary": {
+      "title": "問題が発生しました",
+      "description": "予期しないエラーが発生しました。ページを更新してください。",
+      "refreshPage": "ページを更新"
+    },
+    "error": "エラー",
+    "warning": "警告",
+    "filesExcluded": "サイズ制限（>50MB）により{count}個のファイルが除外されました："
+  },
+  "errors": {
+    "notFound": {
+      "title": "404",
+      "heading": "ページが見つかりません",
+      "description": "お探しのページは存在しないか、移動されました。",
+      "goHome": "ホームに戻る",
+      "openCharxViewer": "CharXビューアー"
+    },
+    "generic": {
+      "title": "問題が発生しました",
+      "description": "予期しないエラーが発生しました。もう一度お試しいただくか、ホームページに戻ってください。",
+      "retry": "再試行",
+      "goHome": "ホームに戻る"
+    },
+    "charx": {
+      "title": "CharXビューアーエラー",
+      "description": "CharXビューアーの読み込み中に問題が発生しました。ファイルが破損しているか、ブラウザの互換性の問題である可能性があります。",
+      "retry": "再試行",
+      "goHome": "ホームに戻る"
+    }
+  },
+  "footer": {
+    "description": "オープンソースAIキャラクタープラットフォーム。AIキャラクターを作成、共有、交流しましょう。",
+    "product": "製品",
+    "resources": "リソース",
+    "documentation": "ドキュメント",
+    "legal": "法的情報",
+    "privacy": "プライバシーポリシー",
+    "terms": "利用規約",
+    "copyright": "OpenTamago. All rights reserved."
+  },
+  "nav": {
+    "home": "ホーム",
+    "charxViewer": "CharXビューアー",
+    "chat": "チャット",
+    "github": "GitHub",
+    "toggleMenu": "メニューを切り替え",
+    "navigationMenu": "ナビゲーションメニュー"
+  },
+  "theme": {
+    "toggle": "テーマを切り替え",
+    "light": "ライト",
+    "dark": "ダーク",
+    "system": "システム"
+  }
+}

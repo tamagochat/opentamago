@@ -1,0 +1,245 @@
+{
+  "common": {
+    "appName": "OpenTamago",
+    "tagline": "Open Source AI Characters",
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "retry": "Try again",
+    "comingSoon": "Coming Soon"
+  },
+  "actions": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "submit": "Submit",
+    "upload": "Upload",
+    "download": "Download"
+  },
+  "home": {
+    "hero": {
+      "title": "Your AI Character",
+      "titleHighlight": "Companion",
+      "description": "Create, view, and chat with AI characters. An open-source platform for character card management and AI conversations."
+    },
+    "cta": {
+      "openViewer": "Open CharX Viewer",
+      "viewGithub": "View on GitHub",
+      "tryViewer": "Try CharX Viewer"
+    },
+    "features": {
+      "title": "Everything You Need",
+      "description": "A complete toolkit for AI character enthusiasts",
+      "charxViewer": {
+        "title": "CharX Viewer",
+        "description": "View and inspect character cards, lorebooks, and assets from CharX files. Everything runs locally in your browser."
+      },
+      "p2pSharing": {
+        "title": "P2P CharX Sharing",
+        "description": "Share character files directly with others using peer-to-peer technology. No server uploads, instant transfers."
+      }
+    },
+    "showcase": {
+      "badge": "CharX Viewer",
+      "title": "Inspect Character Files with Ease",
+      "dragDrop": {
+        "title": "Drag & Drop Upload",
+        "description": "Simply drop your .charx files to instantly view their contents"
+      },
+      "cardInfo": {
+        "title": "Complete Card Information",
+        "description": "View character details, system prompts, greetings, and more"
+      },
+      "clientSide": {
+        "title": "100% Client-Side",
+        "description": "Your files never leave your browser - complete privacy guaranteed"
+      },
+      "dropzone": {
+        "title": "Drop .charx files here",
+        "subtitle": "or click to browse"
+      }
+    },
+    "highlights": {
+      "privacy": {
+        "title": "Privacy First",
+        "description": "Your data stays on your device. CharX files are processed entirely in your browser."
+      },
+      "fast": {
+        "title": "Lightning Fast",
+        "description": "Built with modern web technologies for instant loading and smooth interactions."
+      },
+      "openSource": {
+        "title": "Open Source",
+        "description": "Fully transparent codebase. Audit, contribute, and customize to your needs."
+      }
+    },
+    "ready": {
+      "title": "Ready to Get Started?",
+      "description": "Jump right in and explore your character files with our privacy-focused viewer."
+    }
+  },
+  "charx": {
+    "title": "CharX Viewer",
+    "subtitle": "View character cards, lorebooks, and assets — runs entirely in your browser",
+    "upload": {
+      "title": "Upload CharX File",
+      "description": "Drag and drop a .charx file or click to browse",
+      "dropHere": "Drop your file here",
+      "invalidFile": "Please upload a valid .charx file",
+      "dropFiles": "Drop your .charx files here",
+      "browseMultiple": "or click to browse files (multiple selection supported)",
+      "downloadLink": "Visit <link>realm.risuai.net</link> to download character files (.charx)",
+      "unsupportedFile": "Unsupported file: {names}. Only .charx files are supported.",
+      "unsupportedFiles": "Unsupported files: {names}. Only .charx files are supported.",
+      "andMore": " and {count} more"
+    },
+    "tabs": {
+      "character": "Character",
+      "lorebook": "Lorebook",
+      "assets": "Assets",
+      "module": "Module"
+    },
+    "empty": {
+      "noCharacterCard": "No character card found",
+      "noLorebook": "No lorebook found",
+      "noModule": "No module found",
+      "noAssets": "No assets in this category",
+      "noAssetsInFile": "No assets found in this character file",
+      "noModuleContent": "No module content found",
+      "noTriggerScripts": "No trigger scripts",
+      "noRegexScripts": "No regex scripts",
+      "noCommonJSCode": "No CommonJS code"
+    },
+    "files": {
+      "title": "Files",
+      "loaded": "{count} files (.charx) loaded",
+      "parsing": "Parsing...",
+      "dropMore": "Drop more .charx files or click to browse",
+      "queue": "Queue",
+      "queued": "Queued"
+    },
+    "assets": {
+      "title": "Assets",
+      "totalExtracted": "{count} total assets extracted",
+      "sortAZ": "Sorted A-Z",
+      "sortZA": "Sorted Z-A",
+      "sortByFilename": "Sort by filename",
+      "groupByFilename": "Group by filename",
+      "emotions": "Emotions",
+      "icons": "Icons",
+      "backgrounds": "Backgrounds",
+      "other": "Other",
+      "cardMetadata": "Card Metadata ({count} reference)",
+      "cardMetadataPlural": "Card Metadata ({count} references)"
+    },
+    "module": {
+      "title": "Module: {name}",
+      "unnamed": "Unnamed",
+      "noDescription": "No description",
+      "triggers": "Triggers",
+      "triggersCount": "{count} Triggers",
+      "regex": "Regex",
+      "regexCount": "{count} Regex",
+      "code": "Code",
+      "cjsCode": "CJS Code",
+      "lowLevelAccess": "Low Level Access"
+    },
+    "character": {
+      "unnamedCharacter": "Unnamed Character",
+      "byCreator": "by {creator}",
+      "tabs": {
+        "basic": "Basic",
+        "messages": "Messages",
+        "prompts": "Prompts",
+        "others": "Others"
+      },
+      "viewMode": {
+        "list": "List",
+        "raw": "Raw",
+        "markdown": "Markdown"
+      },
+      "expandAll": "Expand All",
+      "collapseAll": "Collapse All",
+      "saveAsFile": "Save as file",
+      "copyToClipboard": "Copy to clipboard",
+      "created": "Created",
+      "modified": "Modified",
+      "empty": "Empty",
+      "loreCount": "{count} lorebooks",
+      "assetsCount": "{count} assets"
+    },
+    "lorebook": {
+      "title": "Character Lorebook",
+      "entries": "{count} entries",
+      "noEntries": "No lorebook entries",
+      "enabled": "Enabled",
+      "disabled": "Disabled",
+      "priority": "Priority",
+      "noKeys": "No keys",
+      "moreKeys": "+{count} more",
+      "moreKeysPrefix": "+"
+    },
+    "toast": {
+      "copiedToClipboard": "Copied to clipboard",
+      "failedToCopy": "Failed to copy",
+      "fileSaved": "File saved",
+      "lorebookCopied": "Lorebook JSON copied successfully",
+      "characterCopied": "Character JSON copied successfully",
+      "couldNotCopy": "Could not copy to clipboard"
+    },
+    "errorBoundary": {
+      "title": "Something went wrong",
+      "description": "An unexpected error occurred. Please try refreshing the page.",
+      "refreshPage": "Refresh Page"
+    },
+    "error": "Error",
+    "warning": "Warning",
+    "filesExcluded": "{count} files were excluded due to size limits (>50MB):"
+  },
+  "errors": {
+    "notFound": {
+      "title": "404",
+      "heading": "Page Not Found",
+      "description": "The page you're looking for doesn't exist or has been moved.",
+      "goHome": "Go Home",
+      "openCharxViewer": "CharX Viewer"
+    },
+    "generic": {
+      "title": "Something went wrong",
+      "description": "An unexpected error occurred. Please try again or return to the home page.",
+      "retry": "Try Again",
+      "goHome": "Go Home"
+    },
+    "charx": {
+      "title": "CharX Viewer Error",
+      "description": "Something went wrong while loading the CharX viewer. This might be due to a corrupted file or browser compatibility issue.",
+      "retry": "Try Again",
+      "goHome": "Go Home"
+    }
+  },
+  "footer": {
+    "description": "Open-source AI character platform. Create, share, and interact with AI characters.",
+    "product": "Product",
+    "resources": "Resources",
+    "documentation": "Documentation",
+    "legal": "Legal",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "copyright": "OpenTamago. All rights reserved."
+  },
+  "nav": {
+    "home": "Home",
+    "charxViewer": "CharX Viewer",
+    "chat": "Chat",
+    "github": "GitHub",
+    "toggleMenu": "Toggle menu",
+    "navigationMenu": "Navigation Menu"
+  },
+  "theme": {
+    "toggle": "Toggle theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  }
+}

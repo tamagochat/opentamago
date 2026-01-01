@@ -16,6 +16,7 @@ import {
   Group,
   ChevronDown,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import {
   Card,
   CardContent,
@@ -210,16 +211,18 @@ function AssetGrid({
   onSelect,
   groupByPrefix,
   sortMode,
+  emptyMessage,
 }: {
   assets: AssetItem[];
   onSelect: (assets: AssetItem[], index: number) => void;
   groupByPrefix: boolean;
   sortMode: SortMode;
+  emptyMessage: string;
 }) {
   if (assets.length === 0) {
     return (
       <div className="text-center py-8 text-muted-foreground">
-        No assets in this category
+        {emptyMessage}
       </div>
     );
   }
@@ -267,6 +270,8 @@ export function AssetsDisplay({
   other,
   cardAssets = [],
 }: AssetsDisplayProps) {
+  const t = useTranslations("charx");
+  const tActions = useTranslations("actions");
   const [currentList, setCurrentList] = useState<AssetItem[]>([]);
   const [currentIndex, setCurrentIndex] = useState<number>(-1);
   const [sortMode, setSortMode] = useState<SortMode>("none");
@@ -312,9 +317,9 @@ export function AssetsDisplay({
   };
 
   const getSortLabel = () => {
-    if (sortMode === "asc") return "Sorted A-Z";
-    if (sortMode === "desc") return "Sorted Z-A";
-    return "Sort by filename";
+    if (sortMode === "asc") return t("assets.sortAZ");
+    if (sortMode === "desc") return t("assets.sortZA");
+    return t("assets.sortByFilename");
   };
 
   // Apply sorting to each category
@@ -396,9 +401,9 @@ export function AssetsDisplay({
             <div>
               <CardTitle className="flex items-center gap-2">
                 <Image className="h-5 w-5" />
-                Assets
+                {t("assets.title")}
               </CardTitle>
-              <CardDescription>{totalAssets} total assets extracted</CardDescription>
+              <CardDescription>{t("assets.totalExtracted", { count: totalAssets })}</CardDescription>
             </div>
             <div className="flex items-center gap-1">
               <Button
@@ -417,7 +422,7 @@ export function AssetsDisplay({
                 onClick={() => setGroupByPrefix((prev) => !prev)}
               >
                 <Group className="h-4 w-4" />
-                <span className="hidden sm:inline">Group by filename</span>
+                <span className="hidden sm:inline">{t("assets.groupByFilename")}</span>
               </Button>
             </div>
           </div>
@@ -426,35 +431,35 @@ export function AssetsDisplay({
           {totalAssets === 0 ? (
             <div className="text-center py-8 text-muted-foreground">
               <FolderOpen className="h-12 w-12 mx-auto mb-3 opacity-50" />
-              <p>No assets found in this character file</p>
+              <p>{t("empty.noAssetsInFile")}</p>
             </div>
           ) : (
             <Tabs defaultValue={getActiveTab()} className="w-full">
               <TabsList className="grid w-full grid-cols-4">
                 <TabsTrigger value="emotions" className="gap-1">
                   <Smile className="h-4 w-4" />
-                  <span className="hidden sm:inline">Emotions</span>
+                  <span className="hidden sm:inline">{t("assets.emotions")}</span>
                   <Badge variant="secondary" className="ml-1">
                     {emotions.length}
                   </Badge>
                 </TabsTrigger>
                 <TabsTrigger value="icons" className="gap-1">
                   <UserCircle className="h-4 w-4" />
-                  <span className="hidden sm:inline">Icons</span>
+                  <span className="hidden sm:inline">{t("assets.icons")}</span>
                   <Badge variant="secondary" className="ml-1">
                     {icons.length}
                   </Badge>
                 </TabsTrigger>
                 <TabsTrigger value="backgrounds" className="gap-1">
                   <Wallpaper className="h-4 w-4" />
-                  <span className="hidden sm:inline">Backgrounds</span>
+                  <span className="hidden sm:inline">{t("assets.backgrounds")}</span>
                   <Badge variant="secondary" className="ml-1">
                     {backgrounds.length}
                   </Badge>
                 </TabsTrigger>
                 <TabsTrigger value="other" className="gap-1">
                   <FolderOpen className="h-4 w-4" />
-                  <span className="hidden sm:inline">Other</span>
+                  <span className="hidden sm:inline">{t("assets.other")}</span>
                   <Badge variant="secondary" className="ml-1">
                     {other.length}
                   </Badge>
@@ -463,16 +468,16 @@ export function AssetsDisplay({
 
               <ScrollArea className="h-[350px] mt-4">
                 <TabsContent value="emotions" className="mt-0">
-                  <AssetGrid assets={groupByPrefix ? emotions : sortedEmotions} onSelect={openAsset} groupByPrefix={groupByPrefix} sortMode={sortMode} />
+                  <AssetGrid assets={groupByPrefix ? emotions : sortedEmotions} onSelect={openAsset} groupByPrefix={groupByPrefix} sortMode={sortMode} emptyMessage={t("empty.noAssets")} />
                 </TabsContent>
                 <TabsContent value="icons" className="mt-0">
-                  <AssetGrid assets={groupByPrefix ? icons : sortedIcons} onSelect={openAsset} groupByPrefix={groupByPrefix} sortMode={sortMode} />
+                  <AssetGrid assets={groupByPrefix ? icons : sortedIcons} onSelect={openAsset} groupByPrefix={groupByPrefix} sortMode={sortMode} emptyMessage={t("empty.noAssets")} />
                 </TabsContent>
                 <TabsContent value="backgrounds" className="mt-0">
-                  <AssetGrid assets={groupByPrefix ? backgrounds : sortedBackgrounds} onSelect={openAsset} groupByPrefix={groupByPrefix} sortMode={sortMode} />
+                  <AssetGrid assets={groupByPrefix ? backgrounds : sortedBackgrounds} onSelect={openAsset} groupByPrefix={groupByPrefix} sortMode={sortMode} emptyMessage={t("empty.noAssets")} />
                 </TabsContent>
                 <TabsContent value="other" className="mt-0">
-                  <AssetGrid assets={groupByPrefix ? other : sortedOther} onSelect={openAsset} groupByPrefix={groupByPrefix} sortMode={sortMode} />
+                  <AssetGrid assets={groupByPrefix ? other : sortedOther} onSelect={openAsset} groupByPrefix={groupByPrefix} sortMode={sortMode} emptyMessage={t("empty.noAssets")} />
                 </TabsContent>
               </ScrollArea>
             </Tabs>
@@ -538,7 +543,9 @@ export function AssetsDisplay({
               {selectedAssetMetadata.length > 0 && (
                 <div className="w-full rounded-md border bg-muted/30 p-3">
                   <p className="text-xs font-medium text-muted-foreground mb-2">
-                    Card Metadata ({selectedAssetMetadata.length} reference{selectedAssetMetadata.length !== 1 ? "s" : ""})
+                    {selectedAssetMetadata.length === 1
+                      ? t("assets.cardMetadata", { count: selectedAssetMetadata.length })
+                      : t("assets.cardMetadataPlural", { count: selectedAssetMetadata.length })}
                   </p>
                   <div className="space-y-2">
                     {selectedAssetMetadata.map((meta, i) => (
@@ -564,7 +571,7 @@ export function AssetsDisplay({
                 onClick={() => downloadAsset(selectedAsset)}
               >
                 <Download className="h-4 w-4 mr-2" />
-                Download
+                {tActions("download")}
               </Button>
             </div>
           )}

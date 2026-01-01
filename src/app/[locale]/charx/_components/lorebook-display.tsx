@@ -3,6 +3,7 @@
 import { useState, useCallback } from "react";
 import { Book, Key, ChevronDown, ChevronRight, List, Code, Download, FileDown, Clipboard, Loader2, Check, Copy, ChevronsUpDown, ChevronsDownUp, FileText } from "lucide-react";
 import Markdown from "react-markdown";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import {
   Card,
@@ -41,7 +42,7 @@ interface ContentBlockProps {
   className?: string;
 }
 
-function ContentBlock({ label, children, copyContent, className }: ContentBlockProps) {
+function ContentBlock({ label, children, copyContent, className, translations }: ContentBlockProps & { translations: { copiedToClipboard: string; failedToCopy: string } }) {
   const [copyStatus, setCopyStatus] = useState<"idle" | "loading" | "success">("idle");
 
   const handleCopy = useCallback(async () => {
@@ -50,13 +51,13 @@ function ContentBlock({ label, children, copyContent, className }: ContentBlockP
     try {
       await navigator.clipboard.writeText(copyContent);
       setCopyStatus("success");
-      toast.success("Copied to clipboard");
+      toast.success(translations.copiedToClipboard);
       setTimeout(() => setCopyStatus("idle"), 2000);
     } catch {
       setCopyStatus("idle");
-      toast.error("Failed to copy");
+      toast.error(translations.failedToCopy);
     }
-  }, [copyContent]);
+  }, [copyContent, translations]);
 
   const getCopyIcon = () => {
     if (copyStatus === "loading") return <Loader2 className="h-3 w-3 animate-spin" />;
@@ -85,7 +86,7 @@ function ContentBlock({ label, children, copyContent, className }: ContentBlockP
   );
 }
 
-function ContentSection({ content }: { content: string }) {
+function ContentSection({ content, translations }: { content: string; translations: { markdown: string; raw: string; empty: string; copiedToClipboard: string; failedToCopy: string } }) {
   const [renderMarkdown, setRenderMarkdown] = useState(true);
   const [copyStatus, setCopyStatus] = useState<"idle" | "loading" | "success">("idle");
 
@@ -95,13 +96,13 @@ function ContentSection({ content }: { content: string }) {
     try {
       await navigator.clipboard.writeText(content);
       setCopyStatus("success");
-      toast.success("Copied to clipboard");
+      toast.success(translations.copiedToClipboard);
       setTimeout(() => setCopyStatus("idle"), 2000);
     } catch {
       setCopyStatus("idle");
-      toast.error("Failed to copy");
+      toast.error(translations.failedToCopy);
     }
-  }, [content]);
+  }, [content, translations]);
 
   const getCopyIcon = () => {
     if (copyStatus === "loading") return <Loader2 className="h-3 w-3 animate-spin" />;
@@ -123,7 +124,7 @@ function ContentSection({ content }: { content: string }) {
                 onClick={() => setRenderMarkdown(true)}
               >
                 <FileText className="h-3 w-3" />
-                Markdown
+                {translations.markdown}
               </Button>
               <Button
                 variant={!renderMarkdown ? "secondary" : "ghost"}
@@ -132,7 +133,7 @@ function ContentSection({ content }: { content: string }) {
                 onClick={() => setRenderMarkdown(false)}
               >
                 <Code className="h-3 w-3" />
-                Raw
+                {translations.raw}
               </Button>
             </div>
             <Button
@@ -149,7 +150,7 @@ function ContentSection({ content }: { content: string }) {
       </div>
       <div className="rounded-md bg-muted/50 p-3">
         {!content ? (
-          <p className="text-sm text-muted-foreground italic">Empty</p>
+          <p className="text-sm text-muted-foreground italic">{translations.empty}</p>
         ) : renderMarkdown ? (
           <div className="prose prose-sm dark:prose-invert max-w-none prose-p:my-2 prose-headings:my-2 prose-ul:my-2 prose-ol:my-2 prose-li:my-0">
             <Markdown>{content}</Markdown>
@@ -167,11 +168,24 @@ function LorebookEntryItem({
   index,
   open,
   onOpenChange,
+  translations,
 }: {
   entry: CharacterBook["entries"][0];
   index: number;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
+  translations: {
+    noKeys: string;
+    moreKeys: (count: number) => string;
+    enabled: string;
+    disabled: string;
+    priority: string;
+    markdown: string;
+    raw: string;
+    empty: string;
+    copiedToClipboard: string;
+    failedToCopy: string;
+  };
 }) {
   const [internalOpen, setInternalOpen] = useState(false);
   const isOpen = open ?? internalOpen;
@@ -192,7 +206,7 @@ function LorebookEntryItem({
               <div className="flex flex-wrap gap-1">
                 {entry.keys.length === 0 ? (
                   <span className="text-xs text-muted-foreground italic">
-                    No keys
+                    {translations.noKeys}
                   </span>
                 ) : (
                   <>
@@ -204,7 +218,7 @@ function LorebookEntryItem({
                     ))}
                     {entry.keys.length > 3 && (
                       <Badge variant="outline" className="text-xs">
-                        +{entry.keys.length - 3} more
+                        {translations.moreKeys(entry.keys.length - 3)}
                       </Badge>
                     )}
                   </>
@@ -220,10 +234,10 @@ function LorebookEntryItem({
         </div>
         <div className="flex items-center gap-2 flex-shrink-0">
           <Badge variant={entry.enabled ? "default" : "secondary"}>
-            {entry.enabled ? "Enabled" : "Disabled"}
+            {entry.enabled ? translations.enabled : translations.disabled}
           </Badge>
           <span className="text-xs text-muted-foreground">
-            P:{entry.priority}
+            {translations.priority}: {entry.priority}
           </span>
         </div>
       </CollapsibleTrigger>
@@ -274,6 +288,7 @@ function LorebookEntryItem({
               id: entry.id,
               extensions: entry.extensions,
             }, null, 2)}
+            translations={{ copiedToClipboard: translations.copiedToClipboard, failedToCopy: translations.failedToCopy }}
           >
             <JsonViewer
               data={{
@@ -293,7 +308,7 @@ function LorebookEntryItem({
           </ContentBlock>
 
           {/* 4. Content */}
-          <ContentSection content={entry.content} />
+          <ContentSection content={entry.content} translations={{ markdown: translations.markdown, raw: translations.raw, empty: translations.empty, copiedToClipboard: translations.copiedToClipboard, failedToCopy: translations.failedToCopy }} />
         </div>
       </CollapsibleContent>
     </Collapsible>
@@ -336,7 +351,7 @@ async function copyLorebookToClipboard(lorebook: CharacterBook) {
 
 type ActionStatus = "idle" | "loading" | "success";
 
-function ExpandCollapseButton({ allExpanded, onToggle }: { allExpanded: boolean; onToggle: () => void }) {
+function ExpandCollapseButton({ allExpanded, onToggle, expandAllLabel, collapseAllLabel }: { allExpanded: boolean; onToggle: () => void; expandAllLabel: string; collapseAllLabel: string }) {
   return (
     <Button
       variant="ghost"
@@ -347,12 +362,12 @@ function ExpandCollapseButton({ allExpanded, onToggle }: { allExpanded: boolean;
       {allExpanded ? (
         <>
           <ChevronsDownUp className="h-4 w-4" />
-          Collapse All
+          {collapseAllLabel}
         </>
       ) : (
         <>
           <ChevronsUpDown className="h-4 w-4" />
-          Expand All
+          {expandAllLabel}
         </>
       )}
     </Button>
@@ -360,9 +375,23 @@ function ExpandCollapseButton({ allExpanded, onToggle }: { allExpanded: boolean;
 }
 
 export function LorebookDisplay({ lorebook, characterName, originalFilename }: LorebookDisplayProps) {
+  const t = useTranslations("charx");
   const [viewMode, setViewMode] = useState<ViewMode>("list");
   const [actionStatus, setActionStatus] = useState<ActionStatus>("idle");
   const [entriesExpanded, setEntriesExpanded] = useState<Record<number, boolean>>({});
+
+  const entryTranslations = {
+    noKeys: t("lorebook.noKeys"),
+    moreKeys: (count: number) => t("lorebook.moreKeys", { count }),
+    enabled: t("lorebook.enabled"),
+    disabled: t("lorebook.disabled"),
+    priority: t("lorebook.priority"),
+    markdown: t("character.viewMode.markdown"),
+    raw: t("character.viewMode.raw"),
+    empty: t("character.empty"),
+    copiedToClipboard: t("toast.copiedToClipboard"),
+    failedToCopy: t("toast.failedToCopy"),
+  };
 
   const isAllExpanded = lorebook.entries.length > 0 && lorebook.entries.every((_, i) => entriesExpanded[i] === true);
 
@@ -382,22 +411,22 @@ export function LorebookDisplay({ lorebook, characterName, originalFilename }: L
     downloadLorebookAsFile(lorebook, characterName, originalFilename);
     setActionStatus("success");
     const filename = getLorebookFilename(characterName, originalFilename);
-    toast.success("File saved", { description: filename });
+    toast.success(t("toast.fileSaved"), { description: filename });
     setTimeout(() => setActionStatus("idle"), 2000);
-  }, [lorebook, characterName, originalFilename]);
+  }, [lorebook, characterName, originalFilename, t]);
 
   const handleCopy = useCallback(async () => {
     setActionStatus("loading");
     try {
       await copyLorebookToClipboard(lorebook);
       setActionStatus("success");
-      toast.success("Copied to clipboard", { description: "Lorebook JSON copied successfully" });
+      toast.success(t("toast.copiedToClipboard"), { description: t("toast.lorebookCopied") });
       setTimeout(() => setActionStatus("idle"), 2000);
     } catch {
       setActionStatus("idle");
-      toast.error("Failed to copy", { description: "Could not copy to clipboard" });
+      toast.error(t("toast.failedToCopy"), { description: t("toast.couldNotCopy") });
     }
-  }, [lorebook]);
+  }, [lorebook, t]);
 
   const getParentButtonIcon = () => {
     if (actionStatus === "loading") return <Loader2 className="h-4 w-4 animate-spin" />;
@@ -412,16 +441,16 @@ export function LorebookDisplay({ lorebook, characterName, originalFilename }: L
           <div>
             <CardTitle className="flex items-center gap-2">
               <Book className="h-5 w-5" />
-              Character Lorebook
+              {t("lorebook.title")}
             </CardTitle>
             <CardDescription>
-              {lorebook.entries.length} entries | Scan Depth: {lorebook.scan_depth} |
+              {t("lorebook.entries", { count: lorebook.entries.length })} | Scan Depth: {lorebook.scan_depth} |
               Token Budget: {lorebook.token_budget} | Recursive Scanning: {lorebook.recursive_scanning ? "Yes" : "No"}
             </CardDescription>
           </div>
           <div className="flex items-center gap-2">
             {viewMode === "list" && lorebook.entries.length > 0 && (
-              <ExpandCollapseButton allExpanded={isAllExpanded} onToggle={toggleAllEntries} />
+              <ExpandCollapseButton allExpanded={isAllExpanded} onToggle={toggleAllEntries} expandAllLabel={t("character.expandAll")} collapseAllLabel={t("character.collapseAll")} />
             )}
             <div className="flex items-center gap-1 border rounded-md p-0.5">
               <Button
@@ -431,7 +460,7 @@ export function LorebookDisplay({ lorebook, characterName, originalFilename }: L
                 onClick={() => setViewMode("list")}
               >
                 <List className="h-4 w-4" />
-                List
+                {t("character.viewMode.list")}
               </Button>
               <Button
                 variant={viewMode === "raw" ? "secondary" : "ghost"}
@@ -440,7 +469,7 @@ export function LorebookDisplay({ lorebook, characterName, originalFilename }: L
                 onClick={() => setViewMode("raw")}
               >
                 <Code className="h-4 w-4" />
-                Raw
+                {t("character.viewMode.raw")}
               </Button>
             </div>
             <DropdownMenu>
@@ -452,11 +481,11 @@ export function LorebookDisplay({ lorebook, characterName, originalFilename }: L
               <DropdownMenuContent align="end">
                 <DropdownMenuItem onClick={handleDownload}>
                   <FileDown className="h-4 w-4" />
-                  Save as file
+                  {t("character.saveAsFile")}
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={handleCopy}>
                   <Clipboard className="h-4 w-4" />
-                  Copy to clipboard
+                  {t("character.copyToClipboard")}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -469,7 +498,7 @@ export function LorebookDisplay({ lorebook, characterName, originalFilename }: L
             <div className="space-y-2">
               {lorebook.entries.length === 0 ? (
                 <div className="text-center py-8 text-muted-foreground">
-                  No lorebook entries
+                  {t("lorebook.noEntries")}
                 </div>
               ) : (
                 lorebook.entries.map((entry, i) => (
@@ -479,6 +508,7 @@ export function LorebookDisplay({ lorebook, characterName, originalFilename }: L
                     index={i}
                     open={entriesExpanded[i] ?? false}
                     onOpenChange={(open) => setEntriesExpanded((prev) => ({ ...prev, [i]: open }))}
+                    translations={entryTranslations}
                   />
                 ))
               )}

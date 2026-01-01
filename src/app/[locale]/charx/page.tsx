@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useEffect, useRef } from "react";
 import { FileArchive } from "lucide-react";
+import { useTranslations } from "next-intl";
 import {
   Tabs,
   TabsContent,
@@ -18,6 +19,7 @@ import { ModuleDisplay } from "./_components/module-display";
 import { parseCharXAsync, getCategorizedAssets } from "~/lib/charx";
 
 export default function CharXPage() {
+  const t = useTranslations("charx");
   const [items, setItems] = useState<CharacterItem[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const isProcessingRef = useRef(false);
@@ -101,9 +103,9 @@ export default function CharXPage() {
               <FileArchive className="h-5 w-5 text-primary" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold">CharX Viewer</h1>
+              <h1 className="text-2xl font-bold">{t("title")}</h1>
               <p className="text-sm text-muted-foreground">
-                View character cards, lorebooks, and assets — runs entirely in your browser
+                {t("subtitle")}
               </p>
             </div>
           </div>
@@ -126,7 +128,7 @@ export default function CharXPage() {
 
           {selectedItem?.status === "error" && (
             <div className="rounded-lg border border-destructive bg-destructive/10 p-4">
-              <p className="text-destructive font-medium">Error</p>
+              <p className="text-destructive font-medium">{t("error")}</p>
               <p className="text-sm text-muted-foreground">{selectedItem.error}</p>
             </div>
           )}
@@ -135,13 +137,13 @@ export default function CharXPage() {
             <Tabs defaultValue="character" className="w-full">
               <TabsList className="grid w-full grid-cols-4">
                 <TabsTrigger value="character" disabled={!parsedData.card}>
-                  Character
+                  {t("tabs.character")}
                 </TabsTrigger>
                 <TabsTrigger
                   value="lorebook"
                   disabled={!parsedData.card?.data.character_book}
                 >
-                  Lorebook
+                  {t("tabs.lorebook")}
                   {parsedData.card?.data.character_book && (
                     <span className="ml-1 text-xs">
                       ({parsedData.card.data.character_book.entries.length})
@@ -149,7 +151,7 @@ export default function CharXPage() {
                   )}
                 </TabsTrigger>
                 <TabsTrigger value="assets" disabled={parsedData.assets.size === 0}>
-                  Assets
+                  {t("tabs.assets")}
                   {parsedData.assets.size > 0 && (
                     <span className="ml-1 text-xs">
                       ({parsedData.assets.size})
@@ -157,7 +159,7 @@ export default function CharXPage() {
                   )}
                 </TabsTrigger>
                 <TabsTrigger value="module" disabled={!parsedData.module}>
-                  Module
+                  {t("tabs.module")}
                 </TabsTrigger>
               </TabsList>
 
@@ -167,7 +169,7 @@ export default function CharXPage() {
                     <CharacterCardDisplay card={parsedData.card} originalFilename={selectedItem.file.name} />
                   ) : (
                     <div className="text-center py-12 text-muted-foreground">
-                      No character card found
+                      {t("empty.noCharacterCard")}
                     </div>
                   )}
                 </TabsContent>
@@ -181,7 +183,7 @@ export default function CharXPage() {
                     />
                   ) : (
                     <div className="text-center py-12 text-muted-foreground">
-                      No lorebook found
+                      {t("empty.noLorebook")}
                     </div>
                   )}
                 </TabsContent>
@@ -203,7 +205,7 @@ export default function CharXPage() {
                     <ModuleDisplay module={parsedData.module} />
                   ) : (
                     <div className="text-center py-12 text-muted-foreground">
-                      No module found
+                      {t("empty.noModule")}
                     </div>
                   )}
                 </TabsContent>
@@ -213,10 +215,9 @@ export default function CharXPage() {
 
           {parsedData && parsedData.excludedFiles.length > 0 && (
             <div className="rounded-lg border border-yellow-500/50 bg-yellow-500/10 p-4">
-              <p className="text-yellow-600 font-medium">Warning</p>
+              <p className="text-yellow-600 font-medium">{t("warning")}</p>
               <p className="text-sm text-muted-foreground">
-                {parsedData.excludedFiles.length} files were excluded due to size
-                limits ({">"}50MB):
+                {t("filesExcluded", { count: parsedData.excludedFiles.length })}
               </p>
               <ul className="mt-2 text-xs text-muted-foreground list-disc list-inside">
                 {parsedData.excludedFiles.map((file, i) => (

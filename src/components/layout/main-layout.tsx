@@ -1,6 +1,7 @@
 "use client";
 
 import { Suspense } from "react";
+import { useTranslations } from "next-intl";
 import { SiteHeader } from "./site-header";
 import { SiteFooter } from "./site-footer";
 import { ErrorBoundary } from "~/components/error-boundary";
@@ -26,12 +27,20 @@ function HeaderFallback() {
 }
 
 export function MainLayout({ children, showFooter = true }: MainLayoutProps) {
+  const t = useTranslations("charx.errorBoundary");
+
+  const errorBoundaryTranslations = {
+    title: t("title"),
+    description: t("description"),
+    refreshPage: t("refreshPage"),
+  };
+
   return (
     <div className="relative min-h-screen flex flex-col">
       <Suspense fallback={<HeaderFallback />}>
         <SiteHeader />
       </Suspense>
-      <ErrorBoundary>
+      <ErrorBoundary translations={errorBoundaryTranslations}>
         <main className="flex-1">{children}</main>
       </ErrorBoundary>
       {showFooter && <SiteFooter />}

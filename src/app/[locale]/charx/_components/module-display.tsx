@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Code, Puzzle, ChevronDown, ChevronRight, Regex, Zap } from "lucide-react";
+import { useTranslations } from "next-intl";
 import {
   Card,
   CardContent,
@@ -99,6 +100,7 @@ function RegexItem({
 }
 
 export function ModuleDisplay({ module }: ModuleDisplayProps) {
+  const t = useTranslations("charx");
   const hasContent =
     module.trigger.length > 0 ||
     module.regex.length > 0 ||
@@ -110,32 +112,32 @@ export function ModuleDisplay({ module }: ModuleDisplayProps) {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Puzzle className="h-5 w-5" />
-          Module: {module.name || "Unnamed"}
+          {t("module.title", { name: module.name || t("module.unnamed") })}
         </CardTitle>
         <CardDescription>
-          {module.description || "No description"}
+          {module.description || t("module.noDescription")}
         </CardDescription>
         <div className="flex flex-wrap gap-2 pt-2">
           {module.trigger.length > 0 && (
             <Badge variant="secondary">
               <Zap className="h-3 w-3 mr-1" />
-              {module.trigger.length} Triggers
+              {t("module.triggersCount", { count: module.trigger.length })}
             </Badge>
           )}
           {module.regex.length > 0 && (
             <Badge variant="secondary">
               <Regex className="h-3 w-3 mr-1" />
-              {module.regex.length} Regex
+              {t("module.regexCount", { count: module.regex.length })}
             </Badge>
           )}
           {module.cjs && (
             <Badge variant="secondary">
               <Code className="h-3 w-3 mr-1" />
-              CJS Code
+              {t("module.cjsCode")}
             </Badge>
           )}
           {module.low_level_access && (
-            <Badge variant="destructive">Low Level Access</Badge>
+            <Badge variant="destructive">{t("module.lowLevelAccess")}</Badge>
           )}
         </div>
       </CardHeader>
@@ -143,25 +145,25 @@ export function ModuleDisplay({ module }: ModuleDisplayProps) {
         {!hasContent ? (
           <div className="text-center py-8 text-muted-foreground">
             <Puzzle className="h-12 w-12 mx-auto mb-3 opacity-50" />
-            <p>No module content found</p>
+            <p>{t("empty.noModuleContent")}</p>
           </div>
         ) : (
           <Tabs defaultValue="triggers" className="w-full">
             <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="triggers">
-                Triggers ({module.trigger.length})
+                {t("module.triggers")} ({module.trigger.length})
               </TabsTrigger>
               <TabsTrigger value="regex">
-                Regex ({module.regex.length})
+                {t("module.regex")} ({module.regex.length})
               </TabsTrigger>
-              <TabsTrigger value="code">Code</TabsTrigger>
+              <TabsTrigger value="code">{t("module.code")}</TabsTrigger>
             </TabsList>
 
             <ScrollArea className="h-[350px] mt-4">
               <TabsContent value="triggers" className="mt-0 space-y-2">
                 {module.trigger.length === 0 ? (
                   <div className="text-center py-8 text-muted-foreground">
-                    No trigger scripts
+                    {t("empty.noTriggerScripts")}
                   </div>
                 ) : (
                   module.trigger.map((trigger, i) => (
@@ -173,7 +175,7 @@ export function ModuleDisplay({ module }: ModuleDisplayProps) {
               <TabsContent value="regex" className="mt-0 space-y-2">
                 {module.regex.length === 0 ? (
                   <div className="text-center py-8 text-muted-foreground">
-                    No regex scripts
+                    {t("empty.noRegexScripts")}
                   </div>
                 ) : (
                   module.regex.map((regex, i) => (
@@ -191,7 +193,7 @@ export function ModuleDisplay({ module }: ModuleDisplayProps) {
                   </div>
                 ) : (
                   <div className="text-center py-8 text-muted-foreground">
-                    No CommonJS code
+                    {t("empty.noCommonJSCode")}
                   </div>
                 )}
               </TabsContent>

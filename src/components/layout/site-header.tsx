@@ -1,11 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { Egg, FileArchive, Menu } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { Link, usePathname } from "~/i18n/routing";
 import { Button } from "~/components/ui/button";
 import { ThemeToggle } from "~/components/theme-toggle";
+import { LocaleSwitcher } from "~/components/locale-switcher";
 import {
   Sheet,
   SheetContent,
@@ -15,14 +16,15 @@ import {
 import { Skeleton } from "~/components/ui/skeleton";
 import { cn } from "~/lib/utils";
 
-const navigation = [
-  { name: "CharX Viewer", href: "/charx", icon: FileArchive },
-];
-
 export function SiteHeader() {
   const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const t = useTranslations("nav");
+
+  const navigation = [
+    { name: t("charxViewer"), href: "/charx" as const, icon: FileArchive },
+  ];
 
   useEffect(() => {
     setMounted(true);
@@ -60,6 +62,9 @@ export function SiteHeader() {
         </div>
 
         <div className="flex items-center gap-2">
+          <div className="hidden sm:block">
+            <LocaleSwitcher />
+          </div>
           {mounted ? (
             <ThemeToggle />
           ) : (
@@ -69,11 +74,11 @@ export function SiteHeader() {
             <SheetTrigger asChild className="sm:hidden">
               <Button variant="ghost" size="icon" className="h-9 w-9">
                 <Menu className="h-5 w-5" />
-                <span className="sr-only">Toggle menu</span>
+                <span className="sr-only">{t("toggleMenu")}</span>
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-[280px]">
-              <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
+              <SheetTitle className="sr-only">{t("navigationMenu")}</SheetTitle>
               <nav className="flex flex-col gap-2 mt-8">
                 {navigation.map((item) => {
                   const Icon = item.icon;
@@ -96,6 +101,9 @@ export function SiteHeader() {
                   );
                 })}
               </nav>
+              <div className="mt-4 px-4">
+                <LocaleSwitcher />
+              </div>
             </SheetContent>
           </Sheet>
         </div>

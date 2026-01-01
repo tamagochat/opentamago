@@ -3,6 +3,7 @@
 import { useState, useCallback } from "react";
 import { User, Calendar, Tag, MessageSquare, FileText, Code, FileDown, Download, Clipboard, Loader2, Check, ChevronDown, ChevronsUpDown, ChevronsDownUp, Copy, List } from "lucide-react";
 import Markdown from "react-markdown";
+import { useTranslations, useFormatter } from "next-intl";
 import { toast } from "sonner";
 import {
   Card,
@@ -80,12 +81,20 @@ function TextSection({
   icon: Icon,
   open,
   onOpenChange,
+  translations,
 }: {
   title: string;
   content: string;
   icon?: React.ComponentType<{ className?: string }>;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
+  translations: {
+    markdown: string;
+    raw: string;
+    empty: string;
+    copiedToClipboard: string;
+    failedToCopy: string;
+  };
 }) {
   const [renderMarkdown, setRenderMarkdown] = useState(true);
   const [copyStatus, setCopyStatus] = useState<CopyStatus>("idle");
@@ -96,13 +105,13 @@ function TextSection({
     try {
       await navigator.clipboard.writeText(content);
       setCopyStatus("success");
-      toast.success("Copied to clipboard");
+      toast.success(translations.copiedToClipboard);
       setTimeout(() => setCopyStatus("idle"), 2000);
     } catch {
       setCopyStatus("idle");
-      toast.error("Failed to copy");
+      toast.error(translations.failedToCopy);
     }
-  }, [content]);
+  }, [content, translations]);
 
   const getCopyIcon = () => {
     if (copyStatus === "loading") return <Loader2 className="h-3 w-3 animate-spin" />;
@@ -131,7 +140,7 @@ function TextSection({
                   onClick={() => setRenderMarkdown(true)}
                 >
                   <FileText className="h-3 w-3" />
-                  Markdown
+                  {translations.markdown}
                 </Button>
                 <Button
                   variant={!renderMarkdown ? "secondary" : "ghost"}
@@ -140,7 +149,7 @@ function TextSection({
                   onClick={() => setRenderMarkdown(false)}
                 >
                   <Code className="h-3 w-3" />
-                  Raw
+                  {translations.raw}
                 </Button>
               </div>
               <Button
@@ -155,7 +164,7 @@ function TextSection({
             </div>
           )}
           {!content ? (
-            <p className="text-sm text-muted-foreground italic">Empty</p>
+            <p className="text-sm text-muted-foreground italic">{translations.empty}</p>
           ) : renderMarkdown ? (
             <div className="prose prose-sm dark:prose-invert max-w-none prose-p:my-2 prose-headings:my-2 prose-ul:my-2 prose-ol:my-2 prose-li:my-0">
               <Markdown>{content}</Markdown>
@@ -169,7 +178,7 @@ function TextSection({
   );
 }
 
-function ExpandCollapseButton({ allExpanded, onToggle }: { allExpanded: boolean; onToggle: () => void }) {
+function ExpandCollapseButton({ allExpanded, onToggle, expandAllLabel, collapseAllLabel }: { allExpanded: boolean; onToggle: () => void; expandAllLabel: string; collapseAllLabel: string }) {
   return (
     <div className="flex justify-end mb-2">
       <Button
@@ -181,12 +190,12 @@ function ExpandCollapseButton({ allExpanded, onToggle }: { allExpanded: boolean;
         {allExpanded ? (
           <>
             <ChevronsDownUp className="h-4 w-4" />
-            Collapse All
+            {collapseAllLabel}
           </>
         ) : (
           <>
             <ChevronsUpDown className="h-4 w-4" />
-            Expand All
+            {expandAllLabel}
           </>
         )}
       </Button>
@@ -194,7 +203,7 @@ function ExpandCollapseButton({ allExpanded, onToggle }: { allExpanded: boolean;
   );
 }
 
-function GreetingContent({ content }: { content: string }) {
+function GreetingContent({ content, translations }: { content: string; translations: { markdown: string; raw: string; copiedToClipboard: string; failedToCopy: string } }) {
   const [renderMarkdown, setRenderMarkdown] = useState(true);
   const [copyStatus, setCopyStatus] = useState<CopyStatus>("idle");
 
@@ -204,13 +213,13 @@ function GreetingContent({ content }: { content: string }) {
     try {
       await navigator.clipboard.writeText(content);
       setCopyStatus("success");
-      toast.success("Copied to clipboard");
+      toast.success(translations.copiedToClipboard);
       setTimeout(() => setCopyStatus("idle"), 2000);
     } catch {
       setCopyStatus("idle");
-      toast.error("Failed to copy");
+      toast.error(translations.failedToCopy);
     }
-  }, [content]);
+  }, [content, translations]);
 
   const getCopyIcon = () => {
     if (copyStatus === "loading") return <Loader2 className="h-3 w-3 animate-spin" />;
@@ -230,7 +239,7 @@ function GreetingContent({ content }: { content: string }) {
               onClick={() => setRenderMarkdown(true)}
             >
               <FileText className="h-3 w-3" />
-              Markdown
+              {translations.markdown}
             </Button>
             <Button
               variant={!renderMarkdown ? "secondary" : "ghost"}
@@ -239,7 +248,7 @@ function GreetingContent({ content }: { content: string }) {
               onClick={() => setRenderMarkdown(false)}
             >
               <Code className="h-3 w-3" />
-              Raw
+              {translations.raw}
             </Button>
           </div>
           <Button
@@ -265,6 +274,8 @@ function GreetingContent({ content }: { content: string }) {
 }
 
 export function CharacterCardDisplay({ card, originalFilename }: CharacterCardDisplayProps) {
+  const t = useTranslations("charx");
+  const format = useFormatter();
   const [viewMode, setViewMode] = useState<ViewMode>("list");
   const [actionStatus, setActionStatus] = useState<ActionStatus>("idle");
   const [basicExpanded, setBasicExpanded] = useState({ description: true, personality: true, scenario: true });
@@ -272,6 +283,21 @@ export function CharacterCardDisplay({ card, originalFilename }: CharacterCardDi
   const [promptsExpanded, setPromptsExpanded] = useState({ systemPrompt: true, postHistory: true });
   const [metaExpanded, setMetaExpanded] = useState({ specInfo: true, creatorInfo: true, dates: true, creatorNotes: true });
   const data = card.data;
+
+  const textSectionTranslations = {
+    markdown: t("character.viewMode.markdown"),
+    raw: t("character.viewMode.raw"),
+    empty: t("character.empty"),
+    copiedToClipboard: t("toast.copiedToClipboard"),
+    failedToCopy: t("toast.failedToCopy"),
+  };
+
+  const greetingTranslations = {
+    markdown: t("character.viewMode.markdown"),
+    raw: t("character.viewMode.raw"),
+    copiedToClipboard: t("toast.copiedToClipboard"),
+    failedToCopy: t("toast.failedToCopy"),
+  };
 
   const isAllBasicExpanded = Object.values(basicExpanded).every(Boolean);
   const isAllMessagesExpanded = Object.values(messagesExpanded).every(Boolean);
@@ -304,22 +330,22 @@ export function CharacterCardDisplay({ card, originalFilename }: CharacterCardDi
     downloadCharacterAsFile(card, originalFilename);
     setActionStatus("success");
     const filename = getCharacterFilename(card.data.name, originalFilename);
-    toast.success("File saved", { description: filename });
+    toast.success(t("toast.fileSaved"), { description: filename });
     setTimeout(() => setActionStatus("idle"), 2000);
-  }, [card, originalFilename]);
+  }, [card, originalFilename, t]);
 
   const handleCopy = useCallback(async () => {
     setActionStatus("loading");
     try {
       await copyCharacterToClipboard(card);
       setActionStatus("success");
-      toast.success("Copied to clipboard", { description: "Character JSON copied successfully" });
+      toast.success(t("toast.copiedToClipboard"), { description: t("toast.characterCopied") });
       setTimeout(() => setActionStatus("idle"), 2000);
     } catch {
       setActionStatus("idle");
-      toast.error("Failed to copy", { description: "Could not copy to clipboard" });
+      toast.error(t("toast.failedToCopy"), { description: t("toast.couldNotCopy") });
     }
-  }, [card]);
+  }, [card, t]);
 
   const getDownloadIcon = () => {
     if (actionStatus === "loading") return <Loader2 className="h-4 w-4 animate-spin" />;
@@ -329,7 +355,7 @@ export function CharacterCardDisplay({ card, originalFilename }: CharacterCardDi
 
   const formatDate = (timestamp?: number) => {
     if (!timestamp) return null;
-    return new Date(timestamp).toLocaleDateString("en-US", {
+    return format.dateTime(new Date(timestamp), {
       year: "numeric",
       month: "long",
       day: "numeric",
@@ -343,14 +369,14 @@ export function CharacterCardDisplay({ card, originalFilename }: CharacterCardDi
           <div>
             <CardTitle className="flex items-center gap-2">
               <User className="h-5 w-5" />
-              {data.name || "Unnamed Character"}
+              {data.name || t("character.unnamedCharacter")}
               <Badge variant="outline" className="font-normal text-xs">
                 {card.spec} v{card.spec_version}
               </Badge>
             </CardTitle>
             <CardDescription>
               {data.creator && (
-                <span className="mr-3">by {data.creator}</span>
+                <span className="mr-3">{t("character.byCreator", { creator: data.creator })}</span>
               )}
               {data.character_version && (
                 <span className="text-xs">v{data.character_version}</span>
@@ -366,7 +392,7 @@ export function CharacterCardDisplay({ card, originalFilename }: CharacterCardDi
                 onClick={() => setViewMode("list")}
               >
                 <List className="h-4 w-4" />
-                List
+                {t("character.viewMode.list")}
               </Button>
               <Button
                 variant={viewMode === "raw" ? "secondary" : "ghost"}
@@ -375,7 +401,7 @@ export function CharacterCardDisplay({ card, originalFilename }: CharacterCardDi
                 onClick={() => setViewMode("raw")}
               >
                 <Code className="h-4 w-4" />
-                Raw
+                {t("character.viewMode.raw")}
               </Button>
             </div>
             <DropdownMenu>
@@ -387,11 +413,11 @@ export function CharacterCardDisplay({ card, originalFilename }: CharacterCardDi
               <DropdownMenuContent align="end">
                 <DropdownMenuItem onClick={handleDownload}>
                   <FileDown className="h-4 w-4" />
-                  Save as file
+                  {t("character.saveAsFile")}
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={handleCopy}>
                   <Clipboard className="h-4 w-4" />
-                  Copy to clipboard
+                  {t("character.copyToClipboard")}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -412,13 +438,13 @@ export function CharacterCardDisplay({ card, originalFilename }: CharacterCardDi
             {data.creation_date && (
               <span className="flex items-center gap-1">
                 <Calendar className="h-3 w-3" />
-                Created: {formatDate(data.creation_date)}
+                {t("character.created")}: {formatDate(data.creation_date)}
               </span>
             )}
             {data.modification_date && (
               <span className="flex items-center gap-1">
                 <Calendar className="h-3 w-3" />
-                Modified: {formatDate(data.modification_date)}
+                {t("character.modified")}: {formatDate(data.modification_date)}
               </span>
             )}
           </div>
@@ -440,14 +466,14 @@ export function CharacterCardDisplay({ card, originalFilename }: CharacterCardDi
         ) : (
         <Tabs defaultValue="basic" className="w-full">
           <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="basic">Basic</TabsTrigger>
-            <TabsTrigger value="messages">Messages</TabsTrigger>
-            <TabsTrigger value="prompts">Prompts</TabsTrigger>
-            <TabsTrigger value="meta">Others</TabsTrigger>
+            <TabsTrigger value="basic">{t("character.tabs.basic")}</TabsTrigger>
+            <TabsTrigger value="messages">{t("character.tabs.messages")}</TabsTrigger>
+            <TabsTrigger value="prompts">{t("character.tabs.prompts")}</TabsTrigger>
+            <TabsTrigger value="meta">{t("character.tabs.others")}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="basic" className="mt-4">
-            <ExpandCollapseButton allExpanded={isAllBasicExpanded} onToggle={toggleAllBasic} />
+            <ExpandCollapseButton allExpanded={isAllBasicExpanded} onToggle={toggleAllBasic} expandAllLabel={t("character.expandAll")} collapseAllLabel={t("character.collapseAll")} />
             <ScrollArea className="h-[400px] pr-4">
               <div className="space-y-4">
                 <TextSection
@@ -456,6 +482,7 @@ export function CharacterCardDisplay({ card, originalFilename }: CharacterCardDi
                   icon={FileText}
                   open={basicExpanded.description}
                   onOpenChange={(open) => setBasicExpanded((prev) => ({ ...prev, description: open }))}
+                  translations={textSectionTranslations}
                 />
                 <TextSection
                   title="Personality"
@@ -463,6 +490,7 @@ export function CharacterCardDisplay({ card, originalFilename }: CharacterCardDi
                   icon={User}
                   open={basicExpanded.personality}
                   onOpenChange={(open) => setBasicExpanded((prev) => ({ ...prev, personality: open }))}
+                  translations={textSectionTranslations}
                 />
                 <TextSection
                   title="Scenario"
@@ -470,13 +498,14 @@ export function CharacterCardDisplay({ card, originalFilename }: CharacterCardDi
                   icon={FileText}
                   open={basicExpanded.scenario}
                   onOpenChange={(open) => setBasicExpanded((prev) => ({ ...prev, scenario: open }))}
+                  translations={textSectionTranslations}
                 />
               </div>
             </ScrollArea>
           </TabsContent>
 
           <TabsContent value="messages" className="mt-4">
-            <ExpandCollapseButton allExpanded={isAllMessagesExpanded} onToggle={toggleAllMessages} />
+            <ExpandCollapseButton allExpanded={isAllMessagesExpanded} onToggle={toggleAllMessages} expandAllLabel={t("character.expandAll")} collapseAllLabel={t("character.collapseAll")} />
             <ScrollArea className="h-[400px] pr-4">
               <div className="space-y-4">
                 <TextSection
@@ -485,6 +514,7 @@ export function CharacterCardDisplay({ card, originalFilename }: CharacterCardDi
                   icon={MessageSquare}
                   open={messagesExpanded.firstMessage}
                   onOpenChange={(open) => setMessagesExpanded((prev) => ({ ...prev, firstMessage: open }))}
+                  translations={textSectionTranslations}
                 />
 
                 <TextSection
@@ -493,6 +523,7 @@ export function CharacterCardDisplay({ card, originalFilename }: CharacterCardDi
                   icon={MessageSquare}
                   open={messagesExpanded.exampleMessages}
                   onOpenChange={(open) => setMessagesExpanded((prev) => ({ ...prev, exampleMessages: open }))}
+                  translations={textSectionTranslations}
                 />
 
                 <Collapsible open={messagesExpanded.alternateGreetings} onOpenChange={(open) => setMessagesExpanded((prev) => ({ ...prev, alternateGreetings: open }))}>
@@ -506,14 +537,14 @@ export function CharacterCardDisplay({ card, originalFilename }: CharacterCardDi
                   <CollapsibleContent>
                     <div className="rounded-md rounded-t-none border border-t-0 bg-background p-3 space-y-2">
                       {data.alternate_greetings.length === 0 ? (
-                        <p className="text-sm text-muted-foreground italic">Empty</p>
+                        <p className="text-sm text-muted-foreground italic">{t("character.empty")}</p>
                       ) : (
                         data.alternate_greetings.map((greeting, i) => (
                           <div key={i} className="rounded-md bg-muted/50 p-3">
                             <p className="text-xs text-muted-foreground mb-1">
                               Greeting {i + 1}
                             </p>
-                            <GreetingContent content={greeting} />
+                            <GreetingContent content={greeting} translations={greetingTranslations} />
                           </div>
                         ))
                       )}
@@ -532,14 +563,14 @@ export function CharacterCardDisplay({ card, originalFilename }: CharacterCardDi
                   <CollapsibleContent>
                     <div className="rounded-md rounded-t-none border border-t-0 bg-background p-3 space-y-2">
                       {data.group_only_greetings.length === 0 ? (
-                        <p className="text-sm text-muted-foreground italic">Empty</p>
+                        <p className="text-sm text-muted-foreground italic">{t("character.empty")}</p>
                       ) : (
                         data.group_only_greetings.map((greeting, i) => (
                           <div key={i} className="rounded-md bg-muted/50 p-3">
                             <p className="text-xs text-muted-foreground mb-1">
                               Greeting {i + 1}
                             </p>
-                            <GreetingContent content={greeting} />
+                            <GreetingContent content={greeting} translations={greetingTranslations} />
                           </div>
                         ))
                       )}
@@ -551,7 +582,7 @@ export function CharacterCardDisplay({ card, originalFilename }: CharacterCardDi
           </TabsContent>
 
           <TabsContent value="prompts" className="mt-4">
-            <ExpandCollapseButton allExpanded={isAllPromptsExpanded} onToggle={toggleAllPrompts} />
+            <ExpandCollapseButton allExpanded={isAllPromptsExpanded} onToggle={toggleAllPrompts} expandAllLabel={t("character.expandAll")} collapseAllLabel={t("character.collapseAll")} />
             <ScrollArea className="h-[400px] pr-4">
               <div className="space-y-4">
                 <TextSection
@@ -560,6 +591,7 @@ export function CharacterCardDisplay({ card, originalFilename }: CharacterCardDi
                   icon={FileText}
                   open={promptsExpanded.systemPrompt}
                   onOpenChange={(open) => setPromptsExpanded((prev) => ({ ...prev, systemPrompt: open }))}
+                  translations={textSectionTranslations}
                 />
                 <TextSection
                   title="Post History Instructions"
@@ -567,13 +599,14 @@ export function CharacterCardDisplay({ card, originalFilename }: CharacterCardDi
                   icon={FileText}
                   open={promptsExpanded.postHistory}
                   onOpenChange={(open) => setPromptsExpanded((prev) => ({ ...prev, postHistory: open }))}
+                  translations={textSectionTranslations}
                 />
               </div>
             </ScrollArea>
           </TabsContent>
 
           <TabsContent value="meta" className="mt-4">
-            <ExpandCollapseButton allExpanded={isAllMetaExpanded} onToggle={toggleAllMeta} />
+            <ExpandCollapseButton allExpanded={isAllMetaExpanded} onToggle={toggleAllMeta} expandAllLabel={t("character.expandAll")} collapseAllLabel={t("character.collapseAll")} />
             <ScrollArea className="h-[400px] pr-4">
               <div className="space-y-4">
                 <Collapsible open={metaExpanded.specInfo} onOpenChange={(open) => setMetaExpanded((prev) => ({ ...prev, specInfo: open }))}>
@@ -654,6 +687,7 @@ export function CharacterCardDisplay({ card, originalFilename }: CharacterCardDi
                   icon={FileText}
                   open={metaExpanded.creatorNotes}
                   onOpenChange={(open) => setMetaExpanded((prev) => ({ ...prev, creatorNotes: open }))}
+                  translations={textSectionTranslations}
                 />
               </div>
             </ScrollArea>

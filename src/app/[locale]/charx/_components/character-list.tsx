@@ -10,6 +10,7 @@ import {
   FolderOpen,
   Plus,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "~/components/ui/button";
 import {
   Card,
@@ -85,6 +86,7 @@ function CharacterIconView({
   isSelected: boolean;
   onSelect: () => void;
 }) {
+  const t = useTranslations("charx");
   const avatar = getCharacterAvatar(item);
   const name = item.parsed?.card?.data.name ?? item.file.name.replace(".charx", "");
 
@@ -114,7 +116,7 @@ function CharacterIconView({
         )}
         {item.status === "pending" && (
           <div className="absolute inset-0 bg-background/50 flex items-center justify-center">
-            <div className="text-xs text-muted-foreground">Queue</div>
+            <div className="text-xs text-muted-foreground">{t("files.queue")}</div>
           </div>
         )}
       </div>
@@ -149,6 +151,7 @@ function CharacterListView({
   isSelected: boolean;
   onSelect: () => void;
 }) {
+  const t = useTranslations("charx");
   const avatar = getCharacterAvatar(item);
   const name = item.parsed?.card?.data.name ?? item.file.name.replace(".charx", "");
   const creator = item.parsed?.card?.data.creator;
@@ -189,12 +192,12 @@ function CharacterListView({
           </p>
           {item.status === "pending" && (
             <Badge variant="secondary" className="text-xs">
-              Queued
+              {t("files.queued")}
             </Badge>
           )}
           {item.status === "error" && (
             <Badge variant="destructive" className="text-xs">
-              Error
+              {t("error")}
             </Badge>
           )}
         </div>
@@ -222,13 +225,13 @@ function CharacterListView({
         {item.status === "done" && (lorebookCount !== undefined || assetsCount !== undefined) && (
           <div className="text-[10px]">
             {lorebookCount !== undefined && lorebookCount > 0 && (
-              <span>{lorebookCount} lore</span>
+              <span>{t("character.loreCount", { count: lorebookCount })}</span>
             )}
             {lorebookCount !== undefined && lorebookCount > 0 && assetsCount !== undefined && assetsCount > 0 && (
               <span> · </span>
             )}
             {assetsCount !== undefined && assetsCount > 0 && (
-              <span>{assetsCount} assets</span>
+              <span>{t("character.assetsCount", { count: assetsCount })}</span>
             )}
           </div>
         )}
@@ -243,6 +246,7 @@ export function CharacterList({
   onSelect,
   onFilesSelect,
 }: CharacterListProps) {
+  const t = useTranslations("charx");
   const [viewMode, setViewMode] = useState<ViewMode>("icon");
   const [isDragging, setIsDragging] = useState(false);
 
@@ -303,14 +307,14 @@ export function CharacterList({
           <div>
             <CardTitle className="flex items-center gap-2">
               <FolderOpen className="h-5 w-5" />
-              Files
+              {t("files.title")}
             </CardTitle>
             <CardDescription>
-              {items.length} files (.charx) loaded
+              {t("files.loaded", { count: items.length })}
               {items.some((i) => i.status === "parsing") && (
                 <span className="ml-2 text-primary">
                   <Loader2 className="inline h-3 w-3 animate-spin mr-1" />
-                  Parsing...
+                  {t("files.parsing")}
                 </span>
               )}
             </CardDescription>
@@ -371,7 +375,7 @@ export function CharacterList({
           />
           <Plus className="h-4 w-4 text-muted-foreground" />
           <span className="text-sm text-muted-foreground">
-            Drop more .charx files or click to browse
+            {t("files.dropMore")}
           </span>
         </label>
       </CardContent>

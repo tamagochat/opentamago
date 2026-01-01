@@ -1,0 +1,47 @@
+import { notFound } from "next/navigation";
+import { NextIntlClientProvider, hasLocale } from "next-intl";
+import { setRequestLocale } from "next-intl/server";
+import { routing } from "~/i18n/routing";
+import type { Locale } from "~/i18n/config";
+import { LangSetter } from "~/components/lang-setter";
+
+// Import messages statically
+import enMessages from "~/i18n/messages/en.json";
+import koMessages from "~/i18n/messages/ko.json";
+import jaMessages from "~/i18n/messages/ja.json";
+
+const messages: Record<Locale, typeof enMessages> = {
+  en: enMessages,
+  ko: koMessages,
+  ja: jaMessages,
+};
+
+type Props = {
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+};
+
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+export default async function LocaleLayout({ children, params }: Props) {
+  const { locale } = await params;
+
+  // Ensure that the incoming `locale` is valid
+  if (!hasLocale(routing.locales, locale)) {
+    notFound();
+  }
+
+  // Enable static rendering
+  setRequestLocale(locale);
+
+  const localeMessages = messages[locale as Locale];
+
+  return (
+    <NextIntlClientProvider locale={locale} messages={localeMessages}>
+      <LangSetter />
+      {children}
+    </NextIntlClientProvider>
+  );
+}

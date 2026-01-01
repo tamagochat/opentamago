@@ -1,4 +1,3 @@
-import Link from "next/link";
 import {
   Egg,
   FileArchive,
@@ -10,48 +9,57 @@ import {
   Eye,
   Lock,
 } from "lucide-react";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Link } from "~/i18n/routing";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { MainLayout } from "~/components/layout";
 
-const features = [
-  {
-    icon: FileArchive,
-    title: "CharX Viewer",
-    description:
-      "View and inspect character cards, lorebooks, and assets from CharX files. Everything runs locally in your browser.",
-    href: "/charx",
-    available: true,
-  },
-  {
-    icon: Share2,
-    title: "P2P CharX Sharing",
-    description:
-      "Share character files directly with others using peer-to-peer technology. No server uploads, instant transfers.",
-    href: "/share",
-    available: false,
-  },
-];
+type Props = {
+  params: Promise<{ locale: string }>;
+};
 
-const highlights = [
-  {
-    icon: Lock,
-    title: "Privacy First",
-    description: "Your data stays on your device. CharX files are processed entirely in your browser.",
-  },
-  {
-    icon: Zap,
-    title: "Lightning Fast",
-    description: "Built with modern web technologies for instant loading and smooth interactions.",
-  },
-  {
-    icon: Shield,
-    title: "Open Source",
-    description: "Fully transparent codebase. Audit, contribute, and customize to your needs.",
-  },
-];
+export default async function Home({ params }: Props) {
+  const { locale } = await params;
+  setRequestLocale(locale);
 
-export default function Home() {
+  const t = await getTranslations("home");
+  const tCommon = await getTranslations("common");
+
+  const features = [
+    {
+      icon: FileArchive,
+      title: t("features.charxViewer.title"),
+      description: t("features.charxViewer.description"),
+      href: "/charx" as const,
+      available: true,
+    },
+    {
+      icon: Share2,
+      title: t("features.p2pSharing.title"),
+      description: t("features.p2pSharing.description"),
+      href: "/share" as const,
+      available: false,
+    },
+  ];
+
+  const highlights = [
+    {
+      icon: Lock,
+      title: t("highlights.privacy.title"),
+      description: t("highlights.privacy.description"),
+    },
+    {
+      icon: Zap,
+      title: t("highlights.fast.title"),
+      description: t("highlights.fast.description"),
+    },
+    {
+      icon: Shield,
+      title: t("highlights.openSource.title"),
+      description: t("highlights.openSource.description"),
+    },
+  ];
   return (
     <MainLayout>
       {/* Hero Section */}
@@ -62,21 +70,21 @@ export default function Home() {
             <div className="flex justify-center mb-4 sm:mb-6">
               <div className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-primary/10 border border-primary/20">
                 <Egg className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
-                <span className="text-xs sm:text-sm font-medium">Open Source AI Characters</span>
+                <span className="text-xs sm:text-sm font-medium">{tCommon("tagline")}</span>
               </div>
             </div>
             <h1 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">
-              Your AI Character
-              <span className="text-primary"> Companion</span>
+              {t("hero.title")}
+              <span className="text-primary"> {t("hero.titleHighlight")}</span>
             </h1>
             <p className="mt-4 sm:mt-6 text-base sm:text-lg text-muted-foreground md:text-xl max-w-2xl mx-auto">
-              Create, view, and chat with AI characters. An open-source platform for character card management and AI conversations.
+              {t("hero.description")}
             </p>
             <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
               <Button size="lg" asChild className="gap-2 w-full sm:w-auto">
                 <Link href="/charx">
                   <FileArchive className="h-5 w-5" />
-                  Open CharX Viewer
+                  {t("cta.openViewer")}
                 </Link>
               </Button>
               <Button size="lg" variant="outline" asChild className="gap-2 w-full sm:w-auto">
@@ -85,7 +93,7 @@ export default function Home() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  View on GitHub
+                  {t("cta.viewGithub")}
                 </a>
               </Button>
             </div>
@@ -98,10 +106,10 @@ export default function Home() {
         <div className="container">
           <div className="text-center mb-8 sm:mb-12">
             <h2 className="text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl">
-              Everything You Need
+              {t("features.title")}
             </h2>
             <p className="mt-3 sm:mt-4 text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
-              A complete toolkit for AI character enthusiasts
+              {t("features.description")}
             </p>
           </div>
           <div className="grid gap-4 sm:gap-6 md:grid-cols-2 max-w-3xl mx-auto">
@@ -119,7 +127,7 @@ export default function Home() {
                         <ArrowRight className="h-4 w-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
                       ) : (
                         <span className="text-xs font-normal text-muted-foreground bg-muted px-2 py-0.5 rounded">
-                          Coming Soon
+                          {tCommon("comingSoon")}
                         </span>
                       )}
                     </CardTitle>
@@ -158,10 +166,10 @@ export default function Home() {
             <div className="order-2 lg:order-1">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs sm:text-sm font-medium mb-3 sm:mb-4">
                 <Eye className="h-3 w-3 sm:h-4 sm:w-4" />
-                CharX Viewer
+                {t("showcase.badge")}
               </div>
               <h2 className="text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl mb-4 sm:mb-6">
-                Inspect Character Files with Ease
+                {t("showcase.title")}
               </h2>
               <ul className="space-y-3 sm:space-y-4">
                 <li className="flex gap-3">
@@ -169,9 +177,9 @@ export default function Home() {
                     <Upload className="h-3 w-3 text-primary" />
                   </div>
                   <div>
-                    <p className="font-medium text-sm sm:text-base">Drag & Drop Upload</p>
+                    <p className="font-medium text-sm sm:text-base">{t("showcase.dragDrop.title")}</p>
                     <p className="text-xs sm:text-sm text-muted-foreground">
-                      Simply drop your .charx files to instantly view their contents
+                      {t("showcase.dragDrop.description")}
                     </p>
                   </div>
                 </li>
@@ -180,9 +188,9 @@ export default function Home() {
                     <FileArchive className="h-3 w-3 text-primary" />
                   </div>
                   <div>
-                    <p className="font-medium text-sm sm:text-base">Complete Card Information</p>
+                    <p className="font-medium text-sm sm:text-base">{t("showcase.cardInfo.title")}</p>
                     <p className="text-xs sm:text-sm text-muted-foreground">
-                      View character details, system prompts, greetings, and more
+                      {t("showcase.cardInfo.description")}
                     </p>
                   </div>
                 </li>
@@ -191,9 +199,9 @@ export default function Home() {
                     <Lock className="h-3 w-3 text-primary" />
                   </div>
                   <div>
-                    <p className="font-medium text-sm sm:text-base">100% Client-Side</p>
+                    <p className="font-medium text-sm sm:text-base">{t("showcase.clientSide.title")}</p>
                     <p className="text-xs sm:text-sm text-muted-foreground">
-                      Your files never leave your browser - complete privacy guaranteed
+                      {t("showcase.clientSide.description")}
                     </p>
                   </div>
                 </li>
@@ -201,7 +209,7 @@ export default function Home() {
               <div className="mt-6 sm:mt-8">
                 <Button asChild className="gap-2 w-full sm:w-auto">
                   <Link href="/charx">
-                    Try CharX Viewer
+                    {t("cta.tryViewer")}
                     <ArrowRight className="h-4 w-4" />
                   </Link>
                 </Button>
@@ -216,7 +224,7 @@ export default function Home() {
                       <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-yellow-500/80" />
                       <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-green-500/80" />
                     </div>
-                    <span className="text-[10px] sm:text-xs text-muted-foreground ml-2">CharX Viewer</span>
+                    <span className="text-[10px] sm:text-xs text-muted-foreground ml-2">{t("showcase.badge")}</span>
                   </div>
                   <div className="flex-1 p-4 flex items-center justify-center">
                     <div className="text-center space-y-3 sm:space-y-4">
@@ -224,9 +232,9 @@ export default function Home() {
                         <FileArchive className="h-7 w-7 sm:h-10 sm:w-10 text-primary" />
                       </div>
                       <div>
-                        <p className="font-medium text-sm sm:text-base">Drop .charx files here</p>
+                        <p className="font-medium text-sm sm:text-base">{t("showcase.dropzone.title")}</p>
                         <p className="text-xs sm:text-sm text-muted-foreground">
-                          or click to browse
+                          {t("showcase.dropzone.subtitle")}
                         </p>
                       </div>
                     </div>
@@ -263,16 +271,16 @@ export default function Home() {
         <div className="container">
           <div className="mx-auto max-w-3xl text-center">
             <h2 className="text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl">
-              Ready to Get Started?
+              {t("ready.title")}
             </h2>
             <p className="mt-3 sm:mt-4 text-base sm:text-lg text-muted-foreground">
-              Jump right in and explore your character files with our privacy-focused viewer.
+              {t("ready.description")}
             </p>
             <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
               <Button size="lg" asChild className="gap-2 w-full sm:w-auto">
                 <Link href="/charx">
                   <FileArchive className="h-5 w-5" />
-                  Open CharX Viewer
+                  {t("cta.openViewer")}
                 </Link>
               </Button>
               <Button size="lg" variant="outline" asChild className="gap-2 w-full sm:w-auto">
@@ -281,7 +289,7 @@ export default function Home() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  View on GitHub
+                  {t("cta.viewGithub")}
                 </a>
               </Button>
             </div>

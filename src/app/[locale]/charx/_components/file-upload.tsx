@@ -1,7 +1,8 @@
 "use client";
 
 import { useCallback, useState, useEffect } from "react";
-import { Upload, Plus, AlertCircle } from "lucide-react";
+import { Upload, Plus, AlertCircle, Info } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent } from "~/components/ui/card";
 import { cn } from "~/lib/utils";
@@ -17,6 +18,7 @@ export function FileUpload({
   isLoading,
   compact,
 }: FileUploadProps) {
+  const t = useTranslations("charx");
   const [isDragging, setIsDragging] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -42,8 +44,9 @@ export function FileUpload({
 
       if (invalidFiles.length > 0) {
         const names = invalidFiles.slice(0, 3).join(", ");
-        const more = invalidFiles.length > 3 ? ` and ${invalidFiles.length - 3} more` : "";
-        setError(`Unsupported file${invalidFiles.length > 1 ? "s" : ""}: ${names}${more}. Only .charx files are supported.`);
+        const more = invalidFiles.length > 3 ? t("upload.andMore", { count: invalidFiles.length - 3 }) : "";
+        const key = invalidFiles.length > 1 ? "upload.unsupportedFiles" : "upload.unsupportedFile";
+        setError(t(key, { names: names + more }));
       }
 
       if (validFiles.length > 0) {
@@ -127,11 +130,11 @@ export function FileUpload({
               </div>
               <div className={compact ? "text-left" : ""}>
                 <p className={cn("font-medium", compact && "text-sm")}>
-                  {compact ? "Drop more .charx files or click to browse" : "Drop your .charx files here"}
+                  {compact ? t("files.dropMore") : t("upload.dropFiles")}
                 </p>
                 {!compact && (
                   <p className="text-sm text-muted-foreground">
-                    or click to browse files (multiple selection supported)
+                    {t("upload.browseMultiple")}
                   </p>
                 )}
               </div>
@@ -143,6 +146,25 @@ export function FileUpload({
         <div className="flex items-center gap-2 text-sm text-destructive animate-in fade-in slide-in-from-top-1">
           <AlertCircle className="h-4 w-4 flex-shrink-0" />
           <span>{error}</span>
+        </div>
+      )}
+      {!compact && (
+        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          <Info className="h-4 w-4 flex-shrink-0" />
+          <span>
+            {t.rich("upload.downloadLink", {
+              link: (chunks) => (
+                <a
+                  href="https://realm.risuai.net/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline hover:text-foreground transition-colors"
+                >
+                  {chunks}
+                </a>
+              ),
+            })}
+          </span>
         </div>
       )}
     </div>
