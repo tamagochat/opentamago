@@ -47,3 +47,6 @@ yarn-error.log*
 
 # docker
 docker-compose.override.yml
+
+# production
+.env.production
