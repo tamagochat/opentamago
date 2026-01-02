@@ -71,9 +71,11 @@ export function useAutoReply({
           .map((c) => `- ${c.name}: ${c.description}`)
           .join("\n");
 
-        const systemPrompt = `You are ${myCharacter.name}. ${
-          myCharacter.personality
-        }
+        const systemPrompt = `You are ${myCharacter.name}.
+
+About you: ${myCharacter.description}
+
+Your personality: ${myCharacter.personality}
 
 ${myCharacter.systemPrompt || ""}
 
@@ -83,7 +85,9 @@ ${otherCharacters}
 Respond naturally as ${
           myCharacter.name
         }. Keep responses concise (1-3 sentences).
-Stay in character at all times. Do not use asterisks for actions.`;
+Stay in character at all times. Do not use asterisks for actions.
+
+IMPORTANT: Do not prefix your response with your name or any label like "${myCharacter.name}:". Just start directly with your response text.`;
 
         // Build messages
         const messages = [
