@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Egg, FileArchive, Menu, Share2 } from "lucide-react";
+import { Egg, FileArchive, Menu, Share2, Users } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "~/i18n/routing";
 import { Button } from "~/components/ui/button";
@@ -25,6 +25,7 @@ export function SiteHeader() {
   const navigation = [
     { name: t("charxViewer"), href: "/charx" as const, icon: FileArchive },
     { name: t("p2pShare"), href: "/p2p" as const, icon: Share2 },
+    { name: t("connect"), href: "/connect" as const, icon: Users },
   ];
 
   useEffect(() => {

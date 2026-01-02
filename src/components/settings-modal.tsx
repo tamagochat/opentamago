@@ -22,8 +22,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
-import { Settings, Eye, EyeOff } from "lucide-react";
+import { Settings, Eye, EyeOff, Server, Key } from "lucide-react";
 import { useSettings } from "~/lib/db/hooks";
+import type { ApiMode } from "~/lib/db/schemas";
 import {
   SUPPORTED_MODELS,
   HARM_CATEGORIES,
@@ -44,6 +45,7 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
   const t = useTranslations("chat.settings");
   const tActions = useTranslations("actions");
   const { settings, updateSettings, isLoading } = useSettings();
+  const [apiMode, setApiMode] = useState<ApiMode>("server");
   const [apiKey, setApiKey] = useState("");
   const [showApiKey, setShowApiKey] = useState(false);
   const [model, setModel] = useState("gemini-3-flash-preview");
@@ -54,6 +56,7 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
 
   useEffect(() => {
     if (!isLoading) {
+      setApiMode(settings.apiMode ?? "server");
       setApiKey(settings.geminiApiKey ?? "");
       setModel(settings.defaultModel);
       setTemperature(String(settings.temperature));
@@ -73,6 +76,7 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
     setIsSaving(true);
     try {
       await updateSettings({
+        apiMode,
         geminiApiKey: apiKey || undefined,
         defaultModel: model,
         temperature: parseFloat(temperature),
@@ -106,39 +110,79 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
 
           <ScrollArea className="max-h-[calc(90vh-280px)]">
             <TabsContent value="general" className="mt-4 space-y-4">
-              <div className="grid gap-2">
-                <Label htmlFor="apiKey">{t("geminiApiKey")}</Label>
-                <div className="relative">
-                  <Input
-                    id="apiKey"
-                    type={showApiKey ? "text" : "password"}
-                    value={apiKey}
-                    onChange={(e) => setApiKey(e.target.value)}
-                    placeholder={t("enterApiKey")}
-                    className="pr-10"
-                  />
-                  <Button
+              {/* API Mode Selection */}
+              <div className="grid gap-3">
+                <Label>{t("apiMode")}</Label>
+                <div className="grid grid-cols-2 gap-3">
+                  <button
                     type="button"
-                    variant="ghost"
-                    size="icon"
-                    className="absolute right-0 top-0 h-full px-3"
-                    onClick={() => setShowApiKey(!showApiKey)}
+                    onClick={() => setApiMode("server")}
+                    className={`flex flex-col items-center gap-2 rounded-lg border-2 p-4 transition-colors ${
+                      apiMode === "server"
+                        ? "border-primary bg-primary/5"
+                        : "border-muted hover:border-muted-foreground/50"
+                    }`}
                   >
-                    {showApiKey ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                  </Button>
+                    <Server className={`h-6 w-6 ${apiMode === "server" ? "text-primary" : "text-muted-foreground"}`} />
+                    <div className="text-center">
+                      <p className="font-medium text-sm">{t("apiModeServer")}</p>
+                      <p className="text-xs text-muted-foreground">{t("apiModeServerDesc")}</p>
+                    </div>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setApiMode("client")}
+                    className={`flex flex-col items-center gap-2 rounded-lg border-2 p-4 transition-colors ${
+                      apiMode === "client"
+                        ? "border-primary bg-primary/5"
+                        : "border-muted hover:border-muted-foreground/50"
+                    }`}
+                  >
+                    <Key className={`h-6 w-6 ${apiMode === "client" ? "text-primary" : "text-muted-foreground"}`} />
+                    <div className="text-center">
+                      <p className="font-medium text-sm">{t("apiModeClient")}</p>
+                      <p className="text-xs text-muted-foreground">{t("apiModeClientDesc")}</p>
+                    </div>
+                  </button>
                 </div>
-                <p className="text-muted-foreground text-xs">
-                  {t("getApiKey")}{" "}
-                  <a
-                    href="https://aistudio.google.com/apikey"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-primary underline"
-                  >
-                    Google AI Studio
-                  </a>
-                </p>
               </div>
+
+              {/* API Key (only show in client mode) */}
+              {apiMode === "client" && (
+                <div className="grid gap-2">
+                  <Label htmlFor="apiKey">{t("geminiApiKey")}</Label>
+                  <div className="relative">
+                    <Input
+                      id="apiKey"
+                      type={showApiKey ? "text" : "password"}
+                      value={apiKey}
+                      onChange={(e) => setApiKey(e.target.value)}
+                      placeholder={t("enterApiKey")}
+                      className="pr-10"
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      className="absolute right-0 top-0 h-full px-3"
+                      onClick={() => setShowApiKey(!showApiKey)}
+                    >
+                      {showApiKey ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    </Button>
+                  </div>
+                  <p className="text-muted-foreground text-xs">
+                    {t("getApiKey")}{" "}
+                    <a
+                      href="https://aistudio.google.com/apikey"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary underline"
+                    >
+                      Google AI Studio
+                    </a>
+                  </p>
+                </div>
+              )}
 
               <div className="grid gap-2">
                 <Label htmlFor="model">{t("defaultModel")}</Label>

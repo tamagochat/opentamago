@@ -42,6 +42,7 @@ export type DatabaseCollections = {
 export type Database = RxDatabase<DatabaseCollections>;
 
 let dbPromise: Promise<Database> | null = null;
+let hasResetOnce = false;
 
 const isDev = process.env.NODE_ENV === "development";
 
@@ -65,6 +66,7 @@ export async function getDatabase(): Promise<Database> {
     storage: getStorage(),
     multiInstance: true,
     eventReduce: true,
+    ignoreDuplicate: isDev, // Allow duplicate in dev mode for hot reload
   })
     .then(async (db) => {
       try {
@@ -85,60 +87,60 @@ export async function getDatabase(): Promise<Database> {
           },
           settings: {
             schema: settingsSchema,
-            // No migration strategies needed for version 0 schemas
+            migrationStrategies: {
+              1: (oldDoc: any) => ({
+                ...oldDoc,
+                apiMode: oldDoc.apiMode ?? "client", // Default to client mode
+              }),
+            },
           },
         });
       } catch (error: any) {
-        // If schema mismatch error (DB6), we need to reset the database
-        // This happens when the schema structure changed in an incompatible way
-        // COL12 error occurs when migration strategies don't match schema versions
-        if (
+        // If schema mismatch error, delete the database and create fresh
+        const isSchemaError =
           error?.code === "DB6" ||
           error?.code === "COL12" ||
           error?.message?.includes("DB6") ||
           error?.message?.includes("COL12") ||
           error?.message?.includes("different schema") ||
-          error?.message?.includes("migrationStrategy")
-        ) {
-          console.warn(
-            "Database schema mismatch detected. Resetting database to apply new schema..."
-          );
+          error?.message?.includes("migrationStrategy");
 
-          // Clear the promise so we can retry
-          dbPromise = null;
+        if (isSchemaError && !hasResetOnce) {
+          hasResetOnce = true;
+          console.warn("Database schema mismatch detected. Deleting and recreating database...");
 
-          // Delete the IndexedDB database to start fresh
-          if (typeof window !== "undefined" && window.indexedDB) {
+          // Use RxDB's remove() to properly delete all database data
+          try {
+            await db.remove();
+            console.log("Database removed successfully.");
+          } catch {
+            // If remove fails, try closing and manual deletion
             try {
-              const deleteReq = window.indexedDB.deleteDatabase("opentamago");
-              await new Promise<void>((resolve, reject) => {
-                deleteReq.onsuccess = () => {
-                  console.log("Database deleted successfully. Retrying...");
-                  resolve();
-                };
-                deleteReq.onerror = () => {
-                  console.error("Error deleting database:", deleteReq.error);
-                  reject(deleteReq.error);
-                };
-                deleteReq.onblocked = () => {
-                  console.warn(
-                    "Database deletion blocked. Please close other tabs and refresh."
-                  );
-                  // Still resolve to allow retry
-                  resolve();
-                };
-              });
-            } catch (deleteError) {
-              console.error("Failed to delete database:", deleteError);
+              await db.close();
+            } catch {
+              // Ignore
+            }
+            // Delete all RxDB-related IndexedDB databases
+            if (typeof window !== "undefined" && window.indexedDB) {
+              const databases = await window.indexedDB.databases?.() ?? [];
+              for (const dbInfo of databases) {
+                if (dbInfo.name?.includes("opentamago") || dbInfo.name?.includes("rxdb")) {
+                  await new Promise<void>((resolve) => {
+                    const deleteReq = window.indexedDB.deleteDatabase(dbInfo.name!);
+                    deleteReq.onsuccess = () => resolve();
+                    deleteReq.onerror = () => resolve();
+                    deleteReq.onblocked = () => resolve();
+                  });
+                }
+              }
             }
           }
 
-          // Wait a bit before retrying
-          await new Promise((resolve) => setTimeout(resolve, 200));
-
-          // Retry database creation
+          // Clear promise and create new database
+          dbPromise = null;
           return getDatabase();
         }
+
         throw error;
       }
 

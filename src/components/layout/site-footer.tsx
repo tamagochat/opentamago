@@ -30,6 +30,16 @@ export function SiteFooter() {
                   {tNav("charxViewer")}
                 </Link>
               </li>
+              <li>
+                <Link href="/p2p" className="hover:text-foreground transition-colors">
+                  {tNav("p2pShare")}
+                </Link>
+              </li>
+              <li>
+                <Link href="/connect" className="hover:text-foreground transition-colors">
+                  {tNav("connect")}
+                </Link>
+              </li>
             </ul>
           </div>
 

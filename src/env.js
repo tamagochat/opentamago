@@ -17,6 +17,8 @@ export const env = createEnv({
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),
+    // Optional: Server-side Gemini API key for fallback when users don't provide their own
+    GOOGLE_GENERATIVE_AI_API_KEY: z.string().optional(),
   },
 
   /**
@@ -41,6 +43,7 @@ export const env = createEnv({
     NODE_ENV: process.env.NODE_ENV,
     NEXT_PUBLIC_PEERJS_HOST: process.env.NEXT_PUBLIC_PEERJS_HOST,
     NEXT_PUBLIC_PEERJS_PATH: process.env.NEXT_PUBLIC_PEERJS_PATH,
+    GOOGLE_GENERATIVE_AI_API_KEY: process.env.GOOGLE_GENERATIVE_AI_API_KEY,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

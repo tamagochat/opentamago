@@ -8,12 +8,20 @@ import {
   Upload,
   Eye,
   Lock,
+  QrCode,
+  Wifi,
+  Users,
+  MessageSquare,
+  Bot,
 } from "lucide-react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "~/i18n/routing";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { MainLayout } from "~/components/layout";
+import { CharxViewerDemo } from "./_components/charx-viewer-demo";
+import { P2pSharingDemo } from "./_components/p2p-sharing-demo";
+import { ConnectDemo } from "./_components/connect-demo";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -38,8 +46,15 @@ export default async function Home({ params }: Props) {
       icon: Share2,
       title: t("features.p2pSharing.title"),
       description: t("features.p2pSharing.description"),
-      href: "/share" as const,
-      available: false,
+      href: "/p2p" as const,
+      available: true,
+    },
+    {
+      icon: Users,
+      title: t("features.connect.title"),
+      description: t("features.connect.description"),
+      href: "/connect" as const,
+      available: true,
     },
   ];
 
@@ -80,7 +95,7 @@ export default async function Home({ params }: Props) {
             <p className="mt-4 sm:mt-6 text-base sm:text-lg text-muted-foreground md:text-xl max-w-2xl mx-auto">
               {t("hero.description")}
             </p>
-            <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+            <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center flex-wrap">
               <Button size="lg" asChild className="gap-2 w-full sm:w-auto">
                 <Link href="/charx">
                   <FileArchive className="h-5 w-5" />
@@ -88,13 +103,10 @@ export default async function Home({ params }: Props) {
                 </Link>
               </Button>
               <Button size="lg" variant="outline" asChild className="gap-2 w-full sm:w-auto">
-                <a
-                  href="https://github.com/tamagochat/opentamago"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {t("cta.viewGithub")}
-                </a>
+                <Link href="/p2p">
+                  <Share2 className="h-5 w-5" />
+                  {t("cta.startSharing")}
+                </Link>
               </Button>
             </div>
           </div>
@@ -112,7 +124,7 @@ export default async function Home({ params }: Props) {
               {t("features.description")}
             </p>
           </div>
-          <div className="grid gap-4 sm:gap-6 md:grid-cols-2 max-w-3xl mx-auto">
+          <div className="grid gap-4 sm:gap-6 md:grid-cols-3 max-w-5xl mx-auto">
             {features.map((feature) => {
               const Icon = feature.icon;
               const cardContent = (
@@ -216,31 +228,136 @@ export default async function Home({ params }: Props) {
               </div>
             </div>
             <div className="relative order-1 lg:order-2">
-              <div className="aspect-[4/3] rounded-xl bg-gradient-to-br from-muted to-muted/50 border shadow-xl sm:shadow-2xl overflow-hidden">
-                <div className="absolute inset-0 flex flex-col">
-                  <div className="h-8 sm:h-10 bg-background/80 border-b flex items-center gap-2 px-3 sm:px-4">
-                    <div className="flex gap-1 sm:gap-1.5">
-                      <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-red-500/80" />
-                      <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-yellow-500/80" />
-                      <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-green-500/80" />
-                    </div>
-                    <span className="text-[10px] sm:text-xs text-muted-foreground ml-2">{t("showcase.badge")}</span>
-                  </div>
-                  <div className="flex-1 p-4 flex items-center justify-center">
-                    <div className="text-center space-y-3 sm:space-y-4">
-                      <div className="w-14 h-14 sm:w-20 sm:h-20 mx-auto rounded-xl bg-primary/10 flex items-center justify-center">
-                        <FileArchive className="h-7 w-7 sm:h-10 sm:w-10 text-primary" />
-                      </div>
-                      <div>
-                        <p className="font-medium text-sm sm:text-base">{t("showcase.dropzone.title")}</p>
-                        <p className="text-xs sm:text-sm text-muted-foreground">
-                          {t("showcase.dropzone.subtitle")}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              <CharxViewerDemo />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* P2P Showcase Section */}
+      <section className="py-12 sm:py-16 md:py-20 lg:py-28 bg-muted/30">
+        <div className="container">
+          <div className="grid gap-8 sm:gap-12 lg:grid-cols-2 items-center">
+            <div className="relative order-1">
+              <P2pSharingDemo />
+            </div>
+            <div className="order-2">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs sm:text-sm font-medium mb-3 sm:mb-4">
+                <Share2 className="h-3 w-3 sm:h-4 sm:w-4" />
+                {t("p2pShowcase.badge")}
               </div>
+              <h2 className="text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl mb-4 sm:mb-6">
+                {t("p2pShowcase.title")}
+              </h2>
+              <ul className="space-y-3 sm:space-y-4">
+                <li className="flex gap-3">
+                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
+                    <QrCode className="h-3 w-3 text-primary" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-sm sm:text-base">{t("p2pShowcase.qrCode.title")}</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground">
+                      {t("p2pShowcase.qrCode.description")}
+                    </p>
+                  </div>
+                </li>
+                <li className="flex gap-3">
+                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Wifi className="h-3 w-3 text-primary" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-sm sm:text-base">{t("p2pShowcase.webrtc.title")}</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground">
+                      {t("p2pShowcase.webrtc.description")}
+                    </p>
+                  </div>
+                </li>
+                <li className="flex gap-3">
+                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Lock className="h-3 w-3 text-primary" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-sm sm:text-base">{t("p2pShowcase.password.title")}</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground">
+                      {t("p2pShowcase.password.description")}
+                    </p>
+                  </div>
+                </li>
+              </ul>
+              <div className="mt-6 sm:mt-8">
+                <Button asChild className="gap-2 w-full sm:w-auto">
+                  <Link href="/p2p">
+                    {t("cta.startSharing")}
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Connect Showcase Section */}
+      <section className="py-12 sm:py-16 md:py-20 lg:py-28">
+        <div className="container">
+          <div className="grid gap-8 sm:gap-12 lg:grid-cols-2 items-center">
+            <div className="order-2 lg:order-1">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs sm:text-sm font-medium mb-3 sm:mb-4">
+                <Users className="h-3 w-3 sm:h-4 sm:w-4" />
+                {t("connectShowcase.badge")}
+              </div>
+              <h2 className="text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl mb-4 sm:mb-6">
+                {t("connectShowcase.title")}
+              </h2>
+              <p className="text-sm sm:text-base text-muted-foreground mb-4 sm:mb-6">
+                {t("connectShowcase.description")}
+              </p>
+              <ul className="space-y-3 sm:space-y-4">
+                <li className="flex gap-3">
+                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
+                    <MessageSquare className="h-3 w-3 text-primary" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-sm sm:text-base">{t("connectShowcase.realtime.title")}</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground">
+                      {t("connectShowcase.realtime.description")}
+                    </p>
+                  </div>
+                </li>
+                <li className="flex gap-3">
+                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Bot className="h-3 w-3 text-primary" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-sm sm:text-base">{t("connectShowcase.aiPowered.title")}</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground">
+                      {t("connectShowcase.aiPowered.description")}
+                    </p>
+                  </div>
+                </li>
+                <li className="flex gap-3">
+                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Users className="h-3 w-3 text-primary" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-sm sm:text-base">{t("connectShowcase.multiParty.title")}</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground">
+                      {t("connectShowcase.multiParty.description")}
+                    </p>
+                  </div>
+                </li>
+              </ul>
+              <div className="mt-6 sm:mt-8">
+                <Button asChild className="gap-2 w-full sm:w-auto">
+                  <Link href="/connect">
+                    {t("cta.startConnect")}
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
+                </Button>
+              </div>
+            </div>
+            <div className="relative order-1 lg:order-2">
+              <ConnectDemo />
             </div>
           </div>
         </div>
@@ -276,7 +393,7 @@ export default async function Home({ params }: Props) {
             <p className="mt-3 sm:mt-4 text-base sm:text-lg text-muted-foreground">
               {t("ready.description")}
             </p>
-            <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+            <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center flex-wrap">
               <Button size="lg" asChild className="gap-2 w-full sm:w-auto">
                 <Link href="/charx">
                   <FileArchive className="h-5 w-5" />
@@ -284,13 +401,10 @@ export default async function Home({ params }: Props) {
                 </Link>
               </Button>
               <Button size="lg" variant="outline" asChild className="gap-2 w-full sm:w-auto">
-                <a
-                  href="https://github.com/tamagochat/opentamago"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {t("cta.viewGithub")}
-                </a>
+                <Link href="/p2p">
+                  <Share2 className="h-5 w-5" />
+                  {t("cta.startSharing")}
+                </Link>
               </Button>
             </div>
           </div>

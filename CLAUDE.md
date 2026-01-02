@@ -99,3 +99,62 @@ const t = useTranslations("namespace");
 - `<html lang={locale}>` is set dynamically via `LangSetter` component in `[locale]/layout.tsx`
 - Add `alternates.languages` for hreflang tags when needed
 - Ensure all user-facing text is translatable via i18n messages
+
+## Client-Side Database (RxDB)
+
+Uses RxDB with IndexedDB (Dexie) for client-side storage. Schemas are in `src/lib/db/schemas/`.
+
+### Schema Migration Steps
+
+When modifying an existing RxDB schema:
+
+1. **Increment schema version** in the schema file:
+   ```ts
+   // src/lib/db/schemas/settings.ts
+   export const settingsSchema: RxJsonSchema<SettingsDocument> = {
+     version: 1,  // Increment from 0 to 1
+     // ... rest of schema
+   };
+   ```
+
+2. **Add migration strategy** in `src/lib/db/index.ts`:
+   ```ts
+   await db.addCollections({
+     settings: {
+       schema: settingsSchema,
+       migrationStrategies: {
+         // Migration from version 0 to 1
+         1: (oldDoc: any) => {
+           return {
+             ...oldDoc,
+             newField: "defaultValue",  // Add new fields with defaults
+           };
+         },
+         // Future migrations: 2, 3, etc.
+       },
+     },
+   });
+   ```
+
+3. **Update TypeScript interface** to include new fields:
+   ```ts
+   export interface SettingsDocument {
+     // ... existing fields
+     newField: string;  // Add new field
+   }
+   ```
+
+4. **Update hooks** in `src/lib/db/hooks/` to handle defaults for missing fields (backward compatibility).
+
+### Migration Tips
+
+- **Adding optional fields**: Set default in migration, make field optional in interface
+- **Removing fields**: Just remove from interface; old data is ignored
+- **Renaming fields**: Copy value to new key, delete old key in migration
+- **Breaking changes**: If migration isn't possible, the app auto-resets the database (user loses local data)
+
+### Files
+
+- `src/lib/db/index.ts` - Database initialization and migrations
+- `src/lib/db/schemas/` - Schema definitions
+- `src/lib/db/hooks/` - React hooks for database access

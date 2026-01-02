@@ -26,7 +26,9 @@
     "cta": {
       "openViewer": "Open CharX Viewer",
       "viewGithub": "View on GitHub",
-      "tryViewer": "Try CharX Viewer"
+      "tryViewer": "Try CharX Viewer",
+      "startSharing": "Start Sharing",
+      "startConnect": "Start Session"
     },
     "features": {
       "title": "Everything You Need",
@@ -38,6 +40,10 @@
       "p2pSharing": {
         "title": "P2P CharX Sharing",
         "description": "Share character files directly with others using peer-to-peer technology. No server uploads, instant transfers."
+      },
+      "connect": {
+        "title": "Multi-Character Chat",
+        "description": "Create chat sessions with multiple AI characters. Invite friends and let characters interact with each other."
       }
     },
     "showcase": {
@@ -60,6 +66,25 @@
         "subtitle": "or click to browse"
       }
     },
+    "p2pShowcase": {
+      "badge": "P2P Sharing",
+      "title": "Share Characters Instantly",
+      "sender": "You",
+      "receivers": "Friends",
+      "directTransfer": "Direct browser-to-browser transfer",
+      "qrCode": {
+        "title": "QR Code & Share Links",
+        "description": "Generate QR codes and shareable links for easy mobile transfers"
+      },
+      "webrtc": {
+        "title": "WebRTC Direct Transfer",
+        "description": "Files transfer directly between browsers - no server storage"
+      },
+      "password": {
+        "title": "Optional Password Protection",
+        "description": "Secure your shares with password protection if needed"
+      }
+    },
     "highlights": {
       "privacy": {
         "title": "Privacy First",
@@ -77,6 +102,54 @@
     "ready": {
       "title": "Ready to Get Started?",
       "description": "Jump right in and explore your character files with our privacy-focused viewer."
+    },
+    "demo": {
+      "charx": {
+        "tabs": {
+          "character": "Character",
+          "lorebook": "Lorebook",
+          "assets": "Assets"
+        },
+        "greetings": "alternate greetings",
+        "lorebookEntries": "{count} entries",
+        "assetsFound": "{count} assets found"
+      },
+      "p2p": {
+        "selectFile": "Select file",
+        "generating": "Creating...",
+        "scanToJoin": "Scan to join",
+        "waiting": "Waiting...",
+        "readyToScan": "Ready to scan",
+        "scanning": "Scanning...",
+        "connecting": "Connecting...",
+        "complete": "Complete!"
+      },
+      "connect": {
+        "waitingRoom": "Waiting Room",
+        "participants": "joined",
+        "chat": "Chat",
+        "message1": "Hey everyone! Ready to chat?",
+        "message2": "Let's do this!",
+        "aiReply": "Great to meet you all!",
+        "inputPlaceholder": "Type a message..."
+      }
+    },
+    "connectShowcase": {
+      "badge": "Multi-Character Chat",
+      "title": "Chat with Multiple Characters",
+      "description": "Create a session where multiple AI characters can interact with each other. Perfect for roleplay scenarios and collaborative storytelling.",
+      "realtime": {
+        "title": "Real-time Chat",
+        "description": "Instant message delivery between all participants using P2P technology"
+      },
+      "aiPowered": {
+        "title": "AI-Powered Replies",
+        "description": "Characters can auto-reply using AI, creating dynamic conversations"
+      },
+      "multiParty": {
+        "title": "Up to 8 Characters",
+        "description": "Invite friends to join with their own characters via QR code or link"
+      }
     }
   },
   "charx": {
@@ -270,6 +343,7 @@
     "charxViewer": "CharX Viewer",
     "p2pShare": "P2P Share",
     "chat": "Chat",
+    "connect": "Connect",
     "github": "GitHub",
     "toggleMenu": "Toggle menu",
     "navigationMenu": "Navigation Menu"
@@ -414,9 +488,14 @@
     },
     "settings": {
       "title": "Settings",
-      "description": "Configure your API key and model settings. Your settings are stored locally.",
+      "description": "Configure your API settings. Your settings are stored locally.",
       "general": "General",
       "safety": "Safety",
+      "apiMode": "API Mode",
+      "apiModeServer": "Server API",
+      "apiModeServerDesc": "Use server's API key",
+      "apiModeClient": "Your API Key",
+      "apiModeClientDesc": "More privacy",
       "geminiApiKey": "Gemini API Key",
       "enterApiKey": "Enter your Gemini API key",
       "getApiKey": "Get your API key from",
@@ -435,6 +514,105 @@
       "blockMedium": "Block Medium+",
       "blockHigh": "Block High Only",
       "saving": "Saving..."
+    }
+  },
+  "connect": {
+    "meta": {
+      "title": "Connect - Multi-Character Chat",
+      "description": "Create a session where AI characters can chat with each other"
+    },
+    "title": "Connect",
+    "subtitle": "Create a multi-character chat session",
+    "tabs": {
+      "existing": "My Characters",
+      "upload": "Upload .charx",
+      "photo": "From Photo"
+    },
+    "noCharacters": "No characters found.",
+    "createInChat": "Create one in Chat",
+    "upload": {
+      "title": "Upload Character File",
+      "description": "Upload a .charx, .json, or .png file with embedded character data",
+      "selectFile": "Select File",
+      "formats": "Supports .charx, .json, .png"
+    },
+    "photo": {
+      "dropTitle": "Upload a Photo",
+      "dropDescription": "Drop an image or click to select. AI will generate a character based on the image.",
+      "selectFile": "Select Image",
+      "invalidType": "Please select an image file (PNG, JPG, WebP, or GIF)",
+      "tooLarge": "Image is too large. Maximum size is 10MB.",
+      "contextLabel": "Additional Context (optional)",
+      "contextPlaceholder": "e.g., 'This is a fantasy warrior' or 'Make them friendly'",
+      "contextHint": "Add hints to guide the character generation",
+      "generating": "Generating character...",
+      "generate": "Generate Character",
+      "generated": "{name} has been created!",
+      "generateError": "Failed to generate character. Please try again.",
+      "noApiKey": "Please configure your Gemini API key in Settings first.",
+      "apiKeyRequired": "API Key Required",
+      "apiKeyDescription": "To generate characters from photos, you need to configure your Gemini API key in Settings.",
+      "goToSettings": "Go to Settings"
+    },
+    "creating": "Creating session...",
+    "joining": "Joining session...",
+    "lobby": {
+      "title": "Waiting Room",
+      "hostDescription": "Share the link below to invite others",
+      "guestDescription": "Waiting for the host to start the chat",
+      "shortUrl": "Short URL",
+      "longUrl": "Long URL",
+      "copied": "Link copied!",
+      "copyFailed": "Failed to copy link",
+      "participants": "Participants",
+      "you": "You",
+      "host": "Host",
+      "connecting": "Connecting...",
+      "selectingCharacter": "Selecting character...",
+      "waitingForOthers": "Waiting for others to join...",
+      "leave": "Leave",
+      "startChat": "Start Chat",
+      "needMoreParticipants": "Need at least 2 participants to start"
+    },
+    "chat": {
+      "title": "Chat",
+      "participants": "participants",
+      "active": "Active",
+      "pending": "Pending",
+      "autoReply": "Auto Reply",
+      "noMessages": "No messages yet. Say something!",
+      "unknown": "Unknown",
+      "generating": "Thinking...",
+      "thinking": "{name} is thinking...",
+      "placeholder": "Message as {name}..."
+    },
+    "join": {
+      "meta": {
+        "title": "Join Session",
+        "description": "Join a multi-character chat session"
+      },
+      "title": "Join Session",
+      "subtitle": "Select a character to join the chat",
+      "currentParticipants": "{count} participant(s) already in the session"
+    },
+    "notifications": {
+      "joined": "{name} joined the chat",
+      "left": "{name} left the chat"
+    },
+    "status": {
+      "connecting": "Connecting...",
+      "connected": "Connected",
+      "disconnected": "Disconnected"
+    },
+    "errors": {
+      "noPeer": "Failed to connect to the network. Please refresh and try again.",
+      "hostLeft": "The host has ended the session",
+      "sessionFull": "Session is Full",
+      "sessionFullDescription": "This session has reached the maximum number of participants.",
+      "createOwn": "Create Your Own Session",
+      "connectionFailed": "Connection Failed",
+      "connectionFailedDescription": "Could not connect to the session. The host may have left or there's a network issue.",
+      "tryAgain": "Try Again"
     }
   }
 }

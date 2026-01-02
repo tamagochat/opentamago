@@ -16,7 +16,7 @@ import {
 import { useCharacters, useChats } from "~/lib/db/hooks";
 import { CharacterEditor } from "./character-editor";
 import { PersonaEditor } from "./persona-editor";
-import { SettingsModal } from "./settings-modal";
+import { SettingsModal } from "~/components/settings-modal";
 import { CharacterList } from "./character-list";
 import { RecentChatsList } from "./recent-chats-list";
 import type { CharacterDocument, ChatDocument } from "~/lib/db/schemas";

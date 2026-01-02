@@ -1,8 +1,11 @@
 import type { RxJsonSchema } from "rxdb";
 import type { SafetySettings } from "~/lib/ai";
 
+export type ApiMode = "server" | "client";
+
 export interface SettingsDocument {
   id: string;
+  apiMode: ApiMode;
   geminiApiKey?: string;
   defaultModel: string;
   temperature: number;
@@ -12,13 +15,17 @@ export interface SettingsDocument {
 }
 
 export const settingsSchema: RxJsonSchema<SettingsDocument> = {
-  version: 0,
+  version: 1,
   primaryKey: "id",
   type: "object",
   properties: {
     id: {
       type: "string",
       maxLength: 36,
+    },
+    apiMode: {
+      type: "string",
+      enum: ["server", "client"],
     },
     geminiApiKey: {
       type: "string",
@@ -49,5 +56,5 @@ export const settingsSchema: RxJsonSchema<SettingsDocument> = {
       type: "number",
     },
   },
-  required: ["id", "defaultModel", "temperature", "maxTokens", "safetySettings", "updatedAt"],
+  required: ["id", "apiMode", "defaultModel", "temperature", "maxTokens", "safetySettings", "updatedAt"],
 };

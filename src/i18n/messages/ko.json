@@ -26,7 +26,9 @@
     "cta": {
       "openViewer": "CharX 뷰어 열기",
       "viewGithub": "GitHub에서 보기",
-      "tryViewer": "CharX 뷰어 사용해보기"
+      "tryViewer": "CharX 뷰어 사용해보기",
+      "startSharing": "공유 시작하기",
+      "startConnect": "세션 시작하기"
     },
     "features": {
       "title": "필요한 모든 것",
@@ -38,6 +40,10 @@
       "p2pSharing": {
         "title": "P2P CharX 공유",
         "description": "P2P 기술을 사용하여 다른 사람들과 캐릭터 파일을 직접 공유하세요. 서버 업로드 없이 즉시 전송됩니다."
+      },
+      "connect": {
+        "title": "멀티 캐릭터 채팅",
+        "description": "여러 AI 캐릭터와 채팅 세션을 만드세요. 친구를 초대하고 캐릭터들이 서로 대화하게 하세요."
       }
     },
     "showcase": {
@@ -60,6 +66,25 @@
         "subtitle": "또는 클릭하여 찾아보기"
       }
     },
+    "p2pShowcase": {
+      "badge": "P2P 공유",
+      "title": "캐릭터를 즉시 공유하세요",
+      "sender": "당신",
+      "receivers": "친구들",
+      "directTransfer": "브라우저 간 직접 전송",
+      "qrCode": {
+        "title": "QR 코드 & 공유 링크",
+        "description": "모바일 전송을 위한 QR 코드와 공유 링크 생성"
+      },
+      "webrtc": {
+        "title": "WebRTC 직접 전송",
+        "description": "파일이 브라우저 간에 직접 전송됩니다 - 서버 저장 없음"
+      },
+      "password": {
+        "title": "비밀번호 보호 옵션",
+        "description": "필요시 비밀번호로 공유를 보호하세요"
+      }
+    },
     "highlights": {
       "privacy": {
         "title": "프라이버시 우선",
@@ -77,6 +102,54 @@
     "ready": {
       "title": "시작할 준비가 되셨나요?",
       "description": "프라이버시 중심 뷰어로 캐릭터 파일을 바로 탐색해보세요."
+    },
+    "demo": {
+      "charx": {
+        "tabs": {
+          "character": "캐릭터",
+          "lorebook": "로어북",
+          "assets": "에셋"
+        },
+        "greetings": "대체 인사",
+        "lorebookEntries": "{count}개 항목",
+        "assetsFound": "{count}개 에셋 발견"
+      },
+      "p2p": {
+        "selectFile": "파일 선택",
+        "generating": "생성 중...",
+        "scanToJoin": "스캔하여 참가",
+        "waiting": "대기 중...",
+        "readyToScan": "스캔 준비 완료",
+        "scanning": "스캔 중...",
+        "connecting": "연결 중...",
+        "complete": "완료!"
+      },
+      "connect": {
+        "waitingRoom": "대기실",
+        "participants": "명 참가",
+        "chat": "채팅",
+        "message1": "안녕하세요! 채팅할 준비됐나요?",
+        "message2": "시작해볼까요!",
+        "aiReply": "만나서 반가워요!",
+        "inputPlaceholder": "메시지를 입력하세요..."
+      }
+    },
+    "connectShowcase": {
+      "badge": "멀티 캐릭터 채팅",
+      "title": "여러 캐릭터와 함께 채팅",
+      "description": "여러 AI 캐릭터가 서로 대화할 수 있는 세션을 만드세요. 롤플레이 시나리오와 협력 스토리텔링에 완벽합니다.",
+      "realtime": {
+        "title": "실시간 채팅",
+        "description": "P2P 기술을 사용하여 모든 참가자 간에 즉시 메시지 전달"
+      },
+      "aiPowered": {
+        "title": "AI 자동 응답",
+        "description": "캐릭터가 AI를 사용하여 자동 응답하며 동적인 대화 생성"
+      },
+      "multiParty": {
+        "title": "최대 8개 캐릭터",
+        "description": "QR 코드나 링크로 친구를 초대하여 캐릭터와 함께 참가"
+      }
     }
   },
   "charx": {
@@ -270,6 +343,7 @@
     "charxViewer": "CharX 뷰어",
     "p2pShare": "P2P 공유",
     "chat": "채팅",
+    "connect": "연결",
     "github": "GitHub",
     "toggleMenu": "메뉴 열기/닫기",
     "navigationMenu": "내비게이션 메뉴"
@@ -414,9 +488,14 @@
     },
     "settings": {
       "title": "설정",
-      "description": "API 키와 모델 설정을 구성합니다. 설정은 로컬에 저장됩니다.",
+      "description": "API 설정을 구성합니다. 설정은 로컬에 저장됩니다.",
       "general": "일반",
       "safety": "안전",
+      "apiMode": "API 모드",
+      "apiModeServer": "서버 API",
+      "apiModeServerDesc": "서버 API 키 사용",
+      "apiModeClient": "내 API 키",
+      "apiModeClientDesc": "더 많은 프라이버시",
       "geminiApiKey": "Gemini API 키",
       "enterApiKey": "Gemini API 키를 입력하세요",
       "getApiKey": "API 키 받기:",
@@ -435,6 +514,105 @@
       "blockMedium": "중간 이상 차단",
       "blockHigh": "높음만 차단",
       "saving": "저장 중..."
+    }
+  },
+  "connect": {
+    "meta": {
+      "title": "연결 - 다중 캐릭터 채팅",
+      "description": "AI 캐릭터들이 서로 대화할 수 있는 세션을 만드세요"
+    },
+    "title": "연결",
+    "subtitle": "다중 캐릭터 채팅 세션 만들기",
+    "tabs": {
+      "existing": "내 캐릭터",
+      "upload": ".charx 업로드",
+      "photo": "사진에서"
+    },
+    "noCharacters": "캐릭터를 찾을 수 없습니다.",
+    "createInChat": "채팅에서 만들기",
+    "upload": {
+      "title": "캐릭터 파일 업로드",
+      "description": "캐릭터 데이터가 포함된 .charx, .json 또는 .png 파일을 업로드하세요",
+      "selectFile": "파일 선택",
+      "formats": ".charx, .json, .png 지원"
+    },
+    "photo": {
+      "dropTitle": "사진 업로드",
+      "dropDescription": "이미지를 드롭하거나 클릭하여 선택하세요. AI가 이미지를 기반으로 캐릭터를 생성합니다.",
+      "selectFile": "이미지 선택",
+      "invalidType": "이미지 파일을 선택하세요 (PNG, JPG, WebP 또는 GIF)",
+      "tooLarge": "이미지가 너무 큽니다. 최대 크기는 10MB입니다.",
+      "contextLabel": "추가 컨텍스트 (선택사항)",
+      "contextPlaceholder": "예: '판타지 전사입니다' 또는 '친근하게 만들어주세요'",
+      "contextHint": "캐릭터 생성을 안내하는 힌트를 추가하세요",
+      "generating": "캐릭터 생성 중...",
+      "generate": "캐릭터 생성",
+      "generated": "{name}이(가) 생성되었습니다!",
+      "generateError": "캐릭터 생성에 실패했습니다. 다시 시도해주세요.",
+      "noApiKey": "먼저 설정에서 Gemini API 키를 구성해주세요.",
+      "apiKeyRequired": "API 키 필요",
+      "apiKeyDescription": "사진에서 캐릭터를 생성하려면 설정에서 Gemini API 키를 구성해야 합니다.",
+      "goToSettings": "설정으로 이동"
+    },
+    "creating": "세션 생성 중...",
+    "joining": "세션 참가 중...",
+    "lobby": {
+      "title": "대기실",
+      "hostDescription": "아래 링크를 공유하여 다른 사람을 초대하세요",
+      "guestDescription": "호스트가 채팅을 시작하기를 기다리는 중",
+      "shortUrl": "짧은 URL",
+      "longUrl": "긴 URL",
+      "copied": "링크가 복사되었습니다!",
+      "copyFailed": "링크 복사 실패",
+      "participants": "참가자",
+      "you": "나",
+      "host": "호스트",
+      "connecting": "연결 중...",
+      "selectingCharacter": "캐릭터 선택 중...",
+      "waitingForOthers": "다른 사람이 참가하기를 기다리는 중...",
+      "leave": "나가기",
+      "startChat": "채팅 시작",
+      "needMoreParticipants": "시작하려면 최소 2명의 참가자가 필요합니다"
+    },
+    "chat": {
+      "title": "채팅",
+      "participants": "명 참가",
+      "active": "활성",
+      "pending": "대기 중",
+      "autoReply": "자동 응답",
+      "noMessages": "아직 메시지가 없습니다. 무언가 말해보세요!",
+      "unknown": "알 수 없음",
+      "generating": "생각 중...",
+      "thinking": "{name}이(가) 생각 중...",
+      "placeholder": "{name}(으)로 메시지 보내기..."
+    },
+    "join": {
+      "meta": {
+        "title": "세션 참가",
+        "description": "다중 캐릭터 채팅 세션에 참가하세요"
+      },
+      "title": "세션 참가",
+      "subtitle": "채팅에 참가할 캐릭터를 선택하세요",
+      "currentParticipants": "세션에 이미 {count}명이 참가 중입니다"
+    },
+    "notifications": {
+      "joined": "{name}이(가) 채팅에 참가했습니다",
+      "left": "{name}이(가) 채팅을 떠났습니다"
+    },
+    "status": {
+      "connecting": "연결 중...",
+      "connected": "연결됨",
+      "disconnected": "연결 끊김"
+    },
+    "errors": {
+      "noPeer": "네트워크 연결에 실패했습니다. 페이지를 새로고침하고 다시 시도해주세요.",
+      "hostLeft": "호스트가 세션을 종료했습니다",
+      "sessionFull": "세션이 가득 찼습니다",
+      "sessionFullDescription": "이 세션은 최대 참가자 수에 도달했습니다.",
+      "createOwn": "나만의 세션 만들기",
+      "connectionFailed": "연결 실패",
+      "connectionFailedDescription": "세션에 연결할 수 없습니다. 호스트가 떠났거나 네트워크 문제가 있을 수 있습니다.",
+      "tryAgain": "다시 시도"
     }
   }
 }

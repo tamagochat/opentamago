@@ -54,3 +54,23 @@ export const HARM_CATEGORY_LABELS: Record<HarmCategory, string> = {
   HARM_CATEGORY_SEXUALLY_EXPLICIT: "Sexually Explicit",
   HARM_CATEGORY_DANGEROUS_CONTENT: "Dangerous Content",
 };
+
+// Client-side hooks
+export {
+  useChat,
+  useGenerateCharacter,
+  type ChatMessage,
+  type UseChatOptions,
+  type StreamingState,
+  type GeneratedCharacter,
+  type UseGenerateCharacterOptions,
+  type GenerateCharacterState,
+} from "./hooks";
+
+// Client-side API functions (for direct Gemini calls in client mode)
+export {
+  streamChatResponse,
+  generateCharacterFromImage,
+  type ChatOptions,
+  type GenerateCharacterOptions,
+} from "./client";

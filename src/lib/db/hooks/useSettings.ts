@@ -12,6 +12,7 @@ function toMutable<T>(obj: unknown): T {
 
 const DEFAULT_SETTINGS: SettingsDocument = {
   id: "default",
+  apiMode: "client",
   defaultModel: DEFAULT_MODEL,
   temperature: 0.9,
   maxTokens: 4096,
@@ -54,6 +55,7 @@ export function useSettings() {
         setSettings({
           ...DEFAULT_SETTINGS,
           ...stored,
+          apiMode: stored.apiMode ?? DEFAULT_SETTINGS.apiMode,
           safetySettings: {
             ...DEFAULT_SAFETY_SETTINGS,
             ...stored.safetySettings,
@@ -71,6 +73,7 @@ export function useSettings() {
         setSettings({
           ...DEFAULT_SETTINGS,
           ...stored,
+          apiMode: stored.apiMode ?? DEFAULT_SETTINGS.apiMode,
           safetySettings: {
             ...DEFAULT_SAFETY_SETTINGS,
             ...stored.safetySettings,
@@ -132,11 +135,19 @@ export function useSettings() {
   );
 
   const hasApiKey = Boolean(settings.geminiApiKey);
+  const isClientMode = settings.apiMode === "client";
+  // When in client mode, require API key; when in server mode, always ready
+  const isApiReady = isClientMode ? hasApiKey : true;
+  // Get the effective API key to use (only in client mode)
+  const effectiveApiKey = isClientMode ? settings.geminiApiKey : undefined;
 
   return {
     settings,
     isLoading: dbLoading || isLoading,
     updateSettings,
     hasApiKey,
+    isClientMode,
+    isApiReady,
+    effectiveApiKey,
   };
 }

@@ -147,3 +147,73 @@ export const fileShareChannelsRelations = relations(
     }),
   })
 );
+
+// Connect Sessions (Multi-Character P2P Chat)
+export const connectSessions = createTable(
+  "connect_session",
+  (d) => ({
+    id: d.integer().primaryKey().generatedByDefaultAsIdentity(),
+    shortSlug: d.varchar({ length: 8 }).notNull().unique(),
+    longSlug: d.varchar({ length: 128 }).notNull().unique(),
+    hostPeerId: d.varchar({ length: 64 }).notNull(),
+    hostUserId: d.varchar({ length: 255 }).references(() => users.id),
+    maxParticipants: d.integer().default(8),
+    isPublic: d.boolean().default(false),
+    expiresAt: d.timestamp({ withTimezone: true }).notNull(),
+    createdAt: d
+      .timestamp({ withTimezone: true })
+      .$defaultFn(() => new Date())
+      .notNull(),
+    lastActivityAt: d
+      .timestamp({ withTimezone: true })
+      .$defaultFn(() => new Date())
+      .notNull(),
+  }),
+  (t) => [
+    index("connect_short_slug_idx").on(t.shortSlug),
+    index("connect_long_slug_idx").on(t.longSlug),
+    index("connect_expires_at_idx").on(t.expiresAt),
+  ]
+);
+
+export const connectSessionsRelations = relations(
+  connectSessions,
+  ({ one, many }) => ({
+    host: one(users, {
+      fields: [connectSessions.hostUserId],
+      references: [users.id],
+    }),
+    participants: many(connectParticipants),
+  })
+);
+
+export const connectParticipants = createTable(
+  "connect_participant",
+  (d) => ({
+    id: d.integer().primaryKey().generatedByDefaultAsIdentity(),
+    sessionId: d
+      .integer()
+      .notNull()
+      .references(() => connectSessions.id, { onDelete: "cascade" }),
+    peerId: d.varchar({ length: 64 }).notNull(),
+    characterName: d.varchar({ length: 255 }).notNull(),
+    characterAvatar: d.text(), // Base64 thumbnail
+    isHost: d.boolean().default(false),
+    joinedAt: d
+      .timestamp({ withTimezone: true })
+      .$defaultFn(() => new Date())
+      .notNull(),
+    leftAt: d.timestamp({ withTimezone: true }),
+  }),
+  (t) => [index("connect_participant_session_idx").on(t.sessionId)]
+);
+
+export const connectParticipantsRelations = relations(
+  connectParticipants,
+  ({ one }) => ({
+    session: one(connectSessions, {
+      fields: [connectParticipants.sessionId],
+      references: [connectSessions.id],
+    }),
+  })
+);

@@ -10,6 +10,7 @@ import { Send, Loader2, User, Trash2 } from "lucide-react";
 import { useMessages, useSettings } from "~/lib/db/hooks";
 import type { CharacterDocument, ChatDocument } from "~/lib/db/schemas";
 import { cn } from "~/lib/utils";
+import { streamChatResponse } from "~/lib/ai";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
@@ -28,7 +29,7 @@ interface CenterPanelProps {
 
 export function CenterPanel({ character, chat, className, onOpenSettings }: CenterPanelProps) {
   const t = useTranslations("chat.centerPanel");
-  const { settings, hasApiKey } = useSettings();
+  const { settings, isApiReady, effectiveApiKey, isClientMode } = useSettings();
   const { messages: storedMessages, addMessage, clearMessages } = useMessages(chat?.id ?? "");
   const [displayMessages, setDisplayMessages] = useState<DisplayMessage[]>([]);
   const [inputValue, setInputValue] = useState("");
@@ -112,7 +113,7 @@ export function CenterPanel({ character, chat, className, onOpenSettings }: Cent
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!inputValue.trim() || !hasApiKey || isLoading) return;
+    if (!inputValue.trim() || !isApiReady || isLoading) return;
 
     const userMessage = inputValue.trim();
     setInputValue("");
@@ -133,26 +134,6 @@ export function CenterPanel({ character, chat, className, onOpenSettings }: Cent
     ];
 
     try {
-      const response = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          messages: messagesForAPI,
-          apiKey: settings.geminiApiKey,
-          model: settings.defaultModel,
-          temperature: settings.temperature,
-          maxTokens: settings.maxTokens,
-          safetySettings: settings.safetySettings,
-        }),
-      });
-
-      if (!response.ok) throw new Error("Failed to get response");
-      if (!response.body) throw new Error("No response body");
-
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder();
-      let fullContent = "";
-
       // Add placeholder message for streaming
       const streamingId = `streaming-${Date.now()}`;
       setDisplayMessages((prev) => [
@@ -160,13 +141,19 @@ export function CenterPanel({ character, chat, className, onOpenSettings }: Cent
         { id: streamingId, role: "assistant", content: "" },
       ]);
 
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
+      let fullContent = "";
+      const stream = streamChatResponse({
+        messages: messagesForAPI,
+        apiKey: effectiveApiKey,
+        model: settings.defaultModel,
+        temperature: settings.temperature,
+        maxTokens: settings.maxTokens,
+        safetySettings: settings.safetySettings,
+        isClientMode,
+      });
 
-        const chunk = decoder.decode(value);
+      for await (const chunk of stream) {
         fullContent += chunk;
-
         setDisplayMessages((prev) =>
           prev.map((m) => (m.id === streamingId ? { ...m, content: fullContent } : m))
         );
@@ -212,7 +199,7 @@ export function CenterPanel({ character, chat, className, onOpenSettings }: Cent
     );
   }
 
-  if (!hasApiKey) {
+  if (!isApiReady) {
     return (
       <div
         className={cn("flex h-full flex-col items-center justify-center gap-4 p-8", className)}
