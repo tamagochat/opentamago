@@ -133,10 +133,13 @@ function JoinPageContent({
   useEffect(() => {
     if (chatHistory.length > 0) {
       const lastMessage = chatHistory[chatHistory.length - 1];
-      if (lastMessage && lastMessage.senderId !== peerId) {
+      // Only process chat messages, not system messages
+      if (lastMessage && lastMessage.type === "ChatMessage" && lastMessage.senderId !== peerId) {
+        // Filter to only chat messages for auto-reply
+        const chatMessages = chatHistory.filter((m): m is typeof lastMessage => m.type === "ChatMessage");
         handleAutoReply(
           lastMessage,
-          chatHistory,
+          chatMessages,
           participants.filter((p) => p.character !== null).map((p) => p.character!)
         );
       }
@@ -148,8 +151,10 @@ function JoinPageContent({
   useEffect(() => {
     // If toggled from off to on, trigger generation
     if (autoReplyEnabled && !prevAutoReplyRef.current) {
+      // Filter to only chat messages for AI generation
+      const chatMessages = chatHistory.filter((m): m is Extract<typeof m, { type: "ChatMessage" }> => m.type === "ChatMessage");
       triggerGeneration(
-        chatHistory,
+        chatMessages,
         participants.filter((p) => p.character !== null).map((p) => p.character!)
       );
     }

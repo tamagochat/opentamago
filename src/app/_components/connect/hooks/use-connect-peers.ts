@@ -8,6 +8,7 @@ import {
   type ConnectMessageType,
   type CharacterData,
   type ChatMessageType,
+  type SystemMessageType,
   type ParticipantStatus,
 } from "~/lib/connect/messages";
 import { CONNECT_CONFIG } from "~/lib/connect";
@@ -19,6 +20,9 @@ export interface Participant {
   connection: DataConnection | null;
   autoReplyEnabled: boolean;
 }
+
+// Union type for chat items (regular messages + system messages)
+export type ChatItemType = ChatMessageType | SystemMessageType;
 
 interface UseConnectPeersOptions {
   isHost: boolean;
@@ -47,7 +51,7 @@ export function useConnectPeers({
   );
   const [isConnected, setIsConnected] = useState(false);
   const [autoReplyEnabled, setAutoReplyEnabled] = useState(true);
-  const [chatHistory, setChatHistory] = useState<ChatMessageType[]>([]);
+  const [chatHistory, setChatHistory] = useState<ChatItemType[]>([]);
   const [thinkingPeers, setThinkingPeers] = useState<Set<string>>(new Set());
 
   const connectionsRef = useRef<Map<string, DataConnection>>(new Map());
@@ -128,10 +132,12 @@ export function useConnectPeers({
           }
 
           case "CharacterSync": {
+            let wasNewParticipant = false;
+
             setParticipants((prev) => {
               const updated = new Map(prev);
               const existing = updated.get(message.peerId);
-              const wasNew = !existing || existing.status === "pending";
+              wasNewParticipant = !existing || existing.status === "pending";
               updated.set(message.peerId, {
                 peerId: message.peerId,
                 status: "ready",
@@ -150,6 +156,56 @@ export function useConnectPeers({
               autoReplyEnabled: true,
             };
             onParticipantJoined?.(participant);
+
+            // Add system message for participant joining (if newly ready)
+            if (wasNewParticipant && message.character) {
+              const systemMsg: SystemMessageType = {
+                type: "SystemMessage",
+                id: crypto.randomUUID(),
+                event: "joined",
+                characterName: message.character.name,
+                timestamp: Date.now(),
+              };
+              setChatHistory((prev) => {
+                // Deduplicate
+                if (prev.some((m) => m.id === systemMsg.id)) return prev;
+                return [...prev, systemMsg];
+              });
+              // Broadcast to all peers
+              broadcast(systemMsg);
+
+              // If we're host, broadcast updated participant list to all peers
+              if (isHost && myPeerId) {
+                // Build participant list including all ready participants
+                setParticipants((currentParticipants) => {
+                  const participantList = Array.from(currentParticipants.values())
+                    .filter((p) => p.status === "ready" && p.character !== null)
+                    .map((p) => ({
+                      peerId: p.peerId,
+                      character: p.character!,
+                      autoReplyEnabled: p.autoReplyEnabled,
+                    }));
+
+                  // Add ourselves
+                  const myChar = myCharacterRef.current;
+                  if (myChar && myPeerId) {
+                    participantList.push({
+                      peerId: myPeerId,
+                      character: myChar,
+                      autoReplyEnabled,
+                    });
+                  }
+
+                  // Broadcast participant list to all peers
+                  broadcast({
+                    type: "ParticipantList",
+                    participants: participantList,
+                  });
+
+                  return currentParticipants; // Don't modify
+                });
+              }
+            }
             break;
           }
 
@@ -215,7 +271,63 @@ export function useConnectPeers({
           }
 
           case "PeerLeft": {
+            // Add system message for participant leaving
+            if (message.characterName) {
+              const systemMsg: SystemMessageType = {
+                type: "SystemMessage",
+                id: crypto.randomUUID(),
+                event: "left",
+                characterName: message.characterName,
+                timestamp: Date.now(),
+              };
+              setChatHistory((prev) => {
+                if (prev.some((m) => m.id === systemMsg.id)) return prev;
+                return [...prev, systemMsg];
+              });
+            }
             handlePeerDisconnect(message.peerId);
+            break;
+          }
+
+          case "SystemMessage": {
+            // Receive system message broadcast (join/leave notifications)
+            setChatHistory((prev) => {
+              if (prev.some((m) => m.id === message.id)) return prev;
+              return [...prev, message].sort((a, b) => a.timestamp - b.timestamp);
+            });
+            break;
+          }
+
+          case "ParticipantList": {
+            // Receive participant list broadcast from host
+            message.participants.forEach((p) => {
+              if (p.peerId !== myPeerId) {
+                setParticipants((prev) => {
+                  const updated = new Map(prev);
+                  // Only add if not already present or update character info
+                  const existing = updated.get(p.peerId);
+                  if (!existing || existing.status !== "ready") {
+                    updated.set(p.peerId, {
+                      peerId: p.peerId,
+                      status: "ready",
+                      character: p.character,
+                      connection: existing?.connection ?? connectionsRef.current.get(p.peerId) ?? null,
+                      autoReplyEnabled: p.autoReplyEnabled,
+                    });
+                  }
+                  return updated;
+                });
+
+                // Connect to participant if not already connected
+                if (
+                  peer &&
+                  !connectionsRef.current.has(p.peerId) &&
+                  !pendingConnectionsRef.current.has(p.peerId)
+                ) {
+                  connectToPeer(p.peerId);
+                }
+              }
+            });
             break;
           }
 
@@ -249,10 +361,15 @@ export function useConnectPeers({
                 });
               }
 
+              // Filter to only chat messages for sync (exclude system messages)
+              const chatMessagesOnly = chatHistory
+                .filter((m): m is ChatMessageType => m.type === "ChatMessage")
+                .map(({ type, ...rest }) => rest);
+
               sendTo(message.peerId, {
                 type: "SessionInfo",
                 participants: participantList,
-                chatHistory: chatHistory.map(({ type, ...rest }) => rest),
+                chatHistory: chatMessagesOnly,
               });
             }
             break;
@@ -494,13 +611,34 @@ export function useConnectPeers({
       });
 
       conn.on("close", () => {
-        handlePeerDisconnect(conn.peer);
+        // Get character name before disconnecting
+        setParticipants((prev) => {
+          const participant = prev.get(conn.peer);
+          const characterName = participant?.character?.name;
 
-        // Broadcast that peer left
-        broadcast({
-          type: "PeerLeft",
-          peerId: conn.peer,
+          // Broadcast that peer left (with character name for system message)
+          broadcast({
+            type: "PeerLeft",
+            peerId: conn.peer,
+            characterName,
+          });
+
+          // Add system message for participant leaving
+          if (characterName) {
+            const systemMsg: SystemMessageType = {
+              type: "SystemMessage",
+              id: crypto.randomUUID(),
+              event: "left",
+              characterName,
+              timestamp: Date.now(),
+            };
+            setChatHistory((prevHistory) => [...prevHistory, systemMsg]);
+          }
+
+          return prev;
         });
+
+        handlePeerDisconnect(conn.peer);
       });
     };
 
@@ -616,9 +754,11 @@ export function useConnectPeers({
   // Disconnect all
   const disconnectAll = useCallback(() => {
     if (myPeerId) {
+      const char = myCharacterRef.current;
       broadcast({
         type: "PeerLeft",
         peerId: myPeerId,
+        characterName: char?.name,
       });
     }
 

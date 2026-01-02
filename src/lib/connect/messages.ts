@@ -90,6 +90,30 @@ export const PeerJoinedMessage = z.object({
 export const PeerLeftMessage = z.object({
   type: z.literal("PeerLeft"),
   peerId: z.string(),
+  characterName: z.string().optional(), // Include character name for leave message
+});
+
+// System message (join/leave notifications)
+export const SystemMessage = z.object({
+  type: z.literal("SystemMessage"),
+  id: z.string(), // UUID for deduplication
+  event: z.enum(["joined", "left"]),
+  characterName: z.string(),
+  timestamp: z.number(),
+});
+
+export type SystemMessageType = z.infer<typeof SystemMessage>;
+
+// Participant list broadcast (host → all peers when new participant joins)
+export const ParticipantListMessage = z.object({
+  type: z.literal("ParticipantList"),
+  participants: z.array(
+    z.object({
+      peerId: z.string(),
+      character: CharacterDataSchema,
+      autoReplyEnabled: z.boolean(),
+    })
+  ),
 });
 
 // Request sync (when joining)
@@ -122,6 +146,8 @@ export const ConnectMessage = z.discriminatedUnion("type", [
   PeerConnectingMessage,
   PeerJoinedMessage,
   PeerLeftMessage,
+  SystemMessage,
+  ParticipantListMessage,
   RequestSyncMessage,
   SessionInfoMessage,
 ]);

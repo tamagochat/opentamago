@@ -15,6 +15,13 @@
       "when": 1767315801654,
       "tag": "0001_third_lila_cheney",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1767323344490,
+      "tag": "0002_tense_jamie_braddock",
+      "breakpoints": true
     }
   ]
 }

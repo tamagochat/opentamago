@@ -82,6 +82,69 @@ const characterSchema = z.object({
 });
 
 /**
+ * Non-streaming chat API - returns complete response
+ * Use this for auto-reply to ensure full response before broadcasting
+ */
+export async function generateChatResponse(
+  options: Omit<ChatOptions, "signal">
+): Promise<string> {
+  const {
+    messages,
+    apiKey,
+    model = DEFAULT_MODEL,
+    temperature = 0.9,
+    maxTokens = 4096,
+    safetySettings,
+    isClientMode,
+  } = options;
+
+  if (isClientMode && apiKey) {
+    // Client mode: call Gemini directly
+    const google = createGoogleGenerativeAI({ apiKey });
+    const geminiSafetySettings = safetySettings
+      ? toGeminiSafetySettings(safetySettings)
+      : [...DEFAULT_SAFETY_SETTINGS_ARRAY];
+
+    const { generateText } = await import("ai");
+    const result = await generateText({
+      model: google(model),
+      messages,
+      temperature,
+      maxOutputTokens: maxTokens,
+      providerOptions: {
+        google: {
+          safetySettings: geminiSafetySettings,
+        },
+      },
+    });
+
+    return result.text;
+  } else {
+    // Server mode: call our non-streaming API
+    const response = await fetch("/api/chat/generate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        messages,
+        ...(apiKey && { apiKey }),
+        model,
+        temperature,
+        maxTokens,
+        safetySettings,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(errorText || `Request failed: ${response.status}`);
+    }
+
+    const data = await response.json() as { text: string };
+    return data.text;
+  }
+}
+
+/**
  * Call chat API - either directly to Gemini (client mode) or through server
  */
 export async function* streamChatResponse(
@@ -118,12 +181,17 @@ export async function* streamChatResponse(
       abortSignal: signal,
     });
 
-    let fullContent = "";
+    // Collect all chunks to ensure complete response
+    const chunks: string[] = [];
     for await (const chunk of result.textStream) {
-      fullContent += chunk;
+      chunks.push(chunk);
       yield chunk;
     }
-    return fullContent;
+
+    // Wait for the stream to fully complete
+    await result.text;
+
+    return chunks.join("");
   } else {
     // Server mode: call our API
     const response = await fetch("/api/chat", {
@@ -153,13 +221,24 @@ export async function* streamChatResponse(
     const decoder = new TextDecoder();
     let fullContent = "";
 
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
+    try {
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
 
-      const chunk = decoder.decode(value, { stream: true });
-      fullContent += chunk;
-      yield chunk;
+        const chunk = decoder.decode(value, { stream: true });
+        fullContent += chunk;
+        yield chunk;
+      }
+
+      // Flush any remaining bytes in the decoder buffer
+      const remaining = decoder.decode();
+      if (remaining) {
+        fullContent += remaining;
+        yield remaining;
+      }
+    } finally {
+      reader.releaseLock();
     }
 
     return fullContent;

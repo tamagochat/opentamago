@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { CharacterData, ChatMessageType } from "~/lib/connect/messages";
 import { CONNECT_CONFIG } from "~/lib/connect";
-import { streamChatResponse } from "~/lib/ai";
+import { generateChatResponse } from "~/lib/ai";
 
 // Debounce window - cancel if other events happen within this time
 const DEBOUNCE_WINDOW_MS = 5000;
@@ -35,7 +35,6 @@ export function useAutoReply({
 }: UseAutoReplyOptions) {
   const [isGenerating, setIsGenerating] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
-  const abortControllerRef = useRef<AbortController | null>(null);
   const pendingTimestampRef = useRef<number | null>(null);
 
   // Store latest chat data for resume functionality
@@ -44,21 +43,18 @@ export function useAutoReply({
     participantCharacters: CharacterData[];
   } | null>(null);
 
-  // Cancel pending response
+  // Cancel pending response (timer only - non-streaming API can't be aborted)
   const cancelPending = useCallback(() => {
     if (timerRef.current) {
       clearTimeout(timerRef.current);
       timerRef.current = null;
     }
-    if (abortControllerRef.current) {
-      abortControllerRef.current.abort();
-      abortControllerRef.current = null;
-    }
     pendingTimestampRef.current = null;
-    setIsGenerating(false);
+    // Note: If generation is in progress, it will complete but the result won't be sent
+    // since pendingTimestampRef will be null
   }, []);
 
-  // Generate response
+  // Generate response using non-streaming API for reliability
   const generateResponse = useCallback(
     async (
       chatHistory: ChatMessageType[],
@@ -67,7 +63,6 @@ export function useAutoReply({
       if (!myCharacter || !isApiReady) return null;
 
       setIsGenerating(true);
-      abortControllerRef.current = new AbortController();
 
       try {
         // Build system prompt
@@ -102,30 +97,27 @@ Stay in character at all times. Do not use asterisks for actions.`;
           })),
         ];
 
-        // Use client-side function that handles both modes
-        let content = "";
-        const stream = streamChatResponse({
+        // Use non-streaming API to ensure complete response
+        const content = await generateChatResponse({
           messages,
           apiKey: apiKey ?? undefined,
           model,
           temperature,
-          maxTokens: 500,
+          maxTokens: 8192,
           isClientMode,
-          signal: abortControllerRef.current.signal,
         });
 
-        for await (const chunk of stream) {
-          content += chunk;
+        // Only return if we have actual content
+        if (!content || content.trim().length === 0) {
+          console.warn("[AutoReply] Empty response received");
+          setIsGenerating(false);
+          return null;
         }
 
         setIsGenerating(false);
         return content.trim();
       } catch (error) {
-        if ((error as Error).name === "AbortError") {
-          console.log("[AutoReply] Generation cancelled");
-        } else {
-          console.error("[AutoReply] Error generating response:", error);
-        }
+        console.error("[AutoReply] Error generating response:", error);
         setIsGenerating(false);
         return null;
       }

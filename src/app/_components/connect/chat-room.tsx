@@ -11,14 +11,14 @@ import { ScrollArea } from "~/components/ui/scroll-area";
 import { Switch } from "~/components/ui/switch";
 import { Label } from "~/components/ui/label";
 import { cn } from "~/lib/utils";
-import type { Participant } from "./hooks/use-connect-peers";
-import type { CharacterData, ChatMessageType } from "~/lib/connect/messages";
+import type { Participant, ChatItemType } from "./hooks/use-connect-peers";
+import type { CharacterData, ChatMessageType, SystemMessageType } from "~/lib/connect/messages";
 
 interface ChatRoomProps {
   myPeerId: string;
   myCharacter: CharacterData;
   participants: Participant[];
-  messages: ChatMessageType[];
+  messages: ChatItemType[];
   autoReplyEnabled: boolean;
   thinkingPeers: string[];
   isHost?: boolean;
@@ -139,12 +139,31 @@ export function ChatRoom({
             )}
 
             {messages.map((message) => {
-              const character = getCharacterForMessage(message.senderId);
-              const isMe = message.senderId === myPeerId;
+              // System message (join/leave)
+              if (message.type === "SystemMessage") {
+                const systemMsg = message as SystemMessageType;
+                return (
+                  <div
+                    key={systemMsg.id}
+                    className="flex justify-center py-2"
+                  >
+                    <span className="text-sm text-muted-foreground">
+                      {systemMsg.event === "joined"
+                        ? t("chat.userJoined", { name: systemMsg.characterName })
+                        : t("chat.userLeft", { name: systemMsg.characterName })}
+                    </span>
+                  </div>
+                );
+              }
+
+              // Regular chat message
+              const chatMessage = message as ChatMessageType;
+              const character = getCharacterForMessage(chatMessage.senderId);
+              const isMe = chatMessage.senderId === myPeerId;
 
               return (
                 <div
-                  key={message.id}
+                  key={chatMessage.id}
                   className={cn(
                     "flex gap-3",
                     isMe && "flex-row-reverse"
@@ -167,7 +186,7 @@ export function ChatRoom({
                       <span className="text-sm font-medium">
                         {character?.name || t("chat.unknown")}
                       </span>
-                      {message.isHuman ? (
+                      {chatMessage.isHuman ? (
                         <User className="h-3 w-3 text-muted-foreground" />
                       ) : (
                         <Bot className="h-3 w-3 text-muted-foreground" />
@@ -183,12 +202,12 @@ export function ChatRoom({
                       )}
                     >
                       <p className="text-sm whitespace-pre-wrap">
-                        {message.content}
+                        {chatMessage.content}
                       </p>
                     </div>
 
                     <span className="text-xs text-muted-foreground mt-1">
-                      {new Date(message.timestamp).toLocaleTimeString()}
+                      {new Date(chatMessage.timestamp).toLocaleTimeString()}
                     </span>
                   </div>
                 </div>

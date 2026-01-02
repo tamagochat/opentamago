@@ -584,7 +584,9 @@
       "unknown": "不明",
       "generating": "考え中...",
       "thinking": "{name}が考え中...",
-      "placeholder": "{name}としてメッセージ..."
+      "placeholder": "{name}としてメッセージ...",
+      "userJoined": "{name}がチャットに参加しました",
+      "userLeft": "{name}がチャットを退出しました"
     },
     "join": {
       "meta": {

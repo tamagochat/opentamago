@@ -70,6 +70,7 @@ export {
 // Client-side API functions (for direct Gemini calls in client mode)
 export {
   streamChatResponse,
+  generateChatResponse,
   generateCharacterFromImage,
   type ChatOptions,
   type GenerateCharacterOptions,

@@ -584,7 +584,9 @@
       "unknown": "Unknown",
       "generating": "Thinking...",
       "thinking": "{name} is thinking...",
-      "placeholder": "Message as {name}..."
+      "placeholder": "Message as {name}...",
+      "userJoined": "{name} joined the chat",
+      "userLeft": "{name} left the chat"
     },
     "join": {
       "meta": {
