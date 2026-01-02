@@ -162,7 +162,7 @@ function CharacterListView({
   return (
     <div
       className={cn(
-        "group flex items-center gap-3 p-2 rounded-lg cursor-pointer transition-colors",
+        "group flex items-center gap-3 p-2 rounded-lg cursor-pointer transition-colors min-w-0 max-w-full",
         "hover:bg-muted/50",
         isSelected && "bg-primary/10"
       )}
@@ -185,34 +185,34 @@ function CharacterListView({
         )}
       </div>
 
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2">
-          <p className={cn("font-medium text-sm truncate", isSelected && "text-primary")}>
+      <div className="flex-1 min-w-0 overflow-hidden">
+        <div className="flex items-center gap-2 min-w-0">
+          <p className={cn("font-medium text-sm truncate block min-w-0 flex-1", isSelected && "text-primary")}>
             {name}
           </p>
           {item.status === "pending" && (
-            <Badge variant="secondary" className="text-xs">
+            <Badge variant="secondary" className="text-xs shrink-0">
               {t("files.queued")}
             </Badge>
           )}
           {item.status === "error" && (
-            <Badge variant="destructive" className="text-xs">
+            <Badge variant="destructive" className="text-xs shrink-0">
               {t("error")}
             </Badge>
           )}
         </div>
         {creator && (
-          <p className="text-xs text-muted-foreground truncate">by {creator}</p>
+          <p className="text-xs text-muted-foreground truncate block">by {creator}</p>
         )}
         {tags.length > 0 && (
-          <div className="flex gap-1 mt-1 flex-wrap">
+          <div className="flex gap-1 mt-1 flex-wrap min-w-0">
             {tags.slice(0, 3).map((tag) => (
-              <Badge key={tag} variant="outline" className="text-[10px] px-1 py-0">
+              <Badge key={tag} variant="outline" className="text-[10px] px-1 py-0 max-w-full truncate">
                 {tag}
               </Badge>
             ))}
             {tags.length > 3 && (
-              <span className="text-[10px] text-muted-foreground">
+              <span className="text-[10px] text-muted-foreground shrink-0">
                 +{tags.length - 3}
               </span>
             )}
@@ -220,10 +220,10 @@ function CharacterListView({
         )}
       </div>
 
-      <div className="text-xs text-muted-foreground text-right flex-shrink-0">
-        <div>{(item.file.size / 1024 / 1024).toFixed(1)} MB</div>
+      <div className="text-xs text-muted-foreground text-right flex-shrink-0 min-w-0">
+        <div className="truncate">{(item.file.size / 1024 / 1024).toFixed(1)} MB</div>
         {item.status === "done" && (lorebookCount !== undefined || assetsCount !== undefined) && (
-          <div className="text-[10px]">
+          <div className="text-[10px] truncate">
             {lorebookCount !== undefined && lorebookCount > 0 && (
               <span>{t("character.loreCount", { count: lorebookCount })}</span>
             )}
@@ -353,7 +353,7 @@ export function CharacterList({
               ))}
             </div>
           ) : (
-            <div className="space-y-1">
+            <div className="space-y-1 min-w-0 max-w-full">
               {items.map((item) => (
                 <CharacterListView
                   key={item.id}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback, useEffect, useRef } from "react";
-import { FileArchive } from "lucide-react";
+import { FileArchive, Save } from "lucide-react";
 import { useTranslations } from "next-intl";
 import {
   Tabs,
@@ -9,6 +9,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "~/components/ui/tabs";
+import { Button } from "~/components/ui/button";
 import { MainLayout } from "~/components/layout";
 import { FileUpload } from "./_components/file-upload";
 import { CharacterList, type CharacterItem } from "./_components/character-list";
@@ -16,12 +17,14 @@ import { CharacterCardDisplay } from "./_components/character-card-display";
 import { LorebookDisplay } from "./_components/lorebook-display";
 import { AssetsDisplay } from "./_components/assets-display";
 import { ModuleDisplay } from "./_components/module-display";
+import { ExportDialog } from "./_components/export-dialog";
 import { parseCharXAsync, getCategorizedAssets } from "~/lib/charx";
 
 export default function CharXPage() {
   const t = useTranslations("charx");
   const [items, setItems] = useState<CharacterItem[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [exportDialogOpen, setExportDialogOpen] = useState(false);
   const isProcessingRef = useRef(false);
 
   const selectedItem = items.find((item) => item.id === selectedId);
@@ -98,16 +101,27 @@ export default function CharXPage() {
     <MainLayout showFooter={false}>
       <div className="container max-w-6xl py-8">
         <div className="mb-8">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-              <FileArchive className="h-5 w-5 text-primary" />
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                <FileArchive className="h-5 w-5 text-primary" />
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold">{t("title")}</h1>
+                <p className="text-sm text-muted-foreground">
+                  {t("subtitle")}
+                </p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-2xl font-bold">{t("title")}</h1>
-              <p className="text-sm text-muted-foreground">
-                {t("subtitle")}
-              </p>
-            </div>
+            {parsedData && parsedData.card && selectedItem?.status === "done" && (
+              <Button
+                onClick={() => setExportDialogOpen(true)}
+                className="gap-2"
+              >
+                <Save className="h-4 w-4" />
+                {t("export.button")}
+              </Button>
+            )}
           </div>
         </div>
 
@@ -227,6 +241,16 @@ export default function CharXPage() {
             </div>
           )}
         </div>
+
+        {parsedData && parsedData.card && (
+          <ExportDialog
+            open={exportDialogOpen}
+            onOpenChange={setExportDialogOpen}
+            card={parsedData.card}
+            lorebook={parsedData.card.data.character_book ?? null}
+            characterName={parsedData.card.data.name || ""}
+          />
+        )}
       </div>
     </MainLayout>
   );

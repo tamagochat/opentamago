@@ -25,7 +25,8 @@ export const env = createEnv({
    * `NEXT_PUBLIC_`.
    */
   client: {
-    // NEXT_PUBLIC_CLIENTVAR: z.string(),
+    NEXT_PUBLIC_PEERJS_HOST: z.string().default("0.peerjs.com"),
+    NEXT_PUBLIC_PEERJS_PATH: z.string().default("/"),
   },
 
   /**
@@ -38,6 +39,8 @@ export const env = createEnv({
     AUTH_DISCORD_SECRET: process.env.AUTH_DISCORD_SECRET,
     DATABASE_URL: process.env.DATABASE_URL,
     NODE_ENV: process.env.NODE_ENV,
+    NEXT_PUBLIC_PEERJS_HOST: process.env.NEXT_PUBLIC_PEERJS_HOST,
+    NEXT_PUBLIC_PEERJS_PATH: process.env.NEXT_PUBLIC_PEERJS_PATH,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

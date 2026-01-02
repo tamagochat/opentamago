@@ -106,3 +106,44 @@ export const verificationTokens = createTable(
   }),
   (t) => [primaryKey({ columns: [t.identifier, t.token] })]
 );
+
+// P2P File Sharing
+export const fileShareChannels = createTable(
+  "file_share_channel",
+  (d) => ({
+    id: d.integer().primaryKey().generatedByDefaultAsIdentity(),
+    shortSlug: d.varchar({ length: 8 }).notNull().unique(),
+    longSlug: d.varchar({ length: 128 }).notNull().unique(),
+    secret: d.uuid().notNull(),
+    uploaderPeerId: d.varchar({ length: 64 }).notNull(),
+    userId: d.varchar({ length: 255 }).references(() => users.id),
+    fileName: d.varchar({ length: 255 }),
+    fileSize: d.bigint({ mode: "number" }).default(0),
+    hasPassword: d.boolean().default(false),
+    passwordHash: d.varchar({ length: 255 }),
+    expiresAt: d.timestamp({ withTimezone: true }).notNull(),
+    createdAt: d
+      .timestamp({ withTimezone: true })
+      .$defaultFn(() => new Date())
+      .notNull(),
+    lastRenewedAt: d
+      .timestamp({ withTimezone: true })
+      .$defaultFn(() => new Date())
+      .notNull(),
+  }),
+  (t) => [
+    index("file_share_short_slug_idx").on(t.shortSlug),
+    index("file_share_long_slug_idx").on(t.longSlug),
+    index("file_share_expires_at_idx").on(t.expiresAt),
+  ]
+);
+
+export const fileShareChannelsRelations = relations(
+  fileShareChannels,
+  ({ one }) => ({
+    user: one(users, {
+      fields: [fileShareChannels.userId],
+      references: [users.id],
+    }),
+  })
+);

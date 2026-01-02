@@ -9,6 +9,11 @@ const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
 /** @type {import("next").NextConfig} */
 const config = {
+  // Disable strict mode to avoid calling useEffect twice in development.
+  // The uploader and downloader are both using useEffect to listen for peerjs events
+  // which causes the connection to be created twice.
+  reactStrictMode: false,
+  output: "standalone",
   async rewrites() {
     const defaultLocale = "en";
 
