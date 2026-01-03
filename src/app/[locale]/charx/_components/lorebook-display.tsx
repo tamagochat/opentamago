@@ -443,15 +443,8 @@ export function LorebookDisplay({ lorebook, characterName, originalFilename }: L
               <Book className="h-5 w-5" />
               {t("lorebook.title")}
             </CardTitle>
-            <CardDescription>
-              {t("lorebook.entries", { count: lorebook.entries.length })} | Scan Depth: {lorebook.scan_depth} |
-              Token Budget: {lorebook.token_budget} | Recursive Scanning: {lorebook.recursive_scanning ? "Yes" : "No"}
-            </CardDescription>
           </div>
           <div className="flex items-center gap-2">
-            {viewMode === "list" && lorebook.entries.length > 0 && (
-              <ExpandCollapseButton allExpanded={isAllExpanded} onToggle={toggleAllEntries} expandAllLabel={t("character.expandAll")} collapseAllLabel={t("character.collapseAll")} />
-            )}
             <div className="flex items-center gap-1 border rounded-md p-0.5">
               <Button
                 variant={viewMode === "list" ? "secondary" : "ghost"}
@@ -493,7 +486,16 @@ export function LorebookDisplay({ lorebook, characterName, originalFilename }: L
         </div>
       </CardHeader>
       <CardContent>
-        <ScrollArea className="h-[400px] pr-4">
+        <div className="flex items-center justify-between mb-3">
+          <p className="text-sm text-muted-foreground">
+            {t("lorebook.entries", { count: lorebook.entries.length })} | Scan Depth: {lorebook.scan_depth} |
+            Token Budget: {lorebook.token_budget} | Recursive Scanning: {lorebook.recursive_scanning ? "Yes" : "No"}
+          </p>
+          {viewMode === "list" && lorebook.entries.length > 0 && (
+            <ExpandCollapseButton allExpanded={isAllExpanded} onToggle={toggleAllEntries} expandAllLabel={t("character.expandAll")} collapseAllLabel={t("character.collapseAll")} />
+          )}
+        </div>
+        <ScrollArea className="h-[400px]">
           {viewMode === "list" ? (
             <div className="space-y-2">
               {lorebook.entries.length === 0 ? (

@@ -1,34 +1,59 @@
 "use client";
 
-import { useState, useCallback, useEffect, useRef } from "react";
-import { FileArchive, Save } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { FileArchive } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useSearchParams } from "next/navigation";
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from "~/components/ui/tabs";
-import { Button } from "~/components/ui/button";
 import { MainLayout } from "~/components/layout";
-import { FileUpload } from "./_components/file-upload";
-import { CharacterList, type CharacterItem } from "./_components/character-list";
+import {
+  FileUpload,
+  parseRealmUUID,
+} from "./_components/file-upload";
+import { CharacterList } from "./_components/character-list";
 import { CharacterCardDisplay } from "./_components/character-card-display";
 import { LorebookDisplay } from "./_components/lorebook-display";
 import { AssetsDisplay } from "./_components/assets-display";
 import { ModuleDisplay } from "./_components/module-display";
 import { ExportDialog } from "./_components/export-dialog";
 import { parseCharXAsync, getCategorizedAssets } from "~/lib/charx";
+import {
+  useCharXStore,
+  setPendingFile,
+  type CharacterItem,
+} from "~/lib/stores";
+import { useRouter } from "~/i18n/routing";
 
 export default function CharXPage() {
   const t = useTranslations("charx");
-  const [items, setItems] = useState<CharacterItem[]>([]);
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const {
+    items,
+    selectedId,
+    selectedItem,
+    addItems,
+    selectItem,
+    updateItem,
+    removeItem,
+  } = useCharXStore();
   const [exportDialogOpen, setExportDialogOpen] = useState(false);
+  const [exportItem, setExportItem] = useState<CharacterItem | null>(null);
   const isProcessingRef = useRef(false);
+  const realmDownloadTriggeredRef = useRef(false);
 
-  const selectedItem = items.find((item) => item.id === selectedId);
   const parsedData = selectedItem?.parsed ?? null;
+
+  // Get realm param from URL to pre-fill the input (only trigger auto-download once)
+  const realmParam = searchParams.get("realm");
+  const initialRealmId = !realmDownloadTriggeredRef.current
+    ? (realmParam ? parseRealmUUID(realmParam) ?? undefined : undefined)
+    : undefined;
 
   const processQueue = useCallback(async () => {
     if (isProcessingRef.current) return;
@@ -38,61 +63,64 @@ export default function CharXPage() {
 
     isProcessingRef.current = true;
 
-    setItems((prev) =>
-      prev.map((item) =>
-        item.id === pendingItem.id ? { ...item, status: "parsing" as const } : item
-      )
-    );
+    updateItem(pendingItem.id, { status: "parsing" });
 
     try {
       const data = await parseCharXAsync(pendingItem.file);
-      setItems((prev) =>
-        prev.map((item) =>
-          item.id === pendingItem.id
-            ? { ...item, status: "done" as const, parsed: data }
-            : item
-        )
-      );
+      updateItem(pendingItem.id, { status: "done", parsed: data });
     } catch (e) {
       console.error("Failed to parse charx file:", e);
-      setItems((prev) =>
-        prev.map((item) =>
-          item.id === pendingItem.id
-            ? {
-                ...item,
-                status: "error" as const,
-                error: e instanceof Error ? e.message : "Failed to parse file",
-              }
-            : item
-        )
-      );
+      updateItem(pendingItem.id, {
+        status: "error",
+        error: e instanceof Error ? e.message : "Failed to parse file",
+      });
     } finally {
       isProcessingRef.current = false;
     }
-  }, [items]);
+  }, [items, updateItem]);
 
   useEffect(() => {
     void processQueue();
   }, [processQueue]);
 
-  const handleFilesSelect = useCallback((files: File[]) => {
-    const newItems: CharacterItem[] = files.map((file) => ({
-      id: `${file.name}-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
-      file,
-      parsed: null,
-      status: "pending" as const,
-    }));
+  const handleFilesSelect = useCallback(
+    (files: File[]) => {
+      const newItems = addItems(files);
+      if (newItems.length > 0 && !selectedId) {
+        selectItem(newItems[0]!.id);
+      }
+    },
+    [selectedId, addItems, selectItem]
+  );
 
-    setItems((prev) => [...prev, ...newItems]);
+  const handleSelect = useCallback(
+    (id: string) => {
+      selectItem(id);
+    },
+    [selectItem]
+  );
 
-    if (newItems.length > 0 && !selectedId) {
-      setSelectedId(newItems[0]!.id);
-    }
-  }, [selectedId]);
+  const handleShareP2P = useCallback(
+    (item: CharacterItem) => {
+      if (item.file) {
+        setPendingFile(item.file);
+        router.push("/p2p");
+      }
+    },
+    [router]
+  );
 
-  const handleSelect = useCallback((id: string) => {
-    setSelectedId(id);
+  const handleSaveToDatabase = useCallback((item: CharacterItem) => {
+    setExportItem(item);
+    setExportDialogOpen(true);
   }, []);
+
+  const handleDelete = useCallback(
+    (id: string) => {
+      removeItem(id);
+    },
+    [removeItem]
+  );
 
   const categorizedAssets = parsedData ? getCategorizedAssets(parsedData) : null;
   const isLoading = items.some((item) => item.status === "parsing");
@@ -101,27 +129,14 @@ export default function CharXPage() {
     <MainLayout showFooter={false}>
       <div className="container max-w-6xl py-8">
         <div className="mb-8">
-          <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                <FileArchive className="h-5 w-5 text-primary" />
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold">{t("title")}</h1>
-                <p className="text-sm text-muted-foreground">
-                  {t("subtitle")}
-                </p>
-              </div>
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+              <FileArchive className="h-5 w-5 text-primary" />
             </div>
-            {parsedData && parsedData.card && selectedItem?.status === "done" && (
-              <Button
-                onClick={() => setExportDialogOpen(true)}
-                className="gap-2"
-              >
-                <Save className="h-4 w-4" />
-                {t("export.button")}
-              </Button>
-            )}
+            <div>
+              <h1 className="text-2xl font-bold">{t("title")}</h1>
+              <p className="text-sm text-muted-foreground">{t("subtitle")}</p>
+            </div>
           </div>
         </div>
 
@@ -130,6 +145,10 @@ export default function CharXPage() {
             <FileUpload
               onFilesSelect={handleFilesSelect}
               isLoading={isLoading}
+              initialRealmId={initialRealmId}
+              onInitialDownloadTriggered={() => {
+                realmDownloadTriggeredRef.current = true;
+              }}
             />
           )}
 
@@ -138,6 +157,9 @@ export default function CharXPage() {
             selectedId={selectedId}
             onSelect={handleSelect}
             onFilesSelect={handleFilesSelect}
+            onShareP2P={handleShareP2P}
+            onSaveToDatabase={handleSaveToDatabase}
+            onDelete={handleDelete}
           />
 
           {selectedItem?.status === "error" && (
@@ -242,13 +264,16 @@ export default function CharXPage() {
           )}
         </div>
 
-        {parsedData && parsedData.card && (
+        {exportItem?.parsed?.card && (
           <ExportDialog
             open={exportDialogOpen}
-            onOpenChange={setExportDialogOpen}
-            card={parsedData.card}
-            lorebook={parsedData.card.data.character_book ?? null}
-            characterName={parsedData.card.data.name || ""}
+            onOpenChange={(open) => {
+              setExportDialogOpen(open);
+              if (!open) setExportItem(null);
+            }}
+            card={exportItem.parsed.card}
+            lorebook={exportItem.parsed.card.data.character_book ?? null}
+            characterName={exportItem.parsed.card.data.name || ""}
           />
         )}
       </div>

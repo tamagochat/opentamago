@@ -367,10 +367,12 @@ export function CharacterCardDisplay({ card, originalFilename }: CharacterCardDi
       <CardHeader>
         <div className="flex items-start justify-between">
           <div>
-            <CardTitle className="flex items-center gap-2">
-              <User className="h-5 w-5" />
-              {data.name || t("character.unnamedCharacter")}
-              <Badge variant="outline" className="font-normal text-xs">
+            <CardTitle className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
+              <span className="flex items-center gap-2">
+                <User className="h-5 w-5" />
+                {data.name || t("character.unnamedCharacter")}
+              </span>
+              <Badge variant="outline" className="font-normal text-xs w-fit">
                 {card.spec} v{card.spec_version}
               </Badge>
             </CardTitle>
@@ -452,7 +454,7 @@ export function CharacterCardDisplay({ card, originalFilename }: CharacterCardDi
       </CardHeader>
       <CardContent>
         {viewMode === "raw" ? (
-          <ScrollArea className="h-[500px] pr-4">
+          <ScrollArea className="h-[500px] ">
             <JsonViewer
               data={card}
               shouldExpandNode={(level, _value, field) => {
@@ -474,7 +476,7 @@ export function CharacterCardDisplay({ card, originalFilename }: CharacterCardDi
 
           <TabsContent value="basic" className="mt-4">
             <ExpandCollapseButton allExpanded={isAllBasicExpanded} onToggle={toggleAllBasic} expandAllLabel={t("character.expandAll")} collapseAllLabel={t("character.collapseAll")} />
-            <ScrollArea className="h-[400px] pr-4">
+            <ScrollArea className="h-[400px] ">
               <div className="space-y-4">
                 <TextSection
                   title="Description"
@@ -506,7 +508,7 @@ export function CharacterCardDisplay({ card, originalFilename }: CharacterCardDi
 
           <TabsContent value="messages" className="mt-4">
             <ExpandCollapseButton allExpanded={isAllMessagesExpanded} onToggle={toggleAllMessages} expandAllLabel={t("character.expandAll")} collapseAllLabel={t("character.collapseAll")} />
-            <ScrollArea className="h-[400px] pr-4">
+            <ScrollArea className="h-[400px] ">
               <div className="space-y-4">
                 <TextSection
                   title="First Message"
@@ -583,7 +585,7 @@ export function CharacterCardDisplay({ card, originalFilename }: CharacterCardDi
 
           <TabsContent value="prompts" className="mt-4">
             <ExpandCollapseButton allExpanded={isAllPromptsExpanded} onToggle={toggleAllPrompts} expandAllLabel={t("character.expandAll")} collapseAllLabel={t("character.collapseAll")} />
-            <ScrollArea className="h-[400px] pr-4">
+            <ScrollArea className="h-[400px] ">
               <div className="space-y-4">
                 <TextSection
                   title="System Prompt"
@@ -607,7 +609,7 @@ export function CharacterCardDisplay({ card, originalFilename }: CharacterCardDi
 
           <TabsContent value="meta" className="mt-4">
             <ExpandCollapseButton allExpanded={isAllMetaExpanded} onToggle={toggleAllMeta} expandAllLabel={t("character.expandAll")} collapseAllLabel={t("character.collapseAll")} />
-            <ScrollArea className="h-[400px] pr-4">
+            <ScrollArea className="h-[400px] ">
               <div className="space-y-4">
                 <Collapsible open={metaExpanded.specInfo} onOpenChange={(open) => setMetaExpanded((prev) => ({ ...prev, specInfo: open }))}>
                   <CollapsibleTrigger className="flex w-full items-center justify-between rounded-md bg-muted/50 px-3 py-2 hover:bg-muted transition-colors group">

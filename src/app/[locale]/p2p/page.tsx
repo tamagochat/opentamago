@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { Lock, Share2 } from "lucide-react";
 import { Button } from "~/components/ui/button";
@@ -22,6 +22,7 @@ import {
   useUploaderChannel,
   useUploaderConnections,
 } from "~/app/_components/p2p";
+import { consumePendingFile } from "~/lib/stores";
 
 type PageState = "initial" | "confirm" | "sharing";
 
@@ -30,6 +31,18 @@ function P2PContent() {
   const { peer, peerId, isConnecting, error: peerError } = useWebRTCPeer();
   const [state, setState] = useState<PageState>("initial");
   const [file, setFile] = useState<File | null>(null);
+  const [pendingFileConsumed, setPendingFileConsumed] = useState(false);
+
+  // Check for pending file from charx page on mount
+  useEffect(() => {
+    if (pendingFileConsumed) return;
+    const pendingFile = consumePendingFile();
+    if (pendingFile) {
+      setFile(pendingFile);
+      setState("confirm");
+      setPendingFileConsumed(true);
+    }
+  }, [pendingFileConsumed]);
   const [password, setPassword] = useState("");
   const [channel, setChannel] = useState<{
     shortSlug: string;

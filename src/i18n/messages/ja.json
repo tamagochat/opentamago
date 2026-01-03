@@ -112,7 +112,9 @@
         },
         "greetings": "代替挨拶",
         "lorebookEntries": "{count}件のエントリ",
-        "assetsFound": "{count}件のアセットが見つかりました"
+        "assetsFound": "{count}件のアセットが見つかりました",
+        "fileReceived": "ファイルを受信しました",
+        "processing": "処理中..."
       },
       "p2p": {
         "selectFile": "ファイルを選択",
@@ -122,7 +124,10 @@
         "readyToScan": "スキャン準備完了",
         "scanning": "スキャン中...",
         "connecting": "接続中...",
-        "complete": "完了！"
+        "complete": "完了！",
+        "waitingConnection": "待機中...",
+        "connected": "接続済み",
+        "transferred": "転送完了！"
       },
       "connect": {
         "waitingRoom": "待機室",
@@ -165,7 +170,20 @@
       "downloadLink": "<link>realm.risuai.net</link>でキャラクターファイル（.charx）をダウンロード",
       "unsupportedFile": "サポートされていないファイル: {names}。.charxファイルのみサポートされています。",
       "unsupportedFiles": "サポートされていないファイル: {names}。.charxファイルのみサポートされています。",
-      "andMore": " 他{count}件"
+      "andMore": " 他{count}件",
+      "or": "または",
+      "realmPlaceholder": "RisuRealm URLまたはキャラクターIDを貼り付け...",
+      "realmDownload": "ダウンロード",
+      "realmHint": "realm.risuai.net URLまたはキャラクターUUIDに対応（例：https://realm.risuai.net/character/CHARACTER_ID または CHARACTER_ID）",
+      "realmDownloadSuccess": "キャラクターを正常にダウンロードしました！",
+      "realmError": {
+        "INVALID_UUID": "無効なRisuRealm IDまたはURLです",
+        "INVALID_CHARX": "RisuRealmでキャラクターが見つかりません。IDを確認してください。",
+        "FILE_TOO_LARGE": "ファイルが大きすぎます（{size}）。手動でダウンロードしてアップロードしてください。",
+        "DOWNLOAD_FAILED": "RisuRealmからのダウンロードに失敗しました。再試行してください。"
+      },
+      "tryDemo": "デモキャラクターを試す",
+      "demoHint": "サンプルキャラクターを読み込んでビューアーを探索"
     },
     "tabs": {
       "character": "キャラクター",
@@ -190,11 +208,14 @@
       "parsing": "解析中...",
       "dropMore": ".charxファイルをドロップまたはクリックして参照",
       "queue": "待機中",
-      "queued": "キュー"
+      "queued": "キュー",
+      "delete": "削除"
     },
     "assets": {
       "title": "アセット",
       "totalExtracted": "合計{count}個のアセットを抽出",
+      "sort": "並替",
+      "group": "分類",
       "sortAZ": "A-Z順",
       "sortZA": "Z-A順",
       "sortByFilename": "ファイル名で並べ替え",
@@ -303,6 +324,7 @@
       },
       "initializing": "初期化中..."
     },
+    "shareP2P": "P2Pで共有",
     "error": "エラー",
     "warning": "警告",
     "filesExcluded": "サイズ制限（>50MB）により{count}個のファイルが除外されました："

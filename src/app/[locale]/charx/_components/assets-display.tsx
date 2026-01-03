@@ -413,6 +413,7 @@ export function AssetsDisplay({
                 onClick={cycleSortMode}
               >
                 {getSortIcon()}
+                <span className="sm:hidden">{t("assets.sort")}</span>
                 <span className="hidden sm:inline">{getSortLabel()}</span>
               </Button>
               <Button
@@ -422,6 +423,7 @@ export function AssetsDisplay({
                 onClick={() => setGroupByPrefix((prev) => !prev)}
               >
                 <Group className="h-4 w-4" />
+                <span className="sm:hidden">{t("assets.group")}</span>
                 <span className="hidden sm:inline">{t("assets.groupByFilename")}</span>
               </Button>
             </div>
@@ -436,31 +438,31 @@ export function AssetsDisplay({
           ) : (
             <Tabs defaultValue={getActiveTab()} className="w-full">
               <TabsList className="grid w-full grid-cols-4">
-                <TabsTrigger value="emotions" className="gap-1">
-                  <Smile className="h-4 w-4" />
-                  <span className="hidden sm:inline">{t("assets.emotions")}</span>
-                  <Badge variant="secondary" className="ml-1">
+                <TabsTrigger value="emotions" className="gap-1 text-xs sm:text-sm">
+                  <Smile className="hidden sm:block h-4 w-4" />
+                  <span>{t("assets.emotions")}</span>
+                  <Badge variant="secondary" className="hidden sm:inline-flex ml-1">
                     {emotions.length}
                   </Badge>
                 </TabsTrigger>
-                <TabsTrigger value="icons" className="gap-1">
-                  <UserCircle className="h-4 w-4" />
-                  <span className="hidden sm:inline">{t("assets.icons")}</span>
-                  <Badge variant="secondary" className="ml-1">
+                <TabsTrigger value="icons" className="gap-1 text-xs sm:text-sm">
+                  <UserCircle className="hidden sm:block h-4 w-4" />
+                  <span>{t("assets.icons")}</span>
+                  <Badge variant="secondary" className="hidden sm:inline-flex ml-1">
                     {icons.length}
                   </Badge>
                 </TabsTrigger>
-                <TabsTrigger value="backgrounds" className="gap-1">
-                  <Wallpaper className="h-4 w-4" />
-                  <span className="hidden sm:inline">{t("assets.backgrounds")}</span>
-                  <Badge variant="secondary" className="ml-1">
+                <TabsTrigger value="backgrounds" className="gap-1 text-xs sm:text-sm">
+                  <Wallpaper className="hidden sm:block h-4 w-4" />
+                  <span>{t("assets.backgrounds")}</span>
+                  <Badge variant="secondary" className="hidden sm:inline-flex ml-1">
                     {backgrounds.length}
                   </Badge>
                 </TabsTrigger>
-                <TabsTrigger value="other" className="gap-1">
-                  <FolderOpen className="h-4 w-4" />
-                  <span className="hidden sm:inline">{t("assets.other")}</span>
-                  <Badge variant="secondary" className="ml-1">
+                <TabsTrigger value="other" className="gap-1 text-xs sm:text-sm">
+                  <FolderOpen className="hidden sm:block h-4 w-4" />
+                  <span>{t("assets.other")}</span>
+                  <Badge variant="secondary" className="hidden sm:inline-flex ml-1">
                     {other.length}
                   </Badge>
                 </TabsTrigger>
@@ -488,14 +490,7 @@ export function AssetsDisplay({
       <Dialog open={!!selectedAsset} onOpenChange={closeModal}>
         <DialogContent className="max-w-3xl">
           <DialogHeader>
-            <DialogTitle className="flex items-center justify-between pr-8">
-              <span>{selectedAsset?.name}</span>
-              {currentList.length > 1 && (
-                <span className="text-sm font-normal text-muted-foreground">
-                  {currentIndex + 1} / {currentList.length}
-                </span>
-              )}
-            </DialogTitle>
+            <DialogTitle>{selectedAsset?.name}</DialogTitle>
           </DialogHeader>
           {selectedAsset && (
             <div className="relative flex items-center justify-center p-4">
@@ -530,6 +525,12 @@ export function AssetsDisplay({
           {selectedAsset && (
             <div className="flex flex-col gap-3 w-full">
               <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
+                {currentList.length > 1 && (
+                  <>
+                    <span>{currentIndex + 1} / {currentList.length}</span>
+                    <span>•</span>
+                  </>
+                )}
                 <span>{selectedAsset.path}</span>
                 {imageInfo && (
                   <>

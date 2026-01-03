@@ -112,7 +112,9 @@
         },
         "greetings": "alternate greetings",
         "lorebookEntries": "{count} entries",
-        "assetsFound": "{count} assets found"
+        "assetsFound": "{count} assets found",
+        "fileReceived": "File received",
+        "processing": "Processing..."
       },
       "p2p": {
         "selectFile": "Select file",
@@ -122,7 +124,10 @@
         "readyToScan": "Ready to scan",
         "scanning": "Scanning...",
         "connecting": "Connecting...",
-        "complete": "Complete!"
+        "complete": "Complete!",
+        "waitingConnection": "Waiting...",
+        "connected": "Connected",
+        "transferred": "Transferred!"
       },
       "connect": {
         "waitingRoom": "Waiting Room",
@@ -165,7 +170,20 @@
       "downloadLink": "Visit <link>realm.risuai.net</link> to download character files (.charx)",
       "unsupportedFile": "Unsupported file: {names}. Only .charx files are supported.",
       "unsupportedFiles": "Unsupported files: {names}. Only .charx files are supported.",
-      "andMore": " and {count} more"
+      "andMore": " and {count} more",
+      "or": "or",
+      "realmPlaceholder": "Paste RisuRealm URL or character ID...",
+      "realmDownload": "Download",
+      "realmHint": "Supports realm.risuai.net URLs or character UUIDs (e.g., https://realm.risuai.net/character/CHARACTER_ID or CHARACTER_ID)",
+      "realmDownloadSuccess": "Character downloaded successfully!",
+      "realmError": {
+        "INVALID_UUID": "Invalid RisuRealm ID or URL",
+        "INVALID_CHARX": "Character not found on RisuRealm. Please check the ID.",
+        "FILE_TOO_LARGE": "File is too large ({size}). Please download and upload manually.",
+        "DOWNLOAD_FAILED": "Failed to download from RisuRealm. Please try again."
+      },
+      "tryDemo": "Try a Demo Character",
+      "demoHint": "Load a sample character to explore the viewer"
     },
     "tabs": {
       "character": "Character",
@@ -190,11 +208,14 @@
       "parsing": "Parsing...",
       "dropMore": "Drop more .charx files or click to browse",
       "queue": "Queue",
-      "queued": "Queued"
+      "queued": "Queued",
+      "delete": "Delete"
     },
     "assets": {
       "title": "Assets",
       "totalExtracted": "{count} total assets extracted",
+      "sort": "Sort",
+      "group": "Group",
       "sortAZ": "Sorted A-Z",
       "sortZA": "Sorted Z-A",
       "sortByFilename": "Sort by filename",
@@ -303,6 +324,7 @@
       "description": "An unexpected error occurred. Please try refreshing the page.",
       "refreshPage": "Refresh Page"
     },
+    "shareP2P": "Share via P2P",
     "error": "Error",
     "warning": "Warning",
     "filesExcluded": "{count} files were excluded due to size limits (>50MB):"

@@ -2,15 +2,18 @@
 
 import { useState, useCallback } from "react";
 import {
-  LayoutGrid,
-  List,
   Loader2,
   FileArchive,
   AlertCircle,
   FolderOpen,
   Plus,
+  Share2,
+  Save,
+  Trash2,
+  Download,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { toast } from "sonner";
 import { Button } from "~/components/ui/button";
 import {
   Card,
@@ -19,7 +22,6 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
-import { ScrollArea } from "~/components/ui/scroll-area";
 import {
   Tooltip,
   TooltipContent,
@@ -27,26 +29,21 @@ import {
   TooltipTrigger,
 } from "~/components/ui/tooltip";
 import { Badge } from "~/components/ui/badge";
+import { Input } from "~/components/ui/input";
 import { cn } from "~/lib/utils";
-import type { ParsedCharX } from "~/lib/charx";
 import { assetToDataUrl } from "~/lib/charx";
-
-export interface CharacterItem {
-  id: string;
-  file: File;
-  parsed: ParsedCharX | null;
-  status: "pending" | "parsing" | "done" | "error";
-  error?: string;
-}
+import type { CharacterItem } from "~/lib/stores";
+import { parseRealmUUID, downloadFromRealm, RealmDownloadError } from "./file-upload";
 
 interface CharacterListProps {
   items: CharacterItem[];
   selectedId: string | null;
   onSelect: (id: string) => void;
   onFilesSelect: (files: File[]) => void;
+  onShareP2P: (item: CharacterItem) => void;
+  onSaveToDatabase: (item: CharacterItem) => void;
+  onDelete: (id: string) => void;
 }
-
-type ViewMode = "icon" | "list";
 
 function getCharacterAvatar(item: CharacterItem): string | null {
   if (!item.parsed?.assets) return null;
@@ -77,164 +74,194 @@ function getCharacterAvatar(item: CharacterItem): string | null {
   return null;
 }
 
-function CharacterIconView({
+function CharacterCard({
   item,
   isSelected,
   onSelect,
+  onShareP2P,
+  onSaveToDatabase,
+  onDelete,
 }: {
   item: CharacterItem;
   isSelected: boolean;
   onSelect: () => void;
+  onShareP2P: () => void;
+  onSaveToDatabase: () => void;
+  onDelete: () => void;
 }) {
   const t = useTranslations("charx");
   const avatar = getCharacterAvatar(item);
-  const name = item.parsed?.card?.data.name ?? item.file.name.replace(".charx", "");
-
-  return (
-    <div
-      className={cn(
-        "group relative flex flex-col items-center p-2 rounded-lg cursor-pointer transition-colors",
-        "hover:bg-muted/50",
-        isSelected && "bg-primary/10"
-      )}
-      onClick={onSelect}
-    >
-      <div
-        className={cn(
-          "relative w-16 h-16 rounded-lg overflow-hidden bg-muted flex items-center justify-center",
-          isSelected && "ring-2 ring-primary ring-offset-2 ring-offset-background"
-        )}
-      >
-        {item.status === "parsing" ? (
-          <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
-        ) : item.status === "error" ? (
-          <AlertCircle className="h-6 w-6 text-destructive" />
-        ) : avatar ? (
-          <img src={avatar} alt={name} className="w-full h-full object-cover" />
-        ) : (
-          <FileArchive className="h-6 w-6 text-muted-foreground" />
-        )}
-        {item.status === "pending" && (
-          <div className="absolute inset-0 bg-background/50 flex items-center justify-center">
-            <div className="text-xs text-muted-foreground">{t("files.queue")}</div>
-          </div>
-        )}
-      </div>
-
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <p
-              className={cn(
-                "mt-1 text-xs text-center truncate w-full max-w-[80px]",
-                isSelected && "font-medium text-primary"
-              )}
-            >
-              {name}
-            </p>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>{name}</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
-    </div>
-  );
-}
-
-function CharacterListView({
-  item,
-  isSelected,
-  onSelect,
-}: {
-  item: CharacterItem;
-  isSelected: boolean;
-  onSelect: () => void;
-}) {
-  const t = useTranslations("charx");
-  const avatar = getCharacterAvatar(item);
-  const name = item.parsed?.card?.data.name ?? item.file.name.replace(".charx", "");
+  const name =
+    item.parsed?.card?.data.name ?? item.file.name.replace(".charx", "");
   const creator = item.parsed?.card?.data.creator;
   const tags = item.parsed?.card?.data.tags ?? [];
   const lorebookCount = item.parsed?.card?.data.character_book?.entries.length;
   const assetsCount = item.parsed?.assets.size;
+  const isDone = item.status === "done";
+  const hasCard = item.parsed?.card;
 
   return (
     <div
       className={cn(
-        "group flex items-center gap-3 p-2 rounded-lg cursor-pointer transition-colors min-w-0 max-w-full",
-        "hover:bg-muted/50",
-        isSelected && "bg-primary/10"
+        "group relative rounded-xl border bg-card text-card-foreground shadow-sm transition-all hover:shadow-md cursor-pointer overflow-hidden",
+        isSelected && "ring-2 ring-primary ring-offset-2 ring-offset-background"
       )}
       onClick={onSelect}
     >
-      <div
-        className={cn(
-          "relative w-10 h-10 rounded-lg overflow-hidden bg-muted flex-shrink-0 flex items-center justify-center",
-          isSelected && "ring-2 ring-primary ring-offset-1 ring-offset-background"
-        )}
-      >
+      {/* Avatar/Cover */}
+      <div className="relative aspect-square bg-muted flex items-center justify-center overflow-hidden">
         {item.status === "parsing" ? (
-          <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+          <div className="flex flex-col items-center gap-2">
+            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+            <span className="text-xs text-muted-foreground">
+              {t("files.parsing")}
+            </span>
+          </div>
         ) : item.status === "error" ? (
-          <AlertCircle className="h-4 w-4 text-destructive" />
+          <div className="flex flex-col items-center gap-2 p-4 text-center">
+            <AlertCircle className="h-8 w-8 text-destructive" />
+            <span className="text-xs text-destructive line-clamp-2">
+              {item.error || t("error")}
+            </span>
+          </div>
+        ) : item.status === "pending" ? (
+          <div className="flex flex-col items-center gap-2">
+            <FileArchive className="h-8 w-8 text-muted-foreground" />
+            <span className="text-xs text-muted-foreground">
+              {t("files.queued")}
+            </span>
+          </div>
         ) : avatar ? (
-          <img src={avatar} alt={name} className="w-full h-full object-cover" />
+          <img
+            src={avatar}
+            alt={name}
+            className="w-full h-full object-cover"
+          />
         ) : (
-          <FileArchive className="h-4 w-4 text-muted-foreground" />
+          <FileArchive className="h-12 w-12 text-muted-foreground" />
         )}
       </div>
 
-      <div className="flex-1 min-w-0 overflow-hidden">
-        <div className="flex items-center gap-2 min-w-0">
-          <p className={cn("font-medium text-sm truncate block min-w-0 flex-1", isSelected && "text-primary")}>
-            {name}
-          </p>
-          {item.status === "pending" && (
-            <Badge variant="secondary" className="text-xs shrink-0">
-              {t("files.queued")}
-            </Badge>
-          )}
-          {item.status === "error" && (
-            <Badge variant="destructive" className="text-xs shrink-0">
-              {t("error")}
-            </Badge>
+      {/* Content */}
+      <div className="p-3 space-y-2">
+        {/* Name and Creator */}
+        <div className="min-w-0">
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <h3 className="font-semibold text-sm truncate">{name}</h3>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>{name}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          {creator && (
+            <p className="text-xs text-muted-foreground truncate">
+              {t("character.byCreator", { creator })}
+            </p>
           )}
         </div>
-        {creator && (
-          <p className="text-xs text-muted-foreground truncate block">by {creator}</p>
-        )}
+
+        {/* Tags */}
         {tags.length > 0 && (
-          <div className="flex gap-1 mt-1 flex-wrap min-w-0">
-            {tags.slice(0, 3).map((tag) => (
-              <Badge key={tag} variant="outline" className="text-[10px] px-1 py-0 max-w-full truncate">
+          <div className="flex gap-1 flex-wrap">
+            {tags.slice(0, 2).map((tag) => (
+              <Badge
+                key={tag}
+                variant="secondary"
+                className="text-[10px] px-1.5 py-0 truncate max-w-[80px]"
+              >
                 {tag}
               </Badge>
             ))}
-            {tags.length > 3 && (
-              <span className="text-[10px] text-muted-foreground shrink-0">
-                +{tags.length - 3}
-              </span>
+            {tags.length > 2 && (
+              <Badge variant="outline" className="text-[10px] px-1.5 py-0">
+                +{tags.length - 2}
+              </Badge>
             )}
           </div>
         )}
-      </div>
 
-      <div className="text-xs text-muted-foreground text-right flex-shrink-0 min-w-0">
-        <div className="truncate">{(item.file.size / 1024 / 1024).toFixed(1)} MB</div>
-        {item.status === "done" && (lorebookCount !== undefined || assetsCount !== undefined) && (
-          <div className="text-[10px] truncate">
+        {/* Stats */}
+        {isDone && (lorebookCount || assetsCount) && (
+          <div className="flex gap-2 text-[10px] text-muted-foreground">
             {lorebookCount !== undefined && lorebookCount > 0 && (
               <span>{t("character.loreCount", { count: lorebookCount })}</span>
-            )}
-            {lorebookCount !== undefined && lorebookCount > 0 && assetsCount !== undefined && assetsCount > 0 && (
-              <span> · </span>
             )}
             {assetsCount !== undefined && assetsCount > 0 && (
               <span>{t("character.assetsCount", { count: assetsCount })}</span>
             )}
           </div>
         )}
+
+        {/* Action Buttons */}
+        <div className="flex gap-1.5 pt-1">
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="flex-1 h-8 text-xs"
+                  disabled={!isDone || !hasCard}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onShareP2P();
+                  }}
+                >
+                  <Share2 className="h-3.5 w-3.5" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>{t("shareP2P")}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="flex-1 h-8 text-xs"
+                  disabled={!isDone || !hasCard}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onSaveToDatabase();
+                  }}
+                >
+                  <Save className="h-3.5 w-3.5" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>{t("export.button")}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-8 text-xs text-destructive hover:text-destructive hover:bg-destructive/10"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onDelete();
+                  }}
+                >
+                  <Trash2 className="h-3.5 w-3.5" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>{t("files.delete")}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
       </div>
     </div>
   );
@@ -245,10 +272,49 @@ export function CharacterList({
   selectedId,
   onSelect,
   onFilesSelect,
+  onShareP2P,
+  onSaveToDatabase,
+  onDelete,
 }: CharacterListProps) {
   const t = useTranslations("charx");
-  const [viewMode, setViewMode] = useState<ViewMode>("icon");
   const [isDragging, setIsDragging] = useState(false);
+  const [realmInput, setRealmInput] = useState("");
+  const [isDownloading, setIsDownloading] = useState(false);
+
+  const handleRealmDownload = useCallback(async () => {
+    const uuid = parseRealmUUID(realmInput);
+    if (!uuid) {
+      toast.error(t("upload.realmError.INVALID_UUID"));
+      return;
+    }
+
+    setIsDownloading(true);
+
+    try {
+      const file = await downloadFromRealm(uuid);
+      onFilesSelect([file]);
+      setRealmInput("");
+      toast.success(t("upload.realmDownloadSuccess"));
+    } catch (e) {
+      console.error("Failed to download from Realm:", e);
+      if (e instanceof RealmDownloadError) {
+        toast.error(t(`upload.realmError.${e.code}`, { size: e.size ?? "" }));
+      } else {
+        toast.error(t("upload.realmError.DOWNLOAD_FAILED"));
+      }
+    } finally {
+      setIsDownloading(false);
+    }
+  }, [realmInput, onFilesSelect, t]);
+
+  const handleRealmInputKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === "Enter" && !isDownloading) {
+        void handleRealmDownload();
+      }
+    },
+    [handleRealmDownload, isDownloading]
+  );
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -282,9 +348,11 @@ export function CharacterList({
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const files = e.target.files;
       if (files && files.length > 0) {
-        onFilesSelect(Array.from(files).filter((f) =>
-          f.name.toLowerCase().endsWith(".charx")
-        ));
+        onFilesSelect(
+          Array.from(files).filter((f) =>
+            f.name.toLowerCase().endsWith(".charx")
+          )
+        );
       }
       e.target.value = "";
     },
@@ -302,7 +370,7 @@ export function CharacterList({
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
     >
-      <CardHeader>
+      <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
           <div>
             <CardTitle className="flex items-center gap-2">
@@ -319,65 +387,78 @@ export function CharacterList({
               )}
             </CardDescription>
           </div>
-          <div className="flex items-center gap-1 border rounded-md p-0.5">
-            <Button
-              variant={viewMode === "icon" ? "secondary" : "ghost"}
-              size="icon"
-              className="h-7 w-7"
-              onClick={() => setViewMode("icon")}
-            >
-              <LayoutGrid className="h-4 w-4" />
-            </Button>
-            <Button
-              variant={viewMode === "list" ? "secondary" : "ghost"}
-              size="icon"
-              className="h-7 w-7"
-              onClick={() => setViewMode("list")}
-            >
-              <List className="h-4 w-4" />
-            </Button>
-          </div>
         </div>
       </CardHeader>
       <CardContent>
-        <ScrollArea className="h-[200px]">
-          {viewMode === "icon" ? (
-            <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-2">
-              {items.map((item) => (
-                <CharacterIconView
-                  key={item.id}
-                  item={item}
-                  isSelected={selectedId === item.id}
-                  onSelect={() => onSelect(item.id)}
-                />
-              ))}
-            </div>
-          ) : (
-            <div className="space-y-1 min-w-0 max-w-full">
-              {items.map((item) => (
-                <CharacterListView
-                  key={item.id}
-                  item={item}
-                  isSelected={selectedId === item.id}
-                  onSelect={() => onSelect(item.id)}
-                />
-              ))}
-            </div>
-          )}
-        </ScrollArea>
-        <label className="mt-3 flex items-center gap-2 p-2 rounded-md border border-dashed cursor-pointer hover:bg-muted/50 transition-colors">
-          <input
-            type="file"
-            accept=".charx"
-            multiple
-            className="hidden"
-            onChange={handleFileInput}
-          />
-          <Plus className="h-4 w-4 text-muted-foreground" />
-          <span className="text-sm text-muted-foreground">
-            {t("files.dropMore")}
-          </span>
-        </label>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+          {items.map((item) => (
+            <CharacterCard
+              key={item.id}
+              item={item}
+              isSelected={selectedId === item.id}
+              onSelect={() => onSelect(item.id)}
+              onShareP2P={() => onShareP2P(item)}
+              onSaveToDatabase={() => onSaveToDatabase(item)}
+              onDelete={() => onDelete(item.id)}
+            />
+          ))}
+
+          {/* Add More Card */}
+          <label
+            className={cn(
+              "relative rounded-xl border-2 border-dashed bg-muted/30 cursor-pointer transition-colors",
+              "hover:bg-muted/50 hover:border-muted-foreground/30",
+              "flex flex-col items-center justify-center min-h-[200px]"
+            )}
+          >
+            <input
+              type="file"
+              accept=".charx"
+              multiple
+              className="hidden"
+              onChange={handleFileInput}
+            />
+            <Plus className="h-8 w-8 text-muted-foreground mb-2" />
+            <span className="text-sm text-muted-foreground text-center px-2">
+              {t("files.dropMore")}
+            </span>
+          </label>
+        </div>
+
+        {/* Realm ID Input */}
+        <div className="mt-4 space-y-2">
+          <div className="relative flex items-center">
+            <div className="flex-grow border-t border-muted" />
+            <span className="px-3 text-xs text-muted-foreground uppercase">
+              {t("upload.or")}
+            </span>
+            <div className="flex-grow border-t border-muted" />
+          </div>
+
+          <div className="flex gap-2">
+            <Input
+              type="text"
+              placeholder={t("upload.realmPlaceholder")}
+              value={realmInput}
+              onChange={(e) => setRealmInput(e.target.value)}
+              onKeyDown={handleRealmInputKeyDown}
+              disabled={isDownloading}
+              className="flex-1"
+            />
+            <Button
+              onClick={handleRealmDownload}
+              disabled={isDownloading || !realmInput.trim()}
+              className="gap-2"
+            >
+              {isDownloading ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <Download className="h-4 w-4" />
+              )}
+              {t("upload.realmDownload")}
+            </Button>
+          </div>
+        </div>
       </CardContent>
     </Card>
   );

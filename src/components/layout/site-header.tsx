@@ -64,9 +64,7 @@ export function SiteHeader() {
         </div>
 
         <div className="flex items-center gap-2">
-          <div className="hidden sm:block">
-            <LocaleSwitcher />
-          </div>
+          <LocaleSwitcher />
           {mounted ? (
             <ThemeToggle />
           ) : (
@@ -103,9 +101,6 @@ export function SiteHeader() {
                   );
                 })}
               </nav>
-              <div className="mt-4 px-4">
-                <LocaleSwitcher />
-              </div>
             </SheetContent>
           </Sheet>
         </div>

@@ -129,7 +129,7 @@ export function P2pSharingDemo() {
               animate={{
                 scale: state === "selecting" ? 1.05 : 1,
               }}
-              className="relative flex h-28 w-20 flex-col items-center justify-center rounded-xl border-2 border-muted-foreground/30 bg-background/80 shadow-lg sm:h-36 sm:w-24"
+              className="relative flex h-36 w-24 flex-col items-center justify-center rounded-xl border-2 border-muted-foreground/30 bg-background/80 shadow-lg sm:h-44 sm:w-28"
             >
               {/* Device notch */}
               <div className="absolute top-1 h-1 w-6 rounded-full bg-muted-foreground/30 sm:top-1.5 sm:w-8" />
@@ -225,7 +225,43 @@ export function P2pSharingDemo() {
 
           {/* Connection Animation */}
           <div className="flex flex-col items-center gap-1">
-            <div className="flex items-center gap-1 sm:gap-2">
+            {/* Connection status */}
+            <AnimatePresence mode="wait">
+              {!isConnected && state !== "idle" && (
+                <motion.span
+                  key="waiting"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="text-[8px] text-muted-foreground sm:text-[10px]"
+                >
+                  {t("demo.p2p.waitingConnection")}
+                </motion.span>
+              )}
+              {isConnected && state !== "complete" && (
+                <motion.span
+                  key="connected"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="text-[8px] font-medium text-green-600 sm:text-[10px]"
+                >
+                  {t("demo.p2p.connected")}
+                </motion.span>
+              )}
+              {state === "complete" && (
+                <motion.span
+                  key="transferred"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="text-[8px] font-medium text-green-600 sm:text-[10px]"
+                >
+                  {t("demo.p2p.transferred")}
+                </motion.span>
+              )}
+            </AnimatePresence>
+
+            <div className="relative flex items-center gap-1 sm:gap-2">
               <motion.div
                 animate={{
                   opacity: isConnected ? 1 : 0.3,
@@ -239,14 +275,14 @@ export function P2pSharingDemo() {
               </motion.div>
 
               {/* Data packets animation */}
-              <div className="relative h-0.5 w-8 overflow-hidden rounded bg-muted-foreground/20 sm:w-12">
+              <div className="relative h-1 w-12 overflow-hidden rounded-full bg-muted-foreground/20 sm:w-16">
                 <AnimatePresence>
                   {state === "downloading" && (
                     <motion.div
                       initial={{ x: "-100%" }}
                       animate={{ x: "100%" }}
                       transition={{ repeat: Infinity, duration: 0.8, ease: "linear" }}
-                      className="absolute inset-y-0 left-0 w-4 bg-gradient-to-r from-transparent via-primary to-transparent"
+                      className="absolute inset-y-0 left-0 w-6 bg-gradient-to-r from-transparent via-primary to-transparent"
                     />
                   )}
                 </AnimatePresence>
@@ -263,14 +299,40 @@ export function P2pSharingDemo() {
               >
                 <Wifi className="h-3 w-3 text-primary sm:h-4 sm:w-4" />
               </motion.div>
+
+              {/* Flying file animation */}
+              <AnimatePresence>
+                {state === "downloading" && (
+                  <motion.div
+                    initial={{ x: -40, opacity: 0, scale: 0.5 }}
+                    animate={{
+                      x: [null, 0, 40],
+                      opacity: [0, 1, 0],
+                      scale: [0.5, 1, 0.5],
+                    }}
+                    transition={{
+                      repeat: Infinity,
+                      duration: 1.5,
+                      ease: "easeInOut",
+                      times: [0, 0.5, 1]
+                    }}
+                    className="pointer-events-none absolute left-1/2 -translate-x-1/2"
+                  >
+                    <div className="rounded bg-primary/10 p-1">
+                      <FileArchive className="h-3 w-3 text-primary sm:h-4 sm:w-4" />
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
+
             <AnimatePresence>
               {state === "downloading" && (
                 <motion.span
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="text-[10px] text-primary sm:text-xs"
+                  className="text-[10px] font-medium text-primary sm:text-xs"
                 >
                   {progress}%
                 </motion.span>
@@ -284,7 +346,7 @@ export function P2pSharingDemo() {
               animate={{
                 scale: state === "scanning" ? 1.05 : 1,
               }}
-              className="relative flex h-28 w-20 flex-col items-center justify-center rounded-xl border-2 border-muted-foreground/30 bg-background/80 shadow-lg sm:h-36 sm:w-24"
+              className="relative flex h-36 w-24 flex-col items-center justify-center rounded-xl border-2 border-muted-foreground/30 bg-background/80 shadow-lg sm:h-44 sm:w-28"
             >
               {/* Device notch */}
               <div className="absolute top-1 h-1 w-6 rounded-full bg-muted-foreground/30 sm:top-1.5 sm:w-8" />

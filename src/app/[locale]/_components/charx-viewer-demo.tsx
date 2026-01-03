@@ -14,7 +14,7 @@ import { useTranslations } from "next-intl";
 import { Card } from "~/components/ui/card";
 import { Badge } from "~/components/ui/badge";
 
-type DemoState = "idle" | "dragging" | "dropped" | "viewing";
+type DemoState = "idle" | "dragging" | "dropped" | "processing" | "viewing";
 
 interface DemoTab {
   id: string;
@@ -76,8 +76,13 @@ export function CharxViewerDemo() {
       if (cancelled) return;
       setState("dropped");
 
-      // Processing pause
-      await new Promise((r) => setTimeout(r, 1200));
+      // Processing state - show loading
+      await new Promise((r) => setTimeout(r, 800));
+      if (cancelled) return;
+      setState("processing");
+
+      // Processing animation
+      await new Promise((r) => setTimeout(r, 1500));
       if (cancelled) return;
       setState("viewing");
 
@@ -189,7 +194,57 @@ export function CharxViewerDemo() {
             </motion.div>
           )}
 
-          {(state === "dropped" || state === "viewing") && (
+          {state === "dropped" && (
+            <motion.div
+              key="dropped"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.4 }}
+              className="flex h-full items-center justify-center"
+            >
+              <motion.div
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ type: "spring", damping: 15 }}
+                className="flex flex-col items-center gap-2"
+              >
+                <motion.div
+                  animate={{ scale: [1, 1.05, 1] }}
+                  transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+                  className="rounded-xl bg-primary/10 p-4"
+                >
+                  <FileArchive className="h-10 w-10 text-primary sm:h-12 sm:w-12" />
+                </motion.div>
+                <div className="text-center">
+                  <p className="text-sm font-medium sm:text-base">{DEMO_CHARACTER.name}.charx</p>
+                  <p className="text-xs text-muted-foreground">{t("demo.charx.fileReceived")}</p>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+
+          {state === "processing" && (
+            <motion.div
+              key="processing"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.4 }}
+              className="flex h-full items-center justify-center"
+            >
+              <div className="flex flex-col items-center gap-3">
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ repeat: Infinity, duration: 1.2, ease: "linear" }}
+                  className="h-8 w-8 rounded-full border-3 border-primary border-t-transparent sm:h-10 sm:w-10"
+                />
+                <p className="text-sm text-muted-foreground sm:text-base">{t("demo.charx.processing")}</p>
+              </div>
+            </motion.div>
+          )}
+
+          {state === "viewing" && (
             <motion.div
               key="content"
               initial={{ opacity: 0, scale: 0.95 }}

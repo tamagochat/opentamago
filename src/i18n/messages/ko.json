@@ -112,7 +112,9 @@
         },
         "greetings": "대체 인사",
         "lorebookEntries": "{count}개 항목",
-        "assetsFound": "{count}개 에셋 발견"
+        "assetsFound": "{count}개 에셋 발견",
+        "fileReceived": "파일 수신됨",
+        "processing": "처리 중..."
       },
       "p2p": {
         "selectFile": "파일 선택",
@@ -122,7 +124,10 @@
         "readyToScan": "스캔 준비 완료",
         "scanning": "스캔 중...",
         "connecting": "연결 중...",
-        "complete": "완료!"
+        "complete": "완료!",
+        "waitingConnection": "대기 중...",
+        "connected": "연결됨",
+        "transferred": "전송 완료!"
       },
       "connect": {
         "waitingRoom": "대기실",
@@ -165,7 +170,20 @@
       "downloadLink": "<link>realm.risuai.net</link>에서 캐릭터 파일(.charx)을 다운로드하세요",
       "unsupportedFile": "지원되지 않는 파일: {names}. .charx 파일만 지원됩니다.",
       "unsupportedFiles": "지원되지 않는 파일: {names}. .charx 파일만 지원됩니다.",
-      "andMore": " 외 {count}개"
+      "andMore": " 외 {count}개",
+      "or": "또는",
+      "realmPlaceholder": "RisuRealm URL 또는 캐릭터 ID를 붙여넣으세요...",
+      "realmDownload": "다운로드",
+      "realmHint": "realm.risuai.net URL 또는 캐릭터 UUID 지원 (예: https://realm.risuai.net/character/CHARACTER_ID 또는 CHARACTER_ID)",
+      "realmDownloadSuccess": "캐릭터를 성공적으로 다운로드했습니다!",
+      "realmError": {
+        "INVALID_UUID": "잘못된 RisuRealm ID 또는 URL입니다",
+        "INVALID_CHARX": "RisuRealm에서 캐릭터를 찾을 수 없습니다. ID를 확인해주세요.",
+        "FILE_TOO_LARGE": "파일이 너무 큽니다 ({size}). 직접 다운로드하여 업로드해주세요.",
+        "DOWNLOAD_FAILED": "RisuRealm에서 다운로드하지 못했습니다. 다시 시도해주세요."
+      },
+      "tryDemo": "데모 캐릭터 체험하기",
+      "demoHint": "샘플 캐릭터를 로드하여 뷰어를 탐색하세요"
     },
     "tabs": {
       "character": "캐릭터",
@@ -190,11 +208,14 @@
       "parsing": "파싱 중...",
       "dropMore": ".charx 파일을 더 드롭하거나 클릭하여 찾아보기",
       "queue": "대기 중",
-      "queued": "대기열"
+      "queued": "대기열",
+      "delete": "삭제"
     },
     "assets": {
       "title": "에셋",
       "totalExtracted": "총 {count}개의 에셋 추출됨",
+      "sort": "정렬",
+      "group": "그룹",
       "sortAZ": "A-Z 정렬",
       "sortZA": "Z-A 정렬",
       "sortByFilename": "파일명으로 정렬",
@@ -303,6 +324,7 @@
       },
       "initializing": "초기화 중..."
     },
+    "shareP2P": "P2P로 공유",
     "error": "오류",
     "warning": "경고",
     "filesExcluded": "크기 제한(>50MB)으로 인해 {count}개의 파일이 제외되었습니다:"
