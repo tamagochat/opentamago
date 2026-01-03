@@ -1,11 +1,11 @@
 {
   "common": {
     "appName": "OpenTamago",
-    "tagline": "オープンソースAIキャラクター",
+    "tagline": "オープンソース AIキャラビューアー＆共有",
     "loading": "読み込み中...",
-    "error": "問題が発生しました",
-    "retry": "再試行",
-    "comingSoon": "近日公開"
+    "error": "おっと、何かうまくいかなかったみたい",
+    "retry": "もう一度試す",
+    "comingSoon": "もうすぐ登場"
   },
   "actions": {
     "save": "保存",
@@ -19,89 +19,90 @@
   },
   "home": {
     "hero": {
-      "title": "あなたのAIキャラクター",
-      "titleHighlight": "コンパニオン",
-      "description": "AIキャラクターを作成、閲覧、会話しましょう。キャラクターカード管理とAI会話のためのオープンソースプラットフォームです。"
+      "title": "あなただけのAIキャラクター",
+      "titleHighlight": "フレンド",
+      "description": "AIキャラクターを見て、共有して、おしゃべりしよう。CharXビューアーからP2PベースのCharX共有まで、全部無料のオープンソースだよ。"
     },
     "cta": {
       "openViewer": "CharXビューアーを開く",
       "viewGithub": "GitHubで見る",
       "tryViewer": "CharXビューアーを試す",
       "startSharing": "共有を始める",
-      "startConnect": "セッションを開始"
+      "startConnect": "セッションを始める",
+      "p2pLabel": "P2P機能"
     },
     "features": {
-      "title": "必要なすべてが揃っています",
-      "description": "AIキャラクター愛好家のための完全なツールキット",
+      "title": "全部そろってるよ",
+      "description": "AIキャラ好きのためのオールインワンツールキット",
       "charxViewer": {
         "title": "CharXビューアー",
-        "description": "CharXファイルからキャラクターカード、ロアブック、アセットを確認できます。すべてがブラウザ上でローカルに実行されます。"
+        "description": "CharXファイルの中身をまるごとチェック。キャラクターカード、ロアブック、画像も全部ブラウザで見れるよ。"
       },
       "p2pSharing": {
         "title": "P2P CharX共有",
-        "description": "P2P技術を使用して他のユーザーとキャラクターファイルを直接共有できます。サーバーへのアップロードなしで即座に転送されます。"
+        "description": "P2Pでキャラクターファイルを直接やり取り。サーバーを通さずすぐ転送！"
       },
       "connect": {
-        "title": "マルチキャラクターチャット",
-        "description": "複数のAIキャラクターとチャットセッションを作成。友達を招待してキャラクター同士を交流させましょう。"
+        "title": "P2P マルチキャラチャット",
+        "description": "複数のAIキャラクターとチャットルームを作ろう。友達も招待して、キャラクター同士の会話も楽しめるよ。"
       }
     },
     "showcase": {
       "badge": "CharXビューアー",
-      "title": "キャラクターファイルを簡単に確認",
+      "title": "キャラクターファイルを簡単チェック",
       "dragDrop": {
-        "title": "ドラッグ＆ドロップアップロード",
-        "description": ".charxファイルをドロップするだけで即座に内容を確認できます"
+        "title": "ドラッグ＆ドロップ",
+        "description": ".charxファイルを落とすだけですぐ中身が見れるよ"
       },
       "cardInfo": {
-        "title": "完全なカード情報",
-        "description": "キャラクターの詳細、システムプロンプト、挨拶などを確認できます"
+        "title": "キャラクター情報が一目でわかる",
+        "description": "キャラクター設定、ロアブック、画像まで全部確認できるよ"
       },
       "clientSide": {
-        "title": "100%クライアントサイド",
-        "description": "ファイルがブラウザから離れることはありません - 完全なプライバシーを保証"
+        "title": "100%ローカル処理",
+        "description": "ファイルはサーバーに送られないよ。プライバシーばっちり！"
       },
       "dropzone": {
         "title": ".charxファイルをここにドロップ",
-        "subtitle": "またはクリックして参照"
+        "subtitle": "またはクリックして選択"
       }
     },
     "p2pShowcase": {
-      "badge": "P2P共有",
-      "title": "キャラクターを即座に共有",
+      "badge": "P2P CharX共有",
+      "title": "キャラクターカードをすぐ共有",
       "sender": "あなた",
       "receivers": "フレンド",
-      "directTransfer": "ブラウザ間の直接転送",
+      "directTransfer": "ブラウザ同士で直接転送",
       "qrCode": {
-        "title": "QRコード & 共有リンク",
-        "description": "モバイル転送用のQRコードと共有リンクを生成"
+        "title": "QRコード＆共有リンク",
+        "description": "QRコードやリンクでモバイルからも簡単に受け取れるよ"
       },
       "webrtc": {
         "title": "WebRTC直接転送",
-        "description": "ファイルはブラウザ間で直接転送 - サーバー保存なし"
+        "description": "サーバー保存なしでブラウザ同士直接ファイルをやり取り"
       },
       "password": {
-        "title": "パスワード保護オプション",
-        "description": "必要に応じてパスワードで共有を保護"
+        "title": "パスワード保護",
+        "description": "必要なら共有をパスワードで守れるよ"
       }
     },
     "highlights": {
       "privacy": {
-        "title": "プライバシー最優先",
-        "description": "データはデバイスに残ります。CharXファイルは完全にブラウザ内で処理されます。"
+        "title": "100%ローカル処理",
+        "description": "CharXファイルをブラウザですぐ開ける。データがデバイスを離れることはないよ。"
       },
       "fast": {
-        "title": "超高速",
-        "description": "即座の読み込みとスムーズなインタラクションのための最新のWeb技術で構築されています。"
+        "title": "ダイレクトP2P接続",
+        "description": "友達とファイル共有もチャットも直接つながる！サーバーを通さないよ。"
       },
       "openSource": {
         "title": "オープンソース",
-        "description": "完全に透明なコードベース。監査、貢献、ニーズに合わせたカスタマイズが可能です。"
+        "description": "コードは全部公開。貢献して、カスタマイズして、自分だけのバージョンを作ろう。"
       }
     },
     "ready": {
-      "title": "始める準備はできましたか？",
-      "description": "プライバシー重視のビューアーでキャラクターファイルをすぐに探索しましょう。"
+      "title": "始める準備はできた？",
+      "description": "プライバシーを守りながらキャラクターファイルを探検しよう。"
     },
     "demo": {
       "charx": {
@@ -110,10 +111,10 @@
           "lorebook": "ロアブック",
           "assets": "アセット"
         },
-        "greetings": "代替挨拶",
+        "greetings": "挨拶バリエーション",
         "lorebookEntries": "{count}件のエントリ",
-        "assetsFound": "{count}件のアセットが見つかりました",
-        "fileReceived": "ファイルを受信しました",
+        "assetsFound": "{count}件のアセット",
+        "fileReceived": "ファイル受信",
         "processing": "処理中..."
       },
       "p2p": {
@@ -121,7 +122,7 @@
         "generating": "作成中...",
         "scanToJoin": "スキャンして参加",
         "waiting": "待機中...",
-        "readyToScan": "スキャン準備完了",
+        "readyToScan": "スキャン準備OK",
         "scanning": "スキャン中...",
         "connecting": "接続中...",
         "complete": "完了！",
@@ -131,59 +132,61 @@
       },
       "connect": {
         "waitingRoom": "待機室",
-        "participants": "人が参加",
+        "participants": "参加者",
         "chat": "チャット",
-        "message1": "みんな！チャットの準備はできた？",
-        "message2": "やろう！",
-        "aiReply": "皆さんに会えて嬉しいです！",
+        "p2pBadge": "P2P接続中",
+        "message1": "やあ！チャットの準備できた？",
+        "message2": "始めよう！",
+        "aiReply": "みんなに会えてうれしいな！",
         "inputPlaceholder": "メッセージを入力..."
       }
     },
     "connectShowcase": {
-      "badge": "マルチキャラクターチャット",
-      "title": "複数のキャラクターとチャット",
-      "description": "複数のAIキャラクターが互いに交流できるセッションを作成します。ロールプレイシナリオや共同ストーリーテリングに最適です。",
+      "badge": "P2Pコネクト",
+      "poweredBy": "自分のキャラで参加",
+      "title": "あなたのAIと友達のAIをつなげよう",
+      "description": "自分のAIキャラでチャットルームを作って、友達を招待しよう。違うAI同士がリアルタイムでおしゃべりする様子、きっと楽しいよ！",
       "realtime": {
-        "title": "リアルタイムチャット",
-        "description": "P2P技術を使用して全参加者間で即座にメッセージを配信"
+        "title": "P2Pチャット",
+        "description": "ブラウザ同士で直接つながる。サーバーなしで友達とすぐ話せるよ。"
       },
       "aiPowered": {
         "title": "AI自動返信",
-        "description": "キャラクターがAIを使用して自動返信し、動的な会話を作成"
+        "description": "それぞれのキャラが自分の個性で返事するよ"
       },
       "multiParty": {
-        "title": "最大8キャラクター",
-        "description": "QRコードやリンクで友達を招待してキャラクターと参加"
+        "title": "最大8人まで",
+        "description": "QRコードやリンクで友達を招待しよう"
       }
     }
   },
   "charx": {
     "title": "CharXビューアー",
-    "subtitle": "キャラクターカード、ロアブック、アセットを確認 — ブラウザで完全に動作します",
+    "subtitle": "キャラクターカード、ロアブック、アセットをチェック。ブラウザでそのまま動くよ！",
     "upload": {
       "title": "CharXファイルをアップロード",
-      "description": ".charxファイルをドラッグ＆ドロップするか、クリックして参照してください",
+      "description": ".charxファイルをドラッグ＆ドロップ、またはクリックして選択",
       "dropHere": "ここにファイルをドロップ",
-      "invalidFile": "有効な.charxファイルをアップロードしてください",
+      "invalidFile": ".charxファイルだけアップロードできるよ",
       "dropFiles": ".charxファイルをここにドロップ",
-      "browseMultiple": "またはクリックしてファイルを参照（複数選択可）",
-      "downloadLink": "<link>realm.risuai.net</link>でキャラクターファイル（.charx）をダウンロード",
-      "unsupportedFile": "サポートされていないファイル: {names}。.charxファイルのみサポートされています。",
-      "unsupportedFiles": "サポートされていないファイル: {names}。.charxファイルのみサポートされています。",
+      "browseMultiple": "またはクリックして選択（複数もOK）",
+      "downloadLink": "<link>realm.risuai.net</link>でキャラクターファイル（.charx）をゲットできるよ",
+      "unsupportedFile": "対応してないファイルだよ: {names}。.charxファイルだけOK。",
+      "unsupportedFiles": "対応してないファイルだよ: {names}。.charxファイルだけOK。",
       "andMore": " 他{count}件",
       "or": "または",
-      "realmPlaceholder": "RisuRealm URLまたはキャラクターIDを貼り付け...",
+      "realmPlaceholder": "RisuRealm URLかキャラクターIDを貼り付けて...",
       "realmDownload": "ダウンロード",
-      "realmHint": "realm.risuai.net URLまたはキャラクターUUIDに対応（例：https://realm.risuai.net/character/CHARACTER_ID または CHARACTER_ID）",
-      "realmDownloadSuccess": "キャラクターを正常にダウンロードしました！",
+      "realmHint": "realm.risuai.net URLやキャラクターUUIDに対応",
+      "realmDownloadSuccess": "キャラクターのダウンロード完了！",
       "realmError": {
-        "INVALID_UUID": "無効なRisuRealm IDまたはURLです",
-        "INVALID_CHARX": "RisuRealmでキャラクターが見つかりません。IDを確認してください。",
-        "FILE_TOO_LARGE": "ファイルが大きすぎます（{size}）。手動でダウンロードしてアップロードしてください。",
-        "DOWNLOAD_FAILED": "RisuRealmからのダウンロードに失敗しました。再試行してください。"
+        "INVALID_UUID": "RisuRealm IDかURLが間違ってるみたい",
+        "INVALID_CHARX": "RisuRealmでキャラクターが見つからないよ。IDを確認してね。",
+        "FILE_TOO_LARGE": "ファイルが大きすぎるよ（{size}）。手動でダウンロードしてアップロードしてね。",
+        "DOWNLOAD_FAILED": "RisuRealmからダウンロードできなかった。もう一度試してね。"
       },
-      "tryDemo": "デモキャラクターを試す",
-      "demoHint": "サンプルキャラクターを読み込んでビューアーを探索"
+      "tryDemo": "デモキャラを試す",
+      "demoHint": "サンプルキャラでビューアーを体験してみて"
     },
     "tabs": {
       "character": "キャラクター",
@@ -192,33 +195,33 @@
       "module": "モジュール"
     },
     "empty": {
-      "noCharacterCard": "キャラクターカードが見つかりません",
-      "noLorebook": "ロアブックが見つかりません",
-      "noModule": "モジュールが見つかりません",
-      "noAssets": "このカテゴリにアセットがありません",
-      "noAssetsInFile": "このキャラクターファイルにアセットが見つかりません",
-      "noModuleContent": "モジュールコンテンツが見つかりません",
+      "noCharacterCard": "キャラクターカードがないよ",
+      "noLorebook": "ロアブックがないよ",
+      "noModule": "モジュールがないよ",
+      "noAssets": "このカテゴリにアセットがないよ",
+      "noAssetsInFile": "このファイルにアセットがないよ",
+      "noModuleContent": "モジュールの内容がないよ",
       "noTriggerScripts": "トリガースクリプトなし",
       "noRegexScripts": "正規表現スクリプトなし",
       "noCommonJSCode": "CommonJSコードなし"
     },
     "files": {
       "title": "ファイル",
-      "loaded": "{count}個のファイル（.charx）がロードされました",
+      "loaded": "{count}個のファイルをロード",
       "parsing": "解析中...",
-      "dropMore": ".charxファイルをドロップまたはクリックして参照",
-      "queue": "待機中",
-      "queued": "キュー",
+      "dropMore": ".charxファイルを追加、またはクリック",
+      "queue": "キュー",
+      "queued": "待機中",
       "delete": "削除"
     },
     "assets": {
       "title": "アセット",
-      "totalExtracted": "合計{count}個のアセットを抽出",
+      "totalExtracted": "合計{count}個のアセット",
       "sort": "並替",
       "group": "分類",
       "sortAZ": "A-Z順",
       "sortZA": "Z-A順",
-      "sortByFilename": "ファイル名で並べ替え",
+      "sortByFilename": "ファイル名順",
       "groupByFilename": "ファイル名でグループ化",
       "emotions": "感情",
       "icons": "アイコン",
@@ -241,7 +244,7 @@
     },
     "character": {
       "unnamedCharacter": "名前のないキャラクター",
-      "byCreator": "{creator} 作成",
+      "byCreator": "{creator}",
       "tabs": {
         "basic": "基本",
         "messages": "メッセージ",
@@ -260,13 +263,13 @@
       "created": "作成日",
       "modified": "更新日",
       "empty": "空",
-      "loreCount": "{count}件のロアブック",
-      "assetsCount": "{count}件のアセット"
+      "loreCount": "ロアブック{count}件",
+      "assetsCount": "アセット{count}件"
     },
     "lorebook": {
       "title": "キャラクターロアブック",
       "entries": "{count}件のエントリ",
-      "noEntries": "ロアブックのエントリがありません",
+      "noEntries": "ロアブックのエントリがないよ",
       "enabled": "有効",
       "disabled": "無効",
       "priority": "優先度",
@@ -275,83 +278,83 @@
       "moreKeysPrefix": "+"
     },
     "toast": {
-      "copiedToClipboard": "クリップボードにコピーしました",
-      "failedToCopy": "コピーに失敗しました",
+      "copiedToClipboard": "コピー完了！",
+      "failedToCopy": "コピーに失敗",
       "fileSaved": "ファイルを保存しました",
-      "lorebookCopied": "ロアブックJSONをコピーしました",
-      "characterCopied": "キャラクターJSONをコピーしました",
-      "couldNotCopy": "クリップボードにコピーできませんでした"
+      "lorebookCopied": "ロアブックJSONをコピー完了！",
+      "characterCopied": "キャラクターJSONをコピー完了！",
+      "couldNotCopy": "クリップボードにコピーできなかった"
     },
     "errorBoundary": {
-      "title": "問題が発生しました",
-      "description": "予期しないエラーが発生しました。ページを更新してください。",
-      "refreshPage": "ページを更新"
+      "title": "おっと、問題が起きたみたい",
+      "description": "予期しないエラーが発生したよ。ページを更新してね。",
+      "refreshPage": "更新する"
     },
     "export": {
       "button": "データベースに保存",
       "title": "キャラクターをデータベースに保存",
-      "description": "このキャラクターとロアブックをローカルデータベースに保存して、チャットから簡単にアクセスできます。",
+      "description": "このキャラクターとロアブックをローカルに保存すると、チャットですぐ呼び出せるよ。",
       "character": {
         "title": "キャラクター",
         "unnamed": "名前なし",
-        "description": "名前、説明、性格、メッセージを含むキャラクターカードデータです。",
-        "moreTags": "さらに表示"
+        "description": "名前、説明、性格、メッセージなどのキャラクターカード情報だよ。",
+        "moreTags": "もっと見る"
       },
       "lorebook": {
         "title": "ロアブック",
         "entries": "件のエントリ",
-        "description": "ロアブックのエントリは、チャット中のコンテキスト注入のために保存されます。",
-        "noLorebook": "このキャラクターファイルにロアブックが見つかりません。"
+        "description": "チャット中にコンテキストとして使われるロアブックエントリだよ。",
+        "noLorebook": "このキャラクターファイルにはロアブックがないよ。"
       },
-      "info": "保存後、チャットページからこのキャラクターとの会話を開始できます。",
+      "info": "保存すると、チャットページですぐ会話を始められるよ。",
       "infoMessages": {
-        "databaseReady": "データベースの準備が整いました。キャラクターを保存できます。"
+        "databaseReady": "データベース準備OK！これで保存できるよ。"
       },
       "save": "保存",
       "cancel": "キャンセル",
       "saving": "保存中...",
       "loading": "読み込み中...",
       "success": {
-        "title": "キャラクターの保存に成功しました",
-        "description": "{name}がデータベースに保存されました。",
-        "goToChat": "チャットに移動"
+        "title": "保存完了！",
+        "description": "{name}をデータベースに保存したよ。",
+        "goToChat": "チャットへ行く"
       },
       "error": {
-        "title": "キャラクターの保存に失敗しました",
-        "description": "保存中にエラーが発生しました。もう一度お試しください。",
-        "databaseNotReady": "データベースの準備が整っていません。しばらく待ってからもう一度お試しください。",
-        "databaseInitFailed": "データベースの初期化に失敗しました。ページを更新してもう一度お試しください。"
+        "title": "保存に失敗",
+        "description": "保存中にエラーが起きたよ。もう一度試してね。",
+        "databaseNotReady": "データベースがまだ準備できてないよ。少し待ってからもう一度試してね。",
+        "databaseInitFailed": "データベースを開始できなかった。ページを更新してもう一度試してね。"
       },
-      "initializing": "初期化中..."
+      "initializing": "起動中..."
     },
     "shareP2P": "P2Pで共有",
     "error": "エラー",
-    "warning": "警告",
-    "filesExcluded": "サイズ制限（>50MB）により{count}個のファイルが除外されました："
+    "warning": "注意",
+    "filesExcluded": "サイズ制限（50MB超）で{count}個のファイルが除外されたよ："
   },
   "errors": {
     "notFound": {
       "title": "404",
-      "heading": "ページが見つかりません",
-      "description": "お探しのページは存在しないか、移動されました。",
+      "heading": "ページが見つからないよ",
+      "description": "探してるページが存在しないか、移動されたみたい。",
       "goHome": "ホームに戻る",
       "openCharxViewer": "CharXビューアー"
     },
     "generic": {
-      "title": "問題が発生しました",
-      "description": "予期しないエラーが発生しました。もう一度お試しいただくか、ホームページに戻ってください。",
-      "retry": "再試行",
+      "title": "おっと、何かうまくいかなかった",
+      "description": "予期しないエラーが発生したよ。もう一度試すか、ホームに戻ってね。",
+      "retry": "もう一度試す",
       "goHome": "ホームに戻る"
     },
     "charx": {
       "title": "CharXビューアーエラー",
-      "description": "CharXビューアーの読み込み中に問題が発生しました。ファイルが破損しているか、ブラウザの互換性の問題である可能性があります。",
-      "retry": "再試行",
+      "description": "CharXビューアーの読み込み中に問題が起きたよ。ファイルが壊れてるか、ブラウザの互換性の問題かも。",
+      "retry": "もう一度試す",
       "goHome": "ホームに戻る"
     }
   },
   "footer": {
-    "description": "オープンソースAIキャラクタープラットフォーム。AIキャラクターを作成、共有、交流しましょう。",
+    "description": "オープンソースAIキャラクタープラットフォーム。AIキャラクターを見て、共有して、おしゃべりしよう。",
     "product": "製品",
     "resources": "リソース",
     "documentation": "ドキュメント",
@@ -365,53 +368,59 @@
     "charxViewer": "CharXビューアー",
     "p2pShare": "P2P共有",
     "chat": "チャット",
-    "connect": "コネクト",
+    "connect": "P2Pコネクト",
+    "howItWorks": "使い方",
     "github": "GitHub",
     "toggleMenu": "メニューを切り替え",
-    "navigationMenu": "ナビゲーションメニュー"
+    "navigationMenu": "メニュー"
   },
   "p2p": {
     "title": "P2P CharX共有",
-    "subtitle": "他のユーザーとキャラクターファイルを直接共有できます。ファイルはP2Pで転送され、サーバーを経由しません。",
-    "privacyNote": "ファイルはWebRTCを使用してブラウザ間で直接転送されます。サーバーにファイルは保存されません。",
-    "confirmTitle": "共有の準備完了",
-    "confirmSubtitle": "ファイルを確認し、必要に応じてパスワードを設定してください。",
+    "subtitle": "キャラクターファイルを友達に直接送ろう。P2Pだからサーバーを通らないよ。",
+    "privacyNote": "WebRTCでブラウザ同士直接転送。ファイルはサーバーに保存されないよ。",
+    "confirmTitle": "共有の準備OK",
+    "confirmSubtitle": "ファイルを確認して、必要ならパスワードを設定してね。",
     "passwordLabel": "パスワード（任意）",
-    "passwordPlaceholder": "ファイルを保護するパスワードを入力...",
-    "passwordHint": "パスワード保護なしで共有する場合は空欄のままにしてください。",
+    "passwordPlaceholder": "パスワードを入力...",
+    "passwordHint": "パスワードなしで共有するなら空欄のままでOK。",
     "cancel": "キャンセル",
     "start": "共有を開始",
     "connecting": "接続中...",
     "sharingTitle": "ファイルを共有中",
-    "sharingSubtitle": "このタブを開いたままにしてください。以下のリンクを他の人と共有してダウンロードできるようにします。",
+    "sharingSubtitle": "このタブを開いたままにしてね。下のリンクを共有すると他の人がダウンロードできるよ。",
     "stopSharing": "共有を停止",
-    "stopSharingConfirm": "本当に共有を停止しますか？",
-    "stopSharingDescription": "進行中のすべてのダウンロードが中断されます。",
-    "confirmStop": "はい、共有を停止",
-    "sharingWarning": "ページを離れたり更新したりすると、P2P共有が切断されます。このタブを開いたままにしてください。",
+    "stopSharingConfirm": "本当に共有を停止する？",
+    "stopSharingDescription": "進行中のダウンロードが全部中断されるよ。",
+    "confirmStop": "うん、停止する",
+    "sharingWarning": "ページを離れたり更新したりすると共有が切れるよ。このタブは開いたままにしてね。",
+    "dropzone": {
+      "dropHere": "ここにファイルをドロップ",
+      "dropToShare": ".charxファイルを共有するためにドロップ",
+      "orClickToBrowse": "またはクリックして選択"
+    },
     "download": {
       "title": "CharXファイルをダウンロード",
       "connecting": "アップローダーに接続中...",
-      "connectionFailed": "アップローダーに接続できませんでした。ブラウザを閉じた可能性があります。",
-      "notFound": "共有リンクが見つからないか期限切れです",
-      "notFoundDescription": "お探しのファイルは利用できなくなりました。アップローダーが共有を停止した可能性があります。",
-      "passwordRequired": "このファイルはパスワードで保護されています",
+      "connectionFailed": "アップローダーに接続できなかった。ブラウザを閉じたかも。",
+      "notFound": "共有リンクが見つからないか期限切れ",
+      "notFoundDescription": "探してるファイルはもうないみたい。アップローダーが共有を停止したかも。",
+      "passwordRequired": "このファイルはパスワードで保護されてるよ",
       "passwordPlaceholder": "パスワードを入力...",
-      "passwordError": "パスワードが間違っています。もう一度お試しください。",
+      "passwordError": "パスワードが違うよ。もう一度試してね。",
       "submit": "送信",
-      "readyTitle": "ダウンロードの準備完了",
-      "readyDescription": "下のボタンをクリックしてダウンロードを開始してください。",
-      "startDownload": "ファイルをダウンロード",
+      "readyTitle": "ダウンロード準備OK",
+      "readyDescription": "下のボタンを押してダウンロードしてね。",
+      "startDownload": "ダウンロード",
       "downloading": "ダウンロード中...",
-      "complete": "ダウンロード完了",
-      "completeDescription": "ファイルが正常にダウンロードされました。",
-      "charxDetected": "キャラクターファイルが検出されました",
-      "charxDescription": "ワンクリックでこのキャラクターとロアブックをデータベースに保存できます。",
+      "complete": "ダウンロード完了！",
+      "completeDescription": "ファイルを正常に受け取ったよ。",
+      "charxDetected": "キャラクターファイルだよ！",
+      "charxDescription": "このキャラクターとロアブックをワンクリックでデータベースに保存できるよ。",
       "saveToDatabase": "データベースに保存",
-      "downloadAnother": "別のファイルをダウンロード",
-      "goHome": "ホームに戻る",
-      "troubleshooting": "時間がかかっていますか？アップローダーがファイアウォールの背後にいるか、ブラウザを閉じた可能性があります。",
-      "sharePrompt": "他の人とCharXを共有しませんか？",
+      "downloadAnother": "別のファイルを受け取る",
+      "goHome": "ホームへ",
+      "troubleshooting": "時間がかかってる？アップローダーがファイアウォールの向こうにいるか、ブラウザを閉じたかも。",
+      "sharePrompt": "自分もCharXを共有したい？",
       "startSharing": "共有を始める"
     }
   },
@@ -424,59 +433,59 @@
   "chat": {
     "leftPanel": {
       "create": "作成",
-      "createCharacter": "キャラクター作成",
+      "createCharacter": "キャラを作る",
       "importCharx": ".charxをインポート",
-      "createPersona": "ペルソナ作成",
-      "noCharacters": "まだキャラクターがありません。",
-      "createOne": "作成する",
+      "createPersona": "ペルソナを作る",
+      "noCharacters": "まだキャラクターがいないよ。",
+      "createOne": "作ってみる",
       "noDescription": "説明なし",
       "characters": "キャラクター",
       "chats": "チャット",
       "recentChats": "最近のチャット",
       "newChat": "新しいチャット",
-      "noChats": "まだチャットがありません。",
-      "startOne": "始める",
+      "noChats": "まだチャットがないよ。",
+      "startOne": "始めてみる",
       "yesterday": "昨日",
-      "deleteChat": "このチャットを削除しますか？",
-      "deleteCharacter": "「{name}」を削除しますか？関連するすべてのチャットも削除されます。",
-      "importComingSoon": "インポート機能は近日公開予定です！"
+      "deleteChat": "このチャットを削除する？",
+      "deleteCharacter": "「{name}」を削除する？関連するチャットも全部消えるよ。",
+      "importComingSoon": "インポート機能、もうすぐ登場！"
     },
     "centerPanel": {
-      "selectCharacter": "キャラクターとチャットを選択して開始",
-      "createFromLeft": "または左パネルから新しいキャラクターを作成",
-      "apiKeyRequired": "APIキーが必要です",
-      "configureApiKey": "チャットを開始するにはGemini APIキーを設定してください。",
+      "selectCharacter": "キャラクターとチャットを選んで始めよう",
+      "createFromLeft": "または左側で新しいキャラを作ってみて",
+      "apiKeyRequired": "APIキーが必要だよ",
+      "configureApiKey": "チャットを始めるにはGemini APIキーを設定してね。",
       "openSettings": "設定を開く",
       "clearChat": "チャットをクリア",
       "thinking": "考え中...",
       "messagePlaceholder": "{name}にメッセージ...",
-      "clearAllMessages": "このチャットのすべてのメッセージをクリアしますか？"
+      "clearAllMessages": "このチャットのメッセージを全部消す？"
     },
     "rightPanel": {
-      "selectCharacter": "キャラクターを選択して詳細を表示",
-      "characterDetails": "キャラクター詳細",
+      "selectCharacter": "キャラクターを選んで詳細を見よう",
+      "characterDetails": "キャラクター情報",
       "personality": "性格",
       "scenario": "シナリオ",
       "firstMessage": "最初のメッセージ",
       "exampleDialogue": "例文",
       "systemPrompt": "システムプロンプト",
-      "noPersonaDetails": "ペルソナの詳細が設定されていません。",
+      "noPersonaDetails": "ペルソナの詳細が設定されてないよ。",
       "creatorNotes": "作成者メモ",
       "created": "作成日",
       "lastUpdated": "最終更新",
       "persona": "ペルソナ",
       "info": "情報",
-      "deleteCharacter": "「{name}」を削除しますか？関連するすべてのチャットも削除され、元に戻せません。"
+      "deleteCharacter": "「{name}」を削除する？関連するチャットも全部消えて、元に戻せないよ。"
     },
     "editor": {
-      "editCharacter": "キャラクター編集",
-      "createCharacter": "キャラクター作成",
-      "editPersona": "ペルソナ編集",
-      "createPersona": "ペルソナ作成",
-      "modifyPersona": "ペルソナの詳細を変更します。",
-      "createPersonaDesc": "チャットで自分を表すペルソナを作成します。",
-      "modifyCharacter": "キャラクターの詳細を変更します。",
-      "createCharacterDesc": "会話する新しいキャラクターを作成します。",
+      "editCharacter": "キャラを編集",
+      "createCharacter": "キャラを作る",
+      "editPersona": "ペルソナを編集",
+      "createPersona": "ペルソナを作る",
+      "modifyPersona": "ペルソナの詳細を変更しよう。",
+      "createPersonaDesc": "チャットで自分を表すペルソナを作ろう。",
+      "modifyCharacter": "キャラクターの詳細を変更しよう。",
+      "createCharacterDesc": "おしゃべりする新しいキャラを作ろう。",
       "uploadAvatar": "アバターをアップロード",
       "avatarHint": "PNG、JPG 最大2MB",
       "basic": "基本",
@@ -488,36 +497,36 @@
       "yourName": "あなたの名前",
       "characterName": "キャラクター名",
       "description": "説明",
-      "descriptionPersona": "自分についての簡単な説明",
-      "descriptionCharacter": "キャラクターについての簡単な説明",
+      "descriptionPersona": "自分についての簡単な紹介",
+      "descriptionCharacter": "キャラクターについての簡単な紹介",
       "firstMessage": "最初のメッセージ",
       "firstMessagePlaceholder": "キャラクターが送る最初のメッセージ",
       "personality": "性格",
       "aboutMe": "自己紹介",
-      "personalityPersona": "自分自身、興味、コミュニケーション方法を説明してください...",
-      "personalityCharacter": "性格特性、行動、癖を説明してください...",
+      "personalityPersona": "自分のこと、趣味、話し方などを書いてみて...",
+      "personalityCharacter": "性格、習慣、特徴などを書いてみて...",
       "scenario": "シナリオ",
-      "scenarioPlaceholder": "会話の設定や背景",
+      "scenarioPlaceholder": "会話の背景や状況",
       "exampleDialogue": "例文",
-      "exampleDialoguePlaceholder": "雰囲気を設定する例文...",
+      "exampleDialoguePlaceholder": "雰囲気を作る例文...",
       "systemPrompt": "システムプロンプト",
       "systemPromptPlaceholder": "カスタムシステムプロンプト（デフォルトを上書き）",
       "creatorNotes": "作成者メモ",
       "privateNotes": "プライベートメモ",
-      "notesPlaceholder": "プライベートメモ（AIには送信されません）",
+      "notesPlaceholder": "プライベートメモ（AIには送られないよ）",
       "saving": "保存中...",
-      "saveChanges": "変更を保存"
+      "saveChanges": "保存する"
     },
     "settings": {
       "title": "設定",
-      "description": "API設定を構成します。設定はローカルに保存されます。",
+      "description": "API設定をしてね。設定はローカルに保存されるよ。",
       "general": "一般",
-      "safety": "安全性",
+      "safety": "安全",
       "apiMode": "APIモード",
       "apiModeServer": "サーバーAPI",
-      "apiModeServerDesc": "サーバーのAPIキーを使用",
+      "apiModeServerDesc": "サーバーのAPIキーを使う",
       "apiModeClient": "あなたのAPIキー",
-      "apiModeClientDesc": "より高いプライバシー",
+      "apiModeClientDesc": "もっと安全",
       "geminiApiKey": "Gemini APIキー",
       "enterApiKey": "Gemini APIキーを入力",
       "getApiKey": "APIキーの取得:",
@@ -526,10 +535,10 @@
       "selectModel": "モデルを選択",
       "temperature": "温度",
       "maxTokens": "最大トークン",
-      "safetyDescription": "コンテンツ安全フィルターを構成します。デフォルトでは、制限のないロールプレイのためにすべてのフィルターがオフになっています。",
+      "safetyDescription": "コンテンツ安全フィルターを設定してね。デフォルトでは全部オフで、自由にロールプレイできるよ。",
       "hateSpeech": "ヘイトスピーチ",
       "harassment": "ハラスメント",
-      "sexuallyExplicit": "性的に露骨なコンテンツ",
+      "sexuallyExplicit": "性的なコンテンツ",
       "dangerousContent": "危険なコンテンツ",
       "blockNone": "ブロックなし",
       "blockLow": "低以上をブロック",
@@ -540,61 +549,59 @@
   },
   "connect": {
     "meta": {
-      "title": "コネクト - マルチキャラクターチャット",
-      "description": "AIキャラクター同士が会話できるセッションを作成"
+      "title": "P2P マルチキャラチャット",
+      "description": "AIキャラクター同士がおしゃべりするセッションを作ろう"
     },
-    "title": "コネクト",
-    "subtitle": "マルチキャラクターチャットセッションを作成",
+    "title": "P2P マルチキャラチャット",
+    "subtitle": "複数のAIキャラと一緒におしゃべりしよう。P2Pだからサーバーを通さないよ。",
     "tabs": {
-      "existing": "マイキャラクター",
+      "existing": "マイキャラ",
       "upload": ".charxをアップロード",
       "photo": "写真から"
     },
-    "noCharacters": "キャラクターが見つかりません。",
-    "createInChat": "チャットで作成",
+    "noCharacters": "キャラクターがいないよ。",
+    "createInChat": "チャットで作る",
     "upload": {
-      "title": "キャラクターファイルをアップロード",
-      "description": "キャラクターデータを含む.charx、.json、または.pngファイルをアップロード",
-      "selectFile": "ファイルを選択",
-      "formats": ".charx、.json、.pngに対応"
+      "title": "CharXファイルをアップロード",
+      "description": ".charxファイルをドロップまたはクリックして選択"
     },
     "photo": {
       "dropTitle": "写真をアップロード",
-      "dropDescription": "画像をドロップまたはクリックして選択。AIが画像からキャラクターを生成します。",
+      "dropDescription": "画像をドロップまたはクリックして選択。AIが画像からキャラを作るよ。",
       "selectFile": "画像を選択",
-      "invalidType": "画像ファイルを選択してください（PNG、JPG、WebP、またはGIF）",
-      "tooLarge": "画像が大きすぎます。最大サイズは10MBです。",
-      "contextLabel": "追加コンテキスト（任意）",
+      "invalidType": "画像ファイルを選んでね（PNG、JPG、WebP、GIF）",
+      "tooLarge": "画像が大きすぎるよ。最大10MBまでOK。",
+      "contextLabel": "ヒント（任意）",
       "contextPlaceholder": "例：「ファンタジーの戦士」や「フレンドリーにして」",
-      "contextHint": "キャラクター生成のヒントを追加",
-      "generating": "キャラクターを生成中...",
-      "generate": "キャラクターを生成",
-      "generated": "{name}が作成されました！",
-      "generateError": "キャラクターの生成に失敗しました。もう一度お試しください。",
-      "noApiKey": "まず設定でGemini APIキーを設定してください。",
-      "apiKeyRequired": "APIキーが必要",
-      "apiKeyDescription": "写真からキャラクターを生成するには、設定でGemini APIキーを設定する必要があります。",
-      "goToSettings": "設定へ移動"
+      "contextHint": "キャラ作成のヒントを書いてみて",
+      "generating": "キャラを作成中...",
+      "generate": "キャラを作成",
+      "generated": "{name}を作成完了！",
+      "generateError": "キャラ作成に失敗したよ。もう一度試してね。",
+      "noApiKey": "まず設定でGemini APIキーを設定してね。",
+      "apiKeyRequired": "APIキーが必要だよ",
+      "apiKeyDescription": "写真からキャラを作るには、設定でGemini APIキーを設定してね。",
+      "goToSettings": "設定へ行く"
     },
     "creating": "セッションを作成中...",
     "joining": "セッションに参加中...",
     "lobby": {
       "title": "待機室",
-      "hostDescription": "下のリンクを共有して他の人を招待",
-      "guestDescription": "ホストがチャットを開始するのを待っています",
+      "hostDescription": "下のリンクを共有して友達を招待しよう",
+      "guestDescription": "ホストがチャットを始めるのを待ってね",
       "shortUrl": "短いURL",
       "longUrl": "長いURL",
-      "copied": "リンクをコピーしました！",
+      "copied": "リンクをコピー完了！",
       "copyFailed": "リンクのコピーに失敗",
       "participants": "参加者",
       "you": "あなた",
       "host": "ホスト",
       "connecting": "接続中...",
-      "selectingCharacter": "キャラクターを選択中...",
-      "waitingForOthers": "他の参加者を待っています...",
+      "selectingCharacter": "キャラを選択中...",
+      "waitingForOthers": "他の人を待ってるよ...",
       "leave": "退出",
-      "startChat": "チャットを開始",
-      "needMoreParticipants": "開始するには2人以上の参加者が必要です"
+      "startChat": "チャットを始める",
+      "needMoreParticipants": "始めるには2人以上必要だよ"
     },
     "chat": {
       "title": "チャット",
@@ -602,41 +609,150 @@
       "active": "アクティブ",
       "pending": "待機中",
       "autoReply": "自動返信",
-      "noMessages": "まだメッセージがありません。何か言ってみましょう！",
+      "noMessages": "まだメッセージがないよ。何か言ってみて！",
       "unknown": "不明",
       "generating": "考え中...",
       "thinking": "{name}が考え中...",
       "placeholder": "{name}としてメッセージ...",
-      "userJoined": "{name}がチャットに参加しました",
-      "userLeft": "{name}がチャットを退出しました"
+      "userJoined": "{name}が入ってきたよ",
+      "userLeft": "{name}が退出したよ"
     },
     "join": {
       "meta": {
         "title": "セッションに参加",
-        "description": "マルチキャラクターチャットセッションに参加"
+        "description": "マルチキャラチャットセッションに参加しよう"
       },
       "title": "セッションに参加",
-      "subtitle": "チャットに参加するキャラクターを選択",
-      "currentParticipants": "セッションには既に{count}人が参加しています"
+      "subtitle": "チャットに参加するキャラを選んでね",
+      "currentParticipants": "今{count}人が参加中だよ"
     },
     "notifications": {
-      "joined": "{name}がチャットに参加しました",
-      "left": "{name}がチャットを退出しました"
+      "joined": "{name}が入ってきたよ",
+      "left": "{name}が退出したよ"
     },
     "status": {
       "connecting": "接続中...",
       "connected": "接続済み",
+      "connectedInfo": "P2Pセッションに接続する準備ができたよ",
       "disconnected": "切断されました"
     },
     "errors": {
-      "noPeer": "ネットワーク接続に失敗しました。ページを更新して再試行してください。",
-      "hostLeft": "ホストがセッションを終了しました",
-      "sessionFull": "セッションが満員です",
-      "sessionFullDescription": "このセッションは参加者の上限に達しました。",
-      "createOwn": "自分のセッションを作成",
-      "connectionFailed": "接続に失敗しました",
-      "connectionFailedDescription": "セッションに接続できませんでした。ホストが退出したか、ネットワークの問題があります。",
-      "tryAgain": "再試行"
+      "noPeer": "ネットワーク接続に失敗したよ。ページを更新してもう一度試してね。",
+      "hostLeft": "ホストがセッションを終了したよ",
+      "sessionFull": "セッションが満員だよ",
+      "sessionFullDescription": "このセッションは最大人数に達したよ。",
+      "createOwn": "自分のセッションを作る",
+      "connectionFailed": "接続に失敗",
+      "connectionFailedDescription": "セッションに接続できなかった。ホストが退出したか、ネットワークの問題があるかも。",
+      "tryAgain": "もう一度試す"
+    }
+  },
+  "howItWorks": {
+    "meta": {
+      "title": "使い方 | OpenTamago",
+      "description": "CharXビューアー、P2P共有、P2P マルチキャラチャットの使い方を学ぼう"
+    },
+    "hero": {
+      "title": "使い方",
+      "description": "OpenTamagoでAIキャラを見て、共有して、おしゃべりする方法を学ぼう"
+    },
+    "tryNow": "今すぐ試す",
+    "charx": {
+      "title": "CharXビューアー",
+      "description": "ブラウザでCharXキャラクターファイルをすぐ開けるよ。全部ローカル処理だからプライバシーばっちり。",
+      "steps": {
+        "upload": {
+          "title": "ファイルをアップロード",
+          "description": ".charxファイルをドラッグ＆ドロップまたはクリック"
+        },
+        "view": {
+          "title": "キャラを見る",
+          "description": "キャラクター情報、性格、挨拶を確認"
+        },
+        "lorebook": {
+          "title": "ロアブックを探索",
+          "description": "キーワードトリガー付きのエントリを見る"
+        },
+        "assets": {
+          "title": "アセットを見る",
+          "description": "感情表現やアバターなどの画像を確認"
+        }
+      },
+      "highlights": {
+        "privacy": "100%ローカル処理",
+        "formats": ".charxと.jsonファイルに対応",
+        "export": "ローカルDBにキャラを保存"
+      }
+    },
+    "p2pShare": {
+      "title": "P2P共有",
+      "description": "P2Pでファイルを直接共有。サーバーにファイルは保存されないよ。",
+      "steps": {
+        "select": {
+          "title": "ファイルを選択",
+          "description": "共有するファイルを選ぶ"
+        },
+        "generate": {
+          "title": "リンクを生成",
+          "description": "QRコードと共有リンクをゲット"
+        },
+        "transfer": {
+          "title": "直接転送",
+          "description": "WebRTCでファイルを直接転送"
+        },
+        "receive": {
+          "title": "ダウンロード",
+          "description": "相手が直接ダウンロード"
+        }
+      },
+      "highlights": {
+        "noServer": "サーバー保存なし",
+        "password": "パスワード保護可能",
+        "qrCode": "モバイル用QRコード"
+      }
+    },
+    "p2pConnect": {
+      "title": "P2P マルチキャラチャット",
+      "description": "マルチキャラチャットセッションを作ろう。友達を招待してAIキャラ同士をおしゃべりさせよう。",
+      "steps": {
+        "select": {
+          "title": "キャラを選択",
+          "description": "ライブラリから選ぶか新しく作る"
+        },
+        "invite": {
+          "title": "友達を招待",
+          "description": "リンクやQRコードで招待"
+        },
+        "chat": {
+          "title": "チャット開始",
+          "description": "キャラとしてメッセージを送る"
+        },
+        "ai": {
+          "title": "AI返信",
+          "description": "自動返信でAIが代わりに返事"
+        }
+      },
+      "highlights": {
+        "realtime": "リアルタイムP2Pメッセージ",
+        "multiParty": "セッション最大8キャラ",
+        "autoReply": "AI自動返信"
+      }
+    },
+    "privacy": {
+      "title": "プライバシー最優先",
+      "description": "OpenTamagoの全機能はプライバシーを最優先に設計。データはデバイスを離れないよ。",
+      "noServer": {
+        "title": "サーバー保存なし",
+        "description": "ファイルはサーバーにアップロードされない。全部ブラウザで処理されるよ。"
+      },
+      "encrypted": {
+        "title": "暗号化転送",
+        "description": "P2P接続は暗号化内蔵のWebRTCを使ってるよ。"
+      },
+      "openSource": {
+        "title": "オープンソース",
+        "description": "全コード公開中。GitHubで確認できるよ。"
+      }
     }
   }
 }

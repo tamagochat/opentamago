@@ -93,7 +93,14 @@ function P2PContent() {
   if (state === "initial") {
     return (
       <div className="space-y-6">
-        <DropZone onFileSelect={handleFileSelect} />
+        <DropZone
+          onFileSelect={handleFileSelect}
+          translations={{
+            dropHere: t("dropzone.dropHere"),
+            dropToShare: t("dropzone.dropToShare"),
+            orClickToBrowse: t("dropzone.orClickToBrowse"),
+          }}
+        />
 
         <p className="text-center text-sm text-muted-foreground">
           {t("privacyNote")}

@@ -24,8 +24,8 @@ export function SiteHeader() {
 
   const navigation = [
     { name: t("charxViewer"), href: "/charx" as const, icon: FileArchive },
-    { name: t("p2pShare"), href: "/p2p" as const, icon: Share2 },
-    { name: t("connect"), href: "/connect" as const, icon: Users },
+    { name: t("p2pShare"), href: "/p2p/share" as const, icon: Share2 },
+    { name: t("connect"), href: "/p2p/connect" as const, icon: Users },
   ];
 
   useEffect(() => {

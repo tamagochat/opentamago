@@ -20,8 +20,8 @@ export function ShareLinks({ shortSlug, longSlug }: ShareLinksProps) {
   const [copiedLong, setCopiedLong] = useState(false);
 
   const baseUrl = typeof window !== "undefined" ? window.location.origin : "";
-  const shortUrl = `${baseUrl}/p2p/${shortSlug}`;
-  const longUrl = `${baseUrl}/p2p/${longSlug}`;
+  const shortUrl = `${baseUrl}/p2p/share/${shortSlug}`;
+  const longUrl = `${baseUrl}/p2p/share/${longSlug}`;
 
   const copyToClipboard = useCallback(
     async (text: string, type: "short" | "long") => {

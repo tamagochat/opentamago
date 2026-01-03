@@ -104,7 +104,7 @@ export default function CharXPage() {
     (item: CharacterItem) => {
       if (item.file) {
         setPendingFile(item.file);
-        router.push("/p2p");
+        router.push("/p2p/share");
       }
     },
     [router]

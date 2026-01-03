@@ -2,7 +2,12 @@
 
 import { useState, useCallback, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
-import { Loader2, Wifi, WifiOff, Users } from "lucide-react";
+import { Loader2, Wifi, WifiOff, Users, Info } from "lucide-react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "~/components/ui/popover";
 import { toast } from "sonner";
 import { MainLayout } from "~/components/layout";
 import { WebRTCProvider, useWebRTCPeer } from "~/app/_components/p2p/webrtc-provider";
@@ -227,6 +232,16 @@ function ConnectPageContent() {
         <>
           <Wifi className="h-4 w-4" />
           {t("status.connected")}
+          <Popover>
+            <PopoverTrigger asChild>
+              <button className="ml-1 hover:opacity-70 transition-opacity">
+                <Info className="h-3.5 w-3.5" />
+              </button>
+            </PopoverTrigger>
+            <PopoverContent side="top" className="w-auto text-sm">
+              {t("status.connectedInfo")}
+            </PopoverContent>
+          </Popover>
         </>
       )}
     </div>

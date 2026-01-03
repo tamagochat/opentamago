@@ -7,6 +7,11 @@ import { Toaster } from "sonner";
 import { Analytics } from "@vercel/analytics/next";
 import { ThemeProvider } from "~/components/theme-provider";
 import { TRPCReactProvider } from "~/trpc/react";
+import {
+  WebApplicationJsonLd,
+  OrganizationJsonLd,
+  WebsiteJsonLd,
+} from "~/components/seo/json-ld";
 
 export const metadata: Metadata = {
   title: {
@@ -14,38 +19,61 @@ export const metadata: Metadata = {
     template: "%s | OpenTamago",
   },
   description:
-    "Open-source platform for AI character creation, viewing, and chat. View CharX files, create custom characters, and have conversations with AI.",
+    "Open-source platform for AI character viewing and sharing. View CharX files, share characters via P2P, and chat with AI characters.",
   keywords: [
     "AI character",
     "CharX",
     "character chat",
     "AI roleplay",
-    "character creator",
+    "character viewer",
     "open source",
     "RisuAI",
+    "P2P sharing",
   ],
   authors: [{ name: "OpenTamago" }],
   creator: "OpenTamago",
   metadataBase: new URL("https://opentamago.com"),
+  alternates: {
+    canonical: "https://opentamago.com",
+    languages: {
+      en: "https://opentamago.com",
+      ko: "https://opentamago.com/ko",
+      ja: "https://opentamago.com/ja",
+      "x-default": "https://opentamago.com",
+    },
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
     siteName: "OpenTamago",
     title: "OpenTamago - AI Character Chat Platform",
     description:
-      "Open-source platform for AI character creation, viewing, and chat. View CharX files, create custom characters, and have conversations with AI.",
+      "Open-source platform for AI character viewing and sharing. View CharX files, share characters via P2P, and chat with AI.",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "OpenTamago - AI Character Viewer & Sharing",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "OpenTamago - AI Character Chat Platform",
     description:
-      "Open-source platform for AI character creation, viewing, and chat.",
+      "Open-source platform for AI character viewing and sharing.",
+    images: ["/og-image.png"],
   },
   robots: {
     index: true,
     follow: true,
   },
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+  icons: [
+    { rel: "icon", url: "/favicon.ico" },
+    { rel: "apple-touch-icon", url: "/apple-touch-icon.png" },
+  ],
+  manifest: "/manifest.json",
 };
 
 const geist = Geist({
@@ -58,6 +86,11 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${geist.variable}`} suppressHydrationWarning>
+      <head>
+        <WebApplicationJsonLd />
+        <OrganizationJsonLd />
+        <WebsiteJsonLd />
+      </head>
       <body>
         <ThemeProvider
           attribute="class"

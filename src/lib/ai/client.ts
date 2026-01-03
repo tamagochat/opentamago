@@ -1,7 +1,7 @@
 "use client";
 
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
-import { streamText, generateObject } from "ai";
+import { streamText, generateText, generateObject } from "ai";
 import { z } from "zod";
 import {
   DEFAULT_MODEL,
@@ -9,6 +9,7 @@ import {
   toGeminiSafetySettings,
   type SafetySettings,
 } from "./index";
+import { createProxyAI } from "./proxy";
 
 export interface ChatMessage {
   role: "user" | "assistant" | "system";
@@ -82,6 +83,19 @@ const characterSchema = z.object({
 });
 
 /**
+ * Get the appropriate AI provider based on mode
+ * - Client mode with API key: Direct Google AI
+ * - Proxy mode (no API key): Routes through server proxy
+ */
+function getAIProvider(apiKey?: string, isClientMode?: boolean) {
+  if (isClientMode && apiKey) {
+    return createGoogleGenerativeAI({ apiKey });
+  }
+  // Use proxy mode - routes through /api/ai/proxy which injects server's API key
+  return createProxyAI();
+}
+
+/**
  * Non-streaming chat API - returns complete response
  * Use this for auto-reply to ensure full response before broadcasting
  */
@@ -98,54 +112,29 @@ export async function generateChatResponse(
     isClientMode,
   } = options;
 
-  if (isClientMode && apiKey) {
-    // Client mode: call Gemini directly
-    const google = createGoogleGenerativeAI({ apiKey });
-    const geminiSafetySettings = safetySettings
-      ? toGeminiSafetySettings(safetySettings)
-      : [...DEFAULT_SAFETY_SETTINGS_ARRAY];
+  const google = getAIProvider(apiKey, isClientMode);
+  const geminiSafetySettings = safetySettings
+    ? toGeminiSafetySettings(safetySettings)
+    : [...DEFAULT_SAFETY_SETTINGS_ARRAY];
 
-    const { generateText } = await import("ai");
-    const result = await generateText({
-      model: google(model),
-      messages,
-      temperature,
-      maxOutputTokens: maxTokens,
-      providerOptions: {
-        google: {
-          safetySettings: geminiSafetySettings,
-        },
+  const result = await generateText({
+    model: google(model),
+    messages,
+    temperature,
+    maxOutputTokens: maxTokens,
+    providerOptions: {
+      google: {
+        safetySettings: geminiSafetySettings,
       },
-    });
+    },
+  });
 
-    return result.text;
-  } else {
-    // Server mode: call our non-streaming API
-    const response = await fetch("/api/chat/generate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        messages,
-        ...(apiKey && { apiKey }),
-        model,
-        temperature,
-        maxTokens,
-        safetySettings,
-      }),
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(errorText || `Request failed: ${response.status}`);
-    }
-
-    const data = await response.json() as { text: string };
-    return data.text;
-  }
+  return result.text;
 }
 
 /**
- * Call chat API - either directly to Gemini (client mode) or through server
+ * Streaming chat API - yields chunks as they arrive
+ * Use this for real-time chat responses
  */
 export async function* streamChatResponse(
   options: ChatOptions
@@ -161,107 +150,57 @@ export async function* streamChatResponse(
     signal,
   } = options;
 
-  if (isClientMode && apiKey) {
-    // Client mode: call Gemini directly
-    const google = createGoogleGenerativeAI({ apiKey });
-    const geminiSafetySettings = safetySettings
-      ? toGeminiSafetySettings(safetySettings)
-      : [...DEFAULT_SAFETY_SETTINGS_ARRAY];
+  const google = getAIProvider(apiKey, isClientMode);
+  const geminiSafetySettings = safetySettings
+    ? toGeminiSafetySettings(safetySettings)
+    : [...DEFAULT_SAFETY_SETTINGS_ARRAY];
 
-    const result = streamText({
-      model: google(model),
-      messages,
-      temperature,
-      maxOutputTokens: maxTokens,
-      providerOptions: {
-        google: {
-          safetySettings: geminiSafetySettings,
-        },
+  const result = streamText({
+    model: google(model),
+    messages,
+    temperature,
+    maxOutputTokens: maxTokens,
+    providerOptions: {
+      google: {
+        safetySettings: geminiSafetySettings,
       },
-      abortSignal: signal,
-    });
+    },
+    abortSignal: signal,
+  });
 
-    // Collect all chunks to ensure complete response
-    const chunks: string[] = [];
-    for await (const chunk of result.textStream) {
-      chunks.push(chunk);
-      yield chunk;
-    }
-
-    // Wait for the stream to fully complete
-    await result.text;
-
-    return chunks.join("");
-  } else {
-    // Server mode: call our API
-    const response = await fetch("/api/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        messages,
-        ...(apiKey && { apiKey }),
-        model,
-        temperature,
-        maxTokens,
-        safetySettings,
-      }),
-      signal,
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(errorText || `Request failed: ${response.status}`);
-    }
-
-    if (!response.body) {
-      throw new Error("No response body");
-    }
-
-    const reader = response.body.getReader();
-    const decoder = new TextDecoder();
-    let fullContent = "";
-
-    try {
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-
-        const chunk = decoder.decode(value, { stream: true });
-        fullContent += chunk;
-        yield chunk;
-      }
-
-      // Flush any remaining bytes in the decoder buffer
-      const remaining = decoder.decode();
-      if (remaining) {
-        fullContent += remaining;
-        yield remaining;
-      }
-    } finally {
-      reader.releaseLock();
-    }
-
-    return fullContent;
+  // Collect all chunks to ensure complete response
+  const chunks: string[] = [];
+  for await (const chunk of result.textStream) {
+    chunks.push(chunk);
+    yield chunk;
   }
+
+  // Wait for the stream to fully complete
+  await result.text;
+
+  return chunks.join("");
 }
 
 /**
- * Generate character from image - either directly to Gemini (client mode) or through server
+ * Generate character from image using AI
  */
 export async function generateCharacterFromImage(
   options: GenerateCharacterOptions
 ): Promise<GeneratedCharacter> {
   const { image, context, apiKey, isClientMode } = options;
 
-  if (isClientMode && apiKey) {
-    // Client mode: call Gemini directly
-    const google = createGoogleGenerativeAI({ apiKey });
+  const google = getAIProvider(apiKey, isClientMode);
 
-    // Convert image to base64
-    const imageBuffer = await image.arrayBuffer();
-    const base64Image = Buffer.from(imageBuffer).toString("base64");
+  // Convert image to base64
+  const imageBuffer = await image.arrayBuffer();
+  const base64Image = btoa(
+    new Uint8Array(imageBuffer).reduce(
+      (data, byte) => data + String.fromCharCode(byte),
+      ""
+    )
+  );
 
-    const prompt = `Analyze this image and create a detailed character card for roleplay/chat purposes.
+  const prompt = `Analyze this image and create a detailed character card for roleplay/chat purposes.
 
 ${context ? `Additional context from the user: ${context}` : ""}
 
@@ -274,48 +213,25 @@ For the example dialogue, use this format:
 
 For the system prompt, write clear instructions that would help an AI roleplay as this character convincingly. IMPORTANT: The system prompt MUST include the following instruction: "This character is good at foreign languages so they can respond to any languages that other participants speak. Please use the same language with others."`;
 
-    const result = await generateObject({
-      model: google("gemini-3-flash-preview"),
-      schema: characterSchema,
-      messages: [
-        {
-          role: "user",
-          content: [
-            {
-              type: "image" as const,
-              image: `data:${image.type};base64,${base64Image}`,
-            },
-            {
-              type: "text" as const,
-              text: prompt,
-            },
-          ],
-        },
-      ],
-    });
+  const result = await generateObject({
+    model: google("gemini-3-flash-preview"),
+    schema: characterSchema,
+    messages: [
+      {
+        role: "user",
+        content: [
+          {
+            type: "image" as const,
+            image: `data:${image.type};base64,${base64Image}`,
+          },
+          {
+            type: "text" as const,
+            text: prompt,
+          },
+        ],
+      },
+    ],
+  });
 
-    return result.object as GeneratedCharacter;
-  } else {
-    // Server mode: call our API
-    const formData = new FormData();
-    formData.append("image", image);
-    if (apiKey) {
-      formData.append("apiKey", apiKey);
-    }
-    if (context) {
-      formData.append("context", context);
-    }
-
-    const response = await fetch("/api/generate-character", {
-      method: "POST",
-      body: formData,
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(errorText || `Request failed: ${response.status}`);
-    }
-
-    return (await response.json()) as GeneratedCharacter;
-  }
+  return result.object as GeneratedCharacter;
 }

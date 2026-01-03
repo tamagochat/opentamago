@@ -14,12 +14,18 @@ interface DropZoneProps {
   onFileSelect: (file: File) => void;
   accept?: string;
   className?: string;
+  translations?: {
+    dropHere?: string;
+    dropToShare?: string;
+    orClickToBrowse?: string;
+  };
 }
 
 export function DropZone({
   onFileSelect,
   accept = ACCEPT_STRING,
   className,
+  translations,
 }: DropZoneProps) {
   const [isDragging, setIsDragging] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -109,11 +115,11 @@ export function DropZone({
         <div className="space-y-2">
           <p className="text-lg font-medium">
             {isDragging
-              ? "Drop your file here"
-              : `Drop a ${ACCEPTED_EXTENSIONS.join(", ")} file to share`}
+              ? (translations?.dropHere ?? "Drop your file here")
+              : (translations?.dropToShare ?? `Drop a ${ACCEPTED_EXTENSIONS.join(", ")} file to share`)}
           </p>
           <p className="text-sm text-muted-foreground">
-            or click to browse
+            {translations?.orClickToBrowse ?? "or click to browse"}
           </p>
           {isDev && (
             <p className="text-xs text-yellow-600 dark:text-yellow-400">

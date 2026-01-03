@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import {
   Smartphone,
@@ -27,66 +27,60 @@ export function P2pSharingDemo() {
   const t = useTranslations("home");
   const [state, setState] = useState<DemoState>("idle");
   const [progress, setProgress] = useState(0);
-  const [autoPlayPaused, setAutoPlayPaused] = useState(false);
-
-  const resetDemo = useCallback(() => {
-    setState("idle");
-    setProgress(0);
-  }, []);
 
   useEffect(() => {
-    if (autoPlayPaused) return;
-    if (state !== "idle") return;
-
     let cancelled = false;
 
     const runSequence = async () => {
-      // Initial pause - show both devices idle
-      await new Promise((r) => setTimeout(r, 2000));
-      if (cancelled) return;
-      setState("selecting");
-
-      // Selecting file
-      await new Promise((r) => setTimeout(r, 2000));
-      if (cancelled) return;
-      setState("generating");
-
-      // Generating QR code
-      await new Promise((r) => setTimeout(r, 1500));
-      if (cancelled) return;
-      setState("sharing");
-
-      // Showing QR code, waiting for receiver
-      await new Promise((r) => setTimeout(r, 2500));
-      if (cancelled) return;
-      setState("scanning");
-
-      // Scanning QR code
-      await new Promise((r) => setTimeout(r, 2000));
-      if (cancelled) return;
-      setState("connecting");
-
-      // Establishing connection
-      await new Promise((r) => setTimeout(r, 1800));
-      if (cancelled) return;
-      setState("downloading");
-
-      // Animate progress smoothly
-      for (let i = 0; i <= 100; i += 2) {
+      while (!cancelled) {
+        // Initial pause - show both devices idle
+        setState("idle");
+        setProgress(0);
+        await new Promise((r) => setTimeout(r, 2000));
         if (cancelled) return;
-        setProgress(i);
-        await new Promise((r) => setTimeout(r, 40));
+
+        // Selecting file
+        setState("selecting");
+        await new Promise((r) => setTimeout(r, 2000));
+        if (cancelled) return;
+
+        // Generating QR code
+        setState("generating");
+        await new Promise((r) => setTimeout(r, 1500));
+        if (cancelled) return;
+
+        // Showing QR code, waiting for receiver
+        setState("sharing");
+        await new Promise((r) => setTimeout(r, 2500));
+        if (cancelled) return;
+
+        // Scanning QR code
+        setState("scanning");
+        await new Promise((r) => setTimeout(r, 2000));
+        if (cancelled) return;
+
+        // Establishing connection
+        setState("connecting");
+        await new Promise((r) => setTimeout(r, 1800));
+        if (cancelled) return;
+
+        // Downloading with progress animation
+        setState("downloading");
+        for (let i = 0; i <= 100; i += 2) {
+          if (cancelled) return;
+          setProgress(i);
+          await new Promise((r) => setTimeout(r, 40));
+        }
+
+        // Pause on complete
+        await new Promise((r) => setTimeout(r, 800));
+        if (cancelled) return;
+
+        // Show completion state
+        setState("complete");
+        await new Promise((r) => setTimeout(r, 3000));
+        if (cancelled) return;
       }
-
-      // Pause on complete
-      await new Promise((r) => setTimeout(r, 800));
-      if (cancelled) return;
-      setState("complete");
-
-      // Show completion state
-      await new Promise((r) => setTimeout(r, 3000));
-      if (cancelled) return;
-      resetDemo();
     };
 
     runSequence();
@@ -94,7 +88,7 @@ export function P2pSharingDemo() {
     return () => {
       cancelled = true;
     };
-  }, [state, autoPlayPaused, resetDemo]);
+  }, []);
 
   const isAfterGenerating = ["sharing", "scanning", "connecting", "downloading", "complete"].includes(state);
   const isConnected = ["connecting", "downloading", "complete"].includes(state);
@@ -102,11 +96,6 @@ export function P2pSharingDemo() {
   return (
     <div
       className="relative aspect-[4/3] w-full overflow-hidden rounded-xl border bg-gradient-to-br from-muted to-muted/50 shadow-xl"
-      onMouseEnter={() => setAutoPlayPaused(true)}
-      onMouseLeave={() => {
-        setAutoPlayPaused(false);
-        resetDemo();
-      }}
     >
       {/* Window Chrome */}
       <div className="absolute inset-x-0 top-0 z-10 flex h-8 items-center gap-2 border-b bg-background/80 px-3 backdrop-blur-sm sm:h-10 sm:px-4">
@@ -198,22 +187,13 @@ export function P2pSharingDemo() {
                       transition={{ duration: 0.5, ease: "easeOut" }}
                       className="flex flex-col items-center gap-1"
                     >
-                      {/* Simple QR Code representation */}
-                      <div className="grid h-10 w-10 grid-cols-5 grid-rows-5 gap-0.5 rounded bg-white p-1 sm:h-12 sm:w-12">
-                        {Array.from({ length: 25 }).map((_, i) => (
-                          <motion.div
-                            key={i}
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: i * 0.03, duration: 0.2 }}
-                            className={`rounded-[1px] ${
-                              [0, 1, 2, 4, 5, 6, 10, 12, 14, 18, 20, 21, 22, 24].includes(i)
-                                ? "bg-black"
-                                : "bg-white"
-                            }`}
-                          />
-                        ))}
-                      </div>
+                      <motion.div
+                        animate={{ scale: [1, 1.05, 1] }}
+                        transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                        className="rounded-lg bg-white p-2"
+                      >
+                        <QrCode className="h-8 w-8 text-black sm:h-10 sm:w-10" />
+                      </motion.div>
                       <span className="text-[8px] text-muted-foreground sm:text-[10px]">{t("demo.p2p.scanToJoin")}</span>
                     </motion.div>
                   )}

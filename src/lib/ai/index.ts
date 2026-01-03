@@ -75,3 +75,6 @@ export {
   type ChatOptions,
   type GenerateCharacterOptions,
 } from "./client";
+
+// Proxy AI provider (routes through server, no client API key needed)
+export { createProxyAI, getProxyAI } from "./proxy";

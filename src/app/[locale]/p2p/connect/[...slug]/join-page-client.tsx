@@ -263,7 +263,7 @@ function JoinPageContent({
           {t("errors.sessionFullDescription")}
         </p>
         <Button asChild className="mt-6">
-          <Link href="/connect">{t("errors.createOwn")}</Link>
+          <Link href="/p2p/connect">{t("errors.createOwn")}</Link>
         </Button>
       </div>
     );
@@ -283,7 +283,7 @@ function JoinPageContent({
             {t("errors.tryAgain")}
           </Button>
           <Button asChild>
-            <Link href="/connect">{t("errors.createOwn")}</Link>
+            <Link href="/p2p/connect">{t("errors.createOwn")}</Link>
           </Button>
         </div>
       </div>

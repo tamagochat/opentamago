@@ -40,8 +40,8 @@ export function SessionLobby({
   const [copiedLong, setCopiedLong] = useState(false);
 
   const baseUrl = typeof window !== "undefined" ? window.location.origin : "";
-  const shortUrl = `${baseUrl}/connect/${shortSlug}`;
-  const longUrl = longSlug ? `${baseUrl}/connect/${longSlug}` : null;
+  const shortUrl = `${baseUrl}/p2p/connect/${shortSlug}`;
+  const longUrl = longSlug ? `${baseUrl}/p2p/connect/${longSlug}` : null;
 
   const copyToClipboard = useCallback(
     async (text: string, type: "short" | "long") => {

@@ -1,9 +1,9 @@
 {
   "common": {
     "appName": "OpenTamago",
-    "tagline": "Open Source AI Characters",
+    "tagline": "Open Source AI Character Viewer & Sharing",
     "loading": "Loading...",
-    "error": "Something went wrong",
+    "error": "Oops, something went wrong",
     "retry": "Try again",
     "comingSoon": "Coming Soon"
   },
@@ -20,46 +20,47 @@
   "home": {
     "hero": {
       "title": "Your AI Character",
-      "titleHighlight": "Companion",
-      "description": "Create, view, and chat with AI characters. An open-source platform for character card management and AI conversations."
+      "titleHighlight": "Friend",
+      "description": "View, share, and chat with AI characters. From CharX viewer to P2P-based CharX sharing, everything is free and open source."
     },
     "cta": {
       "openViewer": "Open CharX Viewer",
       "viewGithub": "View on GitHub",
       "tryViewer": "Try CharX Viewer",
       "startSharing": "Start Sharing",
-      "startConnect": "Start Session"
+      "startConnect": "Start Session",
+      "p2pLabel": "P2P Features"
     },
     "features": {
       "title": "Everything You Need",
-      "description": "A complete toolkit for AI character enthusiasts",
+      "description": "An all-in-one toolkit for AI character enthusiasts",
       "charxViewer": {
         "title": "CharX Viewer",
-        "description": "View and inspect character cards, lorebooks, and assets from CharX files. Everything runs locally in your browser."
+        "description": "Check out character cards, lorebooks, and assets from CharX files. Everything runs right in your browser."
       },
       "p2pSharing": {
         "title": "P2P CharX Sharing",
-        "description": "Share character files directly with others using peer-to-peer technology. No server uploads, instant transfers."
+        "description": "Share character files directly with friends using P2P. No server uploads, instant transfers!"
       },
       "connect": {
-        "title": "Multi-Character Chat",
-        "description": "Create chat sessions with multiple AI characters. Invite friends and let characters interact with each other."
+        "title": "P2P Multi-Character Chat",
+        "description": "Set up chat sessions with multiple AI characters. Invite friends and watch characters interact with each other."
       }
     },
     "showcase": {
       "badge": "CharX Viewer",
-      "title": "Inspect Character Files with Ease",
+      "title": "Check Out Character Files Easily",
       "dragDrop": {
-        "title": "Drag & Drop Upload",
-        "description": "Simply drop your .charx files to instantly view their contents"
+        "title": "Drag & Drop",
+        "description": "Just drop your .charx files to see what's inside instantly"
       },
       "cardInfo": {
-        "title": "Complete Card Information",
-        "description": "View character details, system prompts, greetings, and more"
+        "title": "All Character Info at a Glance",
+        "description": "View character details, lorebooks, image assets and more"
       },
       "clientSide": {
-        "title": "100% Client-Side",
-        "description": "Your files never leave your browser - complete privacy guaranteed"
+        "title": "100% Local Processing",
+        "description": "Your files never leave your browser. Total privacy guaranteed!"
       },
       "dropzone": {
         "title": "Drop .charx files here",
@@ -67,41 +68,41 @@
       }
     },
     "p2pShowcase": {
-      "badge": "P2P Sharing",
-      "title": "Share Characters Instantly",
+      "badge": "P2P CharX Sharing",
+      "title": "Share Character Cards Instantly",
       "sender": "You",
       "receivers": "Friends",
       "directTransfer": "Direct browser-to-browser transfer",
       "qrCode": {
         "title": "QR Code & Share Links",
-        "description": "Generate QR codes and shareable links for easy mobile transfers"
+        "description": "Generate QR codes and links for easy mobile transfers"
       },
       "webrtc": {
         "title": "WebRTC Direct Transfer",
-        "description": "Files transfer directly between browsers - no server storage"
+        "description": "Files go straight between browsers. No server storage."
       },
       "password": {
-        "title": "Optional Password Protection",
-        "description": "Secure your shares with password protection if needed"
+        "title": "Password Protection",
+        "description": "Protect your shares with a password if you want"
       }
     },
     "highlights": {
       "privacy": {
-        "title": "Privacy First",
-        "description": "Your data stays on your device. CharX files are processed entirely in your browser."
+        "title": "100% Local Processing",
+        "description": "View CharX files right in your browser. Your data never leaves your device."
       },
       "fast": {
-        "title": "Lightning Fast",
-        "description": "Built with modern web technologies for instant loading and smooth interactions."
+        "title": "Direct P2P Connection",
+        "description": "Share files and chat with friends directly. No servers in between!"
       },
       "openSource": {
         "title": "Open Source",
-        "description": "Fully transparent codebase. Audit, contribute, and customize to your needs."
+        "description": "All code is public. Contribute, customize, and make it your own."
       }
     },
     "ready": {
       "title": "Ready to Get Started?",
-      "description": "Jump right in and explore your character files with our privacy-focused viewer."
+      "description": "Explore your character files with our privacy-first viewer."
     },
     "demo": {
       "charx": {
@@ -110,9 +111,9 @@
           "lorebook": "Lorebook",
           "assets": "Assets"
         },
-        "greetings": "alternate greetings",
+        "greetings": "greeting variations",
         "lorebookEntries": "{count} entries",
-        "assetsFound": "{count} assets found",
+        "assetsFound": "{count} assets",
         "fileReceived": "File received",
         "processing": "Processing..."
       },
@@ -124,63 +125,65 @@
         "readyToScan": "Ready to scan",
         "scanning": "Scanning...",
         "connecting": "Connecting...",
-        "complete": "Complete!",
+        "complete": "Done!",
         "waitingConnection": "Waiting...",
         "connected": "Connected",
         "transferred": "Transferred!"
       },
       "connect": {
         "waitingRoom": "Waiting Room",
-        "participants": "joined",
+        "participants": "Participants",
         "chat": "Chat",
-        "message1": "Hey everyone! Ready to chat?",
-        "message2": "Let's do this!",
+        "p2pBadge": "P2P Connected",
+        "message1": "Hey! Ready to chat?",
+        "message2": "Let's go!",
         "aiReply": "Great to meet you all!",
         "inputPlaceholder": "Type a message..."
       }
     },
     "connectShowcase": {
-      "badge": "Multi-Character Chat",
-      "title": "Chat with Multiple Characters",
-      "description": "Create a session where multiple AI characters can interact with each other. Perfect for roleplay scenarios and collaborative storytelling.",
+      "badge": "P2P Connect",
+      "poweredBy": "Join with Your Character",
+      "title": "Connect Your AI with Others",
+      "description": "Set up a chat room with your AI character and invite friends. Watch different AIs chat in real-time. It's gonna be fun!",
       "realtime": {
-        "title": "Real-time Chat",
-        "description": "Instant message delivery between all participants using P2P technology"
+        "title": "P2P Chat",
+        "description": "Direct browser connection. Chat with friends without any servers."
       },
       "aiPowered": {
-        "title": "AI-Powered Replies",
-        "description": "Characters can auto-reply using AI, creating dynamic conversations"
+        "title": "AI Auto-Reply",
+        "description": "Each character replies with their own personality"
       },
       "multiParty": {
-        "title": "Up to 8 Characters",
-        "description": "Invite friends to join with their own characters via QR code or link"
+        "title": "Up to 8 People",
+        "description": "Share a QR code or link to invite friends"
       }
     }
   },
   "charx": {
     "title": "CharX Viewer",
-    "subtitle": "View character cards, lorebooks, and assets — runs entirely in your browser",
+    "subtitle": "Check out character cards, lorebooks, and assets. Runs right in your browser!",
     "upload": {
       "title": "Upload CharX File",
       "description": "Drag and drop a .charx file or click to browse",
       "dropHere": "Drop your file here",
-      "invalidFile": "Please upload a valid .charx file",
+      "invalidFile": "Only .charx files are supported",
       "dropFiles": "Drop your .charx files here",
-      "browseMultiple": "or click to browse files (multiple selection supported)",
-      "downloadLink": "Visit <link>realm.risuai.net</link> to download character files (.charx)",
-      "unsupportedFile": "Unsupported file: {names}. Only .charx files are supported.",
-      "unsupportedFiles": "Unsupported files: {names}. Only .charx files are supported.",
+      "browseMultiple": "or click to browse (multiple files OK)",
+      "downloadLink": "Get character files (.charx) at <link>realm.risuai.net</link>",
+      "unsupportedFile": "Unsupported file: {names}. Only .charx files work here.",
+      "unsupportedFiles": "Unsupported files: {names}. Only .charx files work here.",
       "andMore": " and {count} more",
       "or": "or",
       "realmPlaceholder": "Paste RisuRealm URL or character ID...",
       "realmDownload": "Download",
-      "realmHint": "Supports realm.risuai.net URLs or character UUIDs (e.g., https://realm.risuai.net/character/CHARACTER_ID or CHARACTER_ID)",
-      "realmDownloadSuccess": "Character downloaded successfully!",
+      "realmHint": "Works with realm.risuai.net URLs or character UUIDs",
+      "realmDownloadSuccess": "Character downloaded!",
       "realmError": {
-        "INVALID_UUID": "Invalid RisuRealm ID or URL",
-        "INVALID_CHARX": "Character not found on RisuRealm. Please check the ID.",
-        "FILE_TOO_LARGE": "File is too large ({size}). Please download and upload manually.",
-        "DOWNLOAD_FAILED": "Failed to download from RisuRealm. Please try again."
+        "INVALID_UUID": "That RisuRealm ID or URL doesn't look right",
+        "INVALID_CHARX": "Couldn't find that character on RisuRealm. Check the ID?",
+        "FILE_TOO_LARGE": "File is too big ({size}). Try downloading and uploading manually.",
+        "DOWNLOAD_FAILED": "Couldn't download from RisuRealm. Try again?"
       },
       "tryDemo": "Try a Demo Character",
       "demoHint": "Load a sample character to explore the viewer"
@@ -196,29 +199,29 @@
       "noLorebook": "No lorebook found",
       "noModule": "No module found",
       "noAssets": "No assets in this category",
-      "noAssetsInFile": "No assets found in this character file",
-      "noModuleContent": "No module content found",
+      "noAssetsInFile": "No assets in this file",
+      "noModuleContent": "No module content",
       "noTriggerScripts": "No trigger scripts",
       "noRegexScripts": "No regex scripts",
       "noCommonJSCode": "No CommonJS code"
     },
     "files": {
       "title": "Files",
-      "loaded": "{count} files (.charx) loaded",
+      "loaded": "{count} files loaded",
       "parsing": "Parsing...",
-      "dropMore": "Drop more .charx files or click to browse",
+      "dropMore": "Drop more .charx files or click to add",
       "queue": "Queue",
       "queued": "Queued",
       "delete": "Delete"
     },
     "assets": {
       "title": "Assets",
-      "totalExtracted": "{count} total assets extracted",
+      "totalExtracted": "{count} assets total",
       "sort": "Sort",
       "group": "Group",
-      "sortAZ": "Sorted A-Z",
-      "sortZA": "Sorted Z-A",
-      "sortByFilename": "Sort by filename",
+      "sortAZ": "A-Z",
+      "sortZA": "Z-A",
+      "sortByFilename": "By filename",
       "groupByFilename": "Group by filename",
       "emotions": "Emotions",
       "icons": "Icons",
@@ -241,7 +244,7 @@
     },
     "character": {
       "unnamedCharacter": "Unnamed Character",
-      "byCreator": "by {creator}",
+      "byCreator": "{creator}",
       "tabs": {
         "basic": "Basic",
         "messages": "Messages",
@@ -275,17 +278,22 @@
       "moreKeysPrefix": "+"
     },
     "toast": {
-      "copiedToClipboard": "Copied to clipboard",
-      "failedToCopy": "Failed to copy",
+      "copiedToClipboard": "Copied!",
+      "failedToCopy": "Copy failed",
       "fileSaved": "File saved",
-      "lorebookCopied": "Lorebook JSON copied successfully",
-      "characterCopied": "Character JSON copied successfully",
-      "couldNotCopy": "Could not copy to clipboard"
+      "lorebookCopied": "Lorebook JSON copied!",
+      "characterCopied": "Character JSON copied!",
+      "couldNotCopy": "Couldn't copy to clipboard"
+    },
+    "errorBoundary": {
+      "title": "Oops, something went wrong",
+      "description": "An unexpected error occurred. Please refresh the page.",
+      "refreshPage": "Refresh"
     },
     "export": {
       "button": "Save to Database",
       "title": "Save Character to Database",
-      "description": "Save this character and lorebook to your local database for easy access in chat.",
+      "description": "Save this character and lorebook locally so you can access them in chat.",
       "character": {
         "title": "Character",
         "unnamed": "Unnamed",
@@ -295,39 +303,34 @@
       "lorebook": {
         "title": "Lorebook",
         "entries": "entries",
-        "description": "Lorebook entries will be saved for context injection during chats.",
-        "noLorebook": "No lorebook found in this character file."
+        "description": "Lorebook entries will be saved for context during chats.",
+        "noLorebook": "No lorebook in this character file."
       },
-      "info": "Once saved, you can start chatting with this character from the Chat page.",
+      "info": "Once saved, you can start chatting from the Chat page.",
       "infoMessages": {
-        "databaseReady": "Database ready. You can now save the character."
+        "databaseReady": "Database ready! You can save now."
       },
       "save": "Save",
       "cancel": "Cancel",
       "saving": "Saving...",
       "loading": "Loading...",
       "success": {
-        "title": "Character saved successfully",
+        "title": "Saved!",
         "description": "{name} has been saved to your database.",
         "goToChat": "Go to Chat"
       },
       "error": {
-        "title": "Failed to save character",
-        "description": "An error occurred while saving. Please try again.",
-        "databaseNotReady": "Database is not ready. Please wait a moment and try again.",
-        "databaseInitFailed": "Failed to initialize database. Please refresh the page and try again."
+        "title": "Couldn't save",
+        "description": "Something went wrong while saving. Try again?",
+        "databaseNotReady": "Database isn't ready yet. Wait a moment and try again.",
+        "databaseInitFailed": "Couldn't start the database. Refresh the page and try again."
       },
-      "initializing": "Initializing..."
-    },
-    "errorBoundary": {
-      "title": "Something went wrong",
-      "description": "An unexpected error occurred. Please try refreshing the page.",
-      "refreshPage": "Refresh Page"
+      "initializing": "Starting up..."
     },
     "shareP2P": "Share via P2P",
     "error": "Error",
     "warning": "Warning",
-    "filesExcluded": "{count} files were excluded due to size limits (>50MB):"
+    "filesExcluded": "{count} files excluded due to size limit (>50MB):"
   },
   "errors": {
     "notFound": {
@@ -338,23 +341,23 @@
       "openCharxViewer": "CharX Viewer"
     },
     "generic": {
-      "title": "Something went wrong",
-      "description": "An unexpected error occurred. Please try again or return to the home page.",
+      "title": "Oops, something went wrong",
+      "description": "An unexpected error occurred. Try again or head back home.",
       "retry": "Try Again",
       "goHome": "Go Home"
     },
     "charx": {
       "title": "CharX Viewer Error",
-      "description": "Something went wrong while loading the CharX viewer. This might be due to a corrupted file or browser compatibility issue.",
+      "description": "Something went wrong loading the viewer. The file might be corrupted or there's a browser compatibility issue.",
       "retry": "Try Again",
       "goHome": "Go Home"
     }
   },
   "footer": {
-    "description": "Open-source AI character platform. Create, share, and interact with AI characters.",
+    "description": "Open-source AI character platform. View, share, and chat with AI characters.",
     "product": "Product",
     "resources": "Resources",
-    "documentation": "Documentation",
+    "documentation": "Docs",
     "legal": "Legal",
     "privacy": "Privacy Policy",
     "terms": "Terms of Service",
@@ -365,53 +368,59 @@
     "charxViewer": "CharX Viewer",
     "p2pShare": "P2P Share",
     "chat": "Chat",
-    "connect": "Connect",
+    "connect": "P2P Connect",
+    "howItWorks": "How It Works",
     "github": "GitHub",
     "toggleMenu": "Toggle menu",
-    "navigationMenu": "Navigation Menu"
+    "navigationMenu": "Menu"
   },
   "p2p": {
     "title": "P2P CharX Sharing",
-    "subtitle": "Share character files directly with others. Files transfer peer-to-peer, never touching our servers.",
-    "privacyNote": "Files are transferred directly between browsers using WebRTC. Your files never touch our servers.",
+    "subtitle": "Share character files directly with friends. P2P means no server in between.",
+    "privacyNote": "Files transfer directly between browsers via WebRTC. Nothing gets stored on servers.",
     "confirmTitle": "Ready to Share",
-    "confirmSubtitle": "Review your file and optionally set a password.",
+    "confirmSubtitle": "Review your file and set a password if you want.",
     "passwordLabel": "Password (optional)",
-    "passwordPlaceholder": "Enter a password to protect your file...",
-    "passwordHint": "Leave empty for no password protection.",
+    "passwordPlaceholder": "Enter a password...",
+    "passwordHint": "Leave empty to share without password protection.",
     "cancel": "Cancel",
     "start": "Start Sharing",
     "connecting": "Connecting...",
     "sharingTitle": "Sharing Your File",
-    "sharingSubtitle": "Keep this tab open. Share the link below with others to let them download.",
+    "sharingSubtitle": "Keep this tab open. Share the link below to let others download.",
     "stopSharing": "Stop Sharing",
-    "stopSharingConfirm": "Are you sure you want to stop sharing?",
-    "stopSharingDescription": "All active downloads will be interrupted.",
-    "confirmStop": "Yes, Stop Sharing",
-    "sharingWarning": "P2P sharing will be disconnected if you leave or refresh the page. Keep this tab open.",
+    "stopSharingConfirm": "Really stop sharing?",
+    "stopSharingDescription": "All active downloads will be cut off.",
+    "confirmStop": "Yes, stop",
+    "sharingWarning": "Sharing will disconnect if you leave or refresh. Keep this tab open.",
+    "dropzone": {
+      "dropHere": "Drop your file here",
+      "dropToShare": "Drop a .charx file to share",
+      "orClickToBrowse": "or click to browse"
+    },
     "download": {
       "title": "Download CharX File",
       "connecting": "Connecting to uploader...",
-      "connectionFailed": "Could not connect to the uploader. They may have closed their browser.",
+      "connectionFailed": "Couldn't connect to the uploader. They might have closed their browser.",
       "notFound": "Share link not found or expired",
-      "notFoundDescription": "The file you're looking for is no longer available. The uploader may have stopped sharing.",
+      "notFoundDescription": "The file you're looking for isn't available anymore. The uploader might have stopped sharing.",
       "passwordRequired": "This file is password protected",
       "passwordPlaceholder": "Enter password...",
-      "passwordError": "Incorrect password. Please try again.",
+      "passwordError": "Wrong password. Try again?",
       "submit": "Submit",
       "readyTitle": "Ready to Download",
-      "readyDescription": "Click the button below to start downloading.",
-      "startDownload": "Download File",
+      "readyDescription": "Click below to start downloading.",
+      "startDownload": "Download",
       "downloading": "Downloading...",
-      "complete": "Download Complete",
-      "completeDescription": "Your file has been downloaded successfully.",
-      "charxDetected": "Character file detected",
+      "complete": "Download Complete!",
+      "completeDescription": "Got your file successfully.",
+      "charxDetected": "It's a character file!",
       "charxDescription": "Save this character and lorebook to your database with one click.",
       "saveToDatabase": "Save to Database",
-      "downloadAnother": "Download Another",
+      "downloadAnother": "Get Another File",
       "goHome": "Go Home",
-      "troubleshooting": "Taking too long? The uploader may be behind a firewall or have closed their browser.",
-      "sharePrompt": "Do you want to share CharX with others?",
+      "troubleshooting": "Taking too long? The uploader might be behind a firewall or closed their browser.",
+      "sharePrompt": "Want to share CharX files too?",
       "startSharing": "Start Sharing"
     }
   },
@@ -438,14 +447,14 @@
       "startOne": "Start one",
       "yesterday": "Yesterday",
       "deleteChat": "Delete this chat?",
-      "deleteCharacter": "Delete \"{name}\"? This will also delete all associated chats.",
+      "deleteCharacter": "Delete \"{name}\"? This will also delete all related chats.",
       "importComingSoon": "Import feature coming soon!"
     },
     "centerPanel": {
-      "selectCharacter": "Select a character and chat to start",
+      "selectCharacter": "Pick a character and chat to get started",
       "createFromLeft": "Or create a new character from the left panel",
-      "apiKeyRequired": "API Key Required",
-      "configureApiKey": "Please configure your Gemini API key to start chatting.",
+      "apiKeyRequired": "API Key Needed",
+      "configureApiKey": "Set up your Gemini API key to start chatting.",
       "openSettings": "Open Settings",
       "clearChat": "Clear chat",
       "thinking": "Thinking...",
@@ -453,20 +462,20 @@
       "clearAllMessages": "Clear all messages in this chat?"
     },
     "rightPanel": {
-      "selectCharacter": "Select a character to view details",
+      "selectCharacter": "Select a character to see details",
       "characterDetails": "Character Details",
       "personality": "Personality",
       "scenario": "Scenario",
       "firstMessage": "First Message",
       "exampleDialogue": "Example Dialogue",
       "systemPrompt": "System Prompt",
-      "noPersonaDetails": "No persona details configured.",
+      "noPersonaDetails": "No persona details set up.",
       "creatorNotes": "Creator Notes",
       "created": "Created",
       "lastUpdated": "Last Updated",
       "persona": "Persona",
       "info": "Info",
-      "deleteCharacter": "Delete \"{name}\"? This will also delete all associated chats and cannot be undone."
+      "deleteCharacter": "Delete \"{name}\"? All related chats will be deleted too. This can't be undone."
     },
     "editor": {
       "editCharacter": "Edit Character",
@@ -510,14 +519,14 @@
     },
     "settings": {
       "title": "Settings",
-      "description": "Configure your API settings. Your settings are stored locally.",
+      "description": "Set up your API settings. Everything is stored locally.",
       "general": "General",
       "safety": "Safety",
       "apiMode": "API Mode",
       "apiModeServer": "Server API",
       "apiModeServerDesc": "Use server's API key",
       "apiModeClient": "Your API Key",
-      "apiModeClientDesc": "More privacy",
+      "apiModeClientDesc": "More private",
       "geminiApiKey": "Gemini API Key",
       "enterApiKey": "Enter your Gemini API key",
       "getApiKey": "Get your API key from",
@@ -526,7 +535,7 @@
       "selectModel": "Select a model",
       "temperature": "Temperature",
       "maxTokens": "Max Tokens",
-      "safetyDescription": "Configure content safety filters. By default, all filters are turned off for unrestricted roleplay.",
+      "safetyDescription": "Set up content safety filters. By default, all filters are off for unrestricted roleplay.",
       "hateSpeech": "Hate Speech",
       "harassment": "Harassment",
       "sexuallyExplicit": "Sexually Explicit",
@@ -540,11 +549,11 @@
   },
   "connect": {
     "meta": {
-      "title": "Connect - Multi-Character Chat",
+      "title": "P2P Multi-Character Chat",
       "description": "Create a session where AI characters can chat with each other"
     },
-    "title": "Connect",
-    "subtitle": "Create a multi-character chat session",
+    "title": "P2P Multi-Character Chat",
+    "subtitle": "Chat with multiple AI characters together. P2P means no servers in between.",
     "tabs": {
       "existing": "My Characters",
       "upload": "Upload .charx",
@@ -553,27 +562,25 @@
     "noCharacters": "No characters found.",
     "createInChat": "Create one in Chat",
     "upload": {
-      "title": "Upload Character File",
-      "description": "Upload a .charx, .json, or .png file with embedded character data",
-      "selectFile": "Select File",
-      "formats": "Supports .charx, .json, .png"
+      "title": "Upload CharX File",
+      "description": "Drop a .charx file or click to select"
     },
     "photo": {
       "dropTitle": "Upload a Photo",
-      "dropDescription": "Drop an image or click to select. AI will generate a character based on the image.",
+      "dropDescription": "Drop an image or click to select. AI will generate a character from it.",
       "selectFile": "Select Image",
       "invalidType": "Please select an image file (PNG, JPG, WebP, or GIF)",
-      "tooLarge": "Image is too large. Maximum size is 10MB.",
-      "contextLabel": "Additional Context (optional)",
-      "contextPlaceholder": "e.g., 'This is a fantasy warrior' or 'Make them friendly'",
-      "contextHint": "Add hints to guide the character generation",
+      "tooLarge": "Image is too big. Max 10MB.",
+      "contextLabel": "Hints (optional)",
+      "contextPlaceholder": "e.g., 'Fantasy warrior' or 'Make them friendly'",
+      "contextHint": "Add hints to guide character generation",
       "generating": "Generating character...",
       "generate": "Generate Character",
-      "generated": "{name} has been created!",
-      "generateError": "Failed to generate character. Please try again.",
-      "noApiKey": "Please configure your Gemini API key in Settings first.",
-      "apiKeyRequired": "API Key Required",
-      "apiKeyDescription": "To generate characters from photos, you need to configure your Gemini API key in Settings.",
+      "generated": "{name} is ready!",
+      "generateError": "Couldn't generate character. Try again?",
+      "noApiKey": "Please set up your Gemini API key in Settings first.",
+      "apiKeyRequired": "API Key Needed",
+      "apiKeyDescription": "To generate characters from photos, set up your Gemini API key in Settings.",
       "goToSettings": "Go to Settings"
     },
     "creating": "Creating session...",
@@ -581,20 +588,20 @@
     "lobby": {
       "title": "Waiting Room",
       "hostDescription": "Share the link below to invite others",
-      "guestDescription": "Waiting for the host to start the chat",
+      "guestDescription": "Waiting for the host to start",
       "shortUrl": "Short URL",
       "longUrl": "Long URL",
       "copied": "Link copied!",
-      "copyFailed": "Failed to copy link",
+      "copyFailed": "Couldn't copy link",
       "participants": "Participants",
       "you": "You",
       "host": "Host",
       "connecting": "Connecting...",
       "selectingCharacter": "Selecting character...",
-      "waitingForOthers": "Waiting for others to join...",
+      "waitingForOthers": "Waiting for others...",
       "leave": "Leave",
       "startChat": "Start Chat",
-      "needMoreParticipants": "Need at least 2 participants to start"
+      "needMoreParticipants": "Need at least 2 people to start"
     },
     "chat": {
       "title": "Chat",
@@ -607,8 +614,8 @@
       "generating": "Thinking...",
       "thinking": "{name} is thinking...",
       "placeholder": "Message as {name}...",
-      "userJoined": "{name} joined the chat",
-      "userLeft": "{name} left the chat"
+      "userJoined": "{name} joined",
+      "userLeft": "{name} left"
     },
     "join": {
       "meta": {
@@ -616,27 +623,136 @@
         "description": "Join a multi-character chat session"
       },
       "title": "Join Session",
-      "subtitle": "Select a character to join the chat",
-      "currentParticipants": "{count} participant(s) already in the session"
+      "subtitle": "Pick a character to join with",
+      "currentParticipants": "{count} people already in the session"
     },
     "notifications": {
-      "joined": "{name} joined the chat",
-      "left": "{name} left the chat"
+      "joined": "{name} joined",
+      "left": "{name} left"
     },
     "status": {
       "connecting": "Connecting...",
       "connected": "Connected",
+      "connectedInfo": "You're ready to connect P2P sessions",
       "disconnected": "Disconnected"
     },
     "errors": {
-      "noPeer": "Failed to connect to the network. Please refresh and try again.",
-      "hostLeft": "The host has ended the session",
+      "noPeer": "Network connection failed. Refresh the page and try again.",
+      "hostLeft": "The host ended the session",
       "sessionFull": "Session is Full",
-      "sessionFullDescription": "This session has reached the maximum number of participants.",
+      "sessionFullDescription": "This session has reached the max number of people.",
       "createOwn": "Create Your Own Session",
       "connectionFailed": "Connection Failed",
-      "connectionFailedDescription": "Could not connect to the session. The host may have left or there's a network issue.",
+      "connectionFailedDescription": "Couldn't connect to the session. The host might have left or there's a network issue.",
       "tryAgain": "Try Again"
+    }
+  },
+  "howItWorks": {
+    "meta": {
+      "title": "How It Works | OpenTamago",
+      "description": "Learn how to use CharX Viewer, P2P Share, and P2P Multi-Character Chat"
+    },
+    "hero": {
+      "title": "How It Works",
+      "description": "Learn how to view, share, and chat with AI characters using OpenTamago"
+    },
+    "tryNow": "Try Now",
+    "charx": {
+      "title": "CharX Viewer",
+      "description": "Open CharX character files right in your browser. Everything is processed locally for complete privacy.",
+      "steps": {
+        "upload": {
+          "title": "Upload File",
+          "description": "Drag and drop .charx files or click to browse"
+        },
+        "view": {
+          "title": "View Character",
+          "description": "See character details, personality, and greetings"
+        },
+        "lorebook": {
+          "title": "Explore Lorebook",
+          "description": "Browse lorebook entries with keyword triggers"
+        },
+        "assets": {
+          "title": "View Assets",
+          "description": "Check out embedded images like emotions and avatars"
+        }
+      },
+      "highlights": {
+        "privacy": "100% local processing",
+        "formats": "Supports .charx and .json files",
+        "export": "Save characters to local database"
+      }
+    },
+    "p2pShare": {
+      "title": "P2P Share",
+      "description": "Share files directly with friends using P2P. Nothing gets stored on servers.",
+      "steps": {
+        "select": {
+          "title": "Select File",
+          "description": "Choose a file to share"
+        },
+        "generate": {
+          "title": "Generate Link",
+          "description": "Get a QR code and shareable link"
+        },
+        "transfer": {
+          "title": "Direct Transfer",
+          "description": "Files transfer directly via WebRTC"
+        },
+        "receive": {
+          "title": "Download",
+          "description": "Receivers download directly from you"
+        }
+      },
+      "highlights": {
+        "noServer": "No server storage",
+        "password": "Optional password protection",
+        "qrCode": "QR code for mobile sharing"
+      }
+    },
+    "p2pConnect": {
+      "title": "P2P Multi-Character Chat",
+      "description": "Create multi-character chat sessions. Invite friends and let AI characters chat with each other.",
+      "steps": {
+        "select": {
+          "title": "Select Character",
+          "description": "Pick from your library or create one"
+        },
+        "invite": {
+          "title": "Invite Friends",
+          "description": "Share a link or QR code to invite"
+        },
+        "chat": {
+          "title": "Start Chatting",
+          "description": "Send messages as your character"
+        },
+        "ai": {
+          "title": "AI Replies",
+          "description": "Turn on auto-reply for AI responses"
+        }
+      },
+      "highlights": {
+        "realtime": "Real-time P2P messaging",
+        "multiParty": "Up to 8 characters per session",
+        "autoReply": "AI-powered auto-reply"
+      }
+    },
+    "privacy": {
+      "title": "Privacy First",
+      "description": "All OpenTamago features are built with privacy in mind. Your data stays on your device.",
+      "noServer": {
+        "title": "No Server Storage",
+        "description": "Files are never uploaded to our servers. Everything happens in your browser."
+      },
+      "encrypted": {
+        "title": "Encrypted Transfers",
+        "description": "P2P connections use WebRTC with built-in encryption."
+      },
+      "openSource": {
+        "title": "Open Source",
+        "description": "All code is public and available on GitHub."
+      }
     }
   }
 }

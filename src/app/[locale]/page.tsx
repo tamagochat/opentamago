@@ -1,3 +1,4 @@
+import { type Metadata } from "next";
 import {
   Egg,
   FileArchive,
@@ -27,6 +28,50 @@ type Props = {
   params: Promise<{ locale: string }>;
 };
 
+const localeToOgLocale: Record<string, string> = {
+  en: "en_US",
+  ko: "ko_KR",
+  ja: "ja_JP",
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "home" });
+  const tCommon = await getTranslations({ locale, namespace: "common" });
+
+  const baseUrl = "https://opentamago.com";
+  const localePath = locale === "en" ? "" : `/${locale}`;
+  const canonicalUrl = `${baseUrl}${localePath}`;
+  const ogLocale = localeToOgLocale[locale] ?? "en_US";
+
+  const title = tCommon("appName");
+  const description = t("hero.description");
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: canonicalUrl,
+      languages: {
+        en: baseUrl,
+        ko: `${baseUrl}/ko`,
+        ja: `${baseUrl}/ja`,
+        "x-default": baseUrl,
+      },
+    },
+    openGraph: {
+      title: `${title} - ${tCommon("tagline")}`,
+      description,
+      locale: ogLocale,
+      alternateLocale: ["en_US", "ko_KR", "ja_JP"].filter((l) => l !== ogLocale),
+    },
+    twitter: {
+      title: `${title} - ${tCommon("tagline")}`,
+      description,
+    },
+  };
+}
+
 export default async function Home({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
@@ -46,14 +91,14 @@ export default async function Home({ params }: Props) {
       icon: Share2,
       title: t("features.p2pSharing.title"),
       description: t("features.p2pSharing.description"),
-      href: "/p2p" as const,
+      href: "/p2p/share" as const,
       available: true,
     },
     {
       icon: Users,
       title: t("features.connect.title"),
       description: t("features.connect.description"),
-      href: "/connect" as const,
+      href: "/p2p/connect" as const,
       available: true,
     },
   ];
@@ -95,19 +140,30 @@ export default async function Home({ params }: Props) {
             <p className="mt-4 sm:mt-6 text-base sm:text-lg text-muted-foreground md:text-xl max-w-2xl mx-auto">
               {t("hero.description")}
             </p>
-            <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center flex-wrap">
-              <Button size="lg" asChild className="gap-2 w-full sm:w-auto">
+            <div className="mt-8 sm:mt-10 flex flex-col gap-4 sm:gap-6 items-center">
+              <Button size="lg" asChild className="gap-2">
                 <Link href="/charx">
                   <FileArchive className="h-5 w-5" />
                   {t("cta.openViewer")}
                 </Link>
               </Button>
-              <Button size="lg" variant="outline" asChild className="gap-2 w-full sm:w-auto">
-                <Link href="/p2p">
-                  <Share2 className="h-5 w-5" />
-                  {t("cta.startSharing")}
-                </Link>
-              </Button>
+              <div className="flex flex-col items-center gap-2">
+                <span className="text-xs text-muted-foreground">{t("cta.p2pLabel")}</span>
+                <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+                  <Button size="lg" variant="outline" asChild className="gap-2">
+                    <Link href="/p2p/share">
+                      <Share2 className="h-5 w-5" />
+                      {t("cta.startSharing")}
+                    </Link>
+                  </Button>
+                  <Button size="lg" variant="outline" asChild className="gap-2">
+                    <Link href="/p2p/connect">
+                      <Users className="h-5 w-5" />
+                      {t("cta.startConnect")}
+                    </Link>
+                  </Button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -175,7 +231,7 @@ export default async function Home({ params }: Props) {
       <section className="py-12 sm:py-16 md:py-20 lg:py-28">
         <div className="container">
           <div className="grid gap-8 sm:gap-12 lg:grid-cols-2 items-center">
-            <div className="order-2 lg:order-1">
+            <div className="order-1">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs sm:text-sm font-medium mb-3 sm:mb-4">
                 <Eye className="h-3 w-3 sm:h-4 sm:w-4" />
                 {t("showcase.badge")}
@@ -219,7 +275,7 @@ export default async function Home({ params }: Props) {
                 </li>
               </ul>
               <div className="mt-6 sm:mt-8">
-                <Button asChild className="gap-2 w-full sm:w-auto">
+                <Button asChild className="gap-2">
                   <Link href="/charx">
                     {t("cta.tryViewer")}
                     <ArrowRight className="h-4 w-4" />
@@ -227,7 +283,7 @@ export default async function Home({ params }: Props) {
                 </Button>
               </div>
             </div>
-            <div className="relative order-1 lg:order-2">
+            <div className="relative order-2">
               <CharxViewerDemo />
             </div>
           </div>
@@ -238,10 +294,10 @@ export default async function Home({ params }: Props) {
       <section className="py-12 sm:py-16 md:py-20 lg:py-28 bg-muted/30">
         <div className="container">
           <div className="grid gap-8 sm:gap-12 lg:grid-cols-2 items-center">
-            <div className="relative order-1">
+            <div className="order-2 lg:order-1">
               <P2pSharingDemo />
             </div>
-            <div className="order-2">
+            <div className="order-1 lg:order-2">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs sm:text-sm font-medium mb-3 sm:mb-4">
                 <Share2 className="h-3 w-3 sm:h-4 sm:w-4" />
                 {t("p2pShowcase.badge")}
@@ -285,8 +341,8 @@ export default async function Home({ params }: Props) {
                 </li>
               </ul>
               <div className="mt-6 sm:mt-8">
-                <Button asChild className="gap-2 w-full sm:w-auto">
-                  <Link href="/p2p">
+                <Button asChild className="gap-2">
+                  <Link href="/p2p/share">
                     {t("cta.startSharing")}
                     <ArrowRight className="h-4 w-4" />
                   </Link>
@@ -301,10 +357,15 @@ export default async function Home({ params }: Props) {
       <section className="py-12 sm:py-16 md:py-20 lg:py-28">
         <div className="container">
           <div className="grid gap-8 sm:gap-12 lg:grid-cols-2 items-center">
-            <div className="order-2 lg:order-1">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs sm:text-sm font-medium mb-3 sm:mb-4">
-                <Users className="h-3 w-3 sm:h-4 sm:w-4" />
-                {t("connectShowcase.badge")}
+            <div className="order-1">
+              <div className="flex flex-wrap items-center gap-2 mb-3 sm:mb-4">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs sm:text-sm font-medium">
+                  <Users className="h-3 w-3 sm:h-4 sm:w-4" />
+                  {t("connectShowcase.badge")}
+                </div>
+                <span className="text-xs text-muted-foreground">
+                  {t("connectShowcase.poweredBy")}
+                </span>
               </div>
               <h2 className="text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl mb-4 sm:mb-6">
                 {t("connectShowcase.title")}
@@ -348,15 +409,15 @@ export default async function Home({ params }: Props) {
                 </li>
               </ul>
               <div className="mt-6 sm:mt-8">
-                <Button asChild className="gap-2 w-full sm:w-auto">
-                  <Link href="/connect">
+                <Button asChild className="gap-2">
+                  <Link href="/p2p/connect">
                     {t("cta.startConnect")}
                     <ArrowRight className="h-4 w-4" />
                   </Link>
                 </Button>
               </div>
             </div>
-            <div className="relative order-1 lg:order-2">
+            <div className="relative order-2">
               <ConnectDemo />
             </div>
           </div>
@@ -393,19 +454,30 @@ export default async function Home({ params }: Props) {
             <p className="mt-3 sm:mt-4 text-base sm:text-lg text-muted-foreground">
               {t("ready.description")}
             </p>
-            <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center flex-wrap">
-              <Button size="lg" asChild className="gap-2 w-full sm:w-auto">
+            <div className="mt-6 sm:mt-8 flex flex-col gap-4 sm:gap-6 items-center">
+              <Button size="lg" asChild className="gap-2">
                 <Link href="/charx">
                   <FileArchive className="h-5 w-5" />
                   {t("cta.openViewer")}
                 </Link>
               </Button>
-              <Button size="lg" variant="outline" asChild className="gap-2 w-full sm:w-auto">
-                <Link href="/p2p">
-                  <Share2 className="h-5 w-5" />
-                  {t("cta.startSharing")}
-                </Link>
-              </Button>
+              <div className="flex flex-col items-center gap-2">
+                <span className="text-xs text-muted-foreground">{t("cta.p2pLabel")}</span>
+                <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+                  <Button size="lg" variant="outline" asChild className="gap-2">
+                    <Link href="/p2p/share">
+                      <Share2 className="h-5 w-5" />
+                      {t("cta.startSharing")}
+                    </Link>
+                  </Button>
+                  <Button size="lg" variant="outline" asChild className="gap-2">
+                    <Link href="/p2p/connect">
+                      <Users className="h-5 w-5" />
+                      {t("cta.startConnect")}
+                    </Link>
+                  </Button>
+                </div>
+              </div>
             </div>
           </div>
         </div>

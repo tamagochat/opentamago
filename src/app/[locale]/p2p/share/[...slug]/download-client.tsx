@@ -196,7 +196,7 @@ function DownloadContent({
           <Button variant="outline" onClick={reconnect}>
             {t("submit")}
           </Button>
-          <Link href="/p2p">
+          <Link href="/p2p/share">
             <Button>{t("goHome")}</Button>
           </Link>
         </div>
@@ -345,7 +345,7 @@ function DownloadContent({
         )}
 
         <div className="flex gap-3">
-          <Link href="/p2p">
+          <Link href="/p2p/share">
             <Button variant="outline">{t("downloadAnother")}</Button>
           </Link>
           <Link href="/">
@@ -355,7 +355,7 @@ function DownloadContent({
 
         <div className="mt-4 pt-4 border-t w-full max-w-md">
           <p className="text-sm text-muted-foreground mb-3">{t("sharePrompt")}</p>
-          <Link href="/p2p">
+          <Link href="/p2p/share">
             <Button variant="secondary" className="gap-2">
               <Share2 className="h-4 w-4" />
               {t("startSharing")}

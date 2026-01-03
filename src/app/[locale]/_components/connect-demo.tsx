@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Users, MessageSquare, Bot, Send } from "lucide-react";
+import { Users, MessageSquare, Send } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 type DemoState =
@@ -30,9 +30,9 @@ interface Message {
 }
 
 const DEMO_CHARACTERS: Character[] = [
-  { name: "Luna", initials: "LU", color: "bg-purple-500" },
-  { name: "Kai", initials: "KA", color: "bg-blue-500" },
-  { name: "Nova", initials: "NO", color: "bg-pink-500" },
+  { name: "Luna AI", initials: "LU", color: "bg-purple-500" },
+  { name: "Kai AI", initials: "KA", color: "bg-blue-500" },
+  { name: "Nova AI", initials: "NO", color: "bg-pink-500" },
 ];
 
 export function ConnectDemo() {
@@ -40,88 +40,73 @@ export function ConnectDemo() {
   const [state, setState] = useState<DemoState>("idle");
   const [participants, setParticipants] = useState<Character[]>([]);
   const [messages, setMessages] = useState<Message[]>([]);
-  const [autoPlayPaused, setAutoPlayPaused] = useState(false);
-
-  const resetDemo = useCallback(() => {
-    setState("idle");
-    setParticipants([]);
-    setMessages([]);
-  }, []);
 
   useEffect(() => {
-    if (autoPlayPaused) return;
-    if (state !== "idle") return;
-
     let cancelled = false;
 
     const runSequence = async () => {
-      // Initial pause
-      await new Promise((r) => setTimeout(r, 2000));
-      if (cancelled) return;
+      while (!cancelled) {
+        // Initial pause
+        setState("idle");
+        setParticipants([]);
+        setMessages([]);
+        await new Promise((r) => setTimeout(r, 2000));
+        if (cancelled) return;
 
-      // First character joins
-      setState("joining1");
-      setParticipants([DEMO_CHARACTERS[0]!]);
+        // First character joins
+        setState("joining1");
+        setParticipants([DEMO_CHARACTERS[0]!]);
+        await new Promise((r) => setTimeout(r, 1500));
+        if (cancelled) return;
 
-      await new Promise((r) => setTimeout(r, 1500));
-      if (cancelled) return;
+        // Second character joins
+        setState("joining2");
+        setParticipants([DEMO_CHARACTERS[0]!, DEMO_CHARACTERS[1]!]);
+        await new Promise((r) => setTimeout(r, 1500));
+        if (cancelled) return;
 
-      // Second character joins
-      setState("joining2");
-      setParticipants([DEMO_CHARACTERS[0]!, DEMO_CHARACTERS[1]!]);
+        // Third character joins
+        setState("joining3");
+        setParticipants([DEMO_CHARACTERS[0]!, DEMO_CHARACTERS[1]!, DEMO_CHARACTERS[2]!]);
+        await new Promise((r) => setTimeout(r, 1500));
+        if (cancelled) return;
 
-      await new Promise((r) => setTimeout(r, 1500));
-      if (cancelled) return;
+        // Start chatting
+        setState("chatting");
+        await new Promise((r) => setTimeout(r, 1500));
+        if (cancelled) return;
 
-      // Third character joins
-      setState("joining3");
-      setParticipants([DEMO_CHARACTERS[0]!, DEMO_CHARACTERS[1]!, DEMO_CHARACTERS[2]!]);
+        // First message
+        setState("message1");
+        setMessages([
+          { id: 1, character: DEMO_CHARACTERS[0]!, content: t("demo.connect.message1") },
+        ]);
+        await new Promise((r) => setTimeout(r, 2500));
+        if (cancelled) return;
 
-      await new Promise((r) => setTimeout(r, 1500));
-      if (cancelled) return;
+        // Second message
+        setState("message2");
+        setMessages((prev) => [
+          ...prev,
+          { id: 2, character: DEMO_CHARACTERS[1]!, content: t("demo.connect.message2") },
+        ]);
+        await new Promise((r) => setTimeout(r, 2500));
+        if (cancelled) return;
 
-      // Start chatting
-      setState("chatting");
+        // AI reply
+        setState("aiReply");
+        setMessages((prev) => [
+          ...prev,
+          { id: 3, character: DEMO_CHARACTERS[2]!, content: t("demo.connect.aiReply"), isAi: true },
+        ]);
+        await new Promise((r) => setTimeout(r, 3000));
+        if (cancelled) return;
 
-      await new Promise((r) => setTimeout(r, 1500));
-      if (cancelled) return;
-
-      // First message
-      setState("message1");
-      setMessages([
-        { id: 1, character: DEMO_CHARACTERS[0]!, content: t("demo.connect.message1") },
-      ]);
-
-      await new Promise((r) => setTimeout(r, 2500));
-      if (cancelled) return;
-
-      // Second message
-      setState("message2");
-      setMessages((prev) => [
-        ...prev,
-        { id: 2, character: DEMO_CHARACTERS[1]!, content: t("demo.connect.message2") },
-      ]);
-
-      await new Promise((r) => setTimeout(r, 2500));
-      if (cancelled) return;
-
-      // AI reply
-      setState("aiReply");
-      setMessages((prev) => [
-        ...prev,
-        { id: 3, character: DEMO_CHARACTERS[2]!, content: t("demo.connect.aiReply"), isAi: true },
-      ]);
-
-      await new Promise((r) => setTimeout(r, 3000));
-      if (cancelled) return;
-
-      // Complete
-      setState("complete");
-
-      await new Promise((r) => setTimeout(r, 2500));
-      if (cancelled) return;
-
-      resetDemo();
+        // Complete
+        setState("complete");
+        await new Promise((r) => setTimeout(r, 2500));
+        if (cancelled) return;
+      }
     };
 
     runSequence();
@@ -129,18 +114,13 @@ export function ConnectDemo() {
     return () => {
       cancelled = true;
     };
-  }, [state, autoPlayPaused, resetDemo, t]);
+  }, [t]);
 
   const isInChat = ["chatting", "message1", "message2", "aiReply", "complete"].includes(state);
 
   return (
     <div
       className="relative aspect-[4/3] w-full overflow-hidden rounded-xl border bg-gradient-to-br from-muted to-muted/50 shadow-xl"
-      onMouseEnter={() => setAutoPlayPaused(true)}
-      onMouseLeave={() => {
-        setAutoPlayPaused(false);
-        resetDemo();
-      }}
     >
       {/* Window Chrome */}
       <div className="absolute inset-x-0 top-0 z-10 flex h-8 items-center gap-2 border-b bg-background/80 px-3 backdrop-blur-sm sm:h-10 sm:px-4">
@@ -150,7 +130,7 @@ export function ConnectDemo() {
           <div className="h-2 w-2 rounded-full bg-green-500/80 sm:h-3 sm:w-3" />
         </div>
         <span className="ml-2 text-[10px] text-muted-foreground sm:text-xs">
-          {t("connectShowcase.badge")}
+          {t("connectShowcase.badge")} · {t("connectShowcase.poweredBy")}
         </span>
       </div>
 
@@ -221,6 +201,9 @@ export function ConnectDemo() {
                   <div className="flex items-center gap-1.5">
                     <MessageSquare className="h-3 w-3 text-primary sm:h-4 sm:w-4" />
                     <span className="text-[10px] font-medium sm:text-xs">{t("demo.connect.chat")}</span>
+                    <span className="rounded-full bg-green-500/10 px-1.5 py-0.5 text-[8px] text-green-600 sm:text-[9px]">
+                      {t("demo.connect.p2pBadge")}
+                    </span>
                   </div>
                   <div className="flex -space-x-1.5">
                     {participants.map((char) => (
@@ -237,28 +220,30 @@ export function ConnectDemo() {
                 {/* Messages */}
                 <div className="flex-1 space-y-2 overflow-hidden">
                   <AnimatePresence>
-                    {messages.map((msg) => (
-                      <motion.div
-                        key={msg.id}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.4 }}
-                        className="flex items-start gap-1.5 sm:gap-2"
-                      >
-                        <div
-                          className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[8px] font-medium text-white sm:h-6 sm:w-6 ${msg.character.color}`}
+                    {messages.map((msg, index) => {
+                      const isRight = index % 2 === 1;
+                      return (
+                        <motion.div
+                          key={msg.id}
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.4 }}
+                          className={`flex items-start gap-1.5 sm:gap-2 ${isRight ? "flex-row-reverse" : ""}`}
                         >
-                          {msg.character.initials}
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <div className="flex items-center gap-1">
-                            <span className="text-[10px] font-medium sm:text-xs">{msg.character.name}</span>
-                            {msg.isAi && <Bot className="h-2.5 w-2.5 text-muted-foreground" />}
+                          <div
+                            className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[8px] font-medium text-white sm:h-6 sm:w-6 ${msg.character.color}`}
+                          >
+                            {msg.character.initials}
                           </div>
-                          <p className="rounded-md bg-muted/50 px-2 py-1 text-[10px] sm:text-xs">{msg.content}</p>
-                        </div>
-                      </motion.div>
-                    ))}
+                          <div className={`min-w-0 flex-1 ${isRight ? "text-right" : ""}`}>
+                            <div className={`flex items-center gap-1 ${isRight ? "justify-end" : ""}`}>
+                              <span className="text-[10px] font-medium sm:text-xs">{msg.character.name}</span>
+                            </div>
+                            <p className={`inline-block rounded-md px-2 py-1 text-[10px] sm:text-xs ${isRight ? "bg-primary/10" : "bg-muted/50"}`}>{msg.content}</p>
+                          </div>
+                        </motion.div>
+                      );
+                    })}
                   </AnimatePresence>
 
                   {/* Typing indicator */}
@@ -275,18 +260,15 @@ export function ConnectDemo() {
                         >
                           {DEMO_CHARACTERS[2]!.initials}
                         </div>
-                        <div className="flex items-center gap-1 text-[10px] text-muted-foreground sm:text-xs">
-                          <motion.div
-                            animate={{ opacity: [0.4, 1, 0.4] }}
-                            transition={{ repeat: Infinity, duration: 1 }}
-                            className="flex gap-0.5"
-                          >
-                            <span className="h-1 w-1 rounded-full bg-muted-foreground" />
-                            <span className="h-1 w-1 rounded-full bg-muted-foreground" />
-                            <span className="h-1 w-1 rounded-full bg-muted-foreground" />
-                          </motion.div>
-                          <Bot className="h-2.5 w-2.5" />
-                        </div>
+                        <motion.div
+                          animate={{ opacity: [0.4, 1, 0.4] }}
+                          transition={{ repeat: Infinity, duration: 1 }}
+                          className="flex gap-0.5"
+                        >
+                          <span className="h-1 w-1 rounded-full bg-muted-foreground" />
+                          <span className="h-1 w-1 rounded-full bg-muted-foreground" />
+                          <span className="h-1 w-1 rounded-full bg-muted-foreground" />
+                        </motion.div>
                       </motion.div>
                     )}
                   </AnimatePresence>

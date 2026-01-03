@@ -176,12 +176,6 @@ export function PhotoUploader({ onCharacterGenerated, onOpenSettings }: PhotoUpl
           <p className="mt-2 text-sm text-muted-foreground">
             {t("photo.dropDescription")}
           </p>
-          <div className="mt-4 flex justify-center gap-2">
-            <Button variant="outline" type="button">
-              <Upload className="h-4 w-4 mr-2" />
-              {t("photo.selectFile")}
-            </Button>
-          </div>
         </div>
       ) : (
         <div className="space-y-4">
