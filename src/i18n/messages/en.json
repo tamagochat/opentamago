@@ -163,6 +163,7 @@
   "charx": {
     "title": "CharX Viewer",
     "subtitle": "Check out character cards, lorebooks, and assets. Runs right in your browser!",
+    "description": "Open CharX character files right in your browser. View character cards, lorebooks, and assets with complete privacy.",
     "upload": {
       "title": "Upload CharX File",
       "description": "Drag and drop a .charx file or click to browse",

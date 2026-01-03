@@ -5,7 +5,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif,
+  /* CJK를 위해 둥근 느낌의 폰트 우선순위를 제안합니다 (Jua, Rounded M+ 등은 웹폰트 로드 필요) */
+  --font-sans: var(--font-geist-sans), "Jua", "Gowun Dodum", "Hiragino Maru Gothic ProN", ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
@@ -17,6 +18,7 @@
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -51,80 +53,137 @@
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  /* Radius를 키워 더 동글동글하게 만듭니다 */
+  --radius: 1rem;
+
+  /* Light Mode: 따뜻한 크림 & 베이지 톤 */
+  --background: oklch(0.98 0.02 95);
+  /* 부드러운 크림색 */
+  --foreground: oklch(0.30 0.04 50);
+  /* 짙은 웜 브라운 그레이 */
+
+  --card: oklch(0.99 0.01 95);
+  /* 배경보다 아주 살짝 밝은 크림 */
+  --card-foreground: oklch(0.30 0.04 50);
+
+  --popover: oklch(0.99 0.01 95);
+  --popover-foreground: oklch(0.30 0.04 50);
+
+  --primary: oklch(0.60 0.15 50);
+  /* 따뜻한 테라코타/클레이 컬러 */
+  --primary-foreground: oklch(0.98 0.01 95);
+
+  --secondary: oklch(0.95 0.03 95);
+  /* 연한 베이지 */
+  --secondary-foreground: oklch(0.40 0.06 50);
+
+  --muted: oklch(0.95 0.03 95);
+  --muted-foreground: oklch(0.60 0.05 50);
+
+  --accent: oklch(0.93 0.04 95);
+  /* 하이라이트용 샌드 컬러 */
+  --accent-foreground: oklch(0.30 0.04 50);
+
+  --destructive: oklch(0.65 0.20 25);
+  /* 너무 쨍하지 않은 웜 레드 */
+  --destructive-foreground: oklch(0.98 0.01 95);
+
+  --border: oklch(0.90 0.03 95);
+  /* 연한 갈색빛이 도는 경계선 */
+  --input: oklch(0.90 0.03 95);
+  --ring: oklch(0.70 0.10 50);
+  /* 포커스 링도 웜톤 */
+
+  /* 차트 색상도 파스텔 톤으로 조정 */
+  --chart-1: oklch(0.70 0.15 50);
+  /* Warm Orange */
+  --chart-2: oklch(0.75 0.12 140);
+  /* Soft Green */
+  --chart-3: oklch(0.65 0.10 250);
+  /* Soft Blue */
+  --chart-4: oklch(0.80 0.15 85);
+  /* Soft Yellow */
+  --chart-5: oklch(0.70 0.15 340);
+  /* Soft Pink */
+
+  --sidebar: oklch(0.97 0.02 95);
+  --sidebar-foreground: oklch(0.30 0.04 50);
+  --sidebar-primary: oklch(0.60 0.15 50);
+  --sidebar-primary-foreground: oklch(0.98 0.01 95);
+  --sidebar-accent: oklch(0.93 0.04 95);
+  --sidebar-accent-foreground: oklch(0.30 0.04 50);
+  --sidebar-border: oklch(0.90 0.03 95);
+  --sidebar-ring: oklch(0.70 0.10 50);
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  /* Dark Mode: 딥 코코아 & 다크 차콜 톤 */
+  --background: oklch(0.18 0.02 50);
+  /* 짙은 코코아 브라운/그레이 */
+  --foreground: oklch(0.96 0.01 90);
+  /* 따뜻한 화이트 */
+
+  --card: oklch(0.22 0.03 50);
+  /* 배경보다 살짝 밝은 톤 */
+  --card-foreground: oklch(0.96 0.01 90);
+
+  --popover: oklch(0.22 0.03 50);
+  --popover-foreground: oklch(0.96 0.01 90);
+
+  --primary: oklch(0.75 0.12 50);
+  /* 다크모드에서는 조금 더 밝은 살구색/베이지 */
+  --primary-foreground: oklch(0.20 0.04 50);
+
+  --secondary: oklch(0.28 0.03 50);
+  --secondary-foreground: oklch(0.96 0.01 90);
+
+  --muted: oklch(0.28 0.03 50);
+  --muted-foreground: oklch(0.70 0.05 50);
+
+  --accent: oklch(0.28 0.03 50);
+  --accent-foreground: oklch(0.96 0.01 90);
+
+  --destructive: oklch(0.60 0.20 25);
+  --destructive-foreground: oklch(0.96 0.01 90);
+
+  --border: oklch(0.30 0.02 50);
+  /* 튀지 않는 어두운 경계 */
+  --input: oklch(0.30 0.02 50);
+  --ring: oklch(0.60 0.10 50);
+
+  --chart-1: oklch(0.70 0.15 50);
+  --chart-2: oklch(0.75 0.12 140);
+  --chart-3: oklch(0.65 0.10 250);
+  --chart-4: oklch(0.80 0.15 85);
+  --chart-5: oklch(0.70 0.15 340);
+
+  --sidebar: oklch(0.20 0.03 50);
+  --sidebar-foreground: oklch(0.96 0.01 90);
+  --sidebar-primary: oklch(0.75 0.12 50);
+  --sidebar-primary-foreground: oklch(0.20 0.04 50);
+  --sidebar-accent: oklch(0.28 0.03 50);
+  --sidebar-accent-foreground: oklch(0.96 0.01 90);
+  --sidebar-border: oklch(0.30 0.02 50);
+  --sidebar-ring: oklch(0.60 0.10 50);
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
+  }
+
+  ::selection {
+    background-color: oklch(0.75 0.12 50 / 0.3);
+    color: oklch(0.25 0.04 50);
+  }
+
+  .dark ::selection {
+    background-color: oklch(0.65 0.10 50 / 0.4);
+    color: oklch(0.96 0.01 90);
   }
 }
 
@@ -133,4 +192,3 @@
     @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
   }
 }
-

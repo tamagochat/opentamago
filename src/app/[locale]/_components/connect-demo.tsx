@@ -30,9 +30,9 @@ interface Message {
 }
 
 const DEMO_CHARACTERS: Character[] = [
-  { name: "Luna AI", initials: "LU", color: "bg-purple-500" },
-  { name: "Kai AI", initials: "KA", color: "bg-blue-500" },
-  { name: "Nova AI", initials: "NO", color: "bg-pink-500" },
+  { name: "Luna AI", initials: "LU", color: "bg-amber-600" },
+  { name: "Kai AI", initials: "KA", color: "bg-emerald-600" },
+  { name: "Nova AI", initials: "NO", color: "bg-rose-400" },
 ];
 
 export function ConnectDemo() {
@@ -120,7 +120,7 @@ export function ConnectDemo() {
 
   return (
     <div
-      className="relative aspect-[4/3] w-full overflow-hidden rounded-xl border bg-gradient-to-br from-muted to-muted/50 shadow-xl"
+      className="relative aspect-[4/3] w-full overflow-hidden rounded-xl border bg-muted/70 shadow-xl"
     >
       {/* Window Chrome */}
       <div className="absolute inset-x-0 top-0 z-10 flex h-8 items-center gap-2 border-b bg-background/80 px-3 backdrop-blur-sm sm:h-10 sm:px-4">
@@ -201,7 +201,7 @@ export function ConnectDemo() {
                   <div className="flex items-center gap-1.5">
                     <MessageSquare className="h-3 w-3 text-primary sm:h-4 sm:w-4" />
                     <span className="text-[10px] font-medium sm:text-xs">{t("demo.connect.chat")}</span>
-                    <span className="rounded-full bg-green-500/10 px-1.5 py-0.5 text-[8px] text-green-600 sm:text-[9px]">
+                    <span className="rounded-full bg-emerald-500/10 px-1.5 py-0.5 text-[8px] text-emerald-700 sm:text-[9px]">
                       {t("demo.connect.p2pBadge")}
                     </span>
                   </div>

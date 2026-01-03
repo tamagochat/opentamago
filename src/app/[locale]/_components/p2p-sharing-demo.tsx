@@ -95,7 +95,7 @@ export function P2pSharingDemo() {
 
   return (
     <div
-      className="relative aspect-[4/3] w-full overflow-hidden rounded-xl border bg-gradient-to-br from-muted to-muted/50 shadow-xl"
+      className="relative aspect-[4/3] w-full overflow-hidden rounded-xl border bg-muted/70 shadow-xl"
     >
       {/* Window Chrome */}
       <div className="absolute inset-x-0 top-0 z-10 flex h-8 items-center gap-2 border-b bg-background/80 px-3 backdrop-blur-sm sm:h-10 sm:px-4">
@@ -224,7 +224,7 @@ export function P2pSharingDemo() {
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0 }}
-                  className="text-[8px] font-medium text-green-600 sm:text-[10px]"
+                  className="text-[8px] font-medium text-emerald-700 sm:text-[10px]"
                 >
                   {t("demo.p2p.connected")}
                 </motion.span>
@@ -234,7 +234,7 @@ export function P2pSharingDemo() {
                   key="transferred"
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="text-[8px] font-medium text-green-600 sm:text-[10px]"
+                  className="text-[8px] font-medium text-emerald-700 sm:text-[10px]"
                 >
                   {t("demo.p2p.transferred")}
                 </motion.span>
@@ -433,11 +433,11 @@ export function P2pSharingDemo() {
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
                         transition={{ type: "spring", damping: 10 }}
-                        className="rounded-full bg-green-500/10 p-1.5 sm:p-2"
+                        className="rounded-full bg-emerald-500/10 p-1.5 sm:p-2"
                       >
-                        <Check className="h-4 w-4 text-green-500 sm:h-5 sm:w-5" />
+                        <Check className="h-4 w-4 text-emerald-600 sm:h-5 sm:w-5" />
                       </motion.div>
-                      <span className="text-[8px] font-medium text-green-600 sm:text-[10px]">{t("demo.p2p.complete")}</span>
+                      <span className="text-[8px] font-medium text-emerald-700 sm:text-[10px]">{t("demo.p2p.complete")}</span>
                     </motion.div>
                   )}
                 </AnimatePresence>

@@ -31,12 +31,12 @@ const DEMO_CHARACTER = {
 };
 
 const DEMO_ASSETS = [
-  { name: "happy", color: "from-yellow-200 to-orange-200" },
-  { name: "sad", color: "from-blue-200 to-indigo-200" },
-  { name: "angry", color: "from-red-200 to-pink-200" },
-  { name: "neutral", color: "from-gray-200 to-slate-200" },
-  { name: "avatar", color: "from-purple-200 to-violet-200" },
-  { name: "bg_forest", color: "from-green-200 to-emerald-200" },
+  { name: "happy", color: "bg-amber-100" },
+  { name: "sad", color: "bg-slate-200" },
+  { name: "angry", color: "bg-rose-200" },
+  { name: "neutral", color: "bg-stone-200" },
+  { name: "avatar", color: "bg-orange-100" },
+  { name: "bg_forest", color: "bg-emerald-100" },
 ];
 
 const DEMO_JSON = `{
@@ -113,7 +113,7 @@ export function CharxViewerDemo() {
 
   return (
     <div
-      className="relative aspect-[4/3] w-full overflow-hidden rounded-xl border bg-gradient-to-br from-muted to-muted/50 shadow-xl"
+      className="relative aspect-[4/3] w-full overflow-hidden rounded-xl border bg-muted/70 shadow-xl"
     >
       {/* Window Chrome */}
       <div className="absolute inset-x-0 top-0 z-10 flex h-8 items-center gap-2 border-b bg-background/80 px-3 backdrop-blur-sm sm:h-10 sm:px-4">
@@ -279,10 +279,10 @@ export function CharxViewerDemo() {
                             initial={{ scale: 0.8, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
                             transition={{ delay: 0.1 }}
-                            className="h-12 w-12 flex-shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-purple-200 to-violet-300 sm:h-14 sm:w-14"
+                            className="h-12 w-12 flex-shrink-0 overflow-hidden rounded-lg bg-amber-100 sm:h-14 sm:w-14"
                           >
                             <div className="flex h-full w-full items-center justify-center">
-                              <User className="h-6 w-6 text-purple-600/60 sm:h-7 sm:w-7" />
+                              <User className="h-6 w-6 text-amber-700/60 sm:h-7 sm:w-7" />
                             </div>
                           </motion.div>
                           <div className="min-w-0 flex-1">
@@ -358,7 +358,7 @@ export function CharxViewerDemo() {
                               transition={{ delay: i * 0.06 }}
                               className="group cursor-pointer"
                             >
-                              <div className={`aspect-square overflow-hidden rounded-md bg-gradient-to-br ${asset.color}`}>
+                              <div className={`aspect-square overflow-hidden rounded-md ${asset.color}`}>
                                 <div className="flex h-full w-full items-center justify-center">
                                   <Image className="h-4 w-4 text-gray-500/40 sm:h-5 sm:w-5" />
                                 </div>
@@ -381,7 +381,7 @@ export function CharxViewerDemo() {
                               transition={{ delay: 0.24 + i * 0.06 }}
                               className="group cursor-pointer"
                             >
-                              <div className={`aspect-square overflow-hidden rounded-md bg-gradient-to-br ${asset.color}`}>
+                              <div className={`aspect-square overflow-hidden rounded-md ${asset.color}`}>
                                 <div className="flex h-full w-full items-center justify-center">
                                   <Image className="h-4 w-4 text-gray-500/40 sm:h-5 sm:w-5" />
                                 </div>
