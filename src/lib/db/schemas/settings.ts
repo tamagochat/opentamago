@@ -2,6 +2,7 @@ import type { RxJsonSchema } from "rxdb";
 import type { SafetySettings } from "~/lib/ai";
 
 export type ApiMode = "server" | "client";
+export type ChatBubbleTheme = "roleplay" | "messenger";
 
 export interface SettingsDocument {
   id: string;
@@ -11,11 +12,12 @@ export interface SettingsDocument {
   temperature: number;
   maxTokens: number;
   safetySettings: SafetySettings;
+  chatBubbleTheme: ChatBubbleTheme;
   updatedAt: number;
 }
 
 export const settingsSchema: RxJsonSchema<SettingsDocument> = {
-  version: 1,
+  version: 2,
   primaryKey: "id",
   type: "object",
   properties: {
@@ -52,9 +54,13 @@ export const settingsSchema: RxJsonSchema<SettingsDocument> = {
         HARM_CATEGORY_DANGEROUS_CONTENT: { type: "string" },
       },
     },
+    chatBubbleTheme: {
+      type: "string",
+      enum: ["roleplay", "messenger"],
+    },
     updatedAt: {
       type: "number",
     },
   },
-  required: ["id", "apiMode", "defaultModel", "temperature", "maxTokens", "safetySettings", "updatedAt"],
+  required: ["id", "apiMode", "defaultModel", "temperature", "maxTokens", "safetySettings", "chatBubbleTheme", "updatedAt"],
 };

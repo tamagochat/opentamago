@@ -11,10 +11,12 @@ import { RxDBMigrationSchemaPlugin } from "rxdb/plugins/migration-schema";
 import { wrappedValidateAjvStorage } from "rxdb/plugins/validate-ajv";
 import {
   characterSchema,
+  personaSchema,
   chatSchema,
   messageSchema,
   settingsSchema,
   type CharacterDocument,
+  type PersonaDocument,
   type ChatDocument,
   type MessageDocument,
   type SettingsDocument,
@@ -34,6 +36,7 @@ if (process.env.NODE_ENV === "development") {
 
 export type DatabaseCollections = {
   characters: RxCollection<CharacterDocument>;
+  personas: RxCollection<PersonaDocument>;
   chats: RxCollection<ChatDocument>;
   messages: RxCollection<MessageDocument>;
   settings: RxCollection<SettingsDocument>;
@@ -77,6 +80,10 @@ export async function getDatabase(): Promise<Database> {
               1: (oldDoc: any) => oldDoc, // Simple migration: keep existing data
             },
           },
+          personas: {
+            schema: personaSchema,
+            // Version 0 schema, no migration needed
+          },
           chats: {
             schema: chatSchema,
             // No migration strategies needed for version 0 schemas
@@ -91,6 +98,10 @@ export async function getDatabase(): Promise<Database> {
               1: (oldDoc: any) => ({
                 ...oldDoc,
                 apiMode: oldDoc.apiMode ?? "client", // Default to client mode
+              }),
+              2: (oldDoc: any) => ({
+                ...oldDoc,
+                chatBubbleTheme: oldDoc.chatBubbleTheme ?? "roleplay", // Default to roleplay theme
               }),
             },
           },

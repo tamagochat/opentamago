@@ -13,26 +13,24 @@ import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Textarea } from "~/components/ui/textarea";
-import { useCharacters } from "~/lib/db/hooks";
-import type { CharacterDocument } from "~/lib/db/schemas";
+import { usePersonas } from "~/lib/db/hooks";
+import type { PersonaDocument } from "~/lib/db/schemas";
 
 interface PersonaEditorProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  persona?: CharacterDocument | null;
-  onSave?: (persona: CharacterDocument) => void;
+  persona?: PersonaDocument | null;
+  onSave?: (persona: PersonaDocument) => void;
 }
 
 type FormData = {
   name: string;
   description: string;
-  personality: string;
 };
 
 const defaultFormData: FormData = {
   name: "",
   description: "",
-  personality: "",
 };
 
 export function PersonaEditor({
@@ -43,7 +41,7 @@ export function PersonaEditor({
 }: PersonaEditorProps) {
   const t = useTranslations("chat.editor");
   const tActions = useTranslations("actions");
-  const { createCharacter, updateCharacter } = useCharacters();
+  const { createPersona, updatePersona } = usePersonas();
   const [formData, setFormData] = useState<FormData>(defaultFormData);
   const [isSaving, setIsSaving] = useState(false);
 
@@ -54,7 +52,6 @@ export function PersonaEditor({
       setFormData({
         name: persona.name,
         description: persona.description,
-        personality: persona.personality,
       });
     } else {
       setFormData(defaultFormData);
@@ -66,18 +63,12 @@ export function PersonaEditor({
 
     setIsSaving(true);
     try {
-      let saved: CharacterDocument | null;
+      let saved: PersonaDocument | null;
       if (isEditing && persona) {
-        saved = await updateCharacter(persona.id, formData);
+        saved = await updatePersona(persona.id, formData);
       } else {
-        saved = await createCharacter({
+        saved = await createPersona({
           ...formData,
-          scenario: "",
-          firstMessage: "",
-          exampleDialogue: "",
-          systemPrompt: "",
-          creatorNotes: "",
-          tags: [],
           avatarData: undefined,
         });
       }
@@ -125,17 +116,6 @@ export function PersonaEditor({
               onChange={(e) => updateField("description", e.target.value)}
               placeholder={t("descriptionPersona")}
               rows={2}
-            />
-          </div>
-
-          <div className="grid gap-2">
-            <Label htmlFor="personality">{t("aboutMe")}</Label>
-            <Textarea
-              id="personality"
-              value={formData.personality}
-              onChange={(e) => updateField("personality", e.target.value)}
-              placeholder={t("personalityPersona")}
-              rows={4}
             />
           </div>
         </div>

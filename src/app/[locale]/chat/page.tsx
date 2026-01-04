@@ -2,11 +2,13 @@
 
 import { useState, useEffect } from "react";
 import { Button } from "~/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "~/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from "~/components/ui/sheet";
 import { Menu, PanelRight } from "lucide-react";
 import { LeftPanel } from "./_components/left-panel";
 import { CenterPanel } from "./_components/center-panel";
 import { RightPanel } from "./_components/right-panel";
+import { LocaleSwitcher } from "~/components/locale-switcher";
+import { ThemeToggle } from "~/components/theme-toggle";
 import { useSettings } from "~/lib/db/hooks";
 import type { CharacterDocument, ChatDocument } from "~/lib/db/schemas";
 
@@ -46,7 +48,9 @@ export default function ChatPage() {
 
       {/* Mobile Left Panel (Sheet) */}
       <Sheet open={leftPanelOpen} onOpenChange={setLeftPanelOpen}>
-        <SheetContent side="left" className="w-80 p-0">
+        <SheetContent side="left" className="w-80 p-0 [&>button:first-of-type]:hidden">
+          <SheetTitle className="sr-only">Navigation</SheetTitle>
+          <SheetDescription className="sr-only">Character and chat navigation</SheetDescription>
           <LeftPanel
             selectedCharacter={selectedCharacter}
             selectedChat={selectedChat}
@@ -74,7 +78,9 @@ export default function ChatPage() {
             {selectedCharacter?.name ?? "OpenTamago"}
           </span>
 
-          <div className="flex shrink-0 items-center">
+          <div className="flex shrink-0 items-center gap-1">
+            <LocaleSwitcher />
+            <ThemeToggle />
             {selectedCharacter && (
               <Sheet open={rightPanelOpen} onOpenChange={setRightPanelOpen}>
                 <SheetTrigger asChild>
@@ -108,7 +114,9 @@ export default function ChatPage() {
 
       {/* Mobile Right Panel (Sheet) */}
       <Sheet open={rightPanelOpen} onOpenChange={setRightPanelOpen}>
-        <SheetContent side="right" className="w-80 p-0">
+        <SheetContent side="right" className="w-80 p-0 [&>button:first-of-type]:hidden">
+          <SheetTitle className="sr-only">Character Details</SheetTitle>
+          <SheetDescription className="sr-only">View and edit character information</SheetDescription>
           <RightPanel
             character={selectedCharacter}
             onCharacterUpdate={(char) => {

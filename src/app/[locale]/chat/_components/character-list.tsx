@@ -55,12 +55,12 @@ export function CharacterList({
   }
 
   return (
-    <div className="space-y-1 min-w-0 max-w-full">
+    <div className="flex flex-col gap-1 w-full">
       {characters.map((character) => (
         <div
           key={character.id}
           className={cn(
-            "hover:bg-accent group flex cursor-pointer items-center gap-3 rounded-lg p-2 transition-colors min-w-0 max-w-full",
+            "hover:bg-accent group flex cursor-pointer items-center gap-3 rounded-lg p-2 transition-colors w-full",
             selectedCharacter?.id === character.id && "bg-accent"
           )}
           onClick={() => onSelectCharacter(character)}
@@ -69,9 +69,9 @@ export function CharacterList({
             <AvatarImage src={character.avatarData} />
             <AvatarFallback>{character.name.slice(0, 2).toUpperCase()}</AvatarFallback>
           </Avatar>
-          <div className="min-w-0 flex-1 overflow-hidden pr-2">
-            <p className="block truncate font-medium">{character.name}</p>
-            <p className="text-muted-foreground block truncate text-xs">
+          <div className="flex-1 min-w-0">
+            <p className="truncate font-medium max-w-[180px]">{character.name}</p>
+            <p className="truncate text-muted-foreground text-xs max-w-[180px]">
               {character.description || t("noDescription")}
             </p>
           </div>

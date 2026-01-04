@@ -28,6 +28,7 @@ import {
   type CharacterItem,
 } from "~/lib/stores";
 import { useRouter } from "~/i18n/routing";
+import { ExperimentalDisclaimer } from "~/components/experimental-disclaimer";
 
 export default function CharXPage() {
   const t = useTranslations("charx");
@@ -139,6 +140,8 @@ export default function CharXPage() {
             </div>
           </div>
         </div>
+
+        <ExperimentalDisclaimer type="charx" />
 
         <div className="space-y-6">
           {items.length === 0 && (

@@ -2,12 +2,12 @@
 
 import { useState, useCallback, useRef } from "react";
 import { useTranslations } from "next-intl";
-import { Upload, Users, ImagePlus } from "lucide-react";
+import { Upload, Users, ImagePlus, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { ExistingCharacterGrid } from "./existing-character-grid";
 import { PhotoUploader } from "./photo-uploader";
-import { parseCharX, assetToDataUrl } from "~/lib/charx/parser";
+import { useCharxImport } from "~/lib/charx";
 import { cn } from "~/lib/utils";
 import type { CharacterData } from "~/lib/connect/messages";
 import type { CharacterDocument } from "~/lib/db/schemas";
@@ -54,7 +54,12 @@ export function CharacterSelector({
   // CharX file upload
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = useState(false);
-  const [isUploading, setIsUploading] = useState(false);
+
+  const { importCharx, isImporting } = useCharxImport({
+    onError: (error) => {
+      toast.error(t("upload.error"), { description: error.message });
+    },
+  });
 
   const handleCharxFile = useCallback(
     async (file: File) => {
@@ -63,50 +68,22 @@ export function CharacterSelector({
         return;
       }
 
-      setIsUploading(true);
-      try {
-        const parsed = await parseCharX(file);
-        if (!parsed.card) {
-          toast.error("Invalid CharX file");
-          return;
-        }
-
-        const cardData = parsed.card.data;
-
-        // Find avatar from assets
-        let avatar: string | undefined;
-        const iconAsset = cardData.assets.find(
-          (a) => a.type === "icon" && a.uri
-        );
-        if (iconAsset) {
-          const uri = iconAsset.uri.replace("embeded://", "");
-          const assetData = parsed.assets.get(uri);
-          if (assetData) {
-            avatar = assetToDataUrl(assetData, uri) ?? undefined;
-          }
-        }
-
-        const characterData: CharacterData = {
+      const characterData = await importCharx(file);
+      if (characterData) {
+        onSelect({
           id: crypto.randomUUID(),
-          name: cardData.name,
-          description: cardData.description || "",
-          personality: cardData.personality || "",
-          scenario: cardData.scenario || "",
-          firstMessage: cardData.first_mes || "",
-          exampleDialogue: cardData.mes_example || "",
-          systemPrompt: cardData.system_prompt || "",
-          avatar,
-        };
-
-        onSelect(characterData);
-      } catch (error) {
-        console.error("Failed to parse CharX:", error);
-        toast.error("Failed to parse CharX file");
-      } finally {
-        setIsUploading(false);
+          name: characterData.name,
+          description: characterData.description || "",
+          personality: characterData.personality || "",
+          scenario: characterData.scenario || "",
+          firstMessage: characterData.firstMessage || "",
+          exampleDialogue: characterData.exampleDialogue || "",
+          systemPrompt: characterData.systemPrompt || "",
+          avatar: characterData.avatarData,
+        });
       }
     },
-    [onSelect, t]
+    [onSelect, t, importCharx]
   );
 
   const handleFileInputChange = useCallback(
@@ -190,7 +167,7 @@ export function CharacterSelector({
               accept=".charx"
               className="hidden"
               onChange={handleFileInputChange}
-              disabled={isUploading || isLoading}
+              disabled={isImporting || isLoading}
             />
             <Upload className="mx-auto h-12 w-12 text-muted-foreground" />
             <h3 className="mt-4 text-lg font-medium">{t("upload.title")}</h3>

@@ -143,13 +143,13 @@ function CharacterCard({
       </div>
 
       {/* Content */}
-      <div className="p-3 space-y-2">
+      <div className="p-3 space-y-2 w-full overflow-hidden">
         {/* Name and Creator */}
-        <div className="min-w-0">
+        <div className="min-w-0 w-full overflow-hidden">
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <h3 className="font-semibold text-sm truncate">{name}</h3>
+                <h3 className="font-semibold text-sm truncate min-w-0">{name}</h3>
               </TooltipTrigger>
               <TooltipContent>
                 <p>{name}</p>
@@ -157,7 +157,7 @@ function CharacterCard({
             </Tooltip>
           </TooltipProvider>
           {creator && (
-            <p className="text-xs text-muted-foreground truncate">
+            <p className="text-xs text-muted-foreground truncate min-w-0">
               {t("character.byCreator", { creator })}
             </p>
           )}
@@ -165,7 +165,7 @@ function CharacterCard({
 
         {/* Tags */}
         {tags.length > 0 && (
-          <div className="flex gap-1 flex-wrap">
+          <div className="flex gap-1 flex-wrap w-full overflow-hidden">
             {tags.slice(0, 2).map((tag) => (
               <Badge
                 key={tag}
@@ -185,12 +185,12 @@ function CharacterCard({
 
         {/* Stats */}
         {isDone && (lorebookCount || assetsCount) && (
-          <div className="flex gap-2 text-[10px] text-muted-foreground">
+          <div className="flex gap-2 text-[10px] text-muted-foreground w-full overflow-hidden">
             {lorebookCount !== undefined && lorebookCount > 0 && (
-              <span>{t("character.loreCount", { count: lorebookCount })}</span>
+              <span className="truncate">{t("character.loreCount", { count: lorebookCount })}</span>
             )}
             {assetsCount !== undefined && assetsCount > 0 && (
-              <span>{t("character.assetsCount", { count: assetsCount })}</span>
+              <span className="truncate">{t("character.assetsCount", { count: assetsCount })}</span>
             )}
           </div>
         )}

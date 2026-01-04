@@ -2,10 +2,11 @@
 
 import { useState, useRef } from "react";
 import { useTranslations } from "next-intl";
+import { toast } from "sonner";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { Button } from "~/components/ui/button";
 import { Separator } from "~/components/ui/separator";
-import { Egg, Plus, UserPlus, FileUp, User } from "lucide-react";
+import { Egg, Plus, UserPlus, FileUp, User, Loader2 } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,11 +15,13 @@ import {
   DropdownMenuSeparator,
 } from "~/components/ui/dropdown-menu";
 import { useCharacters, useChats } from "~/lib/db/hooks";
+import { useCharxImport } from "~/lib/charx";
 import { CharacterEditor } from "./character-editor";
 import { PersonaEditor } from "./persona-editor";
 import { SettingsModal } from "~/components/settings-modal";
 import { CharacterList } from "./character-list";
 import { RecentChatsList } from "./recent-chats-list";
+import { Link } from "~/i18n/routing";
 import type { CharacterDocument, ChatDocument } from "~/lib/db/schemas";
 import { cn } from "~/lib/utils";
 
@@ -43,12 +46,18 @@ export function LeftPanel({
 }: LeftPanelProps) {
   const t = useTranslations("chat.leftPanel");
   const tCommon = useTranslations("common");
-  const { characters, deleteCharacter } = useCharacters();
+  const { characters, createCharacter, deleteCharacter } = useCharacters();
   const { createChat, deleteChat } = useChats(selectedCharacter?.id);
   const [characterEditorOpen, setCharacterEditorOpen] = useState(false);
   const [personaEditorOpen, setPersonaEditorOpen] = useState(false);
   const [editingCharacter, setEditingCharacter] = useState<CharacterDocument | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const { importCharx, isImporting } = useCharxImport({
+    onError: (error) => {
+      toast.error(t("importError"), { description: error.message });
+    },
+  });
 
   const handleCreateCharacter = () => {
     setEditingCharacter(null);
@@ -67,13 +76,18 @@ export function LeftPanel({
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // TODO: Implement .charx import logic
-    console.log("Importing file:", file.name);
-    alert(t("importComingSoon"));
-
     // Reset file input
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
+    }
+
+    const characterData = await importCharx(file);
+    if (characterData) {
+      const saved = await createCharacter(characterData);
+      if (saved) {
+        toast.success(t("importSuccess"), { description: saved.name });
+        onSelectCharacter(saved);
+      }
     }
   };
 
@@ -125,10 +139,10 @@ export function LeftPanel({
     <div className={cn("bg-muted/30 flex h-full flex-col border-r min-w-0 w-full", className)}>
       {/* Header */}
       <div className="flex items-center justify-between border-b p-4 min-w-0">
-        <div className="flex items-center gap-2 min-w-0 flex-1">
+        <Link href="/" className="flex items-center gap-2 min-w-0 flex-1 hover:opacity-80 transition-opacity">
           <Egg className="h-6 w-6 text-primary shrink-0" />
           <h1 className="text-lg font-semibold truncate">{tCommon("appName")}</h1>
-        </div>
+        </Link>
         <div className="shrink-0">
           <SettingsModal open={settingsOpen} onOpenChange={onSettingsOpenChange} />
         </div>
@@ -138,13 +152,14 @@ export function LeftPanel({
       <input
         ref={fileInputRef}
         type="file"
-        accept=".charx,.json"
+        accept=".charx"
         onChange={handleFileChange}
         className="hidden"
+        disabled={isImporting}
       />
 
-      <ScrollArea className="flex-1 min-w-0">
-        <div className="p-2 min-w-0">
+      <ScrollArea className="flex-1 min-w-0 w-full [&>[data-slot=scroll-area-viewport]]:!overflow-x-hidden">
+        <div className="p-2 w-full">
           {/* Create Dropdown Button */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -158,9 +173,13 @@ export function LeftPanel({
                 <UserPlus className="mr-2 h-4 w-4" />
                 {t("createCharacter")}
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={handleImportCharx}>
-                <FileUp className="mr-2 h-4 w-4" />
-                {t("importCharx")}
+              <DropdownMenuItem onClick={handleImportCharx} disabled={isImporting}>
+                {isImporting ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  <FileUp className="mr-2 h-4 w-4" />
+                )}
+                {isImporting ? t("importing") : t("importCharx")}
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={handleCreatePersona}>
@@ -171,7 +190,7 @@ export function LeftPanel({
           </DropdownMenu>
 
           {/* Characters Section */}
-          <div className="mb-4">
+          <div className="mb-4 w-full overflow-hidden">
             <h3 className="mb-2 px-2 text-xs font-semibold uppercase text-muted-foreground">
               {t("characters")}
             </h3>
@@ -189,7 +208,7 @@ export function LeftPanel({
 
           {/* Recent Chats Section */}
           <Separator className="my-4" />
-          <div>
+          <div className="w-full overflow-hidden">
             <h3 className="mb-2 px-2 text-xs font-semibold uppercase text-muted-foreground">
               {t("recentChats")}
             </h3>
@@ -213,7 +232,6 @@ export function LeftPanel({
       <PersonaEditor
         open={personaEditorOpen}
         onOpenChange={setPersonaEditorOpen}
-        onSave={(char) => onSelectCharacter(char)}
       />
     </div>
   );

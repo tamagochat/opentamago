@@ -23,6 +23,7 @@ import {
   useUploaderConnections,
 } from "~/app/_components/p2p";
 import { consumePendingFile } from "~/lib/stores";
+import { ExperimentalDisclaimer } from "~/components/experimental-disclaimer";
 
 type PageState = "initial" | "confirm" | "sharing";
 
@@ -226,6 +227,8 @@ export default function P2PPage() {
             </div>
           </div>
         </div>
+
+        <ExperimentalDisclaimer type="p2p" />
 
         <WebRTCProvider>
           <P2PContent />

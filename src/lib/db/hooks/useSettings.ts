@@ -17,6 +17,7 @@ const DEFAULT_SETTINGS: SettingsDocument = {
   temperature: 0.9,
   maxTokens: 4096,
   safetySettings: DEFAULT_SAFETY_SETTINGS,
+  chatBubbleTheme: "roleplay",
   updatedAt: Date.now(),
 };
 
@@ -56,6 +57,7 @@ export function useSettings() {
           ...DEFAULT_SETTINGS,
           ...stored,
           apiMode: stored.apiMode ?? DEFAULT_SETTINGS.apiMode,
+          chatBubbleTheme: stored.chatBubbleTheme ?? DEFAULT_SETTINGS.chatBubbleTheme,
           safetySettings: {
             ...DEFAULT_SAFETY_SETTINGS,
             ...stored.safetySettings,
@@ -74,6 +76,7 @@ export function useSettings() {
           ...DEFAULT_SETTINGS,
           ...stored,
           apiMode: stored.apiMode ?? DEFAULT_SETTINGS.apiMode,
+          chatBubbleTheme: stored.chatBubbleTheme ?? DEFAULT_SETTINGS.chatBubbleTheme,
           safetySettings: {
             ...DEFAULT_SAFETY_SETTINGS,
             ...stored.safetySettings,

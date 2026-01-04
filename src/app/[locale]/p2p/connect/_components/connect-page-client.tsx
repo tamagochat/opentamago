@@ -23,6 +23,7 @@ import { useSettings } from "~/lib/db/hooks";
 import { SettingsModal } from "~/components/settings-modal";
 import type { CharacterData } from "~/lib/connect/messages";
 import { cn } from "~/lib/utils";
+import { ExperimentalDisclaimer } from "~/components/experimental-disclaimer";
 
 type ConnectState =
   | "selecting" // Choosing character
@@ -264,6 +265,8 @@ function ConnectPageContent() {
           <SettingsModal open={settingsOpen} onOpenChange={setSettingsOpen} />
         </div>
       </div>
+
+      <ExperimentalDisclaimer type="p2p" />
 
       {/* Main Content */}
       {state === "selecting" && (

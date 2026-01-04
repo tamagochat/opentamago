@@ -58,14 +58,14 @@ export function RecentChatsList({
   }
 
   return (
-    <div className="space-y-1 min-w-0 max-w-full">
+    <div className="flex flex-col gap-1 w-full">
       {allChats.map((chat) => {
         const chatCharacter = characters.find((c) => c.id === chat.characterId);
         return (
           <div
             key={chat.id}
             className={cn(
-              "hover:bg-accent group flex cursor-pointer items-center gap-3 rounded-lg p-2 transition-colors min-w-0 max-w-full",
+              "hover:bg-accent group flex cursor-pointer items-center gap-3 rounded-lg p-2 transition-colors w-full",
               selectedChat?.id === chat.id && "bg-accent"
             )}
             onClick={() => onSelectChat(chat, chatCharacter)}
@@ -80,9 +80,9 @@ export function RecentChatsList({
             ) : (
               <MessageSquare className="text-muted-foreground h-5 w-5 shrink-0" />
             )}
-            <div className="min-w-0 flex-1 overflow-hidden pr-2">
-              <p className="block truncate text-sm font-medium">{chat.title}</p>
-              <p className="text-muted-foreground block truncate text-xs">
+            <div className="flex-1 min-w-0">
+              <p className="truncate text-sm font-medium max-w-[180px]">{chat.title}</p>
+              <p className="truncate text-muted-foreground text-xs max-w-[180px]">
                 {chatCharacter?.name && `${chatCharacter.name} • `}
                 {formatDate(chat.lastMessageAt)}
               </p>

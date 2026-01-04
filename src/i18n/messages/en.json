@@ -7,6 +7,12 @@
     "retry": "Try again",
     "comingSoon": "Coming Soon"
   },
+  "experimental": {
+    "badge": "Experimental",
+    "charx": "This feature is still a work in progress! It's designed to support CharX version 3, but we're still improving it.",
+    "p2p": "This uses WebRTC for direct P2P connections. Please only share QR codes and links with people you trust!",
+    "feedback": "Got feedback or found a bug? Let us know on <link>GitHub Issues</link>!"
+  },
   "actions": {
     "save": "Save",
     "cancel": "Cancel",
@@ -449,7 +455,9 @@
       "yesterday": "Yesterday",
       "deleteChat": "Delete this chat?",
       "deleteCharacter": "Delete \"{name}\"? This will also delete all related chats.",
-      "importComingSoon": "Import feature coming soon!"
+      "importing": "Importing...",
+      "importSuccess": "Character imported",
+      "importError": "Import failed"
     },
     "centerPanel": {
       "selectCharacter": "Pick a character and chat to get started",
@@ -460,7 +468,11 @@
       "clearChat": "Clear chat",
       "thinking": "Thinking...",
       "messagePlaceholder": "Message {name}...",
-      "clearAllMessages": "Clear all messages in this chat?"
+      "clearAllMessages": "Clear all messages in this chat?",
+      "selectPersona": "Select persona",
+      "noPersonas": "No personas yet.",
+      "createPersona": "Create persona",
+      "selectPersonaToSend": "Select a persona to send messages"
     },
     "rightPanel": {
       "selectCharacter": "Select a character to see details",
@@ -503,8 +515,6 @@
       "firstMessage": "First Message",
       "firstMessagePlaceholder": "The first message your character will send",
       "personality": "Personality",
-      "aboutMe": "About Me",
-      "personalityPersona": "Describe yourself, your interests, how you communicate...",
       "personalityCharacter": "Describe personality traits, behaviors, quirks...",
       "scenario": "Scenario",
       "scenarioPlaceholder": "The setting or context for conversations",
@@ -521,7 +531,11 @@
     "settings": {
       "title": "Settings",
       "description": "Set up your API settings. Everything is stored locally.",
-      "general": "General",
+      "apiSection": "API",
+      "apiKeySection": "API Key",
+      "apiKeyDescription": "Configure your API connection and model settings.",
+      "chatUISection": "Chat UI",
+      "chatUIDescription": "Customize how chat messages are displayed.",
       "safety": "Safety",
       "apiMode": "API Mode",
       "apiModeServer": "Server API",
@@ -536,6 +550,11 @@
       "selectModel": "Select a model",
       "temperature": "Temperature",
       "maxTokens": "Max Tokens",
+      "bubbleTheme": "Chat Bubble Theme",
+      "themeRoleplay": "Roleplay",
+      "themeRoleplayDesc": "Styled text with quotes and actions",
+      "themeMessenger": "Messenger",
+      "themeMessengerDesc": "Plain text, no formatting",
       "safetyDescription": "Set up content safety filters. By default, all filters are off for unrestricted roleplay.",
       "hateSpeech": "Hate Speech",
       "harassment": "Harassment",
@@ -564,7 +583,9 @@
     "createInChat": "Create one in Chat",
     "upload": {
       "title": "Upload CharX File",
-      "description": "Drop a .charx file or click to select"
+      "description": "Drop a .charx file or click to select",
+      "formats": "Only .charx files are supported",
+      "error": "Failed to import"
     },
     "photo": {
       "dropTitle": "Upload a Photo",

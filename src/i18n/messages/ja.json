@@ -7,6 +7,12 @@
     "retry": "もう一度試す",
     "comingSoon": "もうすぐ登場"
   },
+  "experimental": {
+    "badge": "実験的機能",
+    "charx": "まだ開発中の機能だよ！CharXバージョン3をサポートするように作ってるけど、どんどん改善していくね。",
+    "p2p": "WebRTCでダイレクトにP2P接続してるよ。QRコードやリンクは信頼できる人だけに共有してね！",
+    "feedback": "フィードバックやバグを見つけた？<link>GitHub Issues</link>で教えてね！"
+  },
   "actions": {
     "save": "保存",
     "cancel": "キャンセル",
@@ -449,7 +455,9 @@
       "yesterday": "昨日",
       "deleteChat": "このチャットを削除する？",
       "deleteCharacter": "「{name}」を削除する？関連するチャットも全部消えるよ。",
-      "importComingSoon": "インポート機能、もうすぐ登場！"
+      "importing": "インポート中...",
+      "importSuccess": "キャラクターをインポートしました",
+      "importError": "インポートに失敗しました"
     },
     "centerPanel": {
       "selectCharacter": "キャラクターとチャットを選んで始めよう",
@@ -460,7 +468,11 @@
       "clearChat": "チャットをクリア",
       "thinking": "考え中...",
       "messagePlaceholder": "{name}にメッセージ...",
-      "clearAllMessages": "このチャットのメッセージを全部消す？"
+      "clearAllMessages": "このチャットのメッセージを全部消す？",
+      "selectPersona": "ペルソナを選択",
+      "noPersonas": "まだペルソナがないよ。",
+      "createPersona": "ペルソナを作る",
+      "selectPersonaToSend": "メッセージを送るにはペルソナを選んでね"
     },
     "rightPanel": {
       "selectCharacter": "キャラクターを選んで詳細を見よう",
@@ -503,8 +515,6 @@
       "firstMessage": "最初のメッセージ",
       "firstMessagePlaceholder": "キャラクターが送る最初のメッセージ",
       "personality": "性格",
-      "aboutMe": "自己紹介",
-      "personalityPersona": "自分のこと、趣味、話し方などを書いてみて...",
       "personalityCharacter": "性格、習慣、特徴などを書いてみて...",
       "scenario": "シナリオ",
       "scenarioPlaceholder": "会話の背景や状況",
@@ -521,7 +531,11 @@
     "settings": {
       "title": "設定",
       "description": "API設定をしてね。設定はローカルに保存されるよ。",
-      "general": "一般",
+      "apiSection": "API",
+      "apiKeySection": "APIキー",
+      "apiKeyDescription": "API接続とモデル設定を構成してね。",
+      "chatUISection": "チャットUI",
+      "chatUIDescription": "チャットメッセージの表示方法をカスタマイズ。",
       "safety": "安全",
       "apiMode": "APIモード",
       "apiModeServer": "サーバーAPI",
@@ -536,6 +550,11 @@
       "selectModel": "モデルを選択",
       "temperature": "温度",
       "maxTokens": "最大トークン",
+      "bubbleTheme": "チャットバブルテーマ",
+      "themeRoleplay": "ロールプレイ",
+      "themeRoleplayDesc": "セリフとアクションにスタイル適用",
+      "themeMessenger": "メッセンジャー",
+      "themeMessengerDesc": "プレーンテキスト、書式なし",
       "safetyDescription": "コンテンツ安全フィルターを設定してね。デフォルトでは全部オフで、自由にロールプレイできるよ。",
       "hateSpeech": "ヘイトスピーチ",
       "harassment": "ハラスメント",
@@ -564,7 +583,9 @@
     "createInChat": "チャットで作る",
     "upload": {
       "title": "CharXファイルをアップロード",
-      "description": ".charxファイルをドロップまたはクリックして選択"
+      "description": ".charxファイルをドロップまたはクリックして選択",
+      "formats": ".charxファイルのみ対応",
+      "error": "インポートに失敗しました"
     },
     "photo": {
       "dropTitle": "写真をアップロード",

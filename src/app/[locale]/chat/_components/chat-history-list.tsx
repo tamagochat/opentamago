@@ -66,9 +66,9 @@ export function ChatHistoryList({
             onClick={() => onSelectChat(chat)}
           >
             <MessageSquare className="text-muted-foreground h-5 w-5 shrink-0" />
-            <div className="min-w-0 flex-1 overflow-hidden">
-              <p className="block truncate text-sm font-medium">{chat.title}</p>
-              <p className="text-muted-foreground block truncate text-xs">
+            <div className="flex-1 min-w-0">
+              <p className="truncate text-sm font-medium max-w-[180px]">{chat.title}</p>
+              <p className="truncate text-muted-foreground text-xs max-w-[180px]">
                 {formatChatDate(chat.lastMessageAt)}
               </p>
             </div>
