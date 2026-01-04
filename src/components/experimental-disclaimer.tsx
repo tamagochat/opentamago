@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { FlaskConical, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 
-type DisclaimerType = "charx" | "p2p";
+type DisclaimerType = "charx" | "p2p" | "chat";
 
 interface ExperimentalDisclaimerProps {
   type: DisclaimerType;
@@ -13,7 +13,7 @@ interface ExperimentalDisclaimerProps {
 const STORAGE_KEY = "experimental-disclaimer-dismissed";
 
 function getDismissedState(): Record<DisclaimerType, boolean> {
-  if (typeof window === "undefined") return { charx: false, p2p: false };
+  if (typeof window === "undefined") return { charx: false, p2p: false, chat: false };
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
@@ -22,7 +22,7 @@ function getDismissedState(): Record<DisclaimerType, boolean> {
   } catch {
     // Ignore parse errors
   }
-  return { charx: false, p2p: false };
+  return { charx: false, p2p: false, chat: false };
 }
 
 function setDismissedState(type: DisclaimerType) {

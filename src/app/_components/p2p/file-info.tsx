@@ -2,6 +2,7 @@
 
 import { FileArchive, X } from "lucide-react";
 import { Button } from "~/components/ui/button";
+import { Card } from "~/components/ui/card";
 
 interface FileInfoProps {
   file: File;
@@ -19,7 +20,7 @@ function formatFileSize(bytes: number): string {
 
 export function FileInfo({ file, onRemove, showRemove = true }: FileInfoProps) {
   return (
-    <div className="flex items-center gap-3 rounded-lg border bg-muted/50 p-3">
+    <Card className="flex items-center gap-3 bg-muted/50 p-3">
       <div className="flex h-10 w-10 items-center justify-center rounded-md bg-primary/10">
         <FileArchive className="h-5 w-5 text-primary" />
       </div>
@@ -37,6 +38,6 @@ export function FileInfo({ file, onRemove, showRemove = true }: FileInfoProps) {
           <X className="h-4 w-4" />
         </Button>
       )}
-    </div>
+    </Card>
   );
 }

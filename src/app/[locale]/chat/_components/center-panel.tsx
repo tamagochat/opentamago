@@ -21,6 +21,7 @@ import { streamChatResponse } from "~/lib/ai";
 import { LocaleSwitcher } from "~/components/locale-switcher";
 import { ThemeToggle } from "~/components/theme-toggle";
 import { PersonaEditor } from "./persona-editor";
+import { ExperimentalDisclaimer } from "~/components/experimental-disclaimer";
 import { toast } from "sonner";
 
 // Roleplay text renderer that highlights quotes and formats actions
@@ -279,7 +280,8 @@ export function CenterPanel({ character, chat, className, onOpenSettings }: Cent
           <LocaleSwitcher />
           <ThemeToggle />
         </div>
-        <div className="flex flex-1 flex-col items-center justify-center gap-4 p-8">
+        <div className="flex flex-1 flex-col items-center justify-center gap-4 p-8 max-w-2xl mx-auto">
+          <ExperimentalDisclaimer type="chat" />
           <div className="text-muted-foreground text-center">
             <p className="text-lg font-medium">{t("selectCharacter")}</p>
             <p className="text-sm">{t("createFromLeft")}</p>

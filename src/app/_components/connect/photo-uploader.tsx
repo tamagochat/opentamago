@@ -6,6 +6,8 @@ import { Upload, Camera, Loader2, X, Sparkles, AlertCircle } from "lucide-react"
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
+import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
+import { Card } from "~/components/ui/card";
 import { toast } from "sonner";
 import type { CharacterData } from "~/lib/connect/messages";
 import { CONNECT_CONFIG } from "~/lib/connect";
@@ -131,33 +133,29 @@ export function PhotoUploader({ onCharacterGenerated, onOpenSettings }: PhotoUpl
   // Show warning if API is not ready (client mode without API key)
   if (!isApiReady) {
     return (
-      <div className="rounded-lg border border-yellow-200 bg-yellow-50 p-6 dark:border-yellow-800 dark:bg-yellow-950">
-        <div className="flex items-start gap-3">
-          <AlertCircle className="h-5 w-5 text-yellow-600 dark:text-yellow-400 shrink-0 mt-0.5" />
-          <div className="space-y-2">
-            <h3 className="font-medium text-yellow-800 dark:text-yellow-200">
-              {t("photo.apiKeyRequired")}
-            </h3>
-            <p className="text-sm text-yellow-700 dark:text-yellow-300">
-              {t("photo.apiKeyDescription")}
-            </p>
-            {onOpenSettings && (
-              <Button variant="outline" size="sm" onClick={onOpenSettings}>
-                {t("photo.goToSettings")}
-              </Button>
-            )}
-          </div>
-        </div>
-      </div>
+      <Alert variant="default" className="border-yellow-200 bg-yellow-50 dark:border-yellow-800 dark:bg-yellow-950">
+        <AlertCircle className="h-5 w-5 text-yellow-600 dark:text-yellow-400" />
+        <AlertTitle className="text-yellow-800 dark:text-yellow-200">
+          {t("photo.apiKeyRequired")}
+        </AlertTitle>
+        <AlertDescription className="space-y-2 text-yellow-700 dark:text-yellow-300">
+          <p>{t("photo.apiKeyDescription")}</p>
+          {onOpenSettings && (
+            <Button variant="outline" size="sm" onClick={onOpenSettings}>
+              {t("photo.goToSettings")}
+            </Button>
+          )}
+        </AlertDescription>
+      </Alert>
     );
   }
 
   return (
     <div className="space-y-4">
       {!selectedImage ? (
-        <div
+        <Card
           className={cn(
-            "rounded-lg border-2 border-dashed p-8 text-center",
+            "border-2 border-dashed p-8 text-center",
             "hover:border-primary/50 transition-colors cursor-pointer"
           )}
           onDragOver={(e) => e.preventDefault()}
@@ -176,7 +174,7 @@ export function PhotoUploader({ onCharacterGenerated, onOpenSettings }: PhotoUpl
           <p className="mt-2 text-sm text-muted-foreground">
             {t("photo.dropDescription")}
           </p>
-        </div>
+        </Card>
       ) : (
         <div className="space-y-4">
           <div className="relative">

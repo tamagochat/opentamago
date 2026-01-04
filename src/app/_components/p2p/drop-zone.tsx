@@ -3,6 +3,7 @@
 import { useCallback, useState, useRef } from "react";
 import { Upload } from "lucide-react";
 import { cn } from "~/lib/utils";
+import { Card } from "~/components/ui/card";
 
 const isDev = process.env.NODE_ENV === "development";
 const ACCEPTED_EXTENSIONS = isDev
@@ -81,13 +82,13 @@ export function DropZone({
   );
 
   return (
-    <div
+    <Card
       onClick={handleClick}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
       className={cn(
-        "relative flex min-h-[300px] cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed p-8 transition-all",
+        "relative flex min-h-[300px] cursor-pointer flex-col items-center justify-center border-2 border-dashed p-8 transition-all",
         isDragging
           ? "border-primary bg-primary/5"
           : "border-muted-foreground/25 hover:border-primary/50 hover:bg-muted/50",
@@ -128,6 +129,6 @@ export function DropZone({
           )}
         </div>
       </div>
-    </div>
+    </Card>
   );
 }

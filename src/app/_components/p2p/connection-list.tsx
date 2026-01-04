@@ -2,6 +2,8 @@
 
 import { Monitor, Smartphone, Loader2, Check, X, Pause } from "lucide-react";
 import { Progress } from "~/components/ui/progress";
+import { Button } from "~/components/ui/button";
+import { Card } from "~/components/ui/card";
 import type { UploaderConnection, ConnectionStatus } from "./use-uploader-connections";
 
 interface ConnectionListProps {
@@ -72,9 +74,9 @@ export function ConnectionList({
         <p className="text-sm font-medium">
           {activeCount} Downloading, {totalDownloads} Total
         </p>
-        <button className="text-sm text-orange-500 hover:underline">
+        <Button variant="link" size="sm" className="text-orange-500">
           Stop Upload
-        </button>
+        </Button>
       </div>
 
       {/* Connection Items */}
@@ -85,9 +87,9 @@ export function ConnectionList({
               fileSize > 0 ? (conn.bytesAcknowledged / fileSize) * 100 : 0;
 
             return (
-              <div
+              <Card
                 key={conn.id}
-                className="flex items-center gap-3 rounded-lg border bg-muted/30 p-3"
+                className="flex items-center gap-3 bg-muted/30 p-3"
               >
                 {/* Device Icon */}
                 <div className="text-muted-foreground">
@@ -121,7 +123,7 @@ export function ConnectionList({
                     {getStatusText(conn.status)}
                   </span>
                 </div>
-              </div>
+              </Card>
             );
           })}
         </div>

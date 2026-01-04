@@ -10,6 +10,7 @@ import { Badge } from "~/components/ui/badge";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { Switch } from "~/components/ui/switch";
 import { Label } from "~/components/ui/label";
+import { Card } from "~/components/ui/card";
 import { cn } from "~/lib/utils";
 import type { Participant, ChatItemType } from "./hooks/use-connect-peers";
 import type { CharacterData, ChatMessageType, SystemMessageType } from "~/lib/connect/messages";
@@ -93,7 +94,7 @@ export function ChatRoom({
   return (
     <div className="flex h-[calc(100vh-12rem)] w-full max-w-4xl mx-auto gap-4">
       {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col rounded-lg border bg-card overflow-hidden min-h-0">
+      <Card className="flex-1 flex flex-col overflow-hidden min-h-0">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b">
           <div className="flex items-center gap-2">
@@ -270,10 +271,10 @@ export function ChatRoom({
             </Button>
           </div>
         </div>
-      </div>
+      </Card>
 
       {/* Participants Sidebar */}
-      <div className="hidden md:flex w-48 flex-col rounded-lg border bg-card p-4 overflow-hidden">
+      <Card className="hidden md:flex w-48 flex-col p-4 overflow-hidden">
         {/* Active Participants */}
         <div className="flex items-center gap-2 mb-3">
           <h3 className="font-semibold">{t("chat.active")}</h3>
@@ -332,7 +333,7 @@ export function ChatRoom({
             </div>
           </div>
         )}
-      </div>
+      </Card>
     </div>
   );
 }

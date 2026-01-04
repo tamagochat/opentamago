@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { Upload, Users, ImagePlus, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
+import { Card } from "~/components/ui/card";
 import { ExistingCharacterGrid } from "./existing-character-grid";
 import { PhotoUploader } from "./photo-uploader";
 import { useCharxImport } from "~/lib/charx";
@@ -149,9 +150,9 @@ export function CharacterSelector({
         </TabsContent>
 
         <TabsContent value="upload" className="mt-4">
-          <div
+          <Card
             className={cn(
-              "rounded-lg border-2 border-dashed p-8 text-center transition-colors cursor-pointer",
+              "border-2 border-dashed p-8 text-center transition-colors cursor-pointer",
               isDragging
                 ? "border-primary bg-primary/5"
                 : "border-muted-foreground/25 hover:border-primary/50 hover:bg-muted/50"
@@ -174,7 +175,7 @@ export function CharacterSelector({
             <p className="mt-2 text-sm text-muted-foreground">
               {t("upload.description")}
             </p>
-          </div>
+          </Card>
         </TabsContent>
 
         <TabsContent value="photo" className="mt-4">

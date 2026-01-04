@@ -10,6 +10,7 @@ import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Badge } from "~/components/ui/badge";
+import { Card } from "~/components/ui/card";
 import { cn } from "~/lib/utils";
 import type { Participant } from "./hooks/use-connect-peers";
 import type { CharacterData } from "~/lib/connect/messages";
@@ -79,12 +80,12 @@ export function SessionLobby({
 
       {/* Share Links (Host only) */}
       {isHost && (
-        <div className="flex flex-col gap-6 sm:flex-row p-6 rounded-lg border bg-card">
+        <Card className="flex flex-col gap-6 sm:flex-row p-6">
           {/* QR Code */}
           <div className="flex justify-center sm:justify-start">
-            <div className="rounded-lg bg-white p-3">
+            <Card className="bg-white p-3">
               <QRCode value={shortUrl} size={140} />
-            </div>
+            </Card>
           </div>
 
           {/* URLs */}
@@ -137,11 +138,11 @@ export function SessionLobby({
               </div>
             )}
           </div>
-        </div>
+        </Card>
       )}
 
       {/* Participants */}
-      <div className="p-6 rounded-lg border bg-card">
+      <Card className="p-6">
         <div className="flex items-center justify-between mb-4">
           <h3 className="font-semibold flex items-center gap-2">
             <Users className="h-4 w-4" />
@@ -152,7 +153,7 @@ export function SessionLobby({
 
         <div className="space-y-3">
           {/* Self */}
-          <div className="flex items-center gap-3 p-2 rounded-lg bg-primary/5 border border-primary/20">
+          <Card className="flex items-center gap-3 p-2 bg-primary/5 border-primary/20">
             <Avatar className="h-10 w-10">
               <AvatarImage src={myCharacter.avatar} />
               <AvatarFallback>
@@ -166,17 +167,17 @@ export function SessionLobby({
                 {isHost && ` • ${t("lobby.host")}`}
               </p>
             </div>
-          </div>
+          </Card>
 
           {/* Other participants */}
           {participants.map((participant) => (
-            <div
+            <Card
               key={participant.peerId}
               className={cn(
-                "flex items-center gap-3 p-2 rounded-lg transition-colors",
+                "flex items-center gap-3 p-2 transition-colors",
                 participant.status === "ready"
                   ? "hover:bg-accent"
-                  : "border border-dashed opacity-70"
+                  : "border-dashed opacity-70"
               )}
             >
               {participant.status === "ready" && participant.character ? (
@@ -214,34 +215,34 @@ export function SessionLobby({
                   </div>
                 </>
               )}
-            </div>
+            </Card>
           ))}
 
           {/* Waiting indicator */}
           {isConnecting && (
-            <div className="flex items-center gap-3 p-2 rounded-lg border border-dashed">
+            <Card className="flex items-center gap-3 p-2 border-dashed">
               <div className="h-10 w-10 rounded-full bg-muted flex items-center justify-center">
                 <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
               </div>
               <p className="text-sm text-muted-foreground">
                 {t("lobby.connecting")}
               </p>
-            </div>
+            </Card>
           )}
 
           {/* Waiting for others */}
           {!isConnecting && participants.length === 0 && (
-            <div className="flex items-center gap-3 p-2 rounded-lg border border-dashed">
+            <Card className="flex items-center gap-3 p-2 border-dashed">
               <div className="h-10 w-10 rounded-full bg-muted flex items-center justify-center">
                 <Users className="h-5 w-5 text-muted-foreground" />
               </div>
               <p className="text-sm text-muted-foreground">
                 {t("lobby.waitingForOthers")}
               </p>
-            </div>
+            </Card>
           )}
         </div>
-      </div>
+      </Card>
 
       {/* Actions */}
       <div className="flex gap-3">

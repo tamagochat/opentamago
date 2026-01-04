@@ -8,6 +8,7 @@ import { Copy, Check } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
+import { Card } from "~/components/ui/card";
 
 interface ShareLinksProps {
   shortSlug: string;
@@ -47,9 +48,9 @@ export function ShareLinks({ shortSlug, longSlug }: ShareLinksProps) {
     <div className="flex flex-col gap-6 sm:flex-row">
       {/* QR Code */}
       <div className="flex justify-center sm:justify-start">
-        <div className="rounded-lg bg-white p-3">
+        <Card className="bg-white p-3">
           <QRCode value={shortUrl} size={140} />
-        </div>
+        </Card>
       </div>
 
       {/* URLs */}

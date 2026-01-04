@@ -11,6 +11,7 @@
     "badge": "Experimental",
     "charx": "This feature is still a work in progress! It's designed to support CharX version 3, but we're still improving it.",
     "p2p": "This uses WebRTC for direct P2P connections. Please only share QR codes and links with people you trust!",
+    "chat": "This chat feature is for debugging purposes where a developer tests LLM locally. Please use other services for AI chat.",
     "feedback": "Got feedback or found a bug? Let us know on <link>GitHub Issues</link>!"
   },
   "actions": {

@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Button } from "~/components/ui/button";
+import { Card } from "~/components/ui/card";
 import { Skeleton } from "~/components/ui/skeleton";
 import { useCharacters } from "~/lib/db/hooks";
 import type { CharacterDocument } from "~/lib/db/schemas";
@@ -28,11 +29,11 @@ export function ExistingCharacterGrid({
     return (
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
         {[...Array(6)].map((_, i) => (
-          <div key={i} className="flex flex-col items-center p-4 rounded-lg border">
+          <Card key={i} className="flex flex-col items-center p-4">
             <Skeleton className="h-16 w-16 rounded-full" />
             <Skeleton className="h-4 w-24 mt-3" />
             <Skeleton className="h-3 w-32 mt-2" />
-          </div>
+          </Card>
         ))}
       </div>
     );
@@ -52,14 +53,22 @@ export function ExistingCharacterGrid({
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
       {characters.map((character) => (
-        <button
+        <Card
           key={character.id}
           onClick={() => onSelect(character)}
           className={cn(
-            "flex flex-col items-center p-4 rounded-lg border",
+            "flex flex-col items-center p-4 cursor-pointer",
             "hover:bg-accent hover:border-primary/50 transition-colors",
             "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
           )}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              onSelect(character);
+            }
+          }}
         >
           <Avatar className="h-16 w-16">
             <AvatarImage src={character.avatarData} />
@@ -73,7 +82,7 @@ export function ExistingCharacterGrid({
           <p className="mt-1 text-xs text-muted-foreground line-clamp-2 text-center">
             {character.description || tChat("noDescription")}
           </p>
-        </button>
+        </Card>
       ))}
     </div>
   );
