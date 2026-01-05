@@ -64,7 +64,7 @@ export default function ChatPage() {
 
       {/* Center Panel */}
       <div className="relative flex flex-1 flex-col min-h-0 overflow-hidden">
-        {/* Mobile Header */}
+        {/* Mobile Header (below md) */}
         <div className="flex shrink-0 items-center justify-between border-b p-2 md:hidden">
           <Sheet open={leftPanelOpen} onOpenChange={setLeftPanelOpen}>
             <SheetTrigger asChild>
@@ -91,6 +91,19 @@ export default function ChatPage() {
               </Sheet>
             )}
           </div>
+        </div>
+
+        {/* Tablet Header (md to lg: 768px-1024px) - Right Panel Toggle Only */}
+        <div className="hidden md:flex lg:hidden shrink-0 items-center justify-end border-b p-2">
+          {selectedCharacter && (
+            <Sheet open={rightPanelOpen} onOpenChange={setRightPanelOpen}>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <PanelRight className="h-5 w-5" />
+                </Button>
+              </SheetTrigger>
+            </Sheet>
+          )}
         </div>
 
         {/* Chat Area */}

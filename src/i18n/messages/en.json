@@ -34,8 +34,8 @@
       "openViewer": "Open CharX Viewer",
       "viewGithub": "View on GitHub",
       "tryViewer": "Try CharX Viewer",
-      "startSharing": "Start Sharing",
-      "startConnect": "Start Session",
+      "startSharing": "Start CharX Sharing",
+      "startConnect": "Start CharX Session",
       "p2pLabel": "P2P Features"
     },
     "features": {
@@ -429,7 +429,7 @@
       "goHome": "Go Home",
       "troubleshooting": "Taking too long? The uploader might be behind a firewall or closed their browser.",
       "sharePrompt": "Want to share CharX files too?",
-      "startSharing": "Start Sharing"
+      "startSharing": "Start CharX Sharing"
     }
   },
   "theme": {

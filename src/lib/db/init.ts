@@ -1,7 +1,9 @@
 import {
   addRxPlugin,
   createRxDatabase,
+  removeRxDatabase,
   type RxDatabase,
+  type RxStorage,
 } from "rxdb";
 import { getRxStorageDexie } from "rxdb/plugins/storage-dexie";
 import { RxDBQueryBuilderPlugin } from "rxdb/plugins/query-builder";
@@ -12,26 +14,26 @@ import { wrappedValidateAjvStorage } from "rxdb/plugins/validate-ajv";
 import type { DatabaseCollections } from "./types";
 import { getCollectionConfig } from "./collections";
 
-// Add core plugins (only once)
-let pluginsAdded = false;
+const isDev = process.env.NODE_ENV === "development";
+
+// Global cache for Next.js HMR - survives module reloads
+declare global {
+  var __rxdb_storage: RxStorage<any, any> | undefined;
+  var __rxdb_instance: RxDatabase<DatabaseCollections> | undefined;
+  var __rxdb_plugins_added: boolean | undefined;
+}
+
+// Add core plugins (only once globally)
 function addCorePlugins() {
-  if (pluginsAdded) return;
+  if (globalThis.__rxdb_plugins_added) return;
 
   addRxPlugin(RxDBQueryBuilderPlugin);
   addRxPlugin(RxDBUpdatePlugin);
   addRxPlugin(RxDBMigrationSchemaPlugin);
   addRxPlugin(RxDBAttachmentsPlugin);
 
-  pluginsAdded = true;
+  globalThis.__rxdb_plugins_added = true;
 }
-
-const isDev = process.env.NODE_ENV === "development";
-
-// Singleton instance management
-let dbInstance: RxDatabase<DatabaseCollections> | null = null;
-let dbPromise: Promise<RxDatabase<DatabaseCollections>> | null = null;
-let initializationAttempts = 0;
-const MAX_ATTEMPTS = 2;
 
 // Load dev mode plugin
 async function loadDevMode() {
@@ -49,26 +51,44 @@ async function loadDevMode() {
   }
 }
 
-// Get storage with optional validation
-function getStorage() {
-  const baseStorage = getRxStorageDexie();
-
-  if (isDev) {
-    return wrappedValidateAjvStorage({ storage: baseStorage });
+// Get or create singleton storage instance (survives HMR)
+function getStorage(): RxStorage<any, any> {
+  if (globalThis.__rxdb_storage) {
+    return globalThis.__rxdb_storage;
   }
 
-  return baseStorage;
+  const baseStorage = getRxStorageDexie();
+
+  const storage = isDev
+    ? wrappedValidateAjvStorage({ storage: baseStorage })
+    : baseStorage;
+
+  // Cache globally to survive HMR
+  globalThis.__rxdb_storage = storage;
+  return storage;
 }
 
 // Delete all IndexedDB databases for this app
 async function deleteAllDatabases() {
-  console.log("[RxDB] Deleting all databases...");
+  if (isDev) console.log("[RxDB] Deleting all databases...");
 
   if (typeof window === "undefined" || !window.indexedDB) {
     return;
   }
 
   try {
+    // Remove from RxDB's global registry
+    try {
+      await removeRxDatabase("opentamago", getStorage());
+      if (isDev) console.log("[RxDB] Removed database from RxDB registry");
+    } catch (removeError) {
+      if (isDev) console.log("[RxDB] Database not in registry or already removed");
+    }
+
+    // Wait for registry cleanup
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
+    // Delete all IndexedDB databases
     const databases = (await window.indexedDB.databases?.()) ?? [];
 
     for (const dbInfo of databases) {
@@ -76,7 +96,7 @@ async function deleteAllDatabases() {
         await new Promise<void>((resolve) => {
           const deleteReq = window.indexedDB.deleteDatabase(dbInfo.name!);
           deleteReq.onsuccess = () => {
-            console.log(`[RxDB] Deleted database: ${dbInfo.name}`);
+            if (isDev) console.log(`[RxDB] Deleted IndexedDB: ${dbInfo.name}`);
             resolve();
           };
           deleteReq.onerror = () => resolve();
@@ -84,6 +104,11 @@ async function deleteAllDatabases() {
         });
       }
     }
+
+    // Clear global cache
+    globalThis.__rxdb_instance = undefined;
+
+    if (isDev) console.log("[RxDB] All databases deleted successfully");
   } catch (error) {
     console.error("[RxDB] Error deleting databases:", error);
   }
@@ -91,134 +116,133 @@ async function deleteAllDatabases() {
 
 // Create the database instance
 async function createDatabase(): Promise<RxDatabase<DatabaseCollections>> {
-  console.log("[RxDB] Creating database instance...");
+  if (isDev) console.log("[RxDB] Creating database instance...");
 
   const db = await createRxDatabase<DatabaseCollections>({
     name: "opentamago",
     storage: getStorage(),
     multiInstance: false,
     eventReduce: true,
-    ignoreDuplicate: true,
+    ignoreDuplicate: false, // We want to catch duplicates
   });
 
-  console.log("[RxDB] Database instance created");
+  if (isDev) console.log("[RxDB] Database instance created");
   return db;
 }
 
 // Add collections to the database
 async function addCollections(db: RxDatabase<DatabaseCollections>) {
-  console.log("[RxDB] Adding collections...");
+  if (isDev) console.log("[RxDB] Adding collections...");
 
   // Check if collections already exist
   const existingCollections = Object.keys(db.collections);
   if (existingCollections.length > 0) {
-    console.log(
-      `[RxDB] Collections already exist (${existingCollections.length}), skipping`
-    );
+    if (isDev) {
+      console.log(
+        `[RxDB] Collections already exist (${existingCollections.length}), skipping`
+      );
+    }
     return;
   }
 
   const collectionConfig = getCollectionConfig();
   await db.addCollections(collectionConfig);
 
-  console.log(
-    `[RxDB] Added ${Object.keys(collectionConfig).length} collections successfully`
-  );
+  if (isDev) {
+    console.log(
+      `[RxDB] Added ${Object.keys(collectionConfig).length} collections successfully`
+    );
+  }
 }
 
 // Main initialization function
 export async function initializeDatabase(): Promise<
   RxDatabase<DatabaseCollections>
 > {
-  // Return existing instance if available
-  if (dbInstance) {
-    console.log("[RxDB] Returning existing database instance");
-    return dbInstance;
+  // Browser-only check
+  if (typeof window === "undefined") {
+    throw new Error(
+      "[RxDB] Database can only be initialized in browser environment"
+    );
   }
 
-  // Wait for existing initialization if in progress
-  if (dbPromise) {
-    console.log("[RxDB] Waiting for ongoing initialization...");
-    return dbPromise;
+  // Return cached instance if available (survives HMR)
+  if (globalThis.__rxdb_instance) {
+    if (isDev) console.log("[RxDB] Returning cached database instance");
+    return globalThis.__rxdb_instance;
   }
 
-  // Start new initialization
-  console.log("[RxDB] Starting database initialization");
-  initializationAttempts++;
+  if (isDev) console.log("[RxDB] Starting database initialization");
 
-  dbPromise = (async () => {
-    try {
-      // Add plugins first
-      addCorePlugins();
-      await loadDevMode();
+  try {
+    // Add plugins first
+    addCorePlugins();
+    await loadDevMode();
 
-      // Create database
+    // Create database
+    const db = await createDatabase();
+
+    // Add collections
+    await addCollections(db);
+
+    // Cache globally (survives HMR)
+    globalThis.__rxdb_instance = db;
+
+    if (isDev) console.log("[RxDB] Initialization complete");
+    return db;
+  } catch (error: any) {
+    console.error("[RxDB] Initialization error:", {
+      code: error?.code,
+      message: error?.message,
+      name: error?.name,
+      parameters: error?.parameters,
+    });
+
+    // Check for database name conflict (DB9)
+    const isDatabaseNameError =
+      error?.code === "DB9" ||
+      error?.message?.includes("database name already used");
+
+    // Check for schema/collection errors
+    const isSchemaError =
+      error?.code === "DB6" ||
+      error?.code === "COL12" ||
+      error?.code === "COL23" ||
+      error?.message?.includes("different schema") ||
+      error?.message?.includes("migrationStrategy") ||
+      error?.message?.includes("amount of collections");
+
+    // Auto-recovery: delete and retry
+    if (isDatabaseNameError || isSchemaError) {
+      const reason = isDatabaseNameError
+        ? "Database name conflict (DB9)"
+        : "Schema/collection error";
+
+      console.warn(`[RxDB] ${reason} detected. Deleting database and retrying...`);
+
+      await deleteAllDatabases();
+
+      // Wait for cleanup
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      // Retry once
+      if (isDev) console.log("[RxDB] Retrying initialization...");
       const db = await createDatabase();
-
-      // Add collections
       await addCollections(db);
 
-      // Store instance
-      dbInstance = db;
-      console.log("[RxDB] Initialization complete");
+      globalThis.__rxdb_instance = db;
+      if (isDev) console.log("[RxDB] Initialization complete after retry");
 
       return db;
-    } catch (error: any) {
-      console.error("[RxDB] Initialization error:", error);
-
-      // Check for collection limit error (COL23) or schema errors
-      const isCollectionLimitError =
-        error?.code === "COL23" ||
-        error?.message?.includes("COL23") ||
-        error?.message?.includes("amount of collections that can exist");
-
-      const isSchemaError =
-        error?.code === "DB6" ||
-        error?.code === "COL12" ||
-        error?.message?.includes("different schema") ||
-        error?.message?.includes("migrationStrategy");
-
-      // Auto-recovery: delete and retry once
-      if (
-        (isCollectionLimitError || isSchemaError) &&
-        initializationAttempts < MAX_ATTEMPTS
-      ) {
-        const reason = isCollectionLimitError
-          ? "Collection limit exceeded"
-          : "Schema mismatch";
-
-        console.warn(
-          `[RxDB] ${reason} detected. Deleting database and retrying...`
-        );
-
-        // Clean up
-        dbInstance = null;
-        dbPromise = null;
-
-        // Delete all databases
-        await deleteAllDatabases();
-
-        // Wait a bit for cleanup
-        await new Promise((resolve) => setTimeout(resolve, 500));
-
-        // Retry initialization
-        return initializeDatabase();
-      }
-
-      // Reset state on error
-      dbInstance = null;
-      dbPromise = null;
-
-      throw error;
     }
-  })();
 
-  return dbPromise;
+    throw error;
+  }
 }
 
 // Export for cleanup/testing
 export function resetDatabase() {
-  dbInstance = null;
-  dbPromise = null;
-  initializationAttempts = 0;
+  globalThis.__rxdb_instance = undefined;
+  globalThis.__rxdb_storage = undefined;
+  globalThis.__rxdb_plugins_added = undefined;
 }

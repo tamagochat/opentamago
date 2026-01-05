@@ -34,8 +34,8 @@
       "openViewer": "CharX 뷰어 열기",
       "viewGithub": "GitHub에서 보기",
       "tryViewer": "CharX 뷰어 써보기",
-      "startSharing": "공유 시작하기",
-      "startConnect": "세션 시작하기",
+      "startSharing": "CharX 공유 시작하기",
+      "startConnect": "CharX 세션 시작하기",
       "p2pLabel": "P2P 기능"
     },
     "features": {
@@ -429,7 +429,7 @@
       "goHome": "홈으로",
       "troubleshooting": "너무 오래 걸리나요? 업로더가 방화벽 뒤에 있거나 브라우저를 닫았을 수 있어요.",
       "sharePrompt": "나도 CharX를 공유하고 싶나요?",
-      "startSharing": "공유 시작하기"
+      "startSharing": "CharX 공유 시작하기"
     }
   },
   "theme": {

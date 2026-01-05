@@ -24,18 +24,24 @@ export function DatabaseProvider({ children }: { children: React.ReactNode }) {
     const init = async () => {
       // Prevent double initialization in React Strict Mode
       if (initStarted) {
-        console.log("[DatabaseProvider] Initialization already started, skipping");
+        if (process.env.NODE_ENV === "development") {
+          console.log("[DatabaseProvider] Initialization already started, skipping");
+        }
         return;
       }
       initStarted = true;
 
-      console.log("[DatabaseProvider] Starting database initialization");
+      if (process.env.NODE_ENV === "development") {
+        console.log("[DatabaseProvider] Starting database initialization");
+      }
 
       try {
         const database = await initializeDatabase();
 
         if (mounted) {
-          console.log("[DatabaseProvider] Database initialized successfully");
+          if (process.env.NODE_ENV === "development") {
+            console.log("[DatabaseProvider] Database initialized successfully");
+          }
           setDb(database);
           setError(null);
         }

@@ -2,6 +2,7 @@
 
 import { useCallback, useRef, useState } from "react";
 import type { SafetySettings, SupportedModel } from "~/lib/ai";
+import { streamChatResponse } from "~/lib/ai/client";
 
 export interface ChatMessage {
   role: "user" | "assistant" | "system";
@@ -10,6 +11,7 @@ export interface ChatMessage {
 
 export interface UseChatOptions {
   apiKey: string | null;
+  isClientMode: boolean;
   model?: SupportedModel | string;
   temperature?: number;
   maxTokens?: number;
@@ -27,6 +29,7 @@ export interface StreamingState {
 
 export function useChat({
   apiKey,
+  isClientMode,
   model,
   temperature,
   maxTokens,
@@ -48,8 +51,11 @@ export function useChat({
       options?: Partial<UseChatOptions>
     ): Promise<string | null> => {
       const effectiveApiKey = options?.apiKey ?? apiKey;
-      if (!effectiveApiKey) {
-        const error = new Error("API key is required");
+      const effectiveIsClientMode = options?.isClientMode ?? isClientMode;
+
+      // In client mode, API key is required
+      if (effectiveIsClientMode && !effectiveApiKey) {
+        const error = new Error("API key is required in client mode");
         setState((prev) => ({ ...prev, error }));
         onError?.(error);
         return null;
@@ -65,38 +71,22 @@ export function useChat({
       onStreamStart?.();
 
       try {
-        const response = await fetch("/api/chat", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            messages,
-            apiKey: effectiveApiKey,
-            model: options?.model ?? model,
-            temperature: options?.temperature ?? temperature,
-            maxTokens: options?.maxTokens ?? maxTokens,
-            safetySettings: options?.safetySettings ?? safetySettings,
-          }),
+        let fullContent = "";
+
+        // Use streamChatResponse from client library
+        const stream = streamChatResponse({
+          messages,
+          apiKey: effectiveApiKey ?? undefined,
+          isClientMode: effectiveIsClientMode,
+          model: options?.model ?? model,
+          temperature: options?.temperature ?? temperature,
+          maxTokens: options?.maxTokens ?? maxTokens,
+          safetySettings: options?.safetySettings ?? safetySettings,
           signal: abortControllerRef.current.signal,
         });
 
-        if (!response.ok) {
-          const errorText = await response.text();
-          throw new Error(errorText || `Request failed: ${response.status}`);
-        }
-
-        if (!response.body) {
-          throw new Error("No response body");
-        }
-
-        const reader = response.body.getReader();
-        const decoder = new TextDecoder();
-        let fullContent = "";
-
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-
-          const chunk = decoder.decode(value, { stream: true });
+        // Stream chunks as they arrive
+        for await (const chunk of stream) {
           fullContent += chunk;
 
           setState((prev) => ({
@@ -129,6 +119,7 @@ export function useChat({
     },
     [
       apiKey,
+      isClientMode,
       model,
       temperature,
       maxTokens,

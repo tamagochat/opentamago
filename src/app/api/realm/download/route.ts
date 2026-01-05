@@ -25,11 +25,26 @@ export async function GET(request: NextRequest) {
 
   try {
     const realmUrl = `https://realm.risuai.net/api/v1/download/charx-v3/${uuid}`;
+    console.log("[Realm] Fetching:", uuid, "from", realmUrl);
 
-    const response = await fetch(realmUrl);
+    const response = await fetch(realmUrl, {
+      headers: {
+        "User-Agent": "OpenTamago/1.0",
+        Accept: "application/octet-stream, */*",
+      },
+      // Vercel has function timeout limits, add signal for better error handling
+      signal: AbortSignal.timeout(25000), // 25s timeout
+    });
 
     if (!response.ok) {
-      console.log("[Realm] INVALID_CHARX:", uuid, "status:", response.status);
+      console.log("[Realm] INVALID_CHARX:", {
+        uuid,
+        status: response.status,
+        statusText: response.statusText,
+        headers: Object.fromEntries(response.headers.entries()),
+      });
+      const errorBody = await response.text().catch(() => "Unable to read body");
+      console.log("[Realm] Error response body:", errorBody);
       return NextResponse.json(
         { code: "INVALID_CHARX" as RealmErrorCode },
         { status: response.status }
@@ -61,7 +76,12 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error("Error downloading from RisuRealm:", error);
+    console.error("[Realm] Error downloading from RisuRealm:", {
+      uuid,
+      error: error instanceof Error ? error.message : String(error),
+      name: error instanceof Error ? error.name : "Unknown",
+      stack: error instanceof Error ? error.stack : undefined,
+    });
     return NextResponse.json(
       { code: "DOWNLOAD_FAILED" as RealmErrorCode },
       { status: 500 }

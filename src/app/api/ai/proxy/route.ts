@@ -157,6 +157,15 @@ async function proxyFetch(
 export async function POST(req: NextRequest) {
   const requestId = crypto.randomUUID().slice(0, 8);
 
+  // Reject requests in Vercel production environment
+  if (process.env.VERCEL_ENV === "production") {
+    console.warn(`[AI/PROXY] [${requestId}] Rejected request in production environment`);
+    return new Response(
+      JSON.stringify({ error: "Server API is not available in production" }),
+      { status: 403, headers: { "Content-Type": "application/json" } }
+    );
+  }
+
   try {
     const url = req.nextUrl.searchParams.get("url");
     if (!url) {
@@ -233,6 +242,15 @@ export async function POST(req: NextRequest) {
  */
 export async function GET(req: NextRequest) {
   const requestId = crypto.randomUUID().slice(0, 8);
+
+  // Reject requests in Vercel production environment
+  if (process.env.VERCEL_ENV === "production") {
+    console.warn(`[AI/PROXY] [${requestId}] Rejected request in production environment`);
+    return new Response(
+      JSON.stringify({ error: "Server API is not available in production" }),
+      { status: 403, headers: { "Content-Type": "application/json" } }
+    );
+  }
 
   try {
     const url = req.nextUrl.searchParams.get("url");
