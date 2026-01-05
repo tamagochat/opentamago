@@ -314,7 +314,7 @@
         "description": "Lorebook entries will be saved for context during chats.",
         "noLorebook": "No lorebook in this character file."
       },
-      "info": "Once saved, you can start chatting from the Chat page.",
+      "info": "Once saved, you can easily import character cards for P2P sharing and connect.",
       "infoMessages": {
         "databaseReady": "Database ready! You can save now."
       },
@@ -537,6 +537,7 @@
       "apiKeyDescription": "Configure your API connection and model settings.",
       "chatUISection": "Chat UI",
       "chatUIDescription": "Customize how chat messages are displayed.",
+      "databaseSection": "Database",
       "safety": "Safety",
       "apiMode": "API Mode",
       "apiModeServer": "Server API",
@@ -556,6 +557,18 @@
       "themeRoleplayDesc": "Styled text with quotes and actions",
       "themeMessenger": "Messenger",
       "themeMessengerDesc": "Plain text, no formatting",
+      "database": {
+        "title": "Database Management",
+        "description": "View database statistics and manage your local data.",
+        "storageUsage": "Storage Usage",
+        "collections": "Collections",
+        "actions": "Actions",
+        "exportData": "Export Data",
+        "dangerZone": "Danger Zone",
+        "resetWarning": "This will permanently delete ALL your data including characters, chats, messages, and settings. Use this if you encounter migration issues.",
+        "resetDatabase": "Reset Database",
+        "resetting": "Resetting..."
+      },
       "safetyDescription": "Set up content safety filters. By default, all filters are off for unrestricted roleplay.",
       "hateSpeech": "Hate Speech",
       "harassment": "Harassment",
@@ -586,7 +599,8 @@
       "title": "Upload CharX File",
       "description": "Drop a .charx file or click to select",
       "formats": "Only .charx files are supported",
-      "error": "Failed to import"
+      "error": "Failed to import",
+      "confirm": "Confirm & Use This Character"
     },
     "photo": {
       "dropTitle": "Upload a Photo",
@@ -667,7 +681,10 @@
       "createOwn": "Create Your Own Session",
       "connectionFailed": "Connection Failed",
       "connectionFailedDescription": "Couldn't connect to the session. The host might have left or there's a network issue.",
-      "tryAgain": "Try Again"
+      "tryAgain": "Try Again",
+      "apiNotReady": "API Key Required",
+      "apiNotReadyDescription": "Please set up your API key in Settings to use AI features.",
+      "openSettings": "Open Settings"
     }
   },
   "howItWorks": {

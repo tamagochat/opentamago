@@ -40,6 +40,18 @@ export function SessionLobby({
   const [copiedShort, setCopiedShort] = useState(false);
   const [copiedLong, setCopiedLong] = useState(false);
 
+  // Debug: Log participants data
+  console.log("[SessionLobby] Rendering with participants:", participants);
+  participants.forEach((p) => {
+    console.log(`[SessionLobby] Participant [${p.peerId.slice(0, 8)}]:`, {
+      peerId: p.peerId,
+      status: p.status,
+      hasCharacter: !!p.character,
+      characterName: p.character?.name,
+      hasAvatar: !!p.character?.avatar,
+    });
+  });
+
   const baseUrl = typeof window !== "undefined" ? window.location.origin : "";
   const shortUrl = `${baseUrl}/p2p/connect/${shortSlug}`;
   const longUrl = longSlug ? `${baseUrl}/p2p/connect/${longSlug}` : null;
@@ -153,16 +165,16 @@ export function SessionLobby({
 
         <div className="space-y-3">
           {/* Self */}
-          <Card className="flex items-center gap-3 p-2 bg-primary/5 border-primary/20">
-            <Avatar className="h-10 w-10">
+          <Card className="flex items-center gap-3 p-3 bg-primary/5 border-primary/20 overflow-hidden">
+            <Avatar className="h-14 w-14 shrink-0">
               <AvatarImage src={myCharacter.avatar} />
-              <AvatarFallback>
+              <AvatarFallback className="text-lg font-semibold">
                 {myCharacter.name.slice(0, 2).toUpperCase()}
               </AvatarFallback>
             </Avatar>
-            <div className="flex-1 min-w-0">
-              <p className="font-medium truncate">{myCharacter.name}</p>
-              <p className="text-xs text-muted-foreground truncate">
+            <div className="flex-1 min-w-0 overflow-hidden">
+              <p className="font-semibold text-base leading-tight truncate">{myCharacter.name}</p>
+              <p className="text-sm text-muted-foreground leading-tight truncate">
                 {t("lobby.you")}
                 {isHost && ` • ${t("lobby.host")}`}
               </p>
@@ -174,40 +186,37 @@ export function SessionLobby({
             <Card
               key={participant.peerId}
               className={cn(
-                "flex items-center gap-3 p-2 transition-colors",
+                "flex items-center gap-3 p-3 transition-colors overflow-hidden",
                 participant.status === "ready"
-                  ? "hover:bg-accent"
+                  ? "hover:bg-accent border-border"
                   : "border-dashed opacity-70"
               )}
             >
               {participant.status === "ready" && participant.character ? (
                 <>
-                  <Avatar className="h-10 w-10">
+                  <Avatar className="h-14 w-14 shrink-0">
                     <AvatarImage src={participant.character.avatar} />
-                    <AvatarFallback>
+                    <AvatarFallback className="text-lg font-semibold">
                       {participant.character.name.slice(0, 2).toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-medium truncate">
-                      {participant.character.name}
-                    </p>
-                    <p className="text-xs text-muted-foreground truncate">
-                      {participant.character.description}
+                  <div className="flex-1 min-w-0 overflow-hidden">
+                    <p className="font-semibold text-base leading-tight truncate">
+                      {participant.character.name || "[Name Missing]"}
                     </p>
                   </div>
                 </>
               ) : (
                 <>
-                  <div className="h-10 w-10 rounded-full bg-muted flex items-center justify-center">
+                  <div className="h-14 w-14 shrink-0 rounded-full bg-muted flex items-center justify-center">
                     {participant.status === "connecting" ? (
-                      <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+                      <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
                     ) : (
-                      <Users className="h-5 w-5 text-muted-foreground" />
+                      <Users className="h-6 w-6 text-muted-foreground" />
                     )}
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm text-muted-foreground">
+                  <div className="flex-1 min-w-0 overflow-hidden">
+                    <p className="text-sm text-muted-foreground truncate">
                       {participant.status === "connecting"
                         ? t("lobby.connecting")
                         : t("lobby.selectingCharacter")}
@@ -220,9 +229,9 @@ export function SessionLobby({
 
           {/* Waiting indicator */}
           {isConnecting && (
-            <Card className="flex items-center gap-3 p-2 border-dashed">
-              <div className="h-10 w-10 rounded-full bg-muted flex items-center justify-center">
-                <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+            <Card className="flex items-center gap-3 p-3 border-dashed">
+              <div className="h-14 w-14 rounded-full bg-muted flex items-center justify-center">
+                <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
               </div>
               <p className="text-sm text-muted-foreground">
                 {t("lobby.connecting")}
@@ -232,9 +241,9 @@ export function SessionLobby({
 
           {/* Waiting for others */}
           {!isConnecting && participants.length === 0 && (
-            <Card className="flex items-center gap-3 p-2 border-dashed">
-              <div className="h-10 w-10 rounded-full bg-muted flex items-center justify-center">
-                <Users className="h-5 w-5 text-muted-foreground" />
+            <Card className="flex items-center gap-3 p-3 border-dashed">
+              <div className="h-14 w-14 rounded-full bg-muted flex items-center justify-center">
+                <Users className="h-6 w-6 text-muted-foreground" />
               </div>
               <p className="text-sm text-muted-foreground">
                 {t("lobby.waitingForOthers")}

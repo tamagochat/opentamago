@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useRef, useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { Send, Loader2, Bot, User, LogOut, ArrowLeft } from "lucide-react";
+import { Send, Loader2, LogOut, ArrowLeft } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
@@ -13,7 +13,7 @@ import { Label } from "~/components/ui/label";
 import { Card } from "~/components/ui/card";
 import { cn } from "~/lib/utils";
 import type { Participant, ChatItemType } from "./hooks/use-connect-peers";
-import type { CharacterData, ChatMessageType, SystemMessageType } from "~/lib/connect/messages";
+import type { CharacterData, CharacterInfo, ChatMessageType, SystemMessageType } from "~/lib/connect/messages";
 
 interface ChatRoomProps {
   myPeerId: string;
@@ -70,17 +70,18 @@ export function ChatRoom({
     [handleSend]
   );
 
-  // Get character for a message
+  // Get character for a message (returns full CharacterData for self, CharacterInfo for others)
   const getCharacterForMessage = (
     senderId: string
-  ): CharacterData | undefined => {
+  ): CharacterData | CharacterInfo | undefined => {
     if (senderId === myPeerId) return myCharacter;
     const participant = participants.find((p) => p.peerId === senderId);
     return participant?.character ?? undefined;
   };
 
   // Split participants into active (with character) and pending (without)
-  const activeParticipants = [
+  // Note: myCharacter is CharacterData (full), others are CharacterInfo (minimal - name and avatar only)
+  const activeParticipants: Array<{ peerId: string; character: CharacterData | CharacterInfo }> = [
     { peerId: myPeerId, character: myCharacter },
     ...participants
       .filter((p) => p.status === "ready" && p.character !== null)
@@ -187,11 +188,6 @@ export function ChatRoom({
                       <span className="text-sm font-medium">
                         {character?.name || t("chat.unknown")}
                       </span>
-                      {chatMessage.isHuman ? (
-                        <User className="h-3 w-3 text-muted-foreground" />
-                      ) : (
-                        <Bot className="h-3 w-3 text-muted-foreground" />
-                      )}
                     </div>
 
                     <div

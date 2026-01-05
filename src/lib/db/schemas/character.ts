@@ -9,17 +9,29 @@ export interface CharacterDocument {
   firstMessage: string;
   exampleDialogue: string;
   systemPrompt: string;
+  postHistoryInstructions: string;
+  alternateGreetings: string[];
   creatorNotes: string;
   tags: string[];
+  creator: string;
+  characterVersion: string;
+  groupOnlyGreetings: string[];
+  nickname: string;
+  extensions: Record<string, any>; // Application-specific data (CCv3)
+  creatorNotesMultilingual?: Record<string, string>; // Multilingual creator notes (CCv3)
+  source?: string[]; // Source URLs/IDs (CCv3)
   avatarData?: string; // base64 encoded image
-  createdAt: number;
-  updatedAt: number;
+  createdAt: number; // Unix timestamp in milliseconds
+  updatedAt: number; // Unix timestamp in milliseconds
 }
 
 export const characterSchema: RxJsonSchema<CharacterDocument> = {
-  version: 1,
+  version: 4,
   primaryKey: "id",
   type: "object",
+  attachments: {
+    encrypted: false,
+  },
   properties: {
     id: {
       type: "string",
@@ -47,10 +59,48 @@ export const characterSchema: RxJsonSchema<CharacterDocument> = {
     systemPrompt: {
       type: "string",
     },
+    postHistoryInstructions: {
+      type: "string",
+    },
+    alternateGreetings: {
+      type: "array",
+      items: {
+        type: "string",
+      },
+    },
     creatorNotes: {
       type: "string",
     },
     tags: {
+      type: "array",
+      items: {
+        type: "string",
+      },
+    },
+    creator: {
+      type: "string",
+    },
+    characterVersion: {
+      type: "string",
+    },
+    groupOnlyGreetings: {
+      type: "array",
+      items: {
+        type: "string",
+      },
+    },
+    nickname: {
+      type: "string",
+    },
+    extensions: {
+      type: "object",
+      additionalProperties: true,
+    },
+    creatorNotesMultilingual: {
+      type: "object",
+      additionalProperties: true,
+    },
+    source: {
       type: "array",
       items: {
         type: "string",
@@ -72,6 +122,6 @@ export const characterSchema: RxJsonSchema<CharacterDocument> = {
       maximum: 9999999999999, // Year 2286
     },
   },
-  required: ["id", "name", "createdAt", "updatedAt"],
+  required: ["id", "name", "extensions", "createdAt", "updatedAt"],
   indexes: ["createdAt", "updatedAt", "name"],
 };

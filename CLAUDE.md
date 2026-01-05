@@ -153,8 +153,186 @@ When modifying an existing RxDB schema:
 - **Renaming fields**: Copy value to new key, delete old key in migration
 - **Breaking changes**: If migration isn't possible, the app auto-resets the database (user loses local data)
 
+### Critical Dexie.js RxStorage Constraints
+
+**IMPORTANT**: When using Dexie.js storage (IndexedDB), you MUST follow these rules to avoid initialization errors:
+
+1. **Non-required fields CANNOT be indexed**
+   - Only fields in the `required` array can be added to `indexes`
+   - Optional fields (not in `required`) will cause DXE1 error if indexed
+   - Error: "non-required index fields are not possible with the dexie.js RxStorage"
+
+   ```ts
+   // ❌ WRONG - personaId is optional but indexed
+   export const chatSchema: RxJsonSchema<ChatDocument> = {
+     properties: {
+       personaId: { type: "string", maxLength: 36 }
+     },
+     required: ["id", "characterId"],  // personaId NOT required
+     indexes: ["characterId", "personaId"],  // ❌ ERROR!
+   };
+
+   // ✅ CORRECT - only required fields are indexed
+   export const chatSchema: RxJsonSchema<ChatDocument> = {
+     properties: {
+       personaId: { type: "string", maxLength: 36 }
+     },
+     required: ["id", "characterId"],
+     indexes: ["characterId"],  // ✅ Only index required fields
+   };
+   ```
+
+2. **String fields used in indexes MUST have maxLength**
+   - Any string field in an index must define `maxLength` property
+   - Error code: SC34
+   - This applies to all string fields, including those in compound indexes
+   - **BEST PRACTICE**: Add `maxLength` to ALL string fields, not just indexed ones
+
+   ```ts
+   // ❌ WRONG - indexed string field without maxLength
+   properties: {
+     characterId: { type: "string" }  // ❌ Missing maxLength
+   },
+   indexes: ["characterId"]
+
+   // ❌ WRONG - compound index with missing maxLength
+   properties: {
+     sessionId: { type: "string" },  // ❌ Missing maxLength
+     timestamp: { type: "number" }
+   },
+   indexes: [["sessionId", "timestamp"]]  // ❌ ERROR! sessionId needs maxLength
+
+   // ✅ CORRECT - indexed string field with maxLength
+   properties: {
+     characterId: { type: "string", maxLength: 36 }  // ✅ Has maxLength
+   },
+   indexes: ["characterId"]
+
+   // ✅ CORRECT - compound index with maxLength
+   properties: {
+     sessionId: { type: "string", maxLength: 100 },  // ✅ Has maxLength
+     timestamp: { type: "number" }
+   },
+   indexes: [["sessionId", "timestamp"]]
+   ```
+
+   **Common maxLength values:**
+   - UUID/GUID fields: `maxLength: 36`
+   - Peer IDs, Session IDs: `maxLength: 100`
+   - URLs, slugs: `maxLength: 200` or `maxLength: 500`
+   - Names: `maxLength: 500`
+   - Long text fields (not indexed): can omit `maxLength`
+
+3. **Number/Integer fields used in indexes MUST have multipleOf**
+   - Any number/integer field in an index must define `multipleOf` property
+   - Error code: SC35
+   - This applies to all number fields, including those in compound indexes
+   - **BEST PRACTICE**: Add `multipleOf`, `minimum`, and `maximum` to ALL number fields
+
+   ```ts
+   // ❌ WRONG - indexed number field without multipleOf
+   properties: {
+     timestamp: { type: "number" }  // ❌ Missing multipleOf
+   },
+   indexes: [["sessionId", "timestamp"]]
+
+   // ✅ CORRECT - indexed number field with multipleOf
+   properties: {
+     timestamp: {
+       type: "number",
+       multipleOf: 1,  // ✅ Has multipleOf (integers)
+       minimum: 0,
+       maximum: 9999999999999
+     }
+   },
+   indexes: [["sessionId", "timestamp"]]
+
+   // ✅ CORRECT - decimal number field
+   properties: {
+     price: {
+       type: "number",
+       multipleOf: 0.01,  // ✅ For decimals (cents)
+       minimum: 0,
+       maximum: 999999
+     }
+   }
+   ```
+
+   **Common multipleOf values:**
+   - Integer timestamps: `multipleOf: 1`
+   - Decimal prices/percentages: `multipleOf: 0.01`
+   - Floating point: `multipleOf: 0.01` or smaller
+
+4. **Query optional fields without indexes**
+   - If you need to query by optional fields, use `.find()` with selectors
+   - Performance will be slower without indexes, but it won't cause errors
+
+   ```ts
+   // Query by optional personaId without index
+   const chats = await db.chats
+     .find({ selector: { personaId: "some-id" } })
+     .exec();
+   ```
+
+### Schema Validation Checklist
+
+Before creating or modifying a schema, verify:
+- [ ] All indexed fields are in the `required` array (if required)
+- [ ] **CRITICAL**: All indexed string fields have `maxLength` defined
+- [ ] **CRITICAL**: All indexed number fields have `multipleOf` defined
+- [ ] All fields in compound indexes have proper constraints (maxLength/multipleOf)
+- [ ] Migration strategy is added to `src/lib/db/index.ts` (if incrementing version)
+- [ ] TypeScript interface matches schema properties
+- [ ] Run `pnpm typecheck` to verify type safety
+- [ ] Test database initialization in browser (refresh to verify no SC34/SC35/DXE1 errors)
+
+### Quick Error Fixes
+
+**SC34 Error** - String field in index missing `maxLength`:
+1. Find the field name in the error message
+2. Add `maxLength` to that field:
+   ```ts
+   fieldName: { type: "string", maxLength: 100 }
+   ```
+3. If compound index, check ALL string fields
+4. Refresh browser to verify
+
+**SC35 Error** - Number field in index missing `multipleOf`:
+1. Find the field name in the error message
+2. Add `multipleOf` to that field:
+   ```ts
+   fieldName: {
+     type: "number",
+     multipleOf: 1,  // Use 1 for integers, 0.01 for decimals
+     minimum: 0,
+     maximum: 9999999999999
+   }
+   ```
+3. If compound index, check ALL number fields
+4. Refresh browser to verify
+
 ### Files
 
 - `src/lib/db/index.ts` - Database initialization and migrations
 - `src/lib/db/schemas/` - Schema definitions
 - `src/lib/db/hooks/` - React hooks for database access
+- `docs/rxdb-maintenance.md` - Development vs Production maintenance guide
+
+### Development vs Production
+
+**Development mode** (NODE_ENV=development):
+- RxDBDevModePlugin enabled (validates schemas, catches errors)
+- AJV validation wrapper enabled (validates all documents)
+- Dev-mode warnings suppressed via `disableWarnings()`
+- Hot reload support via global caching
+
+**Production mode** (NODE_ENV=production):
+- Dev plugin tree-shaken out (smaller bundle, better performance)
+- No validation overhead (~2-3x faster)
+- Same reliability with optimized performance
+
+**Expected console warnings in dev:**
+- "RxDB Open Core RxStorage" - Informational, can ignore (free Dexie.js storage)
+- These warnings are normal and won't appear in production builds
+
+See `docs/rxdb-maintenance.md` for full guide on maintaining RxDB across environments.

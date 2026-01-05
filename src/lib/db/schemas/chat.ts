@@ -3,6 +3,7 @@ import type { RxJsonSchema } from "rxdb";
 export interface ChatDocument {
   id: string;
   characterId: string;
+  personaId?: string;
   title: string;
   createdAt: number;
   updatedAt: number;
@@ -10,7 +11,7 @@ export interface ChatDocument {
 }
 
 export const chatSchema: RxJsonSchema<ChatDocument> = {
-  version: 0,
+  version: 1,
   primaryKey: "id",
   type: "object",
   properties: {
@@ -19,6 +20,10 @@ export const chatSchema: RxJsonSchema<ChatDocument> = {
       maxLength: 36,
     },
     characterId: {
+      type: "string",
+      maxLength: 36,
+    },
+    personaId: {
       type: "string",
       maxLength: 36,
     },

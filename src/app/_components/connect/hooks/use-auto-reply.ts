@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { CharacterData, ChatMessageType } from "~/lib/connect/messages";
+import type { CharacterData, CharacterInfo, ChatMessageType } from "~/lib/connect/messages";
 import { CONNECT_CONFIG } from "~/lib/connect";
 import { generateChatResponse } from "~/lib/ai";
 
@@ -40,7 +40,7 @@ export function useAutoReply({
   // Store latest chat data for resume functionality
   const latestChatDataRef = useRef<{
     chatHistory: ChatMessageType[];
-    participantCharacters: CharacterData[];
+    participantCharacterNames: string[];
   } | null>(null);
 
   // Cancel pending response (timer only - non-streaming API can't be aborted)
@@ -58,7 +58,7 @@ export function useAutoReply({
   const generateResponse = useCallback(
     async (
       chatHistory: ChatMessageType[],
-      participantCharacters: CharacterData[]
+      participantCharacterNames: string[]
     ) => {
       if (!myCharacter || !isApiReady) return null;
 
@@ -66,10 +66,9 @@ export function useAutoReply({
 
       try {
         // Build system prompt
-        const otherCharacters = participantCharacters
-          .filter((c) => c.id !== myCharacter.id)
-          .map((c) => `- ${c.name}: ${c.description}`)
-          .join("\n");
+        const otherCharactersList = participantCharacterNames
+          .filter((name) => name !== myCharacter.name)
+          .join(", ");
 
         const systemPrompt = `You are ${myCharacter.name}.
 
@@ -79,8 +78,7 @@ Your personality: ${myCharacter.personality}
 
 ${myCharacter.systemPrompt || ""}
 
-You are in a group chat with these other characters:
-${otherCharacters}
+You are in a group chat with these other characters: ${otherCharactersList || "no one else yet"}.
 
 Respond naturally as ${
           myCharacter.name
@@ -149,10 +147,10 @@ IMPORTANT: Do not prefix your response with your name or any label like "${myCha
   const scheduleResponse = useCallback(
     (
       chatHistory: ChatMessageType[],
-      participantCharacters: CharacterData[]
+      participantCharacterNames: string[]
     ) => {
       // Store latest chat data
-      latestChatDataRef.current = { chatHistory, participantCharacters };
+      latestChatDataRef.current = { chatHistory, participantCharacterNames };
 
       // Don't schedule if already generating - wait for current to complete
       if (isGeneratingRef.current) {
@@ -185,7 +183,7 @@ IMPORTANT: Do not prefix your response with your name or any label like "${myCha
 
         const content = await generateResponse(
           chatHistory,
-          participantCharacters
+          participantCharacterNames
         );
         if (content) {
           onResponse?.(content);
@@ -201,14 +199,14 @@ IMPORTANT: Do not prefix your response with your name or any label like "${myCha
     (
       message: ChatMessageType,
       chatHistory: ChatMessageType[],
-      participantCharacters: CharacterData[]
+      participantCharacterNames: string[]
     ) => {
       if (!enabled || !myPeerId || !myCharacter || !isApiReady) return;
 
       // Don't respond to own messages
       if (message.senderId === myPeerId) return;
 
-      scheduleResponse(chatHistory, participantCharacters);
+      scheduleResponse(chatHistory, participantCharacterNames);
     },
     [enabled, myPeerId, myCharacter, isApiReady, scheduleResponse]
   );
@@ -240,7 +238,7 @@ IMPORTANT: Do not prefix your response with your name or any label like "${myCha
   const triggerGeneration = useCallback(
     (
       chatHistory: ChatMessageType[],
-      participantCharacters: CharacterData[]
+      participantCharacterNames: string[]
     ) => {
       if (!myPeerId || !myCharacter || !isApiReady) return;
       if (chatHistory.length === 0) return;
@@ -252,7 +250,7 @@ IMPORTANT: Do not prefix your response with your name or any label like "${myCha
       // Don't respond to our own messages
       if (lastMessage.senderId === myPeerId) return;
 
-      scheduleResponse(chatHistory, participantCharacters);
+      scheduleResponse(chatHistory, participantCharacterNames);
     },
     [myPeerId, myCharacter, isApiReady, scheduleResponse]
   );

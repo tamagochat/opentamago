@@ -27,6 +27,10 @@ export const CONNECT_CONFIG = {
   // WebRTC
   CONNECTION_TIMEOUT: 30 * 1000, // 30 seconds
   RECONNECT_ATTEMPTS: 3,
+
+  // P2P Heartbeat (guest → host)
+  PEER_HEARTBEAT_INTERVAL: 5 * 1000, // 5 seconds
+  PEER_HEARTBEAT_TIMEOUT: 15 * 1000, // 15 seconds (miss 3 heartbeats)
 } as const;
 
 // Character-themed words for long slugs

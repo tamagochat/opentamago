@@ -15,7 +15,7 @@ import {
   DropdownMenuSeparator,
 } from "~/components/ui/dropdown-menu";
 import { useCharacters, useChats } from "~/lib/db/hooks";
-import { useCharxImport } from "~/lib/charx";
+import { parseCharXToCharacter } from "~/lib/charx/hooks";
 import { CharacterEditor } from "./character-editor";
 import { PersonaEditor } from "./persona-editor";
 import { SettingsModal } from "~/components/settings-modal";
@@ -46,18 +46,13 @@ export function LeftPanel({
 }: LeftPanelProps) {
   const t = useTranslations("chat.leftPanel");
   const tCommon = useTranslations("common");
-  const { characters, createCharacter, deleteCharacter } = useCharacters();
+  const { characters, saveCharacterWithAssets, deleteCharacter } = useCharacters();
   const { createChat, deleteChat } = useChats(selectedCharacter?.id);
   const [characterEditorOpen, setCharacterEditorOpen] = useState(false);
   const [personaEditorOpen, setPersonaEditorOpen] = useState(false);
   const [editingCharacter, setEditingCharacter] = useState<CharacterDocument | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const { importCharx, isImporting } = useCharxImport({
-    onError: (error) => {
-      toast.error(t("importError"), { description: error.message });
-    },
-  });
+  const [isImporting, setIsImporting] = useState(false);
 
   const handleCreateCharacter = () => {
     setEditingCharacter(null);
@@ -81,13 +76,31 @@ export function LeftPanel({
       fileInputRef.current.value = "";
     }
 
-    const characterData = await importCharx(file);
-    if (characterData) {
-      const saved = await createCharacter(characterData);
+    setIsImporting(true);
+    try {
+      // Parse the charx file and extract all data (character, avatar, lorebook, assets)
+      const saveData = await parseCharXToCharacter(file);
+
+      console.log("Saving character with assets from /chat import:", {
+        characterName: saveData.character.name,
+        hasAvatar: !!saveData.avatarBlob,
+        lorebookEntriesCount: saveData.lorebookEntries.length,
+        assetsCount: saveData.assets.length,
+      });
+
+      // Save character with all assets using the comprehensive function
+      const saved = await saveCharacterWithAssets(saveData);
+
       if (saved) {
         toast.success(t("importSuccess"), { description: saved.name });
         onSelectCharacter(saved);
       }
+    } catch (error) {
+      console.error("Failed to import character:", error);
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      toast.error(t("importError"), { description: errorMessage });
+    } finally {
+      setIsImporting(false);
     }
   };
 

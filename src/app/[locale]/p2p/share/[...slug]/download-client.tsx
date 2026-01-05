@@ -19,11 +19,9 @@ import { Progress } from "~/components/ui/progress";
 import { MainLayout } from "~/components/layout";
 import { WebRTCProvider, useWebRTCPeer, useDownloader } from "~/app/_components/p2p";
 import { Link, useRouter } from "~/i18n/routing";
-import { parseCharXAsync } from "~/lib/charx";
+import { parseCharXToCharacter } from "~/lib/charx/hooks";
 import { useCharacters } from "~/lib/db/hooks/useCharacters";
 import { useDatabase } from "~/lib/db/hooks/useDatabase";
-import type { CharacterCardV3 } from "~/lib/charx/types";
-import type { CharacterDocument } from "~/lib/db/schemas";
 
 interface DownloadClientProps {
   uploaderPeerId: string;
@@ -41,23 +39,6 @@ function formatFileSize(bytes: number): string {
   return `${parseFloat((bytes / Math.pow(k, i)).toFixed(2))} ${sizes[i]}`;
 }
 
-function convertCardToDocument(card: CharacterCardV3): Omit<CharacterDocument, "id" | "createdAt" | "updatedAt"> {
-  const data = card.data;
-  
-  return {
-    name: data.name || "Unnamed Character",
-    description: data.description || "",
-    personality: data.personality || "",
-    scenario: data.scenario || "",
-    firstMessage: data.first_mes || "",
-    exampleDialogue: data.mes_example || "",
-    systemPrompt: data.system_prompt || "",
-    creatorNotes: data.creator_notes || "",
-    tags: data.tags || [],
-    avatarData: undefined, // TODO: Extract avatar from assets if available
-  };
-}
-
 function DownloadContent({
   uploaderPeerId,
   fileName,
@@ -71,7 +52,7 @@ function DownloadContent({
   const [showTroubleshooting, setShowTroubleshooting] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const router = useRouter();
-  const { createCharacter } = useCharacters();
+  const { saveCharacterWithAssets } = useCharacters();
   const { db, isLoading: dbLoading, error: dbError } = useDatabase();
 
   const {
@@ -128,22 +109,24 @@ function DownloadContent({
         type: fileInfo.type || "application/octet-stream",
       });
 
-      // Parse the charx file
-      const parsed = await parseCharXAsync(file);
+      // Parse the charx file and extract all data (character, avatar, lorebook, assets)
+      const saveData = await parseCharXToCharacter(file);
 
-      if (!parsed.card) {
-        throw new Error("No character card found in .charx file");
-      }
+      console.log("Saving character with assets from P2P:", {
+        characterName: saveData.character.name,
+        hasAvatar: !!saveData.avatarBlob,
+        lorebookEntriesCount: saveData.lorebookEntries.length,
+        assetsCount: saveData.assets.length,
+      });
 
-      // Convert and save character
-      const characterData = convertCardToDocument(parsed.card);
-      const savedCharacter = await createCharacter(characterData);
+      // Save character with all assets
+      const savedCharacter = await saveCharacterWithAssets(saveData);
 
       if (!savedCharacter) {
-        throw new Error("createCharacter returned null - database may not be initialized");
+        throw new Error("saveCharacterWithAssets returned null - database may not be initialized");
       }
 
-      const characterName = parsed.card.data.name || "Unnamed Character";
+      const characterName = saveData.character.name || "Unnamed Character";
       toast.success(tCharx("success.title"), {
         description: tCharx("success.description", { name: characterName }),
         action: {
@@ -162,7 +145,7 @@ function DownloadContent({
     } finally {
       setIsSaving(false);
     }
-  }, [downloadedBlob, fileInfo, db, dbLoading, dbError, createCharacter, router, tCharx]);
+  }, [downloadedBlob, fileInfo, db, dbLoading, dbError, saveCharacterWithAssets, router, tCharx]);
 
   // Connecting State
   if (peerConnecting || state === "connecting") {

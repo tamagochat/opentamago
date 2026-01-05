@@ -7,7 +7,7 @@ export type ParticipantStatus =
   | "ready"         // Character selected and synced
   | "disconnected"; // Connection lost
 
-// Character data for sync
+// Full character data (local use only, not shared with others)
 export const CharacterDataSchema = z.object({
   id: z.string(),
   name: z.string(),
@@ -22,10 +22,18 @@ export const CharacterDataSchema = z.object({
 
 export type CharacterData = z.infer<typeof CharacterDataSchema>;
 
-// Character sync message
+// Minimal character info (shared with other participants - name and avatar only)
+export const CharacterInfoSchema = z.object({
+  name: z.string(),
+  avatar: z.string().optional(), // Base64
+});
+
+export type CharacterInfo = z.infer<typeof CharacterInfoSchema>;
+
+// Character sync message (shares only name and avatar, not full character details)
 export const CharacterSyncMessage = z.object({
   type: z.literal("CharacterSync"),
-  character: CharacterDataSchema,
+  character: CharacterInfoSchema,
   peerId: z.string(),
 });
 
@@ -72,6 +80,13 @@ export const PeerStateMessage = z.object({
   autoReplyEnabled: z.boolean(),
 });
 
+// Heartbeat (guest → host to indicate they're alive)
+export const HeartbeatMessage = z.object({
+  type: z.literal("Heartbeat"),
+  peerId: z.string(),
+  timestamp: z.number(),
+});
+
 // Peer connecting (joined link but hasn't selected character)
 export const PeerConnectingMessage = z.object({
   type: z.literal("PeerConnecting"),
@@ -110,7 +125,7 @@ export const ParticipantListMessage = z.object({
   participants: z.array(
     z.object({
       peerId: z.string(),
-      character: CharacterDataSchema,
+      character: CharacterInfoSchema,
       autoReplyEnabled: z.boolean(),
     })
   ),
@@ -128,7 +143,7 @@ export const SessionInfoMessage = z.object({
   participants: z.array(
     z.object({
       peerId: z.string(),
-      character: CharacterDataSchema,
+      character: CharacterInfoSchema,
       autoReplyEnabled: z.boolean(),
     })
   ),
@@ -143,6 +158,7 @@ export const ConnectMessage = z.discriminatedUnion("type", [
   ThinkingMessage,
   AITurnMessage,
   PeerStateMessage,
+  HeartbeatMessage,
   PeerConnectingMessage,
   PeerJoinedMessage,
   PeerLeftMessage,

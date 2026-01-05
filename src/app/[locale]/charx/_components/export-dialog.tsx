@@ -14,11 +14,12 @@ import {
 } from "~/components/ui/dialog";
 import { Button } from "~/components/ui/button";
 import { Badge } from "~/components/ui/badge";
-import type { CharacterCardV3, CharacterBook } from "~/lib/charx/types";
-import type { CharacterDocument } from "~/lib/db/schemas";
+import type { CharacterCardV3, CharacterBook, ParsedCharX } from "~/lib/charx/types";
+import type { CharacterDocument, LorebookEntryDocument, CharacterAssetDocument } from "~/lib/db/schemas";
 import { useCharacters } from "~/lib/db/hooks/useCharacters";
 import { useDatabase } from "~/lib/db/hooks/useDatabase";
 import { useRouter } from "~/i18n/routing";
+import { extractAvatarAsBlob, convertCardToCharacter } from "~/lib/charx/hooks";
 
 interface ExportDialogProps {
   open: boolean;
@@ -26,22 +27,84 @@ interface ExportDialogProps {
   card: CharacterCardV3 | null;
   lorebook: CharacterBook | null;
   characterName: string;
+  parsedData: ParsedCharX | null;
 }
 
-function convertCardToDocument(card: CharacterCardV3): Omit<CharacterDocument, "id" | "createdAt" | "updatedAt"> {
-  const data = card.data;
-  
+/**
+ * Convert ParsedCharX data to the format needed for saveCharacterWithAssets
+ */
+async function convertParsedCharXToSaveData(parsed: ParsedCharX) {
+  if (!parsed.card) {
+    throw new Error("No character card found");
+  }
+
+  const avatarBlob = await extractAvatarAsBlob(parsed);
+  const character = convertCardToCharacter(parsed.card);
+
+  // Extract lorebook entries
+  const lorebookEntries: Array<Omit<LorebookEntryDocument, "id" | "characterId" | "createdAt" | "updatedAt">> = [];
+  if (parsed.card.data.character_book) {
+    const book = parsed.card.data.character_book;
+    for (const entry of book.entries) {
+      lorebookEntries.push({
+        keys: entry.keys,
+        content: entry.content,
+        enabled: entry.enabled,
+        insertionOrder: entry.insertion_order,
+        caseSensitive: entry.case_sensitive ?? false,
+        priority: entry.priority ?? 10,
+        selective: entry.selective ?? false,
+        secondaryKeys: entry.secondary_keys ?? [],
+        constant: entry.constant ?? false,
+        position: entry.position || "before_char",
+        useRegex: entry.use_regex ?? false,
+        extensions: entry.extensions || {},
+        name: entry.name,
+        comment: entry.comment,
+      });
+    }
+  }
+
+  // Extract assets (excluding icon which is used as avatar)
+  const assets: Array<{
+    data: Uint8Array;
+    metadata: Omit<CharacterAssetDocument, "id" | "characterId" | "createdAt" | "updatedAt">;
+  }> = [];
+
+  for (const [uri, data] of parsed.assets) {
+    // Skip the icon asset (it's the avatar)
+    const assetInfo = parsed.card.data.assets?.find((a) => a.uri.replace("embeded://", "") === uri);
+    if (assetInfo?.type === "icon") continue;
+
+    // Determine asset type
+    let assetType: "icon" | "emotion" | "background" | "other" = "other";
+    if (uri.includes("/emotion/")) {
+      assetType = "emotion";
+    } else if (uri.includes("/background/")) {
+      assetType = "background";
+    } else if (uri.includes("/icon/")) {
+      assetType = "icon";
+    }
+
+    const name = assetInfo?.name || uri.split("/").pop() || uri;
+    const ext = assetInfo?.ext || uri.split(".").pop() || "";
+
+    assets.push({
+      data,
+      metadata: {
+        assetType,
+        name,
+        uri,
+        ext,
+      },
+    });
+  }
+
   return {
-    name: data.name || "Unnamed Character",
-    description: data.description || "",
-    personality: data.personality || "",
-    scenario: data.scenario || "",
-    firstMessage: data.first_mes || "",
-    exampleDialogue: data.mes_example || "",
-    systemPrompt: data.system_prompt || "",
-    creatorNotes: data.creator_notes || "",
-    tags: data.tags || [],
-    avatarData: undefined, // TODO: Extract avatar from assets if available
+    character,
+    avatarBlob,
+    lorebookEntries,
+    assets,
   };
 }
 
@@ -51,15 +114,16 @@ export function ExportDialog({
   card,
   lorebook,
   characterName,
+  parsedData,
 }: ExportDialogProps) {
   const t = useTranslations("charx.export");
-  const { createCharacter } = useCharacters();
+  const { saveCharacterWithAssets } = useCharacters();
   const { db, isLoading: dbLoading, error: dbError } = useDatabase();
   const router = useRouter();
   const [isSaving, setIsSaving] = useState(false);
 
   const handleSave = useCallback(async () => {
-    if (!card) return;
+    if (!parsedData || !card) return;
 
     // Check for database errors
     if (dbError) {
@@ -80,17 +144,21 @@ export function ExportDialog({
 
     setIsSaving(true);
     try {
-      const characterData = convertCardToDocument(card);
-      console.log("Saving character data:", characterData);
-      
-      const savedCharacter = await createCharacter(characterData);
+      // Convert ParsedCharX to save data format
+      const saveData = await convertParsedCharXToSaveData(parsedData);
+
+      console.log("Saving character with assets:", {
+        characterName,
+        hasAvatar: !!saveData.avatarBlob,
+        lorebookEntriesCount: saveData.lorebookEntries.length,
+        assetsCount: saveData.assets.length,
+      });
+
+      const savedCharacter = await saveCharacterWithAssets(saveData);
 
       if (!savedCharacter) {
-        throw new Error("createCharacter returned null - database may not be initialized");
+        throw new Error("saveCharacterWithAssets returned null - database may not be initialized");
       }
-
-      // TODO: Save lorebook separately if needed
-      // For now, we'll just save the character
 
       toast.success(t("success.title"), {
         description: t("success.description", { name: characterName }),
@@ -112,7 +180,7 @@ export function ExportDialog({
     } finally {
       setIsSaving(false);
     }
-  }, [card, characterName, createCharacter, router, t, onOpenChange, db, dbLoading, dbError]);
+  }, [parsedData, card, characterName, saveCharacterWithAssets, router, t, onOpenChange, db, dbLoading, dbError]);
 
   const hasLorebook = lorebook && lorebook.entries.length > 0;
   const lorebookEntryCount = lorebook?.entries.length ?? 0;

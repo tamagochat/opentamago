@@ -10,6 +10,8 @@ export interface LorebookEntry {
   insertion_order: number;
   case_sensitive: boolean;
   priority: number;
+  use_regex: boolean; // CCv3 required field
+  name?: string; // CCv3 optional field
   id?: string;
   comment?: string;
   selective: boolean;
@@ -45,6 +47,7 @@ export interface CharacterCardV3Data {
 
   // Metadata
   creator_notes: string;
+  creator_notes_multilingual?: Record<string, string>; // CCv3 multilingual notes
   system_prompt: string;
   post_history_instructions: string;
   alternate_greetings: string[];
@@ -56,8 +59,11 @@ export interface CharacterCardV3Data {
   group_only_greetings: string[];
   nickname: string;
 
-  // Timestamps
-  creation_date?: number; // Unix timestamp
+  // Source tracking
+  source?: string[]; // CCv3 source URLs/IDs
+
+  // Timestamps (Unix timestamps in seconds)
+  creation_date?: number;
   modification_date?: number;
 
   // World context

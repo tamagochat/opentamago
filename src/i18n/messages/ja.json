@@ -314,7 +314,7 @@
         "description": "チャット中にコンテキストとして使われるロアブックエントリだよ。",
         "noLorebook": "このキャラクターファイルにはロアブックがないよ。"
       },
-      "info": "保存すると、チャットページですぐ会話を始められるよ。",
+      "info": "保存すると、P2P共有とコネクトのためにキャラクターカードを簡単にインポートできるよ。",
       "infoMessages": {
         "databaseReady": "データベース準備OK！これで保存できるよ。"
       },
@@ -537,6 +537,7 @@
       "apiKeyDescription": "API接続とモデル設定を構成してね。",
       "chatUISection": "チャットUI",
       "chatUIDescription": "チャットメッセージの表示方法をカスタマイズ。",
+      "databaseSection": "データベース",
       "safety": "安全",
       "apiMode": "APIモード",
       "apiModeServer": "サーバーAPI",
@@ -556,6 +557,18 @@
       "themeRoleplayDesc": "セリフとアクションにスタイル適用",
       "themeMessenger": "メッセンジャー",
       "themeMessengerDesc": "プレーンテキスト、書式なし",
+      "database": {
+        "title": "データベース管理",
+        "description": "データベース統計を表示してローカルデータを管理。",
+        "storageUsage": "ストレージ使用量",
+        "collections": "コレクション",
+        "actions": "アクション",
+        "exportData": "データをエクスポート",
+        "dangerZone": "危険ゾーン",
+        "resetWarning": "キャラクター、チャット、メッセージ、設定を含むすべてのデータが完全に削除されます。マイグレーション問題が発生した場合に使用してください。",
+        "resetDatabase": "データベースをリセット",
+        "resetting": "リセット中..."
+      },
       "safetyDescription": "コンテンツ安全フィルターを設定してね。デフォルトでは全部オフで、自由にロールプレイできるよ。",
       "hateSpeech": "ヘイトスピーチ",
       "harassment": "ハラスメント",
@@ -586,7 +599,8 @@
       "title": "CharXファイルをアップロード",
       "description": ".charxファイルをドロップまたはクリックして選択",
       "formats": ".charxファイルのみ対応",
-      "error": "インポートに失敗しました"
+      "error": "インポートに失敗しました",
+      "confirm": "確認してこのキャラを使う"
     },
     "photo": {
       "dropTitle": "写真をアップロード",
@@ -667,7 +681,10 @@
       "createOwn": "自分のセッションを作る",
       "connectionFailed": "接続に失敗",
       "connectionFailedDescription": "セッションに接続できなかった。ホストが退出したか、ネットワークの問題があるかも。",
-      "tryAgain": "もう一度試す"
+      "tryAgain": "もう一度試す",
+      "apiNotReady": "APIキーが必要です",
+      "apiNotReadyDescription": "AI機能を使用するには、設定でAPIキーを設定してください。",
+      "openSettings": "設定を開く"
     }
   },
   "howItWorks": {

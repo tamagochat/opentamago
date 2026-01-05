@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
-import { Loader2, Wifi, WifiOff, AlertCircle, Users } from "lucide-react";
+import { Loader2, AlertCircle, Users } from "lucide-react";
 import { toast } from "sonner";
 import { MainLayout } from "~/components/layout";
 import { WebRTCProvider, useWebRTCPeer } from "~/app/_components/p2p/webrtc-provider";
@@ -10,6 +10,7 @@ import {
   CharacterSelector,
   SessionLobby,
   ChatRoom,
+  ConnectionStatus,
   useConnectSession,
   useConnectPeers,
   useAutoReply,
@@ -19,7 +20,6 @@ import { SettingsModal } from "~/components/settings-modal";
 import { Button } from "~/components/ui/button";
 import { Link } from "~/i18n/routing";
 import type { CharacterData } from "~/lib/connect/messages";
-import { cn } from "~/lib/utils";
 
 type JoinState =
   | "selecting" // Choosing character
@@ -91,6 +91,7 @@ function JoinPageContent({
     isHost: false,
     hostPeerId,
     myCharacter: selectedCharacter,
+    sessionId: sessionId?.toString(),
     onParticipantJoined: (participant) => {
       if (participant.character) {
         toast.success(t("notifications.joined", { name: participant.character.name }));
@@ -137,14 +138,24 @@ function JoinPageContent({
       if (lastMessage && lastMessage.type === "ChatMessage" && lastMessage.senderId !== peerId) {
         // Filter to only chat messages for auto-reply
         const chatMessages = chatHistory.filter((m): m is typeof lastMessage => m.type === "ChatMessage");
-        handleAutoReply(
-          lastMessage,
-          chatMessages,
-          participants.filter((p) => p.character !== null).map((p) => p.character!)
-        );
+        // Extract character names only (privacy - we don't share full character details)
+        const participantNames = participants
+          .filter((p) => p.character !== null)
+          .map((p) => p.character!.name);
+
+        console.log("[AutoReply] Guest processing message:", {
+          lastMessageFrom: lastMessage.senderId.slice(0, 8),
+          myPeerId: peerId?.slice(0, 8),
+          participantCount: participants.length,
+          participantNamesCount: participantNames.length,
+          participantNames,
+          autoReplyEnabled,
+        });
+
+        handleAutoReply(lastMessage, chatMessages, participantNames);
       }
     }
-  }, [chatHistory, peerId, participants, handleAutoReply]);
+  }, [chatHistory, peerId, participants, handleAutoReply, autoReplyEnabled]);
 
   // Track previous autoReplyEnabled to detect toggle from off to on
   const prevAutoReplyRef = useRef(autoReplyEnabled);
@@ -153,10 +164,11 @@ function JoinPageContent({
     if (autoReplyEnabled && !prevAutoReplyRef.current) {
       // Filter to only chat messages for AI generation
       const chatMessages = chatHistory.filter((m): m is Extract<typeof m, { type: "ChatMessage" }> => m.type === "ChatMessage");
-      triggerGeneration(
-        chatMessages,
-        participants.filter((p) => p.character !== null).map((p) => p.character!)
-      );
+      // Extract character names only (privacy - we don't share full character details)
+      const participantNames = participants
+        .filter((p) => p.character !== null)
+        .map((p) => p.character!.name);
+      triggerGeneration(chatMessages, participantNames);
     }
     prevAutoReplyRef.current = autoReplyEnabled;
   }, [autoReplyEnabled, chatHistory, participants, triggerGeneration]);
@@ -185,6 +197,18 @@ function JoinPageContent({
   // Handle character selection
   const handleCharacterSelect = useCallback(
     async (character: CharacterData) => {
+      // Check if API is ready before joining
+      if (!isApiReady) {
+        toast.error(t("errors.apiNotReady"), {
+          description: t("errors.apiNotReadyDescription"),
+          action: {
+            label: t("errors.openSettings"),
+            onClick: () => setSettingsOpen(true),
+          },
+        });
+        return;
+      }
+
       setSelectedCharacter(character);
       setState("joining");
 
@@ -198,7 +222,7 @@ function JoinPageContent({
       // Pass character directly to avoid React state timing issues
       await joinSession(character);
     },
-    [peerId, joinSession, t]
+    [peerId, joinSession, t, isApiReady]
   );
 
   // Handle start chat
@@ -220,37 +244,6 @@ function JoinPageContent({
       sendChatMessage(content, isHuman);
     },
     [sendChatMessage]
-  );
-
-  // Connection status indicator
-  const ConnectionStatus = () => (
-    <div
-      className={cn(
-        "fixed bottom-4 right-4 flex items-center gap-2 px-3 py-2 rounded-full text-sm",
-        peerConnecting
-          ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
-          : peerError
-          ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
-          : "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
-      )}
-    >
-      {peerConnecting ? (
-        <>
-          <Loader2 className="h-4 w-4 animate-spin" />
-          {t("status.connecting")}
-        </>
-      ) : peerError ? (
-        <>
-          <WifiOff className="h-4 w-4" />
-          {t("status.disconnected")}
-        </>
-      ) : (
-        <>
-          <Wifi className="h-4 w-4" />
-          {t("status.connected")}
-        </>
-      )}
-    </div>
   );
 
   // Full session state
@@ -356,7 +349,7 @@ function JoinPageContent({
         />
       )}
 
-      <ConnectionStatus />
+      <ConnectionStatus isConnecting={peerConnecting} error={peerError} />
     </>
   );
 }

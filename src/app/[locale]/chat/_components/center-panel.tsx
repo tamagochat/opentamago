@@ -27,9 +27,10 @@ import { toast } from "sonner";
 // Roleplay text renderer that highlights quotes and formats actions
 function RoleplayText({ content }: { content: string }) {
   const parts = useMemo(() => {
-    const result: { type: "text" | "quote" | "action"; content: string }[] = [];
-    // Match double quotes, single quotes for dialogue, and asterisks for actions
-    const regex = /("([^"]+)")|(\*([^*]+)\*)/g;
+    const result: { type: "text" | "quote" | "action" | "bold" | "italic" | "bold-italic"; content: string }[] = [];
+    // Match in priority order: bold-italic (***), bold (**), italic (*), quotes (""), and asterisk actions (*)
+    // Using non-greedy matching and proper escaping
+    const regex = /(\*\*\*([^*]+)\*\*\*)|(\*\*([^*]+)\*\*)|("([^"]+)")|(\*([^*]+)\*)/g;
     let lastIndex = 0;
     let match;
 
@@ -40,11 +41,17 @@ function RoleplayText({ content }: { content: string }) {
       }
 
       if (match[1]) {
-        // Double quoted dialogue
-        result.push({ type: "quote", content: match[1] });
+        // Bold-italic: ***text***
+        result.push({ type: "bold-italic", content: match[2] ?? "" });
       } else if (match[3]) {
-        // Asterisk action
-        result.push({ type: "action", content: match[3] });
+        // Bold: **text**
+        result.push({ type: "bold", content: match[4] ?? "" });
+      } else if (match[5]) {
+        // Double quoted dialogue
+        result.push({ type: "quote", content: match[5] ?? "" });
+      } else if (match[7]) {
+        // Italic/action: *text*
+        result.push({ type: "action", content: match[7] ?? "" });
       }
 
       lastIndex = match.index + match[0].length;
@@ -63,7 +70,7 @@ function RoleplayText({ content }: { content: string }) {
       {parts.map((part, i) => {
         if (part.type === "quote") {
           return (
-            <span key={i} className="text-primary font-medium">
+            <span key={i} className="text-primary font-semibold">
               {part.content}
             </span>
           );
@@ -72,6 +79,27 @@ function RoleplayText({ content }: { content: string }) {
           return (
             <span key={i} className="text-muted-foreground italic">
               *{part.content}*
+            </span>
+          );
+        }
+        if (part.type === "bold") {
+          return (
+            <span key={i} className="font-bold">
+              {part.content}
+            </span>
+          );
+        }
+        if (part.type === "italic") {
+          return (
+            <span key={i} className="italic">
+              {part.content}
+            </span>
+          );
+        }
+        if (part.type === "bold-italic") {
+          return (
+            <span key={i} className="font-bold italic">
+              {part.content}
             </span>
           );
         }

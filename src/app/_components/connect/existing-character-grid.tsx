@@ -5,7 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Button } from "~/components/ui/button";
 import { Card } from "~/components/ui/card";
 import { Skeleton } from "~/components/ui/skeleton";
-import { useCharacters } from "~/lib/db/hooks";
+import { useCharacters, useCharacterAvatarUrl } from "~/lib/db/hooks";
 import type { CharacterDocument } from "~/lib/db/schemas";
 import { cn } from "~/lib/utils";
 import { Link } from "~/i18n/routing";
@@ -15,12 +15,53 @@ interface ExistingCharacterGridProps {
   isLoading?: boolean;
 }
 
+interface CharacterCardProps {
+  character: CharacterDocument;
+  onSelect: (character: CharacterDocument) => void;
+}
+
+function CharacterCard({ character, onSelect }: CharacterCardProps) {
+  const tChat = useTranslations("chat.leftPanel");
+  const { avatarUrl } = useCharacterAvatarUrl(character);
+
+  return (
+    <Card
+      onClick={() => onSelect(character)}
+      className={cn(
+        "flex flex-col items-center p-4 cursor-pointer",
+        "hover:bg-accent hover:border-primary/50 transition-colors",
+        "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+      )}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onSelect(character);
+        }
+      }}
+    >
+      <Avatar className="h-16 w-16">
+        <AvatarImage src={avatarUrl ?? undefined} />
+        <AvatarFallback className="text-lg">
+          {character.name.slice(0, 2).toUpperCase()}
+        </AvatarFallback>
+      </Avatar>
+      <p className="mt-3 font-medium text-sm truncate max-w-full">
+        {character.name}
+      </p>
+      <p className="mt-1 text-xs text-muted-foreground line-clamp-2 text-center">
+        {character.description || tChat("noDescription")}
+      </p>
+    </Card>
+  );
+}
+
 export function ExistingCharacterGrid({
   onSelect,
   isLoading: externalLoading,
 }: ExistingCharacterGridProps) {
   const t = useTranslations("connect");
-  const tChat = useTranslations("chat.leftPanel");
   const { characters, isLoading: charactersLoading } = useCharacters();
 
   const isLoading = externalLoading || charactersLoading;
@@ -53,36 +94,11 @@ export function ExistingCharacterGrid({
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
       {characters.map((character) => (
-        <Card
+        <CharacterCard
           key={character.id}
-          onClick={() => onSelect(character)}
-          className={cn(
-            "flex flex-col items-center p-4 cursor-pointer",
-            "hover:bg-accent hover:border-primary/50 transition-colors",
-            "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-          )}
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              onSelect(character);
-            }
-          }}
-        >
-          <Avatar className="h-16 w-16">
-            <AvatarImage src={character.avatarData} />
-            <AvatarFallback className="text-lg">
-              {character.name.slice(0, 2).toUpperCase()}
-            </AvatarFallback>
-          </Avatar>
-          <p className="mt-3 font-medium text-sm truncate max-w-full">
-            {character.name}
-          </p>
-          <p className="mt-1 text-xs text-muted-foreground line-clamp-2 text-center">
-            {character.description || tChat("noDescription")}
-          </p>
-        </Card>
+          character={character}
+          onSelect={onSelect}
+        />
       ))}
     </div>
   );

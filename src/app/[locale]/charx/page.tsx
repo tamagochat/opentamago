@@ -277,6 +277,7 @@ export default function CharXPage() {
             card={exportItem.parsed.card}
             lorebook={exportItem.parsed.card.data.character_book ?? null}
             characterName={exportItem.parsed.card.data.name || ""}
+            parsedData={exportItem.parsed}
           />
         )}
       </div>

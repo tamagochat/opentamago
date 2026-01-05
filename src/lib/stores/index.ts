@@ -16,3 +16,26 @@ export {
   getPendingFile,
   consumePendingFile,
 } from "./p2p-share-store";
+
+export {
+  useConnectStore,
+  setSession,
+  clearSession,
+  addConnection,
+  removeConnection,
+  getConnection,
+  setParticipants,
+  addParticipant,
+  updateParticipant,
+  removeParticipant,
+  bufferMessage,
+  clearBufferedMessages,
+  getBufferedMessages,
+  addThinkingPeer,
+  removeThinkingPeer,
+  attachComponent,
+  detachComponent,
+  getState,
+  type ConnectSessionInfo,
+  type ConnectStoreState,
+} from "./connect-store";

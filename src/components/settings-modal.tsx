@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import {
   Dialog,
   DialogContent,
+  DialogTitle,
   DialogTrigger,
 } from "~/components/ui/dialog";
 import { Button } from "~/components/ui/button";
@@ -19,7 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
-import { Settings, Eye, EyeOff, Server, Key, MessageSquare } from "lucide-react";
+import { Settings, Eye, EyeOff, Server, Key, MessageSquare, Database } from "lucide-react";
 import { useSettings } from "~/lib/db/hooks";
 import type { ApiMode, ChatBubbleTheme } from "~/lib/db/schemas";
 import {
@@ -33,8 +34,9 @@ import {
   type BlockThreshold,
 } from "~/lib/ai";
 import { cn } from "~/lib/utils";
+import { DatabaseTab } from "./database-tab";
 
-type SettingsSection = "api" | "chatUI";
+type SettingsSection = "api" | "chatUI" | "database";
 
 interface SettingsModalProps {
   open?: boolean;
@@ -96,6 +98,7 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
   const sidebarItems = [
     { id: "api" as const, icon: Key, label: t("apiSection") },
     { id: "chatUI" as const, icon: MessageSquare, label: t("chatUISection") },
+    { id: "database" as const, icon: Database, label: t("databaseSection") },
   ];
 
   return (
@@ -110,7 +113,7 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
           {/* Sidebar */}
           <div className="w-40 shrink-0 border-r bg-muted/30 flex flex-col">
             <div className="p-4 border-b">
-              <h2 className="font-semibold text-sm">{t("title")}</h2>
+              <DialogTitle className="font-semibold text-sm">{t("title")}</DialogTitle>
             </div>
             <nav className="p-2 space-y-1 flex-1">
               {sidebarItems.map((item) => (
@@ -345,6 +348,8 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
                   </div>
                 </div>
               )}
+
+              {activeSection === "database" && <DatabaseTab />}
             </ScrollArea>
 
             {/* Footer */}

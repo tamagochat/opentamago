@@ -314,7 +314,7 @@
         "description": "채팅할 때 컨텍스트로 사용될 로어북 항목이에요.",
         "noLorebook": "이 캐릭터 파일에는 로어북이 없어요."
       },
-      "info": "저장하면 채팅 페이지에서 바로 대화를 시작할 수 있어요.",
+      "info": "저장하면 P2P 공유 및 커넥트를 위해 캐릭터 카드를 쉽게 가져올 수 있어요.",
       "infoMessages": {
         "databaseReady": "데이터베이스 준비 완료! 이제 저장할 수 있어요."
       },
@@ -537,6 +537,7 @@
       "apiKeyDescription": "API 연결과 모델 설정을 구성하세요.",
       "chatUISection": "채팅 UI",
       "chatUIDescription": "채팅 메시지가 표시되는 방식을 설정하세요.",
+      "databaseSection": "데이터베이스",
       "safety": "안전",
       "apiMode": "API 모드",
       "apiModeServer": "서버 API",
@@ -556,6 +557,18 @@
       "themeRoleplayDesc": "대화와 행동에 스타일 적용",
       "themeMessenger": "메신저",
       "themeMessengerDesc": "일반 텍스트, 서식 없음",
+      "database": {
+        "title": "데이터베이스 관리",
+        "description": "데이터베이스 통계를 확인하고 로컬 데이터를 관리하세요.",
+        "storageUsage": "저장 공간 사용량",
+        "collections": "컬렉션",
+        "actions": "작업",
+        "exportData": "데이터 내보내기",
+        "dangerZone": "위험 영역",
+        "resetWarning": "캐릭터, 채팅, 메시지, 설정을 포함한 모든 데이터가 영구적으로 삭제됩니다. 마이그레이션 문제가 발생한 경우에 사용하세요.",
+        "resetDatabase": "데이터베이스 초기화",
+        "resetting": "초기화 중..."
+      },
       "safetyDescription": "콘텐츠 안전 필터를 설정하세요. 기본적으로 모든 필터가 꺼져 있어서 자유로운 롤플레이가 가능해요.",
       "hateSpeech": "혐오 발언",
       "harassment": "괴롭힘",
@@ -586,7 +599,8 @@
       "title": "CharX 파일 업로드",
       "description": ".charx 파일을 놓거나 클릭해서 선택하세요",
       "formats": ".charx 파일만 지원해요",
-      "error": "가져오기 실패"
+      "error": "가져오기 실패",
+      "confirm": "확인 및 이 캐릭터 사용"
     },
     "photo": {
       "dropTitle": "사진 업로드",
@@ -667,7 +681,10 @@
       "createOwn": "내 세션 만들기",
       "connectionFailed": "연결 실패",
       "connectionFailedDescription": "세션에 연결할 수 없어요. 호스트가 나갔거나 네트워크 문제가 있을 수 있어요.",
-      "tryAgain": "다시 시도"
+      "tryAgain": "다시 시도",
+      "apiNotReady": "API 키 필요",
+      "apiNotReadyDescription": "AI 기능을 사용하려면 설정에서 API 키를 설정해주세요.",
+      "openSettings": "설정 열기"
     }
   },
   "howItWorks": {

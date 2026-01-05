@@ -1,5 +1,7 @@
 import { type Metadata } from "next";
 import { getTranslations } from "next-intl/server";
+import { WebRTCProvider } from "~/app/_components/p2p/webrtc-provider";
+import { ConnectManagerProvider } from "~/app/_components/p2p/connect-manager-provider";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -59,5 +61,11 @@ export default function P2PLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return children;
+  return (
+    <WebRTCProvider>
+      <ConnectManagerProvider>
+        {children}
+      </ConnectManagerProvider>
+    </WebRTCProvider>
+  );
 }

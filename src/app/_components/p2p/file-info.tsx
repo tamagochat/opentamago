@@ -20,24 +20,24 @@ function formatFileSize(bytes: number): string {
 
 export function FileInfo({ file, onRemove, showRemove = true }: FileInfoProps) {
   return (
-    <Card className="flex items-center gap-3 bg-muted/50 p-3">
-      <div className="flex h-10 w-10 items-center justify-center rounded-md bg-primary/10">
-        <FileArchive className="h-5 w-5 text-primary" />
-      </div>
-      <div className="flex-1 min-w-0">
-        <p className="truncate font-medium">{file.name}</p>
-        <p className="text-sm text-muted-foreground">{formatFileSize(file.size)}</p>
-      </div>
+    <Card className="relative flex flex-col items-center gap-3 bg-muted/50 p-6 mx-auto max-w-sm">
       {showRemove && onRemove && (
         <Button
           variant="ghost"
           size="icon-sm"
           onClick={onRemove}
-          className="shrink-0"
+          className="absolute top-2 right-2"
         >
           <X className="h-4 w-4" />
         </Button>
       )}
+      <div className="flex h-12 w-12 items-center justify-center rounded-md bg-primary/10">
+        <FileArchive className="h-6 w-6 text-primary" />
+      </div>
+      <div className="text-center w-full min-w-0">
+        <p className="truncate font-medium">{file.name}</p>
+        <p className="text-sm text-muted-foreground">{formatFileSize(file.size)}</p>
+      </div>
     </Card>
   );
 }

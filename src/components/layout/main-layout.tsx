@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useMemo } from "react";
 import { useTranslations } from "next-intl";
 import { SiteHeader } from "./site-header";
 import { SiteFooter } from "./site-footer";
@@ -29,11 +29,19 @@ function HeaderFallback() {
 export function MainLayout({ children, showFooter = true }: MainLayoutProps) {
   const t = useTranslations("charx.errorBoundary");
 
-  const errorBoundaryTranslations = {
-    title: t("title"),
-    description: t("description"),
-    refreshPage: t("refreshPage"),
-  };
+  // Extract string values first to prevent function reference changes from causing re-memoization
+  const title = t("title");
+  const description = t("description");
+  const refreshPage = t("refreshPage");
+
+  const errorBoundaryTranslations = useMemo(
+    () => ({
+      title,
+      description,
+      refreshPage,
+    }),
+    [title, description, refreshPage]
+  );
 
   return (
     <div className="relative min-h-screen flex flex-col">

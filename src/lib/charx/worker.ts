@@ -145,6 +145,8 @@ function parseCardJson(data: Record<string, unknown>): CharacterCardV3 {
         insertion_order: (entryData.insertion_order as number) ?? 100,
         case_sensitive: (entryData.case_sensitive as boolean) ?? false,
         priority: (entryData.priority as number) ?? 10,
+        use_regex: (entryData.use_regex as boolean) ?? false,
+        name: entryData.name as string | undefined,
         id: entryData.id as string | undefined,
         comment: entryData.comment as string | undefined,
         selective: (entryData.selective as boolean) ?? false,

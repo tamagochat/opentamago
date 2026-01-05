@@ -2,12 +2,7 @@
 
 import { useState, useCallback, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
-import { Loader2, Wifi, WifiOff, Users, Info } from "lucide-react";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "~/components/ui/popover";
+import { Loader2, Users } from "lucide-react";
 import { toast } from "sonner";
 import { MainLayout } from "~/components/layout";
 import { WebRTCProvider, useWebRTCPeer } from "~/app/_components/p2p/webrtc-provider";
@@ -15,15 +10,18 @@ import {
   CharacterSelector,
   SessionLobby,
   ChatRoom,
+  ConnectionStatus,
   useConnectSession,
   useConnectPeers,
+  useConnectPeersPersistent,
+  useConnectNavigation,
   useAutoReply,
 } from "~/app/_components/connect";
 import { useSettings } from "~/lib/db/hooks";
 import { SettingsModal } from "~/components/settings-modal";
 import type { CharacterData } from "~/lib/connect/messages";
-import { cn } from "~/lib/utils";
 import { ExperimentalDisclaimer } from "~/components/experimental-disclaimer";
+import { ConnectRejoinBanner } from "~/components/connect-rejoin-banner";
 
 type ConnectState =
   | "selecting" // Choosing character
@@ -42,6 +40,7 @@ function ConnectPageContent() {
 
   // Session management
   const {
+    sessionId,
     shortSlug,
     longSlug,
     isReady: sessionReady,
@@ -61,7 +60,7 @@ function ConnectPageContent() {
     },
   });
 
-  // Peer connections
+  // Peer connections with persistence
   const {
     participants,
     isConnected,
@@ -72,10 +71,12 @@ function ConnectPageContent() {
     sendThinking,
     toggleAutoReply,
     disconnectAll,
-  } = useConnectPeers({
+  } = useConnectPeersPersistent({
     isHost: true,
     hostPeerId: peerId,
     myCharacter: selectedCharacter,
+    sessionId: sessionId?.toString(),
+    slug: shortSlug ?? undefined,
     onParticipantJoined: (participant) => {
       if (participant.character) {
         toast.success(t("notifications.joined", { name: participant.character.name }));
@@ -88,6 +89,14 @@ function ConnectPageContent() {
       }
     },
   });
+
+  // Memoize onResponse to prevent infinite loops
+  const handleAutoReplyResponse = useCallback(
+    (content: string) => {
+      sendChatMessage(content, false);
+    },
+    [sendChatMessage]
+  );
 
   // Auto-reply
   const {
@@ -104,9 +113,7 @@ function ConnectPageContent() {
     isClientMode,
     model: settings?.defaultModel,
     temperature: settings?.temperature,
-    onResponse: (content) => {
-      sendChatMessage(content, false);
-    },
+    onResponse: handleAutoReplyResponse,
   });
 
   // Handle incoming messages for auto-reply
@@ -117,11 +124,11 @@ function ConnectPageContent() {
       if (lastMessage && lastMessage.type === "ChatMessage" && lastMessage.senderId !== peerId) {
         // Filter to only chat messages for auto-reply
         const chatMessages = chatHistory.filter((m): m is typeof lastMessage => m.type === "ChatMessage");
-        handleAutoReply(
-          lastMessage,
-          chatMessages,
-          participants.filter((p) => p.character !== null).map((p) => p.character!)
-        );
+        // Extract character names only (privacy - we don't share full character details)
+        const participantNames = participants
+          .filter((p) => p.character !== null)
+          .map((p) => p.character!.name);
+        handleAutoReply(lastMessage, chatMessages, participantNames);
       }
     }
   }, [chatHistory, peerId, participants, handleAutoReply]);
@@ -133,10 +140,11 @@ function ConnectPageContent() {
     if (autoReplyEnabled && !prevAutoReplyRef.current) {
       // Filter to only chat messages for AI generation
       const chatMessages = chatHistory.filter((m): m is Extract<typeof m, { type: "ChatMessage" }> => m.type === "ChatMessage");
-      triggerGeneration(
-        chatMessages,
-        participants.filter((p) => p.character !== null).map((p) => p.character!)
-      );
+      // Extract character names only (privacy - we don't share full character details)
+      const participantNames = participants
+        .filter((p) => p.character !== null)
+        .map((p) => p.character!.name);
+      triggerGeneration(chatMessages, participantNames);
     }
     prevAutoReplyRef.current = autoReplyEnabled;
   }, [autoReplyEnabled, chatHistory, participants, triggerGeneration]);
@@ -162,9 +170,27 @@ function ConnectPageContent() {
     prevThinkingPeersRef.current = thinkingPeers;
   }, [thinkingPeers, handleThinkingEvent]);
 
+  // Handle navigation (show toast when navigating away, persist state)
+  useConnectNavigation({
+    isInChat: state === "chatting",
+    participantCount: participants.filter((p) => p.status === "ready").length,
+  });
+
   // Handle character selection
   const handleCharacterSelect = useCallback(
     async (character: CharacterData) => {
+      // Check if API is ready before joining
+      if (!isApiReady) {
+        toast.error(t("errors.apiNotReady"), {
+          description: t("errors.apiNotReadyDescription"),
+          action: {
+            label: t("errors.openSettings"),
+            onClick: () => setSettingsOpen(true),
+          },
+        });
+        return;
+      }
+
       setSelectedCharacter(character);
       setState("creating");
 
@@ -178,7 +204,7 @@ function ConnectPageContent() {
       // Pass character directly to avoid React state timing issues
       await createSession(character);
     },
-    [peerId, createSession, t]
+    [peerId, createSession, t, isApiReady]
   );
 
   // Handle start chat
@@ -207,49 +233,11 @@ function ConnectPageContent() {
     [sendChatMessage]
   );
 
-  // Connection status indicator
-  const ConnectionStatus = () => (
-    <div
-      className={cn(
-        "fixed bottom-4 right-4 flex items-center gap-2 px-3 py-2 rounded-full text-sm",
-        peerConnecting
-          ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
-          : peerError
-          ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
-          : "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
-      )}
-    >
-      {peerConnecting ? (
-        <>
-          <Loader2 className="h-4 w-4 animate-spin" />
-          {t("status.connecting")}
-        </>
-      ) : peerError ? (
-        <>
-          <WifiOff className="h-4 w-4" />
-          {t("status.disconnected")}
-        </>
-      ) : (
-        <>
-          <Wifi className="h-4 w-4" />
-          {t("status.connected")}
-          <Popover>
-            <PopoverTrigger asChild>
-              <button className="ml-1 hover:opacity-70 transition-opacity">
-                <Info className="h-3.5 w-3.5" />
-              </button>
-            </PopoverTrigger>
-            <PopoverContent side="top" className="w-auto text-sm">
-              {t("status.connectedInfo")}
-            </PopoverContent>
-          </Popover>
-        </>
-      )}
-    </div>
-  );
-
   return (
     <>
+      {/* Rejoin Banner */}
+      <ConnectRejoinBanner />
+
       {/* Header */}
       <div className="mb-8">
         <div className="flex items-center justify-between">
@@ -313,7 +301,7 @@ function ConnectPageContent() {
         />
       )}
 
-      <ConnectionStatus />
+      <ConnectionStatus isConnecting={peerConnecting} error={peerError} />
     </>
   );
 }

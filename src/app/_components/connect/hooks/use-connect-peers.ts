@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useRef, useCallback, useState } from "react";
+import { useEffect, useRef, useCallback, useState, useMemo } from "react";
 import type { DataConnection } from "peerjs";
 import { useWebRTCPeer } from "~/app/_components/p2p/webrtc-provider";
 import {
   ConnectMessage,
   type ConnectMessageType,
   type CharacterData,
+  type CharacterInfo,
   type ChatMessageType,
   type SystemMessageType,
   type ParticipantStatus,
@@ -16,7 +17,7 @@ import { CONNECT_CONFIG } from "~/lib/connect";
 export interface Participant {
   peerId: string;
   status: ParticipantStatus;
-  character: CharacterData | null; // null when pending
+  character: CharacterInfo | null; // null when pending - only contains name and avatar
   connection: DataConnection | null;
   autoReplyEnabled: boolean;
 }
@@ -28,6 +29,7 @@ interface UseConnectPeersOptions {
   isHost: boolean;
   hostPeerId: string | null;
   myCharacter: CharacterData | null;
+  sessionId?: string | null; // Track session to reset state on room change
   onMessage?: (message: ChatMessageType) => void;
   onParticipantJoined?: (participant: Participant) => void;
   onParticipantLeft?: (peerId: string) => void;
@@ -39,6 +41,7 @@ export function useConnectPeers({
   isHost,
   hostPeerId,
   myCharacter,
+  sessionId,
   onMessage,
   onParticipantJoined,
   onParticipantLeft,
@@ -57,9 +60,18 @@ export function useConnectPeers({
   const connectionsRef = useRef<Map<string, DataConnection>>(new Map());
   const pendingConnectionsRef = useRef<Set<string>>(new Set());
 
+  // Track last heartbeat time for each peer (host only)
+  const lastHeartbeatRef = useRef<Map<string, number>>(new Map());
+
+  // Track current session to detect room changes
+  const currentSessionRef = useRef<string | null>(sessionId ?? null);
+
   // Use refs to avoid stale closures in event handlers
   const myCharacterRef = useRef(myCharacter);
   const myPeerIdRef = useRef(myPeerId);
+  const participantsRef = useRef(participants);
+  const chatHistoryRef = useRef(chatHistory);
+  const autoReplyEnabledRef = useRef(autoReplyEnabled);
 
   // Keep refs in sync
   useEffect(() => {
@@ -70,18 +82,73 @@ export function useConnectPeers({
     myPeerIdRef.current = myPeerId;
   }, [myPeerId]);
 
+  useEffect(() => {
+    participantsRef.current = participants;
+  }, [participants]);
+
+  useEffect(() => {
+    chatHistoryRef.current = chatHistory;
+  }, [chatHistory]);
+
+  useEffect(() => {
+    autoReplyEnabledRef.current = autoReplyEnabled;
+  }, [autoReplyEnabled]);
+
+  // Reset state when session changes (joining a new room)
+  useEffect(() => {
+    const newSessionId = sessionId ?? null;
+    const previousSessionId = currentSessionRef.current;
+
+    // If session changed (and not initial render)
+    if (previousSessionId !== null && newSessionId !== previousSessionId) {
+      console.log(`[Session] Detected session change from ${previousSessionId} to ${newSessionId}, resetting state`);
+
+      // Close all existing connections
+      connectionsRef.current.forEach((conn) => {
+        conn.close();
+      });
+      connectionsRef.current.clear();
+      pendingConnectionsRef.current.clear();
+
+      // Clear all state
+      setParticipants(new Map());
+      setIsConnected(false);
+      setAutoReplyEnabled(true);
+      setChatHistory([]);
+      setThinkingPeers(new Set());
+      lastHeartbeatRef.current.clear();
+    }
+
+    // Update current session ref
+    currentSessionRef.current = newSessionId;
+  }, [sessionId]);
+
   // Ref for handleMessage to avoid stale closures
   const handleMessageRef = useRef<(data: unknown, fromPeerId: string) => void>(() => {});
 
   // Send message to all peers
   const broadcast = useCallback(
     (message: ConnectMessageType) => {
+      console.log("[broadcast] Sending message:", {
+        type: message.type,
+        connectionCount: connectionsRef.current.size,
+        connections: Array.from(connectionsRef.current.entries()).map(([peerId, conn]) => ({
+          peerId,
+          isOpen: conn.open,
+        })),
+      });
       const data = JSON.stringify(message);
-      connectionsRef.current.forEach((conn) => {
+      let sentCount = 0;
+      connectionsRef.current.forEach((conn, peerId) => {
         if (conn.open) {
+          console.log(`[broadcast] Sending to peer ${peerId}`);
           conn.send(data);
+          sentCount++;
+        } else {
+          console.warn(`[broadcast] Connection to peer ${peerId} is not open`);
         }
       });
+      console.log(`[broadcast] Sent to ${sentCount}/${connectionsRef.current.size} peers`);
     },
     []
   );
@@ -132,6 +199,18 @@ export function useConnectPeers({
           }
 
           case "CharacterSync": {
+            console.log("[CharacterSync] Received character data:", {
+              peerId: message.peerId,
+              characterName: message.character.name,
+              hasAvatar: !!message.character.avatar,
+            });
+
+            // If we're the host, initialize heartbeat tracking for this peer
+            if (isHost) {
+              console.log(`[CharacterSync] Initializing heartbeat tracking for ${message.peerId.slice(0, 8)}`);
+              lastHeartbeatRef.current.set(message.peerId, Date.now());
+            }
+
             let wasNewParticipant = false;
 
             setParticipants((prev) => {
@@ -186,13 +265,16 @@ export function useConnectPeers({
                       autoReplyEnabled: p.autoReplyEnabled,
                     }));
 
-                  // Add ourselves
+                  // Add ourselves (only name and avatar for privacy)
                   const myChar = myCharacterRef.current;
                   if (myChar && myPeerId) {
                     participantList.push({
                       peerId: myPeerId,
-                      character: myChar,
-                      autoReplyEnabled,
+                      character: {
+                        name: myChar.name,
+                        avatar: myChar.avatar,
+                      },
+                      autoReplyEnabled: autoReplyEnabledRef.current,
                     });
                   }
 
@@ -257,6 +339,15 @@ export function useConnectPeers({
             break;
           }
 
+          case "Heartbeat": {
+            // Host receives heartbeat from guest
+            if (isHost) {
+              console.log(`[Heartbeat] Received from peer ${message.peerId}`);
+              lastHeartbeatRef.current.set(message.peerId, Date.now());
+            }
+            break;
+          }
+
           case "PeerJoined": {
             // Connect to new peer if we're not already connected
             if (
@@ -300,43 +391,55 @@ export function useConnectPeers({
 
           case "ParticipantList": {
             // Receive participant list broadcast from host
-            message.participants.forEach((p) => {
-              if (p.peerId !== myPeerId) {
-                setParticipants((prev) => {
-                  const updated = new Map(prev);
-                  // Only add if not already present or update character info
-                  const existing = updated.get(p.peerId);
-                  if (!existing || existing.status !== "ready") {
-                    updated.set(p.peerId, {
-                      peerId: p.peerId,
-                      status: "ready",
-                      character: p.character,
-                      connection: existing?.connection ?? connectionsRef.current.get(p.peerId) ?? null,
-                      autoReplyEnabled: p.autoReplyEnabled,
-                    });
-                  }
-                  return updated;
-                });
+            console.log("[ParticipantList] Received from host:", {
+              participantCount: message.participants.length,
+              participants: message.participants.map(p => ({
+                peerId: p.peerId.slice(0, 8),
+                characterName: p.character.name,
+              })),
+            });
 
-                // Connect to participant if not already connected
-                if (
-                  peer &&
-                  !connectionsRef.current.has(p.peerId) &&
-                  !pendingConnectionsRef.current.has(p.peerId)
-                ) {
-                  connectToPeer(p.peerId);
+            // Clear and rebuild participant list from host's authoritative list
+            setParticipants((prev) => {
+              const updated = new Map();
+
+              message.participants.forEach((p) => {
+                if (p.peerId !== myPeerId) {
+                  const existing = prev.get(p.peerId);
+                  updated.set(p.peerId, {
+                    peerId: p.peerId,
+                    status: "ready",
+                    character: p.character,
+                    connection: existing?.connection ?? connectionsRef.current.get(p.peerId) ?? null,
+                    autoReplyEnabled: p.autoReplyEnabled,
+                  });
+
+                  // Connect to participant if not already connected
+                  if (
+                    peer &&
+                    !connectionsRef.current.has(p.peerId) &&
+                    !pendingConnectionsRef.current.has(p.peerId)
+                  ) {
+                    connectToPeer(p.peerId);
+                  }
                 }
-              }
+              });
+
+              console.log(`[ParticipantList] Updated participant list to ${updated.size} participants`);
+              return updated;
             });
             break;
           }
 
           case "RequestSync": {
-            // Send our character info to the requester
+            // Send our character info to the requester (only name and avatar)
             if (myCharacter && myPeerId) {
               sendTo(message.peerId, {
                 type: "CharacterSync",
-                character: myCharacter,
+                character: {
+                  name: myCharacter.name,
+                  avatar: myCharacter.avatar,
+                },
                 peerId: myPeerId,
               });
             }
@@ -344,7 +447,7 @@ export function useConnectPeers({
             // If we're host, send session info
             if (isHost) {
               // Only include participants with characters (ready status)
-              const participantList = Array.from(participants.values())
+              const participantList = Array.from(participantsRef.current.values())
                 .filter((p) => p.status === "ready" && p.character !== null)
                 .map((p) => ({
                   peerId: p.peerId,
@@ -352,17 +455,20 @@ export function useConnectPeers({
                   autoReplyEnabled: p.autoReplyEnabled,
                 }));
 
-              // Add ourselves
+              // Add ourselves (only name and avatar for privacy)
               if (myCharacter && myPeerId) {
                 participantList.push({
                   peerId: myPeerId,
-                  character: myCharacter,
-                  autoReplyEnabled,
+                  character: {
+                    name: myCharacter.name,
+                    avatar: myCharacter.avatar,
+                  },
+                  autoReplyEnabled: autoReplyEnabledRef.current,
                 });
               }
 
               // Filter to only chat messages for sync (exclude system messages)
-              const chatMessagesOnly = chatHistory
+              const chatMessagesOnly = chatHistoryRef.current
                 .filter((m): m is ChatMessageType => m.type === "ChatMessage")
                 .map(({ type, ...rest }) => rest);
 
@@ -431,13 +537,12 @@ export function useConnectPeers({
       myPeerId,
       myCharacter,
       isHost,
-      participants,
-      autoReplyEnabled,
-      chatHistory,
       onMessage,
       onParticipantJoined,
       onTyping,
+      onThinking,
       sendTo,
+      broadcast,
     ]
   );
 
@@ -476,12 +581,15 @@ export function useConnectPeers({
           );
         }
 
-        // If we already have character, send CharacterSync too
+        // If we already have character, send CharacterSync too (only name and avatar)
         if (char && pid) {
           conn.send(
             JSON.stringify({
               type: "CharacterSync",
-              character: char,
+              character: {
+                name: char.name,
+                avatar: char.avatar,
+              },
               peerId: pid,
             })
           );
@@ -586,14 +694,22 @@ export function useConnectPeers({
           return updated;
         });
 
-        // Send our character info using refs for latest values
+        // Send our character info using refs for latest values (only name and avatar)
         const char = myCharacterRef.current;
         const pid = myPeerIdRef.current;
         if (char && pid) {
+          console.log("[CharacterSync] Host sending character data to new peer:", {
+            peerId: pid,
+            characterName: char.name,
+            hasAvatar: !!char.avatar,
+          });
           conn.send(
             JSON.stringify({
               type: "CharacterSync",
-              character: char,
+              character: {
+                name: char.name,
+                avatar: char.avatar,
+              },
               peerId: pid,
             })
           );
@@ -658,15 +774,153 @@ export function useConnectPeers({
 
   // Send CharacterSync when character is selected (after connection is established)
   useEffect(() => {
-    if (!isHost && myCharacter && myPeerId && connectionsRef.current.size > 0) {
-      // Broadcast our character to all connected peers
-      broadcast({
+    if (!isHost && myCharacter && myPeerId && hostPeerId && isConnected) {
+      console.log("[CharacterSync] Sending character data:", {
+        peerId: myPeerId,
+        characterName: myCharacter.name,
+        hasAvatar: !!myCharacter.avatar,
+        isConnected,
+      });
+      // Send our character directly to the host (only name and avatar)
+      sendTo(hostPeerId, {
         type: "CharacterSync",
-        character: myCharacter,
+        character: {
+          name: myCharacter.name,
+          avatar: myCharacter.avatar,
+        },
         peerId: myPeerId,
       });
     }
-  }, [isHost, myCharacter, myPeerId, broadcast]);
+  }, [isHost, myCharacter, myPeerId, hostPeerId, isConnected, sendTo]);
+
+  // Guest: Send periodic heartbeats to host
+  useEffect(() => {
+    if (!isHost && myPeerId && hostPeerId && isConnected) {
+      console.log("[Heartbeat] Starting heartbeat sender to", hostPeerId.slice(0, 8));
+
+      const heartbeatInterval = setInterval(() => {
+        const conn = connectionsRef.current.get(hostPeerId);
+        if (conn?.open) {
+          sendTo(hostPeerId, {
+            type: "Heartbeat",
+            peerId: myPeerId,
+            timestamp: Date.now(),
+          });
+          console.log(`[Heartbeat] Sent to host ${hostPeerId.slice(0, 8)}`);
+        } else {
+          console.warn(`[Heartbeat] Connection to host not open`);
+        }
+      }, CONNECT_CONFIG.PEER_HEARTBEAT_INTERVAL);
+
+      // Send initial heartbeat immediately
+      const conn = connectionsRef.current.get(hostPeerId);
+      if (conn?.open) {
+        sendTo(hostPeerId, {
+          type: "Heartbeat",
+          peerId: myPeerId,
+          timestamp: Date.now(),
+        });
+        console.log(`[Heartbeat] Sent initial heartbeat to host`);
+      }
+
+      return () => {
+        console.log("[Heartbeat] Stopping heartbeat sender");
+        clearInterval(heartbeatInterval);
+      };
+    }
+  }, [isHost, myPeerId, hostPeerId, isConnected, sendTo]);
+
+  // Host: Check for heartbeat timeouts and remove disconnected participants
+  useEffect(() => {
+    if (!isHost) return;
+
+    console.log("[Heartbeat] Starting timeout checker");
+
+    const timeoutChecker = setInterval(() => {
+      const now = Date.now();
+      const timedOutPeers: string[] = [];
+
+      console.log(`[Heartbeat] Checking ${lastHeartbeatRef.current.size} peers for timeout`);
+      lastHeartbeatRef.current.forEach((lastHeartbeat, peerId) => {
+        const timeSinceLastHeartbeat = now - lastHeartbeat;
+        const timeoutThreshold = CONNECT_CONFIG.PEER_HEARTBEAT_TIMEOUT;
+        console.log(`[Heartbeat] Peer ${peerId.slice(0, 8)}: ${timeSinceLastHeartbeat}ms since last heartbeat (timeout at ${timeoutThreshold}ms)`);
+
+        if (timeSinceLastHeartbeat > timeoutThreshold) {
+          console.warn(`[Heartbeat] Peer ${peerId.slice(0, 8)} TIMED OUT (${timeSinceLastHeartbeat}ms > ${timeoutThreshold}ms)`);
+          timedOutPeers.push(peerId);
+        }
+      });
+
+      if (timedOutPeers.length > 0) {
+        setParticipants((prev) => {
+          const updated = new Map(prev);
+          timedOutPeers.forEach((peerId) => {
+            const participant = updated.get(peerId);
+            if (participant?.character) {
+              // Add system message for timeout
+              const systemMsg: SystemMessageType = {
+                type: "SystemMessage",
+                id: crypto.randomUUID(),
+                event: "left",
+                characterName: participant.character.name,
+                timestamp: Date.now(),
+              };
+              setChatHistory((prevHistory) => [...prevHistory, systemMsg]);
+
+              // Broadcast leave message
+              broadcast({
+                type: "PeerLeft",
+                peerId,
+                characterName: participant.character.name,
+              });
+            }
+            updated.delete(peerId);
+            lastHeartbeatRef.current.delete(peerId);
+            connectionsRef.current.get(peerId)?.close();
+            connectionsRef.current.delete(peerId);
+          });
+          return updated;
+        });
+
+        // Broadcast updated participant list
+        setParticipants((currentParticipants) => {
+          const participantList = Array.from(currentParticipants.values())
+            .filter((p) => p.status === "ready" && p.character !== null)
+            .map((p) => ({
+              peerId: p.peerId,
+              character: p.character!,
+              autoReplyEnabled: p.autoReplyEnabled,
+            }));
+
+          // Add ourselves (only name and avatar for privacy)
+          const myChar = myCharacterRef.current;
+          if (myChar && myPeerId) {
+            participantList.push({
+              peerId: myPeerId,
+              character: {
+                name: myChar.name,
+                avatar: myChar.avatar,
+              },
+              autoReplyEnabled: autoReplyEnabledRef.current,
+            });
+          }
+
+          broadcast({
+            type: "ParticipantList",
+            participants: participantList,
+          });
+
+          return currentParticipants;
+        });
+      }
+    }, CONNECT_CONFIG.PEER_HEARTBEAT_INTERVAL);
+
+    return () => {
+      console.log("[Heartbeat] Stopping timeout checker");
+      clearInterval(timeoutChecker);
+    };
+  }, [isHost, myPeerId, broadcast]);
 
   // Send a chat message
   const sendChatMessage = useCallback(
@@ -771,12 +1025,32 @@ export function useConnectPeers({
     setIsConnected(false);
   }, [myPeerId, broadcast]);
 
+  // Memoize arrays to prevent unnecessary re-renders
+  const participantsArray = useMemo(() => {
+    const array = Array.from(participants.values());
+    console.log("[useConnectPeers] Creating participants array:", array);
+    array.forEach((p) => {
+      console.log(`[useConnectPeers] Participant [${p.peerId.slice(0, 8)}]:`, {
+        peerId: p.peerId,
+        status: p.status,
+        characterName: p.character?.name,
+        hasCharacter: !!p.character,
+      });
+    });
+    return array;
+  }, [participants]);
+
+  const thinkingPeersArray = useMemo(
+    () => Array.from(thinkingPeers),
+    [thinkingPeers]
+  );
+
   return {
-    participants: Array.from(participants.values()),
+    participants: participantsArray,
     isConnected,
     autoReplyEnabled,
     chatHistory,
-    thinkingPeers: Array.from(thinkingPeers),
+    thinkingPeers: thinkingPeersArray,
     sendChatMessage,
     sendTyping,
     sendThinking,

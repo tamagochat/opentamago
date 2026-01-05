@@ -32,13 +32,14 @@ export function useChats(characterId?: string) {
   }, [db, characterId]);
 
   const createChat = useCallback(
-    async (characterId: string, title?: string) => {
+    async (characterId: string, title?: string, personaId?: string) => {
       if (!db) return null;
 
       const now = Date.now();
       const chat: ChatDocument = {
         id: uuidv4(),
         characterId,
+        personaId,
         title: title ?? "New Chat",
         createdAt: now,
         updatedAt: now,

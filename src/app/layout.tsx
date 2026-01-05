@@ -12,6 +12,7 @@ import {
   OrganizationJsonLd,
   WebsiteJsonLd,
 } from "~/components/seo/json-ld";
+import { DatabaseProvider } from "~/lib/db";
 
 export const metadata: Metadata = {
   title: {
@@ -105,7 +106,11 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <TRPCReactProvider>{children}</TRPCReactProvider>
+          <TRPCReactProvider>
+            <DatabaseProvider>
+              {children}
+            </DatabaseProvider>
+          </TRPCReactProvider>
           <Toaster richColors />
           <Analytics />
         </ThemeProvider>
