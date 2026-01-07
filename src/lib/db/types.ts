@@ -4,6 +4,7 @@ import type {
   PersonaDocument,
   ChatDocument,
   MessageDocument,
+  MemoryDocument,
   SettingsDocument,
   LorebookEntryDocument,
   CharacterAssetDocument,
@@ -14,6 +15,7 @@ export interface DatabaseCollections {
   personas: RxCollection<PersonaDocument>;
   chats: RxCollection<ChatDocument>;
   messages: RxCollection<MessageDocument>;
+  memories: RxCollection<MemoryDocument>;
   settings: RxCollection<SettingsDocument>;
   lorebookEntries: RxCollection<LorebookEntryDocument>;
   characterAssets: RxCollection<CharacterAssetDocument>;

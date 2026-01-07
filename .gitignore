@@ -50,6 +50,3 @@ docker-compose.override.yml
 
 # production
 .env.production
-
-# documentation
-/docs

@@ -18,7 +18,7 @@ import { useCharacters, useChats } from "~/lib/db/hooks";
 import { parseCharXToCharacter } from "~/lib/charx/hooks";
 import { CharacterEditor } from "./character-editor";
 import { PersonaEditor } from "./persona-editor";
-import { SettingsModal } from "~/components/settings-modal";
+import { SettingsDropdown } from "~/components/settings-dropdown";
 import { CharacterList } from "./character-list";
 import { RecentChatsList } from "./recent-chats-list";
 import { Link } from "~/i18n/routing";
@@ -119,10 +119,12 @@ export function LeftPanel({
     }
   };
 
-  const handleStartChat = async () => {
-    if (!selectedCharacter) return;
-    const chat = await createChat(selectedCharacter.id, `Chat with ${selectedCharacter.name}`);
+  const handleStartChat = async (character?: CharacterDocument) => {
+    const targetCharacter = character ?? selectedCharacter;
+    if (!targetCharacter) return;
+    const chat = await createChat(targetCharacter.id, `Chat with ${targetCharacter.name}`);
     if (chat) {
+      onSelectCharacter(targetCharacter);
       onSelectChat(chat);
     }
   };
@@ -157,7 +159,7 @@ export function LeftPanel({
           <h1 className="text-lg font-semibold truncate">{tCommon("appName")}</h1>
         </Link>
         <div className="shrink-0">
-          <SettingsModal open={settingsOpen} onOpenChange={onSettingsOpenChange} />
+          <SettingsDropdown settingsOpen={settingsOpen} onSettingsOpenChange={onSettingsOpenChange} />
         </div>
       </div>
 
@@ -216,6 +218,7 @@ export function LeftPanel({
               onEditCharacter={handleEditCharacter}
               onDeleteCharacter={handleDeleteCharacter}
               onCreateCharacter={handleCreateCharacter}
+              onNewChat={handleStartChat}
             />
           </div>
 

@@ -111,9 +111,9 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
-        <Button variant="ghost" size="icon">
+        {/* <Button variant="ghost" size="icon">
           <Settings className="h-5 w-5" />
-        </Button>
+        </Button> */}
       </DialogTrigger>
       <DialogContent className="max-w-[95vw] sm:max-w-[600px] p-0 gap-0 overflow-hidden flex flex-col" style={{ maxHeight: "min(85vh, 600px)" }} showCloseButton={false}>
         {isDesktop ? (

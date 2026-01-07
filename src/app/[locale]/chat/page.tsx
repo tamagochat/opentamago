@@ -3,12 +3,10 @@
 import { useState, useEffect } from "react";
 import { Button } from "~/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from "~/components/ui/sheet";
-import { Menu, PanelRight } from "lucide-react";
+import { Menu } from "lucide-react";
 import { LeftPanel } from "./_components/left-panel";
 import { CenterPanel } from "./_components/center-panel";
 import { RightPanel } from "./_components/right-panel";
-import { LocaleSwitcher } from "~/components/locale-switcher";
-import { ThemeToggle } from "~/components/theme-toggle";
 import { useSettings } from "~/lib/db/hooks";
 import type { CharacterDocument, ChatDocument } from "~/lib/db/schemas";
 
@@ -78,45 +76,20 @@ export default function ChatPage() {
             {selectedCharacter?.name ?? "OpenTamago"}
           </span>
 
-          <div className="flex shrink-0 items-center gap-1">
-            <LocaleSwitcher />
-            <ThemeToggle />
-            {selectedCharacter && (
-              <Sheet open={rightPanelOpen} onOpenChange={setRightPanelOpen}>
-                <SheetTrigger asChild>
-                  <Button variant="ghost" size="icon">
-                    <PanelRight className="h-5 w-5" />
-                  </Button>
-                </SheetTrigger>
-              </Sheet>
-            )}
-          </div>
-        </div>
-
-        {/* Tablet Header (md to lg: 768px-1024px) - Right Panel Toggle Only */}
-        <div className="hidden md:flex lg:hidden shrink-0 items-center justify-end border-b p-2">
-          {selectedCharacter && (
-            <Sheet open={rightPanelOpen} onOpenChange={setRightPanelOpen}>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <PanelRight className="h-5 w-5" />
-                </Button>
-              </SheetTrigger>
-            </Sheet>
-          )}
         </div>
 
         {/* Chat Area */}
         <CenterPanel
           character={selectedCharacter}
           chat={selectedChat}
-          onOpenSettings={() => setSettingsOpen(true)}
           className="flex-1 min-h-0"
+          rightPanelOpen={rightPanelOpen}
+          onRightPanelOpenChange={setRightPanelOpen}
         />
       </div>
 
       {/* Desktop Right Panel */}
-      <div className="hidden w-80 shrink-0 lg:block">
+      <div className="hidden max-w-[440px] lg:block">
         <RightPanel
           character={selectedCharacter}
           onCharacterUpdate={setSelectedCharacter}
@@ -127,7 +100,7 @@ export default function ChatPage() {
 
       {/* Mobile Right Panel (Sheet) */}
       <Sheet open={rightPanelOpen} onOpenChange={setRightPanelOpen}>
-        <SheetContent side="right" className="w-80 p-0 [&>button:first-of-type]:hidden">
+        <SheetContent side="right" className="w-full max-w-[360px] p-0 [&>button:first-of-type]:hidden">
           <SheetTitle className="sr-only">Character Details</SheetTitle>
           <SheetDescription className="sr-only">View and edit character information</SheetDescription>
           <RightPanel

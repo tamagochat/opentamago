@@ -3,6 +3,7 @@ export { useCharacters } from "./useCharacters";
 export { usePersonas } from "./usePersonas";
 export { useChats } from "./useChats";
 export { useMessages } from "./useMessages";
+export { useMemories, useCreateMemory, useDeleteMemory } from "./useMemories";
 export { useSettings } from "./useSettings";
 export { useCharacterAvatar } from "./useCharacterAvatar";
 export { useCharacterAvatarUrl } from "./useCharacterAvatarUrl";

@@ -13,11 +13,13 @@ export interface SettingsDocument {
   maxTokens: number;
   safetySettings: SafetySettings;
   chatBubbleTheme: ChatBubbleTheme;
+  localeDialogDismissed: boolean;
+  localeDialogShownAt?: number;
   updatedAt: number;
 }
 
 export const settingsSchema: RxJsonSchema<SettingsDocument> = {
-  version: 2,
+  version: 3,
   primaryKey: "id",
   type: "object",
   properties: {
@@ -58,9 +60,18 @@ export const settingsSchema: RxJsonSchema<SettingsDocument> = {
       type: "string",
       enum: ["roleplay", "messenger"],
     },
+    localeDialogDismissed: {
+      type: "boolean",
+    },
+    localeDialogShownAt: {
+      type: "number",
+      multipleOf: 1,
+      minimum: 0,
+      maximum: 9999999999999,
+    },
     updatedAt: {
       type: "number",
     },
   },
-  required: ["id", "apiMode", "defaultModel", "temperature", "maxTokens", "safetySettings", "chatBubbleTheme", "updatedAt"],
+  required: ["id", "apiMode", "defaultModel", "temperature", "maxTokens", "safetySettings", "chatBubbleTheme", "localeDialogDismissed", "updatedAt"],
 };

@@ -44,6 +44,7 @@ export function DatabaseTab() {
         const personasCount = await db.personas.count().exec();
         const chatsCount = await db.chats.count().exec();
         const messagesCount = await db.messages.count().exec();
+        const memoriesCount = await db.memories.count().exec();
         const settingsCount = await db.settings.count().exec();
         const lorebookCount = await db.lorebookEntries.count().exec();
         const assetsCount = await db.characterAssets.count().exec();
@@ -53,6 +54,7 @@ export function DatabaseTab() {
           { name: "Personas", count: personasCount },
           { name: "Chats", count: chatsCount },
           { name: "Messages", count: messagesCount },
+          { name: "Memories", count: memoriesCount },
           { name: "Settings", count: settingsCount },
           { name: "Lorebook Entries", count: lorebookCount },
           { name: "Character Assets", count: assetsCount }

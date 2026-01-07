@@ -458,7 +458,10 @@
       "deleteCharacter": "\"{name}\"을(를) 삭제할까요? 관련된 채팅도 다 삭제돼요.",
       "importing": "가져오는 중...",
       "importSuccess": "캐릭터 가져오기 완료",
-      "importError": "가져오기 실패"
+      "importError": "가져오기 실패",
+      "chatTitle": "채팅 제목",
+      "editChatTitleDescription": "이 채팅 대화의 제목을 변경합니다.",
+      "chatTitlePlaceholder": "채팅 제목 입력..."
     },
     "centerPanel": {
       "selectCharacter": "캐릭터와 채팅을 선택해서 시작하세요",
@@ -473,7 +476,8 @@
       "selectPersona": "페르소나 선택",
       "noPersonas": "아직 페르소나가 없어요.",
       "createPersona": "페르소나 만들기",
-      "selectPersonaToSend": "메시지를 보내려면 페르소나를 선택하세요"
+      "selectPersonaToSend": "메시지를 보내려면 페르소나를 선택하세요",
+      "createPersonaAction": "만들기"
     },
     "rightPanel": {
       "selectCharacter": "캐릭터를 선택해서 정보 보기",
@@ -794,5 +798,13 @@
         "description": "모든 코드가 공개되어 있어요. GitHub에서 확인할 수 있어요."
       }
     }
+  },
+  "localeDetector": {
+    "title": "환영합니다!",
+    "description": "브라우저 언어가 현재 페이지와 다른 것으로 감지되었습니다. 언어를 변경하시겠습니까?",
+    "selectLanguage": "언어 선택",
+    "dontShowAgain": "다시 표시하지 않기",
+    "continue": "언어 변경",
+    "stayHere": "현재 언어 유지"
   }
 }

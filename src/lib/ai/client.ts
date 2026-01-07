@@ -10,6 +10,7 @@ import {
   type SafetySettings,
 } from "./index";
 import { createProxyAI } from "./proxy";
+import type { ChatBubbleResponse } from "~/lib/chat/types";
 
 export interface ChatMessage {
   role: "user" | "assistant" | "system";
@@ -234,4 +235,76 @@ For the system prompt, write clear instructions that would help an AI roleplay a
   });
 
   return result.object as GeneratedCharacter;
+}
+
+/**
+ * Zod schema for messenger-style chat responses
+ */
+const messengerBubbleSchema = z.object({
+  messages: z.array(
+    z.object({
+      delay: z
+        .number()
+        .min(500)
+        .max(30000)
+        .describe("Delay in milliseconds before sending this message (500-30000ms)"),
+      content: z
+        .string()
+        .min(1)
+        .describe("The message content to send"),
+    })
+  ).min(1).max(5).describe("Array of 1-5 messages to send in sequence"),
+  memory: z
+    .string()
+    .optional()
+    .describe("Optional memory summary for significant events only"),
+});
+
+export interface MessengerOptions extends Omit<ChatOptions, "signal"> {
+  systemPrompt: string;
+}
+
+/**
+ * Generate messenger-style structured response
+ * Returns JSON with messages array (each with delay and content)
+ */
+export async function generateMessengerResponse(
+  options: MessengerOptions
+): Promise<ChatBubbleResponse> {
+  const {
+    messages,
+    systemPrompt,
+    apiKey,
+    model = DEFAULT_MODEL,
+    temperature = 0.9,
+    maxTokens = 4096,
+    safetySettings,
+    isClientMode,
+  } = options;
+
+  const google = getAIProvider(apiKey, isClientMode);
+  const geminiSafetySettings = safetySettings
+    ? toGeminiSafetySettings(safetySettings)
+    : [...DEFAULT_SAFETY_SETTINGS_ARRAY];
+
+  // Convert messages to include system prompt
+  const allMessages: typeof messages = [
+    { role: "system", content: systemPrompt },
+    ...messages,
+  ];
+
+  const result = await generateObject({
+    model: google(model),
+    schema: messengerBubbleSchema,
+    messages: allMessages,
+    temperature,
+    maxOutputTokens: maxTokens,
+    providerOptions: {
+      google: {
+        safetySettings: geminiSafetySettings,
+      },
+    },
+  });
+
+  return result.object as ChatBubbleResponse;
 }

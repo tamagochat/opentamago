@@ -18,6 +18,8 @@ const DEFAULT_SETTINGS: SettingsDocument = {
   maxTokens: 4096,
   safetySettings: DEFAULT_SAFETY_SETTINGS,
   chatBubbleTheme: "roleplay",
+  localeDialogDismissed: false,
+  localeDialogShownAt: undefined,
   updatedAt: Date.now(),
 };
 
@@ -58,6 +60,7 @@ export function useSettings() {
           ...stored,
           apiMode: stored.apiMode ?? DEFAULT_SETTINGS.apiMode,
           chatBubbleTheme: stored.chatBubbleTheme ?? DEFAULT_SETTINGS.chatBubbleTheme,
+          localeDialogDismissed: stored.localeDialogDismissed ?? DEFAULT_SETTINGS.localeDialogDismissed,
           safetySettings: {
             ...DEFAULT_SAFETY_SETTINGS,
             ...stored.safetySettings,
@@ -77,6 +80,7 @@ export function useSettings() {
           ...stored,
           apiMode: stored.apiMode ?? DEFAULT_SETTINGS.apiMode,
           chatBubbleTheme: stored.chatBubbleTheme ?? DEFAULT_SETTINGS.chatBubbleTheme,
+          localeDialogDismissed: stored.localeDialogDismissed ?? DEFAULT_SETTINGS.localeDialogDismissed,
           safetySettings: {
             ...DEFAULT_SAFETY_SETTINGS,
             ...stored.safetySettings,

@@ -3,11 +3,12 @@
 import { useTranslations } from "next-intl";
 import { Button } from "~/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
-import { MoreVertical } from "lucide-react";
+import { MoreVertical, MessageSquarePlus, Pencil, Trash2 } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { useCharacters } from "~/lib/db/hooks";
@@ -20,6 +21,7 @@ interface CharacterListProps {
   onEditCharacter: (character: CharacterDocument) => void;
   onDeleteCharacter: (character: CharacterDocument) => void;
   onCreateCharacter: () => void;
+  onNewChat?: (character: CharacterDocument) => void;
 }
 
 export function CharacterList({
@@ -28,6 +30,7 @@ export function CharacterList({
   onEditCharacter,
   onDeleteCharacter,
   onCreateCharacter,
+  onNewChat,
 }: CharacterListProps) {
   const t = useTranslations("chat.leftPanel");
   const tActions = useTranslations("actions");
@@ -87,13 +90,24 @@ export function CharacterList({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="max-w-[calc(100vw-2rem)]">
+              {onNewChat && (
+                <>
+                  <DropdownMenuItem onClick={() => onNewChat(character)}>
+                    <MessageSquarePlus className="mr-2 h-4 w-4" />
+                    {t("newChat")}
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                </>
+              )}
               <DropdownMenuItem onClick={() => onEditCharacter(character)}>
+                <Pencil className="mr-2 h-4 w-4" />
                 {tActions("edit")}
               </DropdownMenuItem>
               <DropdownMenuItem
                 className="text-destructive"
                 onClick={() => onDeleteCharacter(character)}
               >
+                <Trash2 className="mr-2 h-4 w-4" />
                 {tActions("delete")}
               </DropdownMenuItem>
             </DropdownMenuContent>

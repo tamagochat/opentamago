@@ -458,7 +458,10 @@
       "deleteCharacter": "Delete \"{name}\"? This will also delete all related chats.",
       "importing": "Importing...",
       "importSuccess": "Character imported",
-      "importError": "Import failed"
+      "importError": "Import failed",
+      "chatTitle": "Chat Title",
+      "editChatTitleDescription": "Change the title of this chat conversation.",
+      "chatTitlePlaceholder": "Enter chat title..."
     },
     "centerPanel": {
       "selectCharacter": "Pick a character and chat to get started",
@@ -473,7 +476,8 @@
       "selectPersona": "Select persona",
       "noPersonas": "No personas yet.",
       "createPersona": "Create persona",
-      "selectPersonaToSend": "Select a persona to send messages"
+      "selectPersonaToSend": "Select a persona to send messages",
+      "createPersonaAction": "Create"
     },
     "rightPanel": {
       "selectCharacter": "Select a character to see details",
@@ -794,5 +798,13 @@
         "description": "All code is public and available on GitHub."
       }
     }
+  },
+  "localeDetector": {
+    "title": "Welcome!",
+    "description": "We detected that your browser language might be different from the current page. Would you like to switch?",
+    "selectLanguage": "Select your language",
+    "dontShowAgain": "Don't show this again",
+    "continue": "Switch Language",
+    "stayHere": "Stay Here"
   }
 }

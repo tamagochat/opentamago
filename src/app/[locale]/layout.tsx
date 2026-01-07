@@ -4,6 +4,7 @@ import { setRequestLocale } from "next-intl/server";
 import { routing } from "~/i18n/routing";
 import type { Locale } from "~/i18n/config";
 import { LangSetter } from "~/components/lang-setter";
+import { LocaleDetectorDialog } from "~/components/locale-detector-dialog";
 
 // Import messages statically
 import enMessages from "~/i18n/messages/en.json";
@@ -41,6 +42,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   return (
     <NextIntlClientProvider locale={locale} messages={localeMessages}>
       <LangSetter />
+      <LocaleDetectorDialog />
       {children}
     </NextIntlClientProvider>
   );

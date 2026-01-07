@@ -4,6 +4,7 @@ import {
   personaSchema,
   chatSchema,
   messageSchema,
+  memorySchema,
   settingsSchema,
   lorebookEntrySchema,
   characterAssetSchema,
@@ -11,6 +12,7 @@ import {
   type PersonaDocument,
   type ChatDocument,
   type MessageDocument,
+  type MemoryDocument,
   type SettingsDocument,
   type LorebookEntryDocument,
   type CharacterAssetDocument,
@@ -73,6 +75,11 @@ export function getCollectionConfig() {
       // No migration strategies needed for version 0 schemas
     } as RxCollectionCreator<MessageDocument>,
 
+    memories: {
+      schema: memorySchema,
+      // No migration strategies needed for version 0 schemas
+    } as RxCollectionCreator<MemoryDocument>,
+
     settings: {
       schema: settingsSchema,
       migrationStrategies: {
@@ -83,6 +90,11 @@ export function getCollectionConfig() {
         2: (oldDoc: any) => ({
           ...oldDoc,
           chatBubbleTheme: oldDoc.chatBubbleTheme ?? "roleplay", // Default to roleplay theme
+        }),
+        3: (oldDoc: any) => ({
+          ...oldDoc,
+          localeDialogDismissed: false, // Default: show dialog
+          localeDialogShownAt: undefined,
         }),
       },
     } as RxCollectionCreator<SettingsDocument>,

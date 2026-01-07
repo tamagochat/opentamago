@@ -458,7 +458,10 @@
       "deleteCharacter": "「{name}」を削除する？関連するチャットも全部消えるよ。",
       "importing": "インポート中...",
       "importSuccess": "キャラクターをインポートしました",
-      "importError": "インポートに失敗しました"
+      "importError": "インポートに失敗しました",
+      "chatTitle": "チャットタイトル",
+      "editChatTitleDescription": "このチャット会話のタイトルを変更します。",
+      "chatTitlePlaceholder": "チャットタイトルを入力..."
     },
     "centerPanel": {
       "selectCharacter": "キャラクターとチャットを選んで始めよう",
@@ -473,7 +476,8 @@
       "selectPersona": "ペルソナを選択",
       "noPersonas": "まだペルソナがないよ。",
       "createPersona": "ペルソナを作る",
-      "selectPersonaToSend": "メッセージを送るにはペルソナを選んでね"
+      "selectPersonaToSend": "メッセージを送るにはペルソナを選んでね",
+      "createPersonaAction": "作る"
     },
     "rightPanel": {
       "selectCharacter": "キャラクターを選んで詳細を見よう",
@@ -794,5 +798,13 @@
         "description": "全コード公開中。GitHubで確認できるよ。"
       }
     }
+  },
+  "localeDetector": {
+    "title": "ようこそ!",
+    "description": "ブラウザの言語が現在のページと異なることが検出されました。言語を切り替えますか?",
+    "selectLanguage": "言語を選択",
+    "dontShowAgain": "今後表示しない",
+    "continue": "言語を切り替える",
+    "stayHere": "このまま続ける"
   }
 }

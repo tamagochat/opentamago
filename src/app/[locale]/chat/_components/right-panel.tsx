@@ -4,13 +4,15 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { Button } from "~/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Badge } from "~/components/ui/badge";
-import { Separator } from "~/components/ui/separator";
-import { Edit, Trash2, Plus } from "lucide-react";
-import { useCharacters, useChats } from "~/lib/db/hooks";
-import { CharacterEditor } from "./character-editor";
+import { MessageSquare, Book, Image, Plus, Edit, Trash2 } from "lucide-react";
+import { useChats, useCharacters } from "~/lib/db/hooks";
 import { ChatHistoryList } from "./chat-history-list";
+import { LorebookList } from "./lorebook-list";
+import { ImageAssetsList } from "./image-assets-list";
+import { CharacterEditor } from "./character-editor";
 import type { CharacterDocument, ChatDocument } from "~/lib/db/schemas";
 import { cn } from "~/lib/utils";
 
@@ -68,8 +70,8 @@ export function RightPanel({
 
   return (
     <div className={cn("bg-muted/30 flex h-full flex-col border-l min-w-0 w-full overflow-hidden", className)}>
-      {/* Header */}
-      <div className="flex items-center justify-between border-b p-4 min-w-0">
+      {/* Header with Actions */}
+      <div className="flex items-center justify-between border-b p-4 min-w-0 shrink-0">
         <h2 className="text-lg font-semibold truncate min-w-0 flex-1">{t("characterDetails")}</h2>
         <div className="flex gap-1 shrink-0">
           <Button variant="ghost" size="icon" onClick={() => setEditorOpen(true)}>
@@ -81,55 +83,77 @@ export function RightPanel({
         </div>
       </div>
 
-      <ScrollArea className="flex-1 min-w-0 max-w-full">
-        <div className="p-4 min-w-0 max-w-full overflow-hidden">
-          {/* Profile */}
-          <div className="mb-6 flex flex-col items-center text-center min-w-0 w-full">
-            <Avatar className="mb-4 h-24 w-24 shrink-0">
-              <AvatarImage src={character.avatarData} />
-              <AvatarFallback className="text-2xl">
-                {character.name.slice(0, 2).toUpperCase()}
-              </AvatarFallback>
-            </Avatar>
-            <h3 className="text-xl font-semibold truncate w-full px-2 min-w-0">{character.name}</h3>
-            {character.description && (
-              <p className="text-muted-foreground mt-1 text-sm line-clamp-3 w-full px-2 break-words overflow-hidden min-w-0">
-                {character.description}
-              </p>
-            )}
-            {character.tags.length > 0 && (
-              <div className="mt-3 flex flex-wrap justify-center gap-1 w-full px-2 min-w-0">
-                {character.tags.map((tag) => (
-                  <Badge key={tag} variant="secondary" className="max-w-full min-w-0 truncate">
-                    <span className="truncate block">{tag}</span>
-                  </Badge>
-                ))}
-              </div>
-            )}
-          </div>
+      {/* Profile Section */}
+      <div className="p-4 border-b shrink-0">
+        <div className="flex flex-col items-center text-center min-w-0 w-full">
+          <Avatar className="mb-4 h-24 w-24 shrink-0">
+            <AvatarImage src={character.avatarData} />
+            <AvatarFallback className="text-2xl">
+              {character.name.slice(0, 2).toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+          <h3 className="text-xl font-semibold truncate w-full px-2 min-w-0">{character.name}</h3>
+          {character.description && (
+            <p className="text-muted-foreground mt-1 text-sm line-clamp-3 w-full px-2 break-words overflow-hidden min-w-0">
+              {character.description}
+            </p>
+          )}
+          {character.tags.length > 0 && (
+            <div className="mt-3 flex flex-wrap justify-center gap-1.5 w-full px-2 min-w-0">
+              {character.tags.map((tag) => (
+                <Badge key={tag} variant="secondary" className="text-xs">
+                  {tag}
+                </Badge>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
 
-          <Separator className="my-4" />
+      {/* Tabbed Content */}
+      <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
+        <Tabs defaultValue="chats" className="flex-1 flex flex-col min-h-0">
+          <TabsList className="grid w-full grid-cols-3 mx-4 mt-4 shrink-0">
+            <TabsTrigger value="chats" className="gap-1.5">
+              <MessageSquare className="h-4 w-4" />
+              <span className="hidden sm:inline">{tLeft("chats")}</span>
+            </TabsTrigger>
+            <TabsTrigger value="lorebooks" className="gap-1.5">
+              <Book className="h-4 w-4" />
+              <span className="hidden sm:inline">Lorebooks</span>
+            </TabsTrigger>
+            <TabsTrigger value="images" className="gap-1.5">
+              <Image className="h-4 w-4" />
+              <span className="hidden sm:inline">Images</span>
+            </TabsTrigger>
+          </TabsList>
 
-          {/* New Chat Button */}
-          <div className="mb-4 min-w-0">
-            <Button onClick={handleNewChat} className="w-full min-w-0" size="sm">
+          <TabsContent value="chats" className="flex-1 mt-4 px-4 data-[state=active]:flex data-[state=active]:flex-col overflow-hidden min-h-0">
+            {/* New Chat Button */}
+            <Button onClick={handleNewChat} className="w-full shrink-0" size="sm">
               <Plus className="mr-2 h-4 w-4 shrink-0" />
               <span className="truncate">{tLeft("newChat")}</span>
             </Button>
-          </div>
 
-          {/* Chat History */}
-          <Separator className="my-4" />
-          <div className="mb-2 min-w-0 w-full">
-            <h4 className="text-sm font-medium truncate">{tLeft("chats")}</h4>
-          </div>
-          <ChatHistoryList
-            characterId={character.id}
-            selectedChat={selectedChat}
-            onSelectChat={onSelectChat}
-          />
-        </div>
-      </ScrollArea>
+            {/* Chat History */}
+            <div className="flex-1 overflow-hidden mt-4">
+              <ChatHistoryList
+                characterId={character.id}
+                selectedChat={selectedChat}
+                onSelectChat={onSelectChat}
+              />
+            </div>
+          </TabsContent>
+
+          <TabsContent value="lorebooks" className="flex-1 mt-4 px-4 data-[state=active]:flex data-[state=active]:flex-col overflow-hidden min-h-0">
+            <LorebookList characterId={character.id} />
+          </TabsContent>
+
+          <TabsContent value="images" className="flex-1 mt-4 px-4 data-[state=active]:flex data-[state=active]:flex-col overflow-hidden min-h-0">
+            <ImageAssetsList characterId={character.id} />
+          </TabsContent>
+        </Tabs>
+      </div>
 
       <CharacterEditor
         open={editorOpen}

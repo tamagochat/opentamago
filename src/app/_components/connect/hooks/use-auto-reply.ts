@@ -3,7 +3,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { CharacterData, CharacterInfo, ChatMessageType } from "~/lib/connect/messages";
 import { CONNECT_CONFIG } from "~/lib/connect";
-import { generateChatResponse } from "~/lib/ai";
+import { createGroupChatContext, generateResponse as generateAIResponse } from "~/lib/chat";
+import type { ChatBubbleTheme } from "~/lib/db/schemas/settings";
 
 // Debounce window - cancel if other events happen within this time
 const DEBOUNCE_WINDOW_MS = 5000;
@@ -18,6 +19,7 @@ interface UseAutoReplyOptions {
   isClientMode?: boolean; // Whether to call Gemini directly (client mode) or through server
   model?: string;
   temperature?: number;
+  theme?: ChatBubbleTheme; // Chat bubble theme for response formatting
   onResponse?: (content: string) => void;
 }
 
@@ -31,6 +33,7 @@ export function useAutoReply({
   isClientMode = false,
   model = "gemini-3-flash-preview",
   temperature = 0.9,
+  theme = "messenger",
   onResponse,
 }: UseAutoReplyOptions) {
   const [isGenerating, setIsGenerating] = useState(false);
@@ -65,43 +68,19 @@ export function useAutoReply({
       setIsGenerating(true);
 
       try {
-        // Build system prompt
-        const otherCharactersList = participantCharacterNames
-          .filter((name) => name !== myCharacter.name)
-          .join(", ");
+        // Create generation context for group chat
+        const context = createGroupChatContext({
+          character: myCharacter,
+          messages: chatHistory.slice(-20),
+          participantNames: participantCharacterNames,
+          theme,
+          myPeerId,
+        });
 
-        const systemPrompt = `You are ${myCharacter.name}.
-
-About you: ${myCharacter.description}
-
-Your personality: ${myCharacter.personality}
-
-${myCharacter.systemPrompt || ""}
-
-You are in a group chat with these other characters: ${otherCharactersList || "no one else yet"}.
-
-Respond naturally as ${
-          myCharacter.name
-        }. Keep responses concise (1-3 sentences).
-Stay in character at all times. Do not use asterisks for actions.
-
-IMPORTANT: Do not prefix your response with your name or any label like "${myCharacter.name}:". Just start directly with your response text.`;
-
-        // Build messages
-        const messages = [
-          { role: "system" as const, content: systemPrompt },
-          ...chatHistory.slice(-20).map((msg) => ({
-            role:
-              msg.senderId === myPeerId
-                ? ("assistant" as const)
-                : ("user" as const),
-            content: `${msg.characterName}: ${msg.content}`,
-          })),
-        ];
-
-        // Use non-streaming API to ensure complete response
-        const content = await generateChatResponse({
-          messages,
+        // Generate response (non-streaming for reliability)
+        // All messages are already in the context, no need to pass userMessage
+        const result = await generateAIResponse({
+          context,
           apiKey: apiKey ?? undefined,
           model,
           temperature,
@@ -110,14 +89,14 @@ IMPORTANT: Do not prefix your response with your name or any label like "${myCha
         });
 
         // Only return if we have actual content
-        if (!content || content.trim().length === 0) {
+        if (!result.content || result.content.trim().length === 0) {
           console.warn("[AutoReply] Empty response received");
           setIsGenerating(false);
           return null;
         }
 
         setIsGenerating(false);
-        return content.trim();
+        return result.content.trim();
       } catch (error) {
         console.error("[AutoReply] Error generating response:", error);
         setIsGenerating(false);
@@ -132,6 +111,7 @@ IMPORTANT: Do not prefix your response with your name or any label like "${myCha
       isClientMode,
       model,
       temperature,
+      theme,
     ]
   );
 

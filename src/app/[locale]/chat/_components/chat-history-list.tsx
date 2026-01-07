@@ -2,6 +2,8 @@
 
 import { useTranslations } from "next-intl";
 import { ScrollArea } from "~/components/ui/scroll-area";
+import { Button } from "~/components/ui/button";
+import { Skeleton } from "~/components/ui/skeleton";
 import { MessageSquare } from "lucide-react";
 import { useChats } from "~/lib/db/hooks";
 import type { ChatDocument } from "~/lib/db/schemas";
@@ -39,8 +41,10 @@ export function ChatHistoryList({
 
   if (chatsLoading) {
     return (
-      <div className="text-muted-foreground p-4 text-center text-sm min-w-0">
-        Loading...
+      <div className="space-y-2">
+        <Skeleton className="h-14 w-full" />
+        <Skeleton className="h-14 w-full" />
+        <Skeleton className="h-14 w-full" />
       </div>
     );
   }
@@ -54,25 +58,26 @@ export function ChatHistoryList({
   }
 
   return (
-    <ScrollArea className="max-h-[calc(100vh-400px)] min-w-0 max-w-full">
+    <ScrollArea className="h-full min-w-0 max-w-full">
       <div className="space-y-1 min-w-0 max-w-full">
         {chats.map((chat) => (
-          <div
+          <Button
             key={chat.id}
+            variant={selectedChat?.id === chat.id ? "secondary" : "ghost"}
             className={cn(
-              "hover:bg-accent group flex cursor-pointer items-center gap-3 rounded-lg p-2 transition-colors min-w-0 max-w-full",
+              "w-full justify-start gap-3 h-auto py-3 px-3",
               selectedChat?.id === chat.id && "bg-accent"
             )}
             onClick={() => onSelectChat(chat)}
           >
             <MessageSquare className="text-muted-foreground h-5 w-5 shrink-0" />
-            <div className="flex-1 min-w-0">
-              <p className="truncate text-sm font-medium max-w-[180px]">{chat.title}</p>
-              <p className="truncate text-muted-foreground text-xs max-w-[180px]">
+            <div className="flex-1 min-w-0 text-left">
+              <p className="truncate text-sm font-medium">{chat.title}</p>
+              <p className="truncate text-muted-foreground text-xs">
                 {formatChatDate(chat.lastMessageAt)}
               </p>
             </div>
-          </div>
+          </Button>
         ))}
       </div>
     </ScrollArea>

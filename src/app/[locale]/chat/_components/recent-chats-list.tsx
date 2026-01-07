@@ -1,12 +1,29 @@
 "use client";
 
+import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "~/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
-import { MessageSquare, Trash2 } from "lucide-react";
+import { MessageSquare, MoreVertical, Pencil, Trash2 } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "~/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "~/components/ui/dialog";
+import { Input } from "~/components/ui/input";
 import { useChats } from "~/lib/db/hooks";
 import type { CharacterDocument, ChatDocument } from "~/lib/db/schemas";
 import { cn } from "~/lib/utils";
+import { toast } from "sonner";
 
 interface RecentChatsListProps {
   characters: CharacterDocument[];
@@ -22,8 +39,11 @@ export function RecentChatsList({
   onDeleteChat,
 }: RecentChatsListProps) {
   const t = useTranslations("chat.leftPanel");
+  const tActions = useTranslations("actions");
   const tCommon = useTranslations("common");
-  const { chats: allChats, isLoading: allChatsLoading } = useChats();
+  const { chats: allChats, isLoading: allChatsLoading, updateChat } = useChats();
+  const [editingChat, setEditingChat] = useState<ChatDocument | null>(null);
+  const [editTitle, setEditTitle] = useState("");
 
   const formatDate = (timestamp: number) => {
     const date = new Date(timestamp);
@@ -39,6 +59,31 @@ export function RecentChatsList({
       return date.toLocaleDateString([], { weekday: "short" });
     }
     return date.toLocaleDateString([], { month: "short", day: "numeric" });
+  };
+
+  const handleEditClick = (chat: ChatDocument, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setEditingChat(chat);
+    setEditTitle(chat.title);
+  };
+
+  const handleSaveEdit = async () => {
+    if (!editingChat || !editTitle.trim()) return;
+
+    try {
+      await updateChat(editingChat.id, { title: editTitle.trim() });
+      toast.success("Chat title updated");
+      setEditingChat(null);
+      setEditTitle("");
+    } catch (error) {
+      console.error("Failed to update chat title:", error);
+      toast.error("Failed to update chat title");
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setEditingChat(null);
+    setEditTitle("");
   };
 
   if (allChatsLoading) {
@@ -87,17 +132,67 @@ export function RecentChatsList({
                 {formatDate(chat.lastMessageAt)}
               </p>
             </div>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-7 w-7 shrink-0 group-hover:opacity-100 md:opacity-0"
-              onClick={(e) => onDeleteChat(chat, e)}
-            >
-              <Trash2 className="h-4 w-4" />
-            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-7 w-7 shrink-0 group-hover:opacity-100 md:opacity-0"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <MoreVertical className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="max-w-[calc(100vw-2rem)]">
+                <DropdownMenuItem onClick={(e) => handleEditClick(chat, e)}>
+                  <Pencil className="mr-2 h-4 w-4" />
+                  {tActions("edit")} {t("chatTitle")}
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  className="text-destructive"
+                  onClick={(e) => onDeleteChat(chat, e)}
+                >
+                  <Trash2 className="mr-2 h-4 w-4" />
+                  {tActions("delete")}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         );
       })}
+
+      {/* Edit Chat Title Dialog */}
+      <Dialog open={editingChat !== null} onOpenChange={(open) => !open && handleCancelEdit()}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>{tActions("edit")} {t("chatTitle")}</DialogTitle>
+            <DialogDescription>
+              {t("editChatTitleDescription")}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="py-4">
+            <Input
+              value={editTitle}
+              onChange={(e) => setEditTitle(e.target.value)}
+              placeholder={t("chatTitlePlaceholder")}
+              autoFocus
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && editTitle.trim()) {
+                  void handleSaveEdit();
+                }
+              }}
+            />
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={handleCancelEdit}>
+              {tActions("cancel")}
+            </Button>
+            <Button onClick={handleSaveEdit} disabled={!editTitle.trim()}>
+              {tActions("save")}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
