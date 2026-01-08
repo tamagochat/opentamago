@@ -212,14 +212,30 @@ export async function initializeDatabase(): Promise<
       error?.message?.includes("migrationStrategy") ||
       error?.message?.includes("amount of collections");
 
-    // Auto-recovery: delete and retry
+    // Auto-recovery: delete and retry (with user confirmation)
     if (isDatabaseNameError || isSchemaError) {
       const reason = isDatabaseNameError
-        ? "Database name conflict (DB9)"
-        : "Schema/collection error";
+        ? "Database name conflict"
+        : "Schema conflict";
 
-      console.warn(`[RxDB] ${reason} detected. Deleting database and retrying...`);
+      console.warn(`[RxDB] ${reason} detected. User confirmation required for reset.`);
 
+      const confirmed = window.confirm(
+        `${reason} detected.\n\n` +
+          "Your local database needs to be reset to fix this issue. " +
+          "All local data (characters, chats, settings) will be lost.\n\n" +
+          "We're working on data export and automatic conflict resolution.\n\n" +
+          "Click OK to reset the database, or Cancel to stop loading."
+      );
+
+      if (!confirmed) {
+        throw new Error(
+          `[RxDB] Database reset declined by user. Please refresh the page to try again, ` +
+            `or clear your browser data manually if the issue persists.`
+        );
+      }
+
+      console.warn(`[RxDB] User confirmed database reset.`);
       await deleteAllDatabases();
 
       // Wait for cleanup
