@@ -1,3 +1,6 @@
+// ReactScan must be imported first for debugging
+import { ReactScan } from "~/components/react-scan";
+
 import "~/styles/globals.css";
 
 import { type Metadata } from "next";
@@ -5,6 +8,7 @@ import { Geist } from "next/font/google";
 import { Toaster } from "sonner";
 
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { ThemeProvider } from "~/components/theme-provider";
 import { TRPCReactProvider } from "~/trpc/react";
 import {
@@ -20,50 +24,56 @@ export const metadata: Metadata = {
     template: "%s | OpenTamago",
   },
   description:
-    "Open-source platform for AI character viewing and sharing. View CharX files, share characters via P2P, and chat with AI characters.",
+    "Privacy-first open-source platform for AI character viewing, P2P sharing, and multi-character chat. View CharX files locally, share via WebRTC, and chat with multiple AI characters.",
   keywords: [
     "AI character",
-    "CharX",
-    "character chat",
+    "CharX viewer",
+    "CharX file",
+    "character card viewer",
     "AI roleplay",
-    "character viewer",
-    "open source",
+    "P2P file sharing",
+    "WebRTC",
+    "multi-character chat",
+    "AI chat",
     "RisuAI",
-    "P2P sharing",
+    "open source",
+    "privacy-first",
+    "browser-based",
+    "lorebook viewer",
   ],
   authors: [{ name: "OpenTamago" }],
   creator: "OpenTamago",
-  metadataBase: new URL("https://opentamago.com"),
+  metadataBase: new URL("https://opentamago.vercel.app"),
   alternates: {
-    canonical: "https://opentamago.com",
+    canonical: "https://opentamago.vercel.app",
     languages: {
-      en: "https://opentamago.com",
-      ko: "https://opentamago.com/ko",
-      ja: "https://opentamago.com/ja",
-      "x-default": "https://opentamago.com",
+      en: "https://opentamago.vercel.app",
+      ko: "https://opentamago.vercel.app/ko",
+      ja: "https://opentamago.vercel.app/ja",
+      "x-default": "https://opentamago.vercel.app",
     },
   },
   openGraph: {
     type: "website",
     locale: "en_US",
     siteName: "OpenTamago",
-    title: "OpenTamago - AI Character Chat Platform",
+    title: "OpenTamago - Privacy-First AI Character Platform",
     description:
-      "Open-source platform for AI character viewing and sharing. View CharX files, share characters via P2P, and chat with AI.",
+      "View CharX files locally, share via P2P, and chat with multiple AI characters. 100% browser-based, open source, privacy-first.",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "OpenTamago - AI Character Viewer & Sharing",
+        alt: "OpenTamago - AI Character Viewer, P2P Sharing & Multi-Character Chat",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "OpenTamago - AI Character Chat Platform",
+    title: "OpenTamago - Privacy-First AI Character Platform",
     description:
-      "Open-source platform for AI character viewing and sharing.",
+      "View CharX files locally, share via P2P, and chat with multiple AI characters. Open source & privacy-first.",
     images: ["/og-image.png"],
   },
   robots: {
@@ -94,6 +104,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${geist.variable}`} suppressHydrationWarning>
+      {process.env.NODE_ENV === "development" && <ReactScan />}
       <head>
         <WebApplicationJsonLd />
         <OrganizationJsonLd />
@@ -113,6 +124,7 @@ export default function RootLayout({
           </TRPCReactProvider>
           <Toaster richColors />
           <Analytics />
+          <SpeedInsights />
         </ThemeProvider>
       </body>
     </html>

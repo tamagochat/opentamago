@@ -1,12 +1,9 @@
 "use client";
 
-import { useCallback, useState, useEffect, useRef } from "react";
-import { Upload, Plus, AlertCircle, Info, Download, Loader2, Sparkles } from "lucide-react";
+import { useCallback, useState, useEffect } from "react";
+import { Upload, Plus, AlertCircle, Info } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { toast } from "sonner";
-import { Button } from "~/components/ui/button";
 import { Card, CardContent } from "~/components/ui/card";
-import { Input } from "~/components/ui/input";
 import { cn } from "~/lib/utils";
 import type { RealmErrorCode } from "~/app/api/realm/download/route";
 
@@ -14,17 +11,10 @@ interface FileUploadProps {
   onFilesSelect: (files: File[]) => void;
   isLoading?: boolean;
   compact?: boolean;
-  initialRealmId?: string;
-  onInitialDownloadTriggered?: () => void;
 }
 
 // UUID v4 regex pattern
 const UUID_REGEX = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i;
-
-// Demo example URLs from RisuRealm
-const DEMO_URLS = [
-  "https://realm.risuai.net/character/5b4b6887-13c6-41be-9994-0d35e84fd968",
-];
 
 /**
  * Parse RisuRealm UUID from various input formats:
@@ -70,16 +60,10 @@ export function FileUpload({
   onFilesSelect,
   isLoading,
   compact,
-  initialRealmId,
-  onInitialDownloadTriggered,
 }: FileUploadProps) {
   const t = useTranslations("charx");
   const [isDragging, setIsDragging] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [realmInput, setRealmInput] = useState(initialRealmId ?? "");
-  const [isDownloading, setIsDownloading] = useState(false);
-  const [isDemoLoading, setIsDemoLoading] = useState(false);
-  const initialDownloadTriggered = useRef(false);
 
   useEffect(() => {
     if (error) {
@@ -87,73 +71,6 @@ export function FileUpload({
       return () => clearTimeout(timer);
     }
   }, [error]);
-
-  const handleRealmDownload = useCallback(async () => {
-    const uuid = parseRealmUUID(realmInput);
-    if (!uuid) {
-      toast.error(t("upload.realmError.INVALID_UUID"));
-      return;
-    }
-
-    setIsDownloading(true);
-
-    try {
-      const file = await downloadFromRealm(uuid);
-      onFilesSelect([file]);
-      setRealmInput("");
-      toast.success(t("upload.realmDownloadSuccess"));
-    } catch (e) {
-      console.error("Failed to download from Realm:", e);
-      if (e instanceof RealmDownloadError) {
-        toast.error(t(`upload.realmError.${e.code}`, { size: e.size ?? "" }));
-      } else {
-        toast.error(t("upload.realmError.DOWNLOAD_FAILED"));
-      }
-    } finally {
-      setIsDownloading(false);
-    }
-  }, [realmInput, onFilesSelect, t]);
-
-  // Auto-trigger download if initialRealmId is provided
-  useEffect(() => {
-    if (initialRealmId && !initialDownloadTriggered.current) {
-      initialDownloadTriggered.current = true;
-      onInitialDownloadTriggered?.();
-      void handleRealmDownload();
-    }
-  }, [initialRealmId, handleRealmDownload, onInitialDownloadTriggered]);
-
-  const handleRealmInputKeyDown = useCallback(
-    (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (e.key === "Enter" && !isDownloading) {
-        void handleRealmDownload();
-      }
-    },
-    [handleRealmDownload, isDownloading]
-  );
-
-  const handleDemoDownload = useCallback(async () => {
-    const randomUrl = DEMO_URLS[Math.floor(Math.random() * DEMO_URLS.length)];
-    const uuid = parseRealmUUID(randomUrl ?? "");
-    if (!uuid) return;
-
-    setIsDemoLoading(true);
-
-    try {
-      const file = await downloadFromRealm(uuid);
-      onFilesSelect([file]);
-      toast.success(t("upload.realmDownloadSuccess"));
-    } catch (e) {
-      console.error("Failed to download demo:", e);
-      if (e instanceof RealmDownloadError) {
-        toast.error(t(`upload.realmError.${e.code}`, { size: e.size ?? "" }));
-      } else {
-        toast.error(t("upload.realmError.DOWNLOAD_FAILED"));
-      }
-    } finally {
-      setIsDemoLoading(false);
-    }
-  }, [onFilesSelect, t]);
 
   const validateAndSelectFiles = useCallback(
     (allFiles: File[]) => {
@@ -268,76 +185,6 @@ export function FileUpload({
           </CardContent>
         </label>
       </Card>
-
-      {/* Realm ID Input */}
-      {!compact && (
-        <>
-          <div className="relative flex items-center">
-            <div className="flex-grow border-t border-muted" />
-            <span className="px-3 text-xs text-muted-foreground uppercase">
-              {t("upload.or")}
-            </span>
-            <div className="flex-grow border-t border-muted" />
-          </div>
-
-          <div className="space-y-2">
-            <div className="flex gap-2">
-              <Input
-                type="text"
-                placeholder={t("upload.realmPlaceholder")}
-                value={realmInput}
-                onChange={(e) => setRealmInput(e.target.value)}
-                onKeyDown={handleRealmInputKeyDown}
-                disabled={isDownloading}
-                className="flex-1"
-              />
-              <Button
-                onClick={handleRealmDownload}
-                disabled={isDownloading || !realmInput.trim()}
-                className="gap-2"
-              >
-                {isDownloading ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  <Download className="h-4 w-4" />
-                )}
-                {t("upload.realmDownload")}
-              </Button>
-            </div>
-            <p className="text-xs text-muted-foreground">
-              {t("upload.realmHint")}
-            </p>
-          </div>
-
-          {/* Demo Section */}
-          <div className="relative flex items-center">
-            <div className="flex-grow border-t border-muted" />
-            <span className="px-3 text-xs text-muted-foreground uppercase">
-              {t("upload.or")}
-            </span>
-            <div className="flex-grow border-t border-muted" />
-          </div>
-
-          <div className="flex flex-col items-center gap-2">
-            <Button
-              variant="outline"
-              onClick={handleDemoDownload}
-              disabled={isDemoLoading}
-              className="gap-2"
-            >
-              {isDemoLoading ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <Sparkles className="h-4 w-4" />
-              )}
-              {t("upload.tryDemo")}
-            </Button>
-            <p className="text-xs text-muted-foreground">
-              {t("upload.demoHint")}
-            </p>
-          </div>
-        </>
-      )}
 
       {error && (
         <div className="flex items-center gap-2 text-sm text-destructive animate-in fade-in slide-in-from-top-1">

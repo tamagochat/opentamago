@@ -7,7 +7,6 @@ import { P2P_CONFIG } from "~/lib/p2p";
 interface UseUploaderChannelOptions {
   uploaderPeerId: string | null;
   file: File | null;
-  password?: string;
   onChannelCreated?: (channel: {
     shortSlug: string;
     longSlug: string;
@@ -18,7 +17,6 @@ interface UseUploaderChannelOptions {
 export function useUploaderChannel({
   uploaderPeerId,
   file,
-  password,
   onChannelCreated,
 }: UseUploaderChannelOptions) {
   const renewalIntervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -32,7 +30,7 @@ export function useUploaderChannel({
   const renewChannelMutation = api.p2p.renewChannel.useMutation();
   const destroyChannelMutation = api.p2p.destroyChannel.useMutation();
 
-  const createChannel = useCallback(async () => {
+  const createChannel = useCallback(async (password?: string) => {
     if (!uploaderPeerId || !file) return null;
 
     try {
@@ -40,7 +38,7 @@ export function useUploaderChannel({
         uploaderPeerId,
         fileName: file.name,
         fileSize: file.size,
-        password: password || undefined,
+        password,
       });
 
       channelRef.current = {
@@ -66,7 +64,7 @@ export function useUploaderChannel({
       console.error("Failed to create channel:", error);
       return null;
     }
-  }, [uploaderPeerId, file, password, createChannelMutation, renewChannelMutation, onChannelCreated]);
+  }, [uploaderPeerId, file, createChannelMutation, renewChannelMutation, onChannelCreated]);
 
   const destroyChannel = useCallback(() => {
     if (renewalIntervalRef.current) {

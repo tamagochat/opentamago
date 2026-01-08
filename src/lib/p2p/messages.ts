@@ -7,16 +7,17 @@ export const RequestInfoMessage = z.object({
   osName: z.string().optional(),
 });
 
-// Uploader → Downloader: Password required
+// Uploader → Downloader: Password required with challenge for authentication
 export const PasswordRequiredMessage = z.object({
   type: z.literal("PasswordRequired"),
+  challenge: z.string(), // Random nonce for challenge-response auth
   error: z.string().optional(),
 });
 
-// Downloader → Uploader: Submit password
+// Downloader → Uploader: Submit password response (hashed with challenge)
 export const UsePasswordMessage = z.object({
   type: z.literal("UsePassword"),
-  password: z.string(),
+  response: z.string(), // SHA-256(password + challenge)
 });
 
 // Uploader → Downloader: File metadata

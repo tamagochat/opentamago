@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { FileArchive } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
@@ -11,16 +11,17 @@ import {
   TabsTrigger,
 } from "~/components/ui/tabs";
 import { MainLayout } from "~/components/layout";
-import {
-  FileUpload,
-  parseRealmUUID,
-} from "./_components/file-upload";
+import { FileUpload, parseRealmUUID } from "./_components/file-upload";
+import { RealmDownloader } from "./_components/realm-downloader";
 import { CharacterList } from "./_components/character-list";
 import { CharacterCardDisplay } from "./_components/character-card-display";
 import { LorebookDisplay } from "./_components/lorebook-display";
 import { AssetsDisplay } from "./_components/assets-display";
 import { ModuleDisplay } from "./_components/module-display";
-import { ExportDialog } from "./_components/export-dialog";
+import {
+  SaveToDatabaseDialog,
+  type SaveToDatabaseDialogRef,
+} from "./_components/save-to-database-dialog";
 import { parseCharXAsync, getCategorizedAssets } from "~/lib/charx";
 import {
   useCharXStore,
@@ -43,10 +44,9 @@ export default function CharXPage() {
     updateItem,
     removeItem,
   } = useCharXStore();
-  const [exportDialogOpen, setExportDialogOpen] = useState(false);
-  const [exportItem, setExportItem] = useState<CharacterItem | null>(null);
   const isProcessingRef = useRef(false);
   const realmDownloadTriggeredRef = useRef(false);
+  const saveToDatabaseDialogRef = useRef<SaveToDatabaseDialogRef>(null);
 
   const parsedData = selectedItem?.parsed ?? null;
 
@@ -112,8 +112,7 @@ export default function CharXPage() {
   );
 
   const handleSaveToDatabase = useCallback((item: CharacterItem) => {
-    setExportItem(item);
-    setExportDialogOpen(true);
+    saveToDatabaseDialogRef.current?.open(item);
   }, []);
 
   const handleDelete = useCallback(
@@ -145,14 +144,28 @@ export default function CharXPage() {
 
         <div className="space-y-6">
           {items.length === 0 && (
-            <FileUpload
-              onFilesSelect={handleFilesSelect}
-              isLoading={isLoading}
-              initialRealmId={initialRealmId}
-              onInitialDownloadTriggered={() => {
-                realmDownloadTriggeredRef.current = true;
-              }}
-            />
+            <>
+              <FileUpload
+                onFilesSelect={handleFilesSelect}
+                isLoading={isLoading}
+              />
+
+              <div className="relative flex items-center">
+                <div className="flex-grow border-t border-muted" />
+                <span className="px-3 text-xs text-muted-foreground uppercase">
+                  or
+                </span>
+                <div className="flex-grow border-t border-muted" />
+              </div>
+
+              <RealmDownloader
+                onFilesSelect={handleFilesSelect}
+                initialRealmId={initialRealmId}
+                onInitialDownloadTriggered={() => {
+                  realmDownloadTriggeredRef.current = true;
+                }}
+              />
+            </>
           )}
 
           <CharacterList
@@ -267,19 +280,7 @@ export default function CharXPage() {
           )}
         </div>
 
-        {exportItem?.parsed?.card && (
-          <ExportDialog
-            open={exportDialogOpen}
-            onOpenChange={(open) => {
-              setExportDialogOpen(open);
-              if (!open) setExportItem(null);
-            }}
-            card={exportItem.parsed.card}
-            lorebook={exportItem.parsed.card.data.character_book ?? null}
-            characterName={exportItem.parsed.card.data.name || ""}
-            parsedData={exportItem.parsed}
-          />
-        )}
+        <SaveToDatabaseDialog ref={saveToDatabaseDialogRef} />
       </div>
     </MainLayout>
   );

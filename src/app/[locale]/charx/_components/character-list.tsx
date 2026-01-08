@@ -10,10 +10,8 @@ import {
   Share2,
   Save,
   Trash2,
-  Download,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { toast } from "sonner";
 import { Button } from "~/components/ui/button";
 import {
   Card,
@@ -29,11 +27,10 @@ import {
   TooltipTrigger,
 } from "~/components/ui/tooltip";
 import { Badge } from "~/components/ui/badge";
-import { Input } from "~/components/ui/input";
 import { cn } from "~/lib/utils";
 import { assetToDataUrl } from "~/lib/charx";
 import type { CharacterItem } from "~/lib/stores";
-import { parseRealmUUID, downloadFromRealm, RealmDownloadError } from "./file-upload";
+import { RealmDownloader } from "./realm-downloader";
 
 interface CharacterListProps {
   items: CharacterItem[];
@@ -278,43 +275,6 @@ export function CharacterList({
 }: CharacterListProps) {
   const t = useTranslations("charx");
   const [isDragging, setIsDragging] = useState(false);
-  const [realmInput, setRealmInput] = useState("");
-  const [isDownloading, setIsDownloading] = useState(false);
-
-  const handleRealmDownload = useCallback(async () => {
-    const uuid = parseRealmUUID(realmInput);
-    if (!uuid) {
-      toast.error(t("upload.realmError.INVALID_UUID"));
-      return;
-    }
-
-    setIsDownloading(true);
-
-    try {
-      const file = await downloadFromRealm(uuid);
-      onFilesSelect([file]);
-      setRealmInput("");
-      toast.success(t("upload.realmDownloadSuccess"));
-    } catch (e) {
-      console.error("Failed to download from Realm:", e);
-      if (e instanceof RealmDownloadError) {
-        toast.error(t(`upload.realmError.${e.code}`, { size: e.size ?? "" }));
-      } else {
-        toast.error(t("upload.realmError.DOWNLOAD_FAILED"));
-      }
-    } finally {
-      setIsDownloading(false);
-    }
-  }, [realmInput, onFilesSelect, t]);
-
-  const handleRealmInputKeyDown = useCallback(
-    (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (e.key === "Enter" && !isDownloading) {
-        void handleRealmDownload();
-      }
-    },
-    [handleRealmDownload, isDownloading]
-  );
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -435,29 +395,7 @@ export function CharacterList({
             <div className="flex-grow border-t border-muted" />
           </div>
 
-          <div className="flex gap-2">
-            <Input
-              type="text"
-              placeholder={t("upload.realmPlaceholder")}
-              value={realmInput}
-              onChange={(e) => setRealmInput(e.target.value)}
-              onKeyDown={handleRealmInputKeyDown}
-              disabled={isDownloading}
-              className="flex-1"
-            />
-            <Button
-              onClick={handleRealmDownload}
-              disabled={isDownloading || !realmInput.trim()}
-              className="gap-2"
-            >
-              {isDownloading ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <Download className="h-4 w-4" />
-              )}
-              {t("upload.realmDownload")}
-            </Button>
-          </div>
+          <RealmDownloader onFilesSelect={onFilesSelect} compact />
         </div>
       </CardContent>
     </Card>

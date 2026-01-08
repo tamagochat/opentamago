@@ -219,7 +219,7 @@ We're grateful to these projects and their contributors for making their work av
 
 ## License
 
-[MIT License](./LICENSE) - feel free to use this project for personal or commercial purposes.
+[GPL-3.0 License](./LICENSE.md) - see LICENSE.md for details.
 
 ## Links
 

@@ -8,16 +8,35 @@ type PageProps = {
   params: Promise<{ locale: string; slug: string[] }>;
 };
 
+const localeToOgLocale: Record<string, string> = {
+  en: "en_US",
+  ko: "ko_KR",
+  ja: "ja_JP",
+};
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "connect" });
+  const ogLocale = localeToOgLocale[locale] ?? "en_US";
+
+  const title = t("join.meta.title");
+  const description = t("join.meta.description");
 
   return {
-    title: t("join.meta.title"),
-    description: t("join.meta.description"),
+    title,
+    description,
+    robots: {
+      index: false,
+      follow: false,
+    },
     openGraph: {
-      title: t("join.meta.title"),
-      description: t("join.meta.description"),
+      title: `${title} | OpenTamago`,
+      description,
+      locale: ogLocale,
+    },
+    twitter: {
+      title: `${title} | OpenTamago`,
+      description,
     },
   };
 }
@@ -42,6 +61,7 @@ export default async function JoinPage({ params }: PageProps) {
       hostPeerId={session.hostPeerId}
       initialParticipants={session.participants}
       isFull={session.isFull}
+      hasPassword={session.hasPassword}
     />
   );
 }

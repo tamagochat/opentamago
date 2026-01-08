@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useCharacterAssets } from "~/lib/db/hooks";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
@@ -14,8 +14,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
-import { Trash2 } from "lucide-react";
-import { cn } from "~/lib/utils";
+import { Info, Trash2 } from "lucide-react";
+import { AssetDetailDialog } from "./asset-detail-dialog";
 
 interface ImageAssetsListProps {
   characterId: string;
@@ -27,6 +27,11 @@ export function ImageAssetsList({ characterId }: ImageAssetsListProps) {
   const { assets, isLoading, deleteAsset, getAssetDataUrl } = useCharacterAssets(characterId);
   const [assetUrls, setAssetUrls] = useState<Record<string, string>>({});
   const [selectedType, setSelectedType] = useState<AssetType>("all");
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+
+  const handleCloseDialog = useCallback(() => {
+    setSelectedId(null);
+  }, []);
 
   // Load asset data URLs
   useEffect(() => {
@@ -137,8 +142,16 @@ export function ImageAssetsList({ characterId }: ImageAssetsListProps) {
                             <Skeleton className="w-full h-full" />
                           </div>
                         )}
-                        {/* Overlay with delete button on hover */}
-                        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        {/* Overlay with buttons on hover */}
+                        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                          <Button
+                            variant="secondary"
+                            size="icon"
+                            className="h-8 w-8"
+                            onClick={() => setSelectedId(asset.id)}
+                          >
+                            <Info className="h-4 w-4" />
+                          </Button>
                           <Button
                             variant="destructive"
                             size="icon"
@@ -161,6 +174,13 @@ export function ImageAssetsList({ characterId }: ImageAssetsListProps) {
           ))}
         </div>
       </ScrollArea>
+
+      <AssetDetailDialog
+        assets={filteredAssets}
+        assetUrls={assetUrls}
+        selectedId={selectedId}
+        onClose={handleCloseDialog}
+      />
     </>
   );
 }

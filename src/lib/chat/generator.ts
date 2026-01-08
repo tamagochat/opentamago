@@ -110,6 +110,8 @@ export async function* generateStreamingResponse(
     signal,
   } = options;
 
+  console.log("[Generator] generateStreamingResponse started");
+
   // Build generation payload
   const payload = buildGenerationPayload({
     context,
@@ -117,9 +119,11 @@ export async function* generateStreamingResponse(
     maxHistoryMessages,
     lorebookLimit,
   });
+  console.log("[Generator] Payload built, message count:", payload.messages.length);
 
   // Stream response
   const chunks: string[] = [];
+  console.log("[Generator] Creating streamChatResponse...");
   const stream = streamChatResponse({
     messages: payload.messages,
     apiKey: apiKey ?? undefined,
@@ -130,11 +134,14 @@ export async function* generateStreamingResponse(
     isClientMode,
     signal,
   });
+  console.log("[Generator] streamChatResponse created, starting iteration...");
 
   for await (const chunk of stream) {
     chunks.push(chunk);
     yield chunk;
   }
+
+  console.log("[Generator] Stream iteration complete");
 
   const fullContent = chunks.join("");
 
@@ -142,36 +149,6 @@ export async function* generateStreamingResponse(
     content: fullContent,
     payload,
   };
-}
-
-/**
- * Preview what the system prompt will be without generating
- * Useful for debugging or showing users what context is being used
- */
-export function previewSystemPrompt(
-  context: GenerationContext,
-  userMessage?: string
-): string {
-  const payload = buildGenerationPayload({
-    context,
-    newUserMessage: userMessage,
-  });
-
-  return payload.systemPrompt;
-}
-
-/**
- * Get the complete generation payload without generating
- * Useful for testing or debugging
- */
-export function previewGenerationPayload(
-  context: GenerationContext,
-  userMessage?: string
-): GenerationPayload {
-  return buildGenerationPayload({
-    context,
-    newUserMessage: userMessage,
-  });
 }
 
 /**

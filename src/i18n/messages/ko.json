@@ -626,6 +626,11 @@
     },
     "creating": "세션 만드는 중...",
     "joining": "세션 참가 중...",
+    "confirm": {
+      "subtitle": "캐릭터를 확인하고 원하시면 비밀번호를 설정하세요.",
+      "passwordHint": "다른 사람들이 세션에 참가하려면 이 비밀번호가 필요해요.",
+      "start": "세션 만들기"
+    },
     "lobby": {
       "title": "대기실",
       "hostDescription": "아래 링크를 공유해서 친구를 초대하세요",
@@ -658,6 +663,11 @@
       "userJoined": "{name}이(가) 들어왔어요",
       "userLeft": "{name}이(가) 나갔어요"
     },
+    "leaveConfirm": {
+      "title": "세션을 나갈까요?",
+      "description": "모든 참가자와 연결이 끊어지고 채팅에서 나가게 됩니다.",
+      "confirm": "나가기"
+    },
     "join": {
       "meta": {
         "title": "세션 참가",
@@ -665,7 +675,13 @@
       },
       "title": "세션 참가",
       "subtitle": "채팅에 참가할 캐릭터를 선택하세요",
-      "currentParticipants": "현재 {count}명이 참가 중이에요"
+      "currentParticipants": "현재 {count}명이 참가 중이에요",
+      "passwordProtected": "이 세션은 비밀번호가 필요해요",
+      "enterPassword": "비밀번호",
+      "passwordHintJoin": "호스트가 공유한 비밀번호를 입력하세요.",
+      "passwordRequired": "참가하려면 비밀번호가 필요해요",
+      "passwordError": "비밀번호가 틀렸어요. 다시 시도해 볼까요?",
+      "joinButton": "세션 참가"
     },
     "notifications": {
       "joined": "{name}이(가) 들어왔어요",

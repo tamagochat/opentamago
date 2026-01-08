@@ -52,37 +52,3 @@ export interface ChatGenerationContext {
   /** Current date and time for context */
   currentDateTime: string;
 }
-
-/**
- * Delay ranges for different conversation types
- */
-export const DelayRanges = {
-  /** Quick/excited responses: 500-2000ms */
-  quick: { min: 500, max: 2000 },
-  /** Casual chat: 1000-3000ms */
-  casual: { min: 1000, max: 3000 },
-  /** Thoughtful/complex responses: 3000-10000ms */
-  thoughtful: { min: 3000, max: 10000 },
-  /** Very long thinking time: 10000-30000ms */
-  deepThought: { min: 10000, max: 30000 },
-} as const;
-
-/**
- * Helper to generate random delay within a range
- */
-export function getRandomDelay(
-  min: number,
-  max: number,
-  messageLength?: number
-): number {
-  // Base delay
-  let delay = Math.floor(Math.random() * (max - min + 1)) + min;
-
-  // Adjust based on message length (longer messages = slightly longer delay)
-  if (messageLength) {
-    const lengthFactor = Math.min(messageLength / 100, 2); // Cap at 2x
-    delay = Math.floor(delay * (1 + lengthFactor * 0.3));
-  }
-
-  return delay;
-}

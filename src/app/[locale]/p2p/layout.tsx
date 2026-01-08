@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "p2p" });
 
-  const baseUrl = "https://opentamago.com";
+  const baseUrl = "https://opentamago.vercel.app";
   const localePath = locale === "en" ? "" : `/${locale}`;
   const canonicalUrl = `${baseUrl}${localePath}/p2p`;
   const ogLocale = localeToOgLocale[locale] ?? "en_US";
@@ -34,7 +34,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       "WebRTC file transfer",
       "peer-to-peer",
       "character file sharing",
+      "multi-character chat",
       "AI character chat",
+      "QR code sharing",
+      "password-protected sharing",
+      "browser-to-browser transfer",
+      "no server upload",
     ],
     alternates: {
       canonical: canonicalUrl,
@@ -42,6 +47,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         en: `${baseUrl}/p2p`,
         ko: `${baseUrl}/ko/p2p`,
         ja: `${baseUrl}/ja/p2p`,
+        "x-default": `${baseUrl}/p2p`,
       },
     },
     openGraph: {

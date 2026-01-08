@@ -6,15 +6,8 @@ import { ScrollArea } from "~/components/ui/scroll-area";
 import { Button } from "~/components/ui/button";
 import { Textarea } from "~/components/ui/textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
-import { Send, Loader2, User, Trash2, UserCircle, Plus, Pencil, PanelRight, Box } from "lucide-react";
+import { Loader2, User, Trash2, Pencil, PanelRight, Box, Plus } from "lucide-react";
 import { Sheet, SheetTrigger } from "~/components/ui/sheet";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "~/components/ui/dropdown-menu";
 import {
   Dialog,
   DialogContent,
@@ -27,6 +20,9 @@ import { useMessages, useSettings, usePersonas, useMemories, useCreateMemory, us
 import type { CharacterDocument, ChatDocument, PersonaDocument, ChatBubbleTheme } from "~/lib/db/schemas";
 import { cn } from "~/lib/utils";
 import { PersonaEditor } from "./persona-editor";
+import { ChatInput } from "./chat-input";
+import { EditMessageDialog } from "./edit-message-dialog";
+import { MemoryDialog } from "./memory-dialog";
 import { ExperimentalDisclaimer } from "~/components/experimental-disclaimer";
 import { toast } from "sonner";
 import { createSingleChatContext, generateStreamingResponse, generateMessengerChatResponse } from "~/lib/chat";
@@ -161,13 +157,19 @@ function RoleplayText({ content }: { content: string }) {
 }
 
 // Message content renderer based on theme
-function MessageContent({ content, theme }: { content: string; theme: ChatBubbleTheme }) {
+// Skip expensive parsing during streaming to keep UI responsive
+function MessageContent({ content, theme, isStreaming = false }: { content: string; theme: ChatBubbleTheme; isStreaming?: boolean }) {
   if (theme === "messenger") {
     // Plain text - just whitespace preserved
     return <div className="whitespace-pre-wrap break-words">{content}</div>;
   }
 
-  // Roleplay theme - styled quotes and actions
+  // During streaming, show raw text to avoid expensive O(n) parsing on every update
+  if (isStreaming) {
+    return <div className="whitespace-pre-wrap break-words">{content}</div>;
+  }
+
+  // Roleplay theme - styled quotes and actions (only for complete messages)
   return <RoleplayText content={content} />;
 }
 
@@ -196,18 +198,18 @@ export function CenterPanel({ character, chat, className, rightPanelOpen, onRigh
   const { deleteMemory } = useDeleteMemory();
   const { db } = useDatabase();
   const [displayMessages, setDisplayMessages] = useState<DisplayMessage[]>([]);
-  const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [selectedPersona, setSelectedPersona] = useState<PersonaDocument | null>(null);
   const [personaEditorOpen, setPersonaEditorOpen] = useState(false);
   const [editingMessageId, setEditingMessageId] = useState<string | null>(null);
-  const [editingContent, setEditingContent] = useState("");
+  const [editingMessageContent, setEditingMessageContent] = useState("");
   const [memoryDialogOpen, setMemoryDialogOpen] = useState(false);
-  const [newMemory, setNewMemory] = useState("");
-  const [editingMemoryId, setEditingMemoryId] = useState<string | null>(null);
-  const [editingMemoryContent, setEditingMemoryContent] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
-  const isComposingRef = useRef(false); // Track IME composition state
+
+  // Streaming state - separate from displayMessages to avoid frequent re-renders
+  const [streamingContent, setStreamingContent] = useState<string>("");
+  const streamingContentRef = useRef<string>(""); // Accumulate chunks without re-renders
+  const rafIdRef = useRef<number | null>(null); // Track requestAnimationFrame ID
 
   // Sync stored messages to display
   useEffect(() => {
@@ -221,9 +223,24 @@ export function CenterPanel({ character, chat, className, rightPanelOpen, onRigh
 
   // Reset when chat changes
   useEffect(() => {
-    setInputValue("");
     setIsLoading(false);
+    // Clear streaming state
+    streamingContentRef.current = "";
+    setStreamingContent("");
+    if (rafIdRef.current) {
+      cancelAnimationFrame(rafIdRef.current);
+      rafIdRef.current = null;
+    }
   }, [chat?.id]);
+
+  // Cleanup RAF on unmount
+  useEffect(() => {
+    return () => {
+      if (rafIdRef.current) {
+        cancelAnimationFrame(rafIdRef.current);
+      }
+    };
+  }, []);
 
   // Handle first message for new chats (only if chat is empty after loading)
   useEffect(() => {
@@ -238,6 +255,17 @@ export function CenterPanel({ character, chat, className, rightPanelOpen, onRigh
     }
   }, [chat, character, messagesLoading, storedMessages.length, addMessage]);
 
+  // Combine stored messages with streaming message for display
+  const allMessages = useMemo<DisplayMessage[]>(() => {
+    if (streamingContent) {
+      return [
+        ...displayMessages,
+        { id: "streaming", role: "assistant" as const, content: streamingContent },
+      ];
+    }
+    return displayMessages;
+  }, [displayMessages, streamingContent]);
+
   // Auto-scroll to bottom
   useEffect(() => {
     const scrollElement = scrollRef.current?.querySelector("[data-radix-scroll-area-viewport]");
@@ -247,15 +275,10 @@ export function CenterPanel({ character, chat, className, rightPanelOpen, onRigh
         scrollElement.scrollTop = scrollElement.scrollHeight;
       });
     }
-  }, [displayMessages]);
+  }, [allMessages]);
 
-  const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // Don't submit while IME composition is active (CJK input)
-    if (isComposingRef.current) return;
-
-    if (!inputValue.trim() || !isApiReady || isLoading) return;
+  const handleSubmit = useCallback(async (userMessage: string) => {
+    if (!isApiReady || isLoading) return;
 
     if (!selectedPersona) {
       toast.error(t("selectPersonaToSend"), {
@@ -267,16 +290,13 @@ export function CenterPanel({ character, chat, className, rightPanelOpen, onRigh
       return;
     }
 
-    const userMessage = inputValue.trim();
-    setInputValue("");
+    if (!character) return;
+
     setIsLoading(true);
 
-    // Save user message
-    await addMessage("user", userMessage);
-
     try {
-      // Create generation context
-      if (!character) return;
+      // Save user message first (inside try/catch to handle errors)
+      await addMessage("user", userMessage);
 
       // Format memories for context
       const memoryContext = memories.length > 0
@@ -320,14 +340,14 @@ export function CenterPanel({ character, chat, className, rightPanelOpen, onRigh
           console.log("Memory:", messengerResponse.memory);
         }
       } else {
-        // Roleplay mode: Stream response
-        const streamingId = `streaming-${Date.now()}`;
-        setDisplayMessages((prev) => [
-          ...prev,
-          { id: streamingId, role: "assistant", content: "" },
-        ]);
+        // Roleplay mode: Stream response with throttled UI updates
+        console.log("[Roleplay] Starting stream generation...");
 
-        let fullContent = "";
+        // Reset streaming state
+        streamingContentRef.current = "";
+        setStreamingContent("");
+
+        console.log("[Roleplay] Creating stream generator...");
         const stream = generateStreamingResponse({
           context,
           userMessage,
@@ -338,44 +358,63 @@ export function CenterPanel({ character, chat, className, rightPanelOpen, onRigh
           safetySettings: settings.safetySettings,
           isClientMode,
         });
+        console.log("[Roleplay] Stream generator created, starting iteration...");
+
+        // Throttle UI updates: only update when content actually changes
+        let lastUpdateTime = 0;
+        let chunkCount = 0;
+        const UPDATE_INTERVAL = 50; // ms - update UI at most every 50ms
 
         for await (const chunk of stream) {
-          fullContent += chunk;
-          setDisplayMessages((prev) =>
-            prev.map((m) => (m.id === streamingId ? { ...m, content: fullContent } : m))
-          );
+          chunkCount++;
+          if (chunkCount === 1) {
+            console.log("[Roleplay] Received first chunk");
+          }
+          streamingContentRef.current += chunk;
+
+          // Throttle state updates
+          const now = Date.now();
+          if (now - lastUpdateTime >= UPDATE_INTERVAL) {
+            setStreamingContent(streamingContentRef.current);
+            lastUpdateTime = now;
+
+            // CRITICAL: Yield to macrotask queue to allow click handlers to run.
+            // Without this, rapid microtask processing from for-await starves the event loop,
+            // preventing any UI interactions (clicks, scrolls) from being processed.
+            await new Promise(resolve => setTimeout(resolve, 0));
+          }
         }
 
-        // Save assistant message
+        console.log(`[Roleplay] Stream complete. Total chunks: ${chunkCount}`);
+
+        // Final update to ensure all content is displayed
+        setStreamingContent(streamingContentRef.current);
+
+        // Save assistant message and clear streaming state
+        const fullContent = streamingContentRef.current;
+        streamingContentRef.current = "";
+        setStreamingContent("");
+
+        console.log("[Roleplay] Saving assistant message...");
         if (fullContent) {
           await addMessage("assistant", fullContent);
         }
+        console.log("[Roleplay] Done!");
       }
     } catch (error) {
       console.error("Chat error:", error);
-      // Remove streaming message on error
-      setDisplayMessages((prev) => prev.filter((m) => !m.id.startsWith("streaming-")));
+      // Clear streaming state on error
+      streamingContentRef.current = "";
+      setStreamingContent("");
     } finally {
+      // Cleanup RAF if running
+      if (rafIdRef.current) {
+        cancelAnimationFrame(rafIdRef.current);
+        rafIdRef.current = null;
+      }
       setIsLoading(false);
     }
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    // Don't submit on Enter if IME composition is active
-    if (e.key === "Enter" && !e.shiftKey && !isComposingRef.current) {
-      e.preventDefault();
-      void onSubmit(e);
-    }
-  };
-
-  const handleCompositionStart = () => {
-    isComposingRef.current = true;
-  };
-
-  const handleCompositionEnd = () => {
-    isComposingRef.current = false;
-  };
-
+  }, [isApiReady, isLoading, selectedPersona, character, t, addMessage, memories, storedMessages, chatBubbleTheme, effectiveApiKey, settings, isClientMode]);
 
   const handleDeleteMessage = useCallback(
     async (messageId: string) => {
@@ -394,24 +433,19 @@ export function CenterPanel({ character, chat, className, rightPanelOpen, onRigh
 
   const handleStartEdit = useCallback((messageId: string, currentContent: string) => {
     setEditingMessageId(messageId);
-    setEditingContent(currentContent);
+    setEditingMessageContent(currentContent);
   }, []);
 
-  const handleCancelEdit = useCallback(() => {
-    setEditingMessageId(null);
-    setEditingContent("");
-  }, []);
+  const handleSaveEdit = useCallback(async (newContent: string) => {
+    if (!editingMessageId) return;
 
-  const handleSaveEdit = useCallback(async () => {
-    if (!editingMessageId || !editingContent.trim()) return;
-
-    await updateMessage(editingMessageId, editingContent.trim());
+    await updateMessage(editingMessageId, newContent);
     // Note: No need to manually update displayMessages
     // The RxDB subscription will automatically sync the updated message
 
     setEditingMessageId(null);
-    setEditingContent("");
-  }, [editingMessageId, editingContent, updateMessage]);
+    setEditingMessageContent("");
+  }, [editingMessageId, updateMessage]);
 
   if (!character || !chat) {
     return (
@@ -475,7 +509,7 @@ export function CenterPanel({ character, chat, className, rightPanelOpen, onRigh
       <div className="flex-1 min-h-0 overflow-hidden">
         <ScrollArea className="h-full p-4" ref={scrollRef}>
           <div className="space-y-4">
-            {displayMessages
+            {allMessages
               .filter((m) => m.role !== "system")
               .map((message, index, filteredMessages) => {
                 // Check if this is the last message in a group from the same sender
@@ -536,7 +570,11 @@ export function CenterPanel({ character, chat, className, rightPanelOpen, onRigh
                         )}
                       >
                         <div className="text-sm leading-relaxed">
-                          <MessageContent content={message.content} theme={chatBubbleTheme} />
+                          <MessageContent
+                            content={message.content}
+                            theme={chatBubbleTheme}
+                            isStreaming={message.id === "streaming"}
+                          />
                         </div>
                       </div>
                     </div>
@@ -566,8 +604,8 @@ export function CenterPanel({ character, chat, className, rightPanelOpen, onRigh
                 );
               })}
 
-            {/* Loading indicator */}
-            {isLoading && !displayMessages.some((m) => m.id.startsWith("streaming-")) && (
+            {/* Loading indicator - show when loading but no streaming content yet */}
+            {isLoading && !streamingContent && (
               <div className="flex gap-3">
                 <Avatar className="h-8 w-8 shrink-0">
                   <AvatarImage src={character.avatarData} />
@@ -584,88 +622,20 @@ export function CenterPanel({ character, chat, className, rightPanelOpen, onRigh
       </div>
 
       {/* Input - Fixed at Bottom */}
-      <div className="shrink-0 border-t bg-background p-4">
-        <form onSubmit={onSubmit} className="flex items-end gap-2">
-          {/* Persona Selector */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                type="button"
-                variant="outline"
-                className={cn(
-                  "shrink-0 h-[44px] w-[44px] p-0",
-                  !selectedPersona && "text-muted-foreground"
-                )}
-                title={selectedPersona?.name ?? t("selectPersona")}
-              >
-                {selectedPersona ? (
-                  <Avatar className="h-6 w-6">
-                    {selectedPersona.avatarData ? (
-                      <AvatarImage src={selectedPersona.avatarData} />
-                    ) : null}
-                    <AvatarFallback className="text-xs">
-                      {selectedPersona.name.slice(0, 2).toUpperCase()}
-                    </AvatarFallback>
-                  </Avatar>
-                ) : (
-                  <UserCircle className="h-5 w-5" />
-                )}
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="w-48">
-              {personas.length === 0 ? (
-                <div className="px-2 py-1.5 text-sm text-muted-foreground">
-                  {t("noPersonas")}
-                </div>
-              ) : (
-                personas.map((persona) => (
-                  <DropdownMenuItem
-                    key={persona.id}
-                    onClick={() => setSelectedPersona(persona)}
-                    className={cn(
-                      "flex items-center gap-2",
-                      selectedPersona?.id === persona.id && "bg-accent"
-                    )}
-                  >
-                    <Avatar className="h-6 w-6 shrink-0">
-                      {persona.avatarData ? (
-                        <AvatarImage src={persona.avatarData} />
-                      ) : null}
-                      <AvatarFallback className="text-xs">
-                        {persona.name.slice(0, 2).toUpperCase()}
-                      </AvatarFallback>
-                    </Avatar>
-                    <span className="truncate">{persona.name}</span>
-                  </DropdownMenuItem>
-                ))
-              )}
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => setPersonaEditorOpen(true)}>
-                <Plus className="mr-2 h-4 w-4" />
-                {t("createPersona")}
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-
-          <Textarea
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            onKeyDown={handleKeyDown}
-            onCompositionStart={handleCompositionStart}
-            onCompositionEnd={handleCompositionEnd}
-            placeholder={t("messagePlaceholder", { name: character.name })}
-            className="max-h-32 min-h-[44px] resize-none"
-            rows={1}
-          />
-          <Button
-            type="submit"
-            className="shrink-0 h-[44px] w-[44px] p-0"
-            disabled={!inputValue.trim() || isLoading}
-          >
-            {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
-          </Button>
-        </form>
-      </div>
+      <ChatInput
+        onSubmit={handleSubmit}
+        isLoading={isLoading}
+        placeholder={t("messagePlaceholder", { name: character.name })}
+        personas={personas}
+        selectedPersona={selectedPersona}
+        onPersonaSelect={setSelectedPersona}
+        onCreatePersona={() => setPersonaEditorOpen(true)}
+        translations={{
+          selectPersona: t("selectPersona"),
+          noPersonas: t("noPersonas"),
+          createPersona: t("createPersona"),
+        }}
+      />
 
       {/* Persona Editor Dialog */}
       <PersonaEditor
@@ -675,198 +645,25 @@ export function CenterPanel({ character, chat, className, rightPanelOpen, onRigh
       />
 
       {/* Edit Message Dialog */}
-      <Dialog open={editingMessageId !== null} onOpenChange={(open) => !open && handleCancelEdit()}>
-        <DialogContent className="sm:max-w-[600px]">
-          <DialogHeader>
-            <DialogTitle>Edit Message</DialogTitle>
-            <DialogDescription>
-              Modify the message content. This will update the chat history used for AI responses.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="py-4">
-            <Textarea
-              value={editingContent}
-              onChange={(e) => setEditingContent(e.target.value)}
-              placeholder="Message content..."
-              className="min-h-[150px] resize-none"
-              autoFocus
-            />
-          </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={handleCancelEdit}>
-              Cancel
-            </Button>
-            <Button onClick={handleSaveEdit} disabled={!editingContent.trim()}>
-              Save Changes
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <EditMessageDialog
+        open={editingMessageId !== null}
+        onOpenChange={(open) => !open && setEditingMessageId(null)}
+        initialContent={editingMessageContent}
+        onSave={handleSaveEdit}
+      />
 
       {/* Memory Dialog */}
-      <Dialog open={memoryDialogOpen} onOpenChange={setMemoryDialogOpen}>
-        <DialogContent className="sm:max-w-[600px]">
-          <DialogHeader>
-            <DialogTitle>Chat Memory</DialogTitle>
-            <DialogDescription>
-              Important facts and context that the AI remembers about this conversation.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4 py-4">
-            {/* Memories List */}
-            <ScrollArea className="h-[300px] w-full rounded-md border p-4">
-              <div className="space-y-2">
-                {memoriesLoading ? (
-                  <div className="text-sm text-muted-foreground text-center py-8">
-                    <Loader2 className="h-4 w-4 animate-spin mx-auto mb-2" />
-                    Loading memories...
-                  </div>
-                ) : memories.length === 0 ? (
-                  <div className="text-sm text-muted-foreground text-center py-8">
-                    No memories saved yet.
-                    <br />
-                    <span className="text-xs">
-                      Memories will be automatically extracted from your conversations when using Messenger mode.
-                    </span>
-                  </div>
-                ) : (
-                  memories.map((memory) => {
-                    const createdDate = new Date(memory.createdAt);
-                    const now = new Date();
-                    const diffMs = now.getTime() - createdDate.getTime();
-                    const diffMins = Math.floor(diffMs / 60000);
-                    const diffHours = Math.floor(diffMs / 3600000);
-                    const diffDays = Math.floor(diffMs / 86400000);
-
-                    let timeAgo = "";
-                    if (diffMins < 1) timeAgo = "Just now";
-                    else if (diffMins < 60) timeAgo = `${diffMins} minute${diffMins > 1 ? "s" : ""} ago`;
-                    else if (diffHours < 24) timeAgo = `${diffHours} hour${diffHours > 1 ? "s" : ""} ago`;
-                    else timeAgo = `${diffDays} day${diffDays > 1 ? "s" : ""} ago`;
-
-                    const isEditing = editingMemoryId === memory.id;
-
-                    return (
-                      <div key={memory.id} className="group rounded-lg border p-3 hover:bg-accent/50 transition-colors">
-                        {isEditing ? (
-                          // Edit mode
-                          <div className="space-y-2">
-                            <Textarea
-                              value={editingMemoryContent}
-                              onChange={(e) => setEditingMemoryContent(e.target.value)}
-                              className="min-h-[80px] resize-none"
-                              autoFocus
-                            />
-                            <div className="flex gap-2 justify-end">
-                              <Button
-                                variant="outline"
-                                size="sm"
-                                onClick={() => {
-                                  setEditingMemoryId(null);
-                                  setEditingMemoryContent("");
-                                }}
-                              >
-                                Cancel
-                              </Button>
-                              <Button
-                                size="sm"
-                                onClick={async () => {
-                                  if (!editingMemoryContent.trim()) return;
-                                  try {
-                                    // Update memory in database
-                                    const memoryDoc = await db?.memories.findOne(memory.id).exec();
-                                    if (memoryDoc) {
-                                      await memoryDoc.patch({ content: editingMemoryContent.trim() });
-                                      toast.success("Memory updated!");
-                                      setEditingMemoryId(null);
-                                      setEditingMemoryContent("");
-                                    }
-                                  } catch (error) {
-                                    console.error("Failed to update memory:", error);
-                                    toast.error("Failed to update memory");
-                                  }
-                                }}
-                                disabled={!editingMemoryContent.trim()}
-                              >
-                                Save
-                              </Button>
-                            </div>
-                          </div>
-                        ) : (
-                          // View mode
-                          <>
-                            <div className="flex items-start justify-between gap-2">
-                              <p className="text-sm flex-1">{memory.content}</p>
-                              <div className="flex gap-1 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <Button
-                                  variant="ghost"
-                                  size="icon"
-                                  className="h-6 w-6"
-                                  onClick={() => {
-                                    setEditingMemoryId(memory.id);
-                                    setEditingMemoryContent(memory.content);
-                                  }}
-                                >
-                                  <Pencil className="h-3 w-3" />
-                                </Button>
-                                <Button
-                                  variant="ghost"
-                                  size="icon"
-                                  className="h-6 w-6"
-                                  onClick={() => deleteMemory(memory.id)}
-                                >
-                                  <Trash2 className="h-3 w-3" />
-                                </Button>
-                              </div>
-                            </div>
-                            <p className="text-xs text-muted-foreground mt-1">{timeAgo}</p>
-                          </>
-                        )}
-                      </div>
-                    );
-                  })
-                )}
-              </div>
-            </ScrollArea>
-
-            {/* Add New Memory */}
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Add New Memory</label>
-              <div className="flex gap-2">
-                <Textarea
-                  value={newMemory}
-                  onChange={(e) => setNewMemory(e.target.value)}
-                  placeholder="Type a fact or context to remember..."
-                  className="min-h-[80px] resize-none flex-1"
-                />
-              </div>
-              <Button
-                onClick={async () => {
-                  if (newMemory.trim() && chat && character) {
-                    try {
-                      await createMemory({
-                        chatId: chat.id,
-                        characterId: character.id,
-                        content: newMemory.trim(),
-                      });
-                      toast.success("Memory added!");
-                      setNewMemory("");
-                    } catch (error) {
-                      console.error("Failed to add memory:", error);
-                      toast.error("Failed to add memory");
-                    }
-                  }
-                }}
-                disabled={!newMemory.trim() || !chat || !character}
-                className="w-full"
-              >
-                <Plus className="mr-2 h-4 w-4" />
-                Add Memory
-              </Button>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
+      <MemoryDialog
+        open={memoryDialogOpen}
+        onOpenChange={setMemoryDialogOpen}
+        memories={memories}
+        memoriesLoading={memoriesLoading}
+        chatId={chat.id}
+        characterId={character.id}
+        db={db}
+        onCreateMemory={createMemory}
+        onDeleteMemory={deleteMemory}
+      />
     </div>
   );
 }

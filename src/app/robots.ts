@@ -1,7 +1,7 @@
 import { type MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = "https://opentamago.com";
+  const baseUrl = "https://opentamago.vercel.app";
 
   return {
     rules: [

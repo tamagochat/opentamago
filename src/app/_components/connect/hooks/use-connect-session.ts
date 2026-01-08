@@ -43,7 +43,7 @@ export function useConnectSession({
   const destroySessionMutation = api.connect.destroySession.useMutation();
 
   // Create session (host only)
-  const createSession = useCallback(async (characterOverride?: CharacterData) => {
+  const createSession = useCallback(async (characterOverride?: CharacterData, password?: string) => {
     const charToUse = characterOverride ?? character;
     if (!peerId || !charToUse) return null;
 
@@ -53,6 +53,7 @@ export function useConnectSession({
         characterName: charToUse.name,
         characterAvatar: charToUse.avatar,
         maxParticipants: CONNECT_CONFIG.MAX_PARTICIPANTS,
+        password: password || undefined,
       });
 
       setSessionId(session.id);
@@ -89,7 +90,7 @@ export function useConnectSession({
   ]);
 
   // Join session (guest only)
-  const joinSession = useCallback(async (characterOverride?: CharacterData) => {
+  const joinSession = useCallback(async (characterOverride?: CharacterData, password?: string) => {
     const charToUse = characterOverride ?? character;
     if (!peerId || !charToUse || !slug) return null;
 
@@ -99,6 +100,7 @@ export function useConnectSession({
         peerId,
         characterName: charToUse.name,
         characterAvatar: charToUse.avatar,
+        password: password || undefined,
       });
 
       setSessionId(result.sessionId);

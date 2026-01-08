@@ -1,6 +1,6 @@
 import { type MetadataRoute } from "next";
 
-const baseUrl = "https://opentamago.com";
+const baseUrl = "https://opentamago.vercel.app";
 const locales = ["en", "ko", "ja"] as const;
 
 // Static routes that exist for all locales

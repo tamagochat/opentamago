@@ -3,6 +3,7 @@ export { DropZone } from "./drop-zone";
 export { FileInfo } from "./file-info";
 export { ShareLinks } from "./share-links";
 export { ConnectionList } from "./connection-list";
+export { PasswordInput, type PasswordInputRef } from "./password-input";
 export { useUploaderChannel } from "./use-uploader-channel";
 export { useUploaderConnections } from "./use-uploader-connections";
 export { useDownloader } from "./use-downloader";

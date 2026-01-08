@@ -27,10 +27,11 @@ export const connectRouter = createTRPCRouter({
         characterName: z.string().min(1),
         characterAvatar: z.string().optional(),
         maxParticipants: z.number().int().min(2).max(8).default(8),
+        password: z.string().optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const { hostPeerId, characterName, characterAvatar, maxParticipants } =
+      const { hostPeerId, characterName, characterAvatar, maxParticipants, password } =
         input;
 
       // Generate unique slugs with retry
@@ -67,6 +68,18 @@ export const connectRouter = createTRPCRouter({
         Date.now() + CONNECT_CONFIG.SESSION_TTL * 1000
       );
 
+      // Hash password if provided
+      let passwordHash: string | null = null;
+      if (password) {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(password);
+        const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        passwordHash = hashArray
+          .map((b) => b.toString(16).padStart(2, "0"))
+          .join("");
+      }
+
       // Create session
       const [session] = await ctx.db
         .insert(connectSessions)
@@ -75,6 +88,7 @@ export const connectRouter = createTRPCRouter({
           longSlug,
           hostPeerId,
           maxParticipants,
+          passwordHash,
           expiresAt,
         })
         .returning();
@@ -138,6 +152,7 @@ export const connectRouter = createTRPCRouter({
         id: session.id,
         hostPeerId: session.hostPeerId,
         maxParticipants: session.maxParticipants,
+        hasPassword: !!session.passwordHash,
         participants: activeParticipants.map((p) => ({
           peerId: p.peerId,
           characterName: p.characterName,
@@ -156,10 +171,11 @@ export const connectRouter = createTRPCRouter({
         peerId: z.string().min(1),
         characterName: z.string().min(1),
         characterAvatar: z.string().optional(),
+        password: z.string().optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const { slug, peerId, characterName, characterAvatar } = input;
+      const { slug, peerId, characterName, characterAvatar, password } = input;
 
       const session = await ctx.db.query.connectSessions.findFirst({
         where: or(
@@ -184,6 +200,31 @@ export const connectRouter = createTRPCRouter({
           code: "NOT_FOUND",
           message: "Session has expired",
         });
+      }
+
+      // Verify password if session requires one
+      if (session.passwordHash) {
+        if (!password) {
+          throw new TRPCError({
+            code: "UNAUTHORIZED",
+            message: "Password required",
+          });
+        }
+
+        const encoder = new TextEncoder();
+        const data = encoder.encode(password);
+        const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        const inputHash = hashArray
+          .map((b) => b.toString(16).padStart(2, "0"))
+          .join("");
+
+        if (inputHash !== session.passwordHash) {
+          throw new TRPCError({
+            code: "UNAUTHORIZED",
+            message: "Invalid password",
+          });
+        }
       }
 
       // Check if already a participant

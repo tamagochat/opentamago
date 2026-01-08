@@ -5,7 +5,9 @@ import { useTranslations } from "next-intl";
 import { Loader2, Users } from "lucide-react";
 import { toast } from "sonner";
 import { MainLayout } from "~/components/layout";
+import { Button } from "~/components/ui/button";
 import { WebRTCProvider, useWebRTCPeer } from "~/app/_components/p2p/webrtc-provider";
+import { PasswordInput, type PasswordInputRef } from "~/app/_components/p2p/password-input";
 import {
   CharacterSelector,
   SessionLobby,
@@ -17,6 +19,7 @@ import {
   useConnectNavigation,
   useAutoReply,
 } from "~/app/_components/connect";
+import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { useSettings } from "~/lib/db/hooks";
 import { SettingsModal } from "~/components/settings-modal";
 import type { CharacterData } from "~/lib/connect/messages";
@@ -25,18 +28,22 @@ import { ConnectRejoinBanner } from "~/components/connect-rejoin-banner";
 
 type ConnectState =
   | "selecting" // Choosing character
+  | "confirm" // Confirming character and setting password
   | "creating" // Creating session
   | "lobby" // In waiting room
   | "chatting"; // Active chat
 
 function ConnectPageContent() {
   const t = useTranslations("connect");
+  const tP2p = useTranslations("p2p");
   const { peer, peerId, isConnecting: peerConnecting, error: peerError } = useWebRTCPeer();
   const { settings, isApiReady, effectiveApiKey, isClientMode } = useSettings();
 
   const [state, setState] = useState<ConnectState>("selecting");
   const [selectedCharacter, setSelectedCharacter] = useState<CharacterData | null>(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [sessionError, setSessionError] = useState<string | null>(null);
+  const passwordInputRef = useRef<PasswordInputRef>(null);
 
   // Session management
   const {
@@ -52,11 +59,13 @@ function ConnectPageContent() {
     character: selectedCharacter,
     isHost: true,
     onSessionCreated: () => {
+      setSessionError(null);
       setState("lobby");
     },
     onError: (error) => {
       toast.error(error);
-      setState("selecting");
+      setSessionError(error);
+      setState("confirm");
     },
   });
 
@@ -176,9 +185,9 @@ function ConnectPageContent() {
     participantCount: participants.filter((p) => p.status === "ready").length,
   });
 
-  // Handle character selection
+  // Handle character selection - go to confirm step first
   const handleCharacterSelect = useCallback(
-    async (character: CharacterData) => {
+    (character: CharacterData) => {
       // Check if API is ready before joining
       if (!isApiReady) {
         toast.error(t("errors.apiNotReady"), {
@@ -192,20 +201,34 @@ function ConnectPageContent() {
       }
 
       setSelectedCharacter(character);
-      setState("creating");
-
-      // Wait for peer connection
-      if (!peerId) {
-        toast.error(t("errors.noPeer"));
-        setState("selecting");
-        return;
-      }
-
-      // Pass character directly to avoid React state timing issues
-      await createSession(character);
+      setState("confirm");
     },
-    [peerId, createSession, t, isApiReady]
+    [t, isApiReady]
   );
+
+  // Handle cancel from confirm step
+  const handleCancelConfirm = useCallback(() => {
+    setSelectedCharacter(null);
+    setSessionError(null);
+    passwordInputRef.current?.reset();
+    setState("selecting");
+  }, []);
+
+  // Handle start session from confirm step
+  const handleStartSession = useCallback(async () => {
+    if (!selectedCharacter) return;
+
+    // Wait for peer connection
+    if (!peerId) {
+      toast.error(t("errors.noPeer"));
+      return;
+    }
+
+    setSessionError(null);
+    setState("creating");
+    const password = passwordInputRef.current?.getValue() || undefined;
+    await createSession(selectedCharacter, password);
+  }, [peerId, selectedCharacter, createSession, t]);
 
   // Handle start chat
   const handleStartChat = useCallback(() => {
@@ -263,6 +286,56 @@ function ConnectPageContent() {
           isLoading={peerConnecting}
           onOpenSettings={() => setSettingsOpen(true)}
         />
+      )}
+
+      {state === "confirm" && selectedCharacter && (
+        <div className="w-full max-w-md mx-auto space-y-6">
+          <div className="rounded-lg border bg-muted/30 p-4">
+            <p className="text-sm font-medium mb-4">{t("confirm.subtitle")}</p>
+            <div className="flex items-center gap-4 p-4 rounded-lg border bg-background">
+              <Avatar className="h-16 w-16">
+                {selectedCharacter.avatar ? (
+                  <AvatarImage src={selectedCharacter.avatar} alt={selectedCharacter.name} />
+                ) : null}
+                <AvatarFallback className="text-lg">
+                  {selectedCharacter.name[0]?.toUpperCase() || "?"}
+                </AvatarFallback>
+              </Avatar>
+              <div className="flex-1 min-w-0">
+                <h3 className="font-semibold truncate">{selectedCharacter.name}</h3>
+                {selectedCharacter.description && (
+                  <p className="text-sm text-muted-foreground line-clamp-2">
+                    {selectedCharacter.description}
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+
+          <PasswordInput
+            ref={passwordInputRef}
+            label={tP2p("passwordLabel")}
+            placeholder={tP2p("passwordPlaceholder")}
+            hint={t("confirm.passwordHint")}
+          />
+
+          {(peerError || sessionError) && (
+            <p className="text-sm text-destructive">{peerError || sessionError}</p>
+          )}
+
+          <div className="flex gap-3">
+            <Button variant="outline" onClick={handleCancelConfirm} className="flex-1">
+              {tP2p("cancel")}
+            </Button>
+            <Button
+              onClick={handleStartSession}
+              disabled={peerConnecting || isCreating || !peerId}
+              className="flex-1"
+            >
+              {peerConnecting || isCreating ? t("creating") : t("confirm.start")}
+            </Button>
+          </div>
+        </div>
       )}
 
       {state === "creating" && (

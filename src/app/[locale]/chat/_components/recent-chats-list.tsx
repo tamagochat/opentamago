@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "~/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
@@ -11,19 +11,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "~/components/ui/dialog";
-import { Input } from "~/components/ui/input";
 import { useChats } from "~/lib/db/hooks";
 import type { CharacterDocument, ChatDocument } from "~/lib/db/schemas";
 import { cn } from "~/lib/utils";
-import { toast } from "sonner";
+import { EditChatTitleDialog } from "./edit-chat-title-dialog";
 
 interface RecentChatsListProps {
   characters: CharacterDocument[];
@@ -41,9 +32,8 @@ export function RecentChatsList({
   const t = useTranslations("chat.leftPanel");
   const tActions = useTranslations("actions");
   const tCommon = useTranslations("common");
-  const { chats: allChats, isLoading: allChatsLoading, updateChat } = useChats();
+  const { chats: allChats, isLoading: allChatsLoading } = useChats();
   const [editingChat, setEditingChat] = useState<ChatDocument | null>(null);
-  const [editTitle, setEditTitle] = useState("");
 
   const formatDate = (timestamp: number) => {
     const date = new Date(timestamp);
@@ -61,30 +51,14 @@ export function RecentChatsList({
     return date.toLocaleDateString([], { month: "short", day: "numeric" });
   };
 
-  const handleEditClick = (chat: ChatDocument, e: React.MouseEvent) => {
+  const handleEditClick = useCallback((chat: ChatDocument, e: React.MouseEvent) => {
     e.stopPropagation();
     setEditingChat(chat);
-    setEditTitle(chat.title);
-  };
+  }, []);
 
-  const handleSaveEdit = async () => {
-    if (!editingChat || !editTitle.trim()) return;
-
-    try {
-      await updateChat(editingChat.id, { title: editTitle.trim() });
-      toast.success("Chat title updated");
-      setEditingChat(null);
-      setEditTitle("");
-    } catch (error) {
-      console.error("Failed to update chat title:", error);
-      toast.error("Failed to update chat title");
-    }
-  };
-
-  const handleCancelEdit = () => {
+  const handleCloseEditDialog = useCallback(() => {
     setEditingChat(null);
-    setEditTitle("");
-  };
+  }, []);
 
   if (allChatsLoading) {
     return (
@@ -161,38 +135,7 @@ export function RecentChatsList({
         );
       })}
 
-      {/* Edit Chat Title Dialog */}
-      <Dialog open={editingChat !== null} onOpenChange={(open) => !open && handleCancelEdit()}>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>{tActions("edit")} {t("chatTitle")}</DialogTitle>
-            <DialogDescription>
-              {t("editChatTitleDescription")}
-            </DialogDescription>
-          </DialogHeader>
-          <div className="py-4">
-            <Input
-              value={editTitle}
-              onChange={(e) => setEditTitle(e.target.value)}
-              placeholder={t("chatTitlePlaceholder")}
-              autoFocus
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && editTitle.trim()) {
-                  void handleSaveEdit();
-                }
-              }}
-            />
-          </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={handleCancelEdit}>
-              {tActions("cancel")}
-            </Button>
-            <Button onClick={handleSaveEdit} disabled={!editTitle.trim()}>
-              {tActions("save")}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <EditChatTitleDialog chat={editingChat} onClose={handleCloseEditDialog} />
     </div>
   );
 }

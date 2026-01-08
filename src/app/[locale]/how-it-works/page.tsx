@@ -25,16 +25,53 @@ type Props = {
   params: Promise<{ locale: string }>;
 };
 
+const localeToOgLocale: Record<string, string> = {
+  en: "en_US",
+  ko: "ko_KR",
+  ja: "ja_JP",
+};
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "howItWorks" });
 
+  const baseUrl = "https://opentamago.vercel.app";
+  const localePath = locale === "en" ? "" : `/${locale}`;
+  const canonicalUrl = `${baseUrl}${localePath}/how-it-works`;
+  const ogLocale = localeToOgLocale[locale] ?? "en_US";
+
+  const title = t("meta.title");
+  const description = t("meta.description");
+
   return {
-    title: t("meta.title"),
-    description: t("meta.description"),
+    title,
+    description,
+    keywords: [
+      "CharX tutorial",
+      "P2P sharing guide",
+      "multi-character chat guide",
+      "AI character tutorial",
+      "WebRTC tutorial",
+      "how to use CharX",
+      "OpenTamago guide",
+    ],
+    alternates: {
+      canonical: canonicalUrl,
+      languages: {
+        en: `${baseUrl}/how-it-works`,
+        ko: `${baseUrl}/ko/how-it-works`,
+        ja: `${baseUrl}/ja/how-it-works`,
+        "x-default": `${baseUrl}/how-it-works`,
+      },
+    },
     openGraph: {
-      title: t("meta.title"),
-      description: t("meta.description"),
+      title: `${title} | OpenTamago`,
+      description,
+      locale: ogLocale,
+    },
+    twitter: {
+      title: `${title} | OpenTamago`,
+      description,
     },
   };
 }

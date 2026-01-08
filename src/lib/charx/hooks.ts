@@ -1,47 +1,12 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { parseCharXAsync, assetToDataUrl } from "./parser";
+import { parseCharXAsync } from "./parser";
 import type { ParsedCharX, CharacterCardV3 } from "./types";
 import type { CharacterDocument, LorebookEntryDocument, CharacterAssetDocument } from "~/lib/db/schemas";
 import { convertToWebP, uint8ArrayToBlob, detectImageMimeType } from "~/lib/image-utils";
 
 export type CharacterInput = Omit<CharacterDocument, "id" | "createdAt" | "updatedAt">;
-
-/**
- * Extract avatar data URL from parsed charx assets (legacy)
- * Falls back to the first image asset if no icon is found
- * @deprecated Use extractAvatarAsBlob instead for better performance
- */
-export function extractAvatarFromCharX(parsed: ParsedCharX): string | undefined {
-  if (!parsed.card) return undefined;
-
-  const cardData = parsed.card.data;
-  let assetData: Uint8Array | undefined;
-  let uri: string | undefined;
-
-  // First, try to find an icon asset
-  const iconAsset = cardData.assets?.find((a) => a.type === "icon" && a.uri);
-  if (iconAsset) {
-    uri = iconAsset.uri.replace("embeded://", "");
-    assetData = parsed.assets.get(uri);
-  }
-
-  // If no icon found, use the first image asset as fallback
-  if (!assetData && parsed.assets.size > 0) {
-    const firstAsset = parsed.assets.entries().next().value;
-    if (firstAsset) {
-      uri = firstAsset[0];
-      assetData = firstAsset[1];
-    }
-  }
-
-  if (assetData && uri) {
-    return assetToDataUrl(assetData, uri) ?? undefined;
-  }
-
-  return undefined;
-}
 
 /**
  * Extract and convert avatar to WebP from parsed charx assets

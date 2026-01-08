@@ -2,7 +2,12 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import type { DataConnection } from "peerjs";
-import { P2P_CONFIG, decodeMessage } from "~/lib/p2p";
+import {
+  P2P_CONFIG,
+  decodeMessage,
+  generateChallenge,
+  computeChallengeResponse,
+} from "~/lib/p2p";
 import type { Message } from "~/lib/p2p";
 
 export type ConnectionStatus =
@@ -41,6 +46,8 @@ export function useUploaderConnections({
   );
   const [totalDownloads, setTotalDownloads] = useState(0);
   const activeTransfers = useRef<Map<string, boolean>>(new Map());
+  // Store challenges per connection for password verification
+  const connectionChallenges = useRef<Map<string, string>>(new Map());
 
   const updateConnection = useCallback(
     (id: string, updates: Partial<UploaderConnection>) => {
@@ -125,7 +132,10 @@ export function useUploaderConnections({
           });
 
           if (password) {
-            conn.send({ type: "PasswordRequired" });
+            // Generate and store challenge for this connection
+            const challenge = generateChallenge();
+            connectionChallenges.current.set(connId, challenge);
+            conn.send({ type: "PasswordRequired", challenge });
           } else if (file) {
             conn.send({
               type: "Info",
@@ -139,20 +149,47 @@ export function useUploaderConnections({
           break;
 
         case "UsePassword":
-          if (message.password === password) {
-            updateConnection(connId, { status: "ready" });
-            if (file) {
+          {
+            // Verify challenge-response
+            const challenge = connectionChallenges.current.get(connId);
+            if (!challenge || !password) {
               conn.send({
-                type: "Info",
-                file: {
-                  name: file.name,
-                  size: file.size,
-                  type: file.type,
-                },
+                type: "PasswordRequired",
+                challenge: generateChallenge(),
+                error: "Authentication error",
               });
+              break;
             }
-          } else {
-            conn.send({ type: "PasswordRequired", error: "Invalid password" });
+
+            // Compute expected response and compare
+            computeChallengeResponse(password, challenge).then(
+              (expectedResponse) => {
+                if (message.response === expectedResponse) {
+                  // Clear challenge after successful auth
+                  connectionChallenges.current.delete(connId);
+                  updateConnection(connId, { status: "ready" });
+                  if (file) {
+                    conn.send({
+                      type: "Info",
+                      file: {
+                        name: file.name,
+                        size: file.size,
+                        type: file.type,
+                      },
+                    });
+                  }
+                } else {
+                  // Generate new challenge for retry
+                  const newChallenge = generateChallenge();
+                  connectionChallenges.current.set(connId, newChallenge);
+                  conn.send({
+                    type: "PasswordRequired",
+                    challenge: newChallenge,
+                    error: "Invalid password",
+                  });
+                }
+              }
+            );
           }
           break;
 

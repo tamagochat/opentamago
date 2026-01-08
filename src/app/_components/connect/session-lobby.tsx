@@ -1,23 +1,23 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, memo } from "react";
 import { useTranslations } from "next-intl";
 import QRCode from "react-qr-code";
 import { toast } from "sonner";
-import { Copy, Check, Users, Play, Loader2 } from "lucide-react";
+import { Copy, Check, Play } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
-import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
-import { Badge } from "~/components/ui/badge";
 import { Card } from "~/components/ui/card";
-import { cn } from "~/lib/utils";
+import { ParticipantList } from "./participant-list";
+import { LeaveConfirmDialog } from "./leave-confirm-dialog";
 import type { Participant } from "./hooks/use-connect-peers";
 import type { CharacterData } from "~/lib/connect/messages";
 
 interface SessionLobbyProps {
   shortSlug: string;
   longSlug: string | null;
+  myPeerId?: string;
   myCharacter: CharacterData;
   participants: Participant[];
   isHost: boolean;
@@ -26,9 +26,10 @@ interface SessionLobbyProps {
   onLeave: () => void;
 }
 
-export function SessionLobby({
+export const SessionLobby = memo(function SessionLobby({
   shortSlug,
   longSlug,
+  myPeerId,
   myCharacter,
   participants,
   isHost,
@@ -39,18 +40,7 @@ export function SessionLobby({
   const t = useTranslations("connect");
   const [copiedShort, setCopiedShort] = useState(false);
   const [copiedLong, setCopiedLong] = useState(false);
-
-  // Debug: Log participants data
-  console.log("[SessionLobby] Rendering with participants:", participants);
-  participants.forEach((p) => {
-    console.log(`[SessionLobby] Participant [${p.peerId.slice(0, 8)}]:`, {
-      peerId: p.peerId,
-      status: p.status,
-      hasCharacter: !!p.character,
-      characterName: p.character?.name,
-      hasAvatar: !!p.character?.avatar,
-    });
-  });
+  const [showLeaveConfirm, setShowLeaveConfirm] = useState(false);
 
   const baseUrl = typeof window !== "undefined" ? window.location.origin : "";
   const shortUrl = `${baseUrl}/p2p/connect/${shortSlug}`;
@@ -76,9 +66,12 @@ export function SessionLobby({
     [t]
   );
 
-  // Total participants including self
-  const totalParticipants = participants.length + 1;
-  const canStart = totalParticipants >= 2;
+  // Count ready participants (those with characters) including self
+  const readyParticipants = participants.filter(
+    (p) => p.status === "ready" && p.character !== null
+  );
+  const totalReadyCount = readyParticipants.length + 1; // +1 for self
+  const canStart = totalReadyCount >= 2;
 
   return (
     <div className="w-full max-w-2xl mx-auto space-y-6">
@@ -154,108 +147,20 @@ export function SessionLobby({
       )}
 
       {/* Participants */}
-      <Card className="p-6">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="font-semibold flex items-center gap-2">
-            <Users className="h-4 w-4" />
-            {t("lobby.participants")}
-          </h3>
-          <Badge variant="secondary">{totalParticipants} / 8</Badge>
-        </div>
-
-        <div className="space-y-3">
-          {/* Self */}
-          <Card className="flex items-center gap-3 p-3 bg-primary/5 border-primary/20 overflow-hidden">
-            <Avatar className="h-14 w-14 shrink-0">
-              <AvatarImage src={myCharacter.avatar} />
-              <AvatarFallback className="text-lg font-semibold">
-                {myCharacter.name.slice(0, 2).toUpperCase()}
-              </AvatarFallback>
-            </Avatar>
-            <div className="flex-1 min-w-0 overflow-hidden">
-              <p className="font-semibold text-base leading-tight truncate">{myCharacter.name}</p>
-              <p className="text-sm text-muted-foreground leading-tight truncate">
-                {t("lobby.you")}
-                {isHost && ` • ${t("lobby.host")}`}
-              </p>
-            </div>
-          </Card>
-
-          {/* Other participants */}
-          {participants.map((participant) => (
-            <Card
-              key={participant.peerId}
-              className={cn(
-                "flex items-center gap-3 p-3 transition-colors overflow-hidden",
-                participant.status === "ready"
-                  ? "hover:bg-accent border-border"
-                  : "border-dashed opacity-70"
-              )}
-            >
-              {participant.status === "ready" && participant.character ? (
-                <>
-                  <Avatar className="h-14 w-14 shrink-0">
-                    <AvatarImage src={participant.character.avatar} />
-                    <AvatarFallback className="text-lg font-semibold">
-                      {participant.character.name.slice(0, 2).toUpperCase()}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="flex-1 min-w-0 overflow-hidden">
-                    <p className="font-semibold text-base leading-tight truncate">
-                      {participant.character.name || "[Name Missing]"}
-                    </p>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="h-14 w-14 shrink-0 rounded-full bg-muted flex items-center justify-center">
-                    {participant.status === "connecting" ? (
-                      <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
-                    ) : (
-                      <Users className="h-6 w-6 text-muted-foreground" />
-                    )}
-                  </div>
-                  <div className="flex-1 min-w-0 overflow-hidden">
-                    <p className="text-sm text-muted-foreground truncate">
-                      {participant.status === "connecting"
-                        ? t("lobby.connecting")
-                        : t("lobby.selectingCharacter")}
-                    </p>
-                  </div>
-                </>
-              )}
-            </Card>
-          ))}
-
-          {/* Waiting indicator */}
-          {isConnecting && (
-            <Card className="flex items-center gap-3 p-3 border-dashed">
-              <div className="h-14 w-14 rounded-full bg-muted flex items-center justify-center">
-                <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
-              </div>
-              <p className="text-sm text-muted-foreground">
-                {t("lobby.connecting")}
-              </p>
-            </Card>
-          )}
-
-          {/* Waiting for others */}
-          {!isConnecting && participants.length === 0 && (
-            <Card className="flex items-center gap-3 p-3 border-dashed">
-              <div className="h-14 w-14 rounded-full bg-muted flex items-center justify-center">
-                <Users className="h-6 w-6 text-muted-foreground" />
-              </div>
-              <p className="text-sm text-muted-foreground">
-                {t("lobby.waitingForOthers")}
-              </p>
-            </Card>
-          )}
-        </div>
-      </Card>
+      <ParticipantList
+        myPeerId={myPeerId ?? "self"}
+        myCharacter={myCharacter}
+        participants={participants}
+        isHost={isHost}
+        isConnecting={isConnecting}
+        variant="lobby"
+        showPending={true}
+        maxParticipants={8}
+      />
 
       {/* Actions */}
       <div className="flex gap-3">
-        <Button variant="outline" onClick={onLeave} className="flex-1">
+        <Button variant="outline" onClick={() => setShowLeaveConfirm(true)} className="flex-1">
           {t("lobby.leave")}
         </Button>
         <Button
@@ -273,6 +178,12 @@ export function SessionLobby({
           {t("lobby.needMoreParticipants")}
         </p>
       )}
+
+      <LeaveConfirmDialog
+        open={showLeaveConfirm}
+        onOpenChange={setShowLeaveConfirm}
+        onConfirm={onLeave}
+      />
     </div>
   );
-}
+});

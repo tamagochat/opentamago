@@ -151,11 +151,14 @@ export async function* streamChatResponse(
     signal,
   } = options;
 
+  console.log("[AI/Client] streamChatResponse called", { model, isClientMode, hasApiKey: !!apiKey });
+
   const google = getAIProvider(apiKey, isClientMode);
   const geminiSafetySettings = safetySettings
     ? toGeminiSafetySettings(safetySettings)
     : [...DEFAULT_SAFETY_SETTINGS_ARRAY];
 
+  console.log("[AI/Client] Calling streamText...");
   const result = streamText({
     model: google(model),
     messages,
@@ -168,16 +171,26 @@ export async function* streamChatResponse(
     },
     abortSignal: signal,
   });
+  console.log("[AI/Client] streamText returned, iterating textStream...");
 
   // Collect all chunks to ensure complete response
   const chunks: string[] = [];
+  let chunkIndex = 0;
   for await (const chunk of result.textStream) {
+    if (chunkIndex === 0) {
+      console.log("[AI/Client] First chunk received from textStream");
+    }
+    chunkIndex++;
     chunks.push(chunk);
     yield chunk;
   }
 
-  // Wait for the stream to fully complete
-  await result.text;
+  console.log(`[AI/Client] textStream complete. Total chunks: ${chunkIndex}`);
+
+  // Note: We don't await result.text here because:
+  // 1. We already collected all chunks from textStream
+  // 2. result.text can hang in edge cases (network issues, partial failures)
+  // 3. The textStream completing is sufficient for our use case
 
   return chunks.join("");
 }

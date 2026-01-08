@@ -3,7 +3,7 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import type { DataConnection } from "peerjs";
 import { browserName, osName } from "react-device-detect";
-import { decodeMessage, P2P_CONFIG } from "~/lib/p2p";
+import { decodeMessage, P2P_CONFIG, computeChallengeResponse } from "~/lib/p2p";
 import type { InfoMessage } from "~/lib/p2p";
 
 export type DownloadState =
@@ -34,6 +34,8 @@ export function useDownloader({ peer, uploaderPeerId }: UseDownloaderOptions) {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const stallTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const finalReceivedRef = useRef(false);
+  // Store challenge for password authentication
+  const challengeRef = useRef<string | null>(null);
 
   // Reset stall timeout during active download
   const resetStallTimeout = useCallback(() => {
@@ -184,6 +186,8 @@ export function useDownloader({ peer, uploaderPeerId }: UseDownloaderOptions) {
 
       switch (message.type) {
         case "PasswordRequired":
+          // Store challenge for computing response
+          challengeRef.current = message.challenge;
           if (message.error) {
             setState("password-error");
           } else {
@@ -257,11 +261,18 @@ export function useDownloader({ peer, uploaderPeerId }: UseDownloaderOptions) {
     }, P2P_CONFIG.CONNECTION_TIMEOUT);
   }, [peer, uploaderPeerId, triggerDownload]);
 
-  const submitPassword = useCallback((password: string) => {
-    if (!connectionRef.current) return;
+  const submitPassword = useCallback(async (password: string) => {
+    if (!connectionRef.current || !challengeRef.current) return;
+
+    // Compute hash response using password + challenge
+    const response = await computeChallengeResponse(
+      password,
+      challengeRef.current
+    );
+
     connectionRef.current.send({
       type: "UsePassword",
-      password,
+      response,
     });
   }, []);
 

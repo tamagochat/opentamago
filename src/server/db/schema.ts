@@ -10,27 +10,6 @@ import { type AdapterAccount } from "next-auth/adapters";
  */
 export const createTable = pgTableCreator((name) => `opentamago_${name}`);
 
-export const posts = createTable(
-  "post",
-  (d) => ({
-    id: d.integer().primaryKey().generatedByDefaultAsIdentity(),
-    name: d.varchar({ length: 256 }),
-    createdById: d
-      .varchar({ length: 255 })
-      .notNull()
-      .references(() => users.id),
-    createdAt: d
-      .timestamp({ withTimezone: true })
-      .$defaultFn(() => /* @__PURE__ */ new Date())
-      .notNull(),
-    updatedAt: d.timestamp({ withTimezone: true }).$onUpdate(() => new Date()),
-  }),
-  (t) => [
-    index("created_by_idx").on(t.createdById),
-    index("name_idx").on(t.name),
-  ]
-);
-
 export const users = createTable("user", (d) => ({
   id: d
     .varchar({ length: 255 })
@@ -157,6 +136,7 @@ export const connectSessions = createTable(
     longSlug: d.varchar({ length: 128 }).notNull().unique(),
     hostPeerId: d.varchar({ length: 64 }).notNull(),
     hostUserId: d.varchar({ length: 255 }).references(() => users.id),
+    passwordHash: d.varchar({ length: 128 }), // Optional bcrypt hash for password protection
     maxParticipants: d.integer().default(8),
     isPublic: d.boolean().default(false),
     expiresAt: d.timestamp({ withTimezone: true }).notNull(),

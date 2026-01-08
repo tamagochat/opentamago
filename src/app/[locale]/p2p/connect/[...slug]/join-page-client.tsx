@@ -2,10 +2,11 @@
 
 import { useState, useCallback, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
-import { Loader2, AlertCircle, Users } from "lucide-react";
+import { Loader2, AlertCircle, Users, Lock } from "lucide-react";
 import { toast } from "sonner";
 import { MainLayout } from "~/components/layout";
 import { WebRTCProvider, useWebRTCPeer } from "~/app/_components/p2p/webrtc-provider";
+import { PasswordInput, type PasswordInputRef } from "~/app/_components/p2p/password-input";
 import {
   CharacterSelector,
   SessionLobby,
@@ -15,14 +16,17 @@ import {
   useConnectPeers,
   useAutoReply,
 } from "~/app/_components/connect";
+import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { useSettings } from "~/lib/db/hooks";
 import { SettingsModal } from "~/components/settings-modal";
 import { Button } from "~/components/ui/button";
 import { Link } from "~/i18n/routing";
 import type { CharacterData } from "~/lib/connect/messages";
+import { ExperimentalDisclaimer } from "~/components/experimental-disclaimer";
 
 type JoinState =
   | "selecting" // Choosing character
+  | "confirm" // Confirming character (with optional password entry)
   | "joining" // Joining session
   | "lobby" // In waiting room
   | "chatting" // Active chat
@@ -39,6 +43,7 @@ interface JoinPageContentProps {
     isHost: boolean | null;
   }>;
   isFull: boolean;
+  hasPassword: boolean;
 }
 
 function JoinPageContent({
@@ -46,14 +51,19 @@ function JoinPageContent({
   hostPeerId,
   initialParticipants,
   isFull,
+  hasPassword,
 }: JoinPageContentProps) {
   const t = useTranslations("connect");
+  const tP2p = useTranslations("p2p");
   const { peer, peerId, isConnecting: peerConnecting, error: peerError } = useWebRTCPeer();
   const { settings, isApiReady, effectiveApiKey, isClientMode } = useSettings();
 
   const [state, setState] = useState<JoinState>(isFull ? "full" : "selecting");
   const [selectedCharacter, setSelectedCharacter] = useState<CharacterData | null>(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [passwordError, setPasswordError] = useState<string | null>(null);
+  const [sessionError, setSessionError] = useState<string | null>(null);
+  const passwordInputRef = useRef<PasswordInputRef>(null);
 
   // Session management
   const {
@@ -68,11 +78,14 @@ function JoinPageContent({
     isHost: false,
     slug,
     onSessionJoined: () => {
+      setSessionError(null);
       setState("lobby");
     },
     onError: (error) => {
       toast.error(error);
-      setState("error");
+      setSessionError(error);
+      // Stay in confirm state to allow retrying
+      setState("confirm");
     },
   });
 
@@ -194,7 +207,7 @@ function JoinPageContent({
     prevThinkingPeersRef.current = thinkingPeers;
   }, [thinkingPeers, handleThinkingEvent]);
 
-  // Handle character selection
+  // Handle character selection - go to confirm step if password required
   const handleCharacterSelect = useCallback(
     async (character: CharacterData) => {
       // Check if API is ready before joining
@@ -210,6 +223,14 @@ function JoinPageContent({
       }
 
       setSelectedCharacter(character);
+
+      // If session has password, go to confirm step first
+      if (hasPassword) {
+        setState("confirm");
+        return;
+      }
+
+      // No password, join directly
       setState("joining");
 
       // Wait for peer connection
@@ -222,8 +243,52 @@ function JoinPageContent({
       // Pass character directly to avoid React state timing issues
       await joinSession(character);
     },
-    [peerId, joinSession, t, isApiReady]
+    [peerId, joinSession, t, isApiReady, hasPassword]
   );
+
+  // Handle cancel from confirm step
+  const handleCancelConfirm = useCallback(() => {
+    setSelectedCharacter(null);
+    setPasswordError(null);
+    setSessionError(null);
+    passwordInputRef.current?.reset();
+    setState("selecting");
+  }, []);
+
+  // Handle join from confirm step (with password)
+  const handleJoinWithPassword = useCallback(async () => {
+    if (!selectedCharacter) return;
+
+    // Wait for peer connection
+    if (!peerId) {
+      toast.error(t("errors.noPeer"));
+      return;
+    }
+
+    const password = passwordInputRef.current?.getValue() || "";
+    if (hasPassword && !password) {
+      setPasswordError(t("join.passwordRequired"));
+      return;
+    }
+
+    setState("joining");
+    setPasswordError(null);
+    setSessionError(null);
+
+    try {
+      await joinSession(selectedCharacter, password);
+    } catch (error) {
+      // Check if it's a password error
+      const message = error instanceof Error ? error.message : "Unknown error";
+      if (message.includes("Invalid password") || message.includes("Password required")) {
+        setPasswordError(t("join.passwordError"));
+      } else {
+        setSessionError(message);
+      }
+      // Stay in confirm state to allow retrying
+      setState("confirm");
+    }
+  }, [peerId, selectedCharacter, joinSession, t, hasPassword]);
 
   // Handle start chat
   const handleStartChat = useCallback(() => {
@@ -283,6 +348,9 @@ function JoinPageContent({
     );
   }
 
+  // Determine if user has joined (lobby or chatting state)
+  const hasJoined = state === "lobby" || state === "chatting";
+
   return (
     <>
       {/* Header */}
@@ -293,8 +361,12 @@ function JoinPageContent({
               <Users className="h-5 w-5 text-primary" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold">{t("join.title")}</h1>
-              <p className="text-sm text-muted-foreground">{t("join.subtitle")}</p>
+              <h1 className="text-2xl font-bold">
+                {hasJoined ? t("title") : t("join.title")}
+              </h1>
+              <p className="text-sm text-muted-foreground">
+                {hasJoined ? t("subtitle") : t("join.subtitle")}
+              </p>
             </div>
           </div>
           <SettingsModal open={settingsOpen} onOpenChange={setSettingsOpen} />
@@ -306,6 +378,8 @@ function JoinPageContent({
         )}
       </div>
 
+      {hasJoined && <ExperimentalDisclaimer type="p2p" />}
+
       {/* Main Content */}
       {state === "selecting" && (
         <CharacterSelector
@@ -313,6 +387,67 @@ function JoinPageContent({
           isLoading={peerConnecting}
           onOpenSettings={() => setSettingsOpen(true)}
         />
+      )}
+
+      {state === "confirm" && selectedCharacter && (
+        <div className="w-full max-w-md mx-auto space-y-6">
+          <div className="rounded-lg border bg-muted/30 p-4">
+            {hasPassword && (
+              <div className="flex items-center gap-2 mb-4">
+                <Lock className="h-4 w-4 text-primary" />
+                <p className="text-sm font-medium">{t("join.passwordProtected")}</p>
+              </div>
+            )}
+            <div className="flex items-center gap-4 p-4 rounded-lg border bg-background">
+              <Avatar className="h-16 w-16">
+                {selectedCharacter.avatar ? (
+                  <AvatarImage src={selectedCharacter.avatar} alt={selectedCharacter.name} />
+                ) : null}
+                <AvatarFallback className="text-lg">
+                  {selectedCharacter.name[0]?.toUpperCase() || "?"}
+                </AvatarFallback>
+              </Avatar>
+              <div className="flex-1 min-w-0">
+                <h3 className="font-semibold truncate">{selectedCharacter.name}</h3>
+                {selectedCharacter.description && (
+                  <p className="text-sm text-muted-foreground line-clamp-2">
+                    {selectedCharacter.description}
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {hasPassword && (
+            <PasswordInput
+              ref={passwordInputRef}
+              label={t("join.enterPassword")}
+              placeholder={tP2p("download.passwordPlaceholder")}
+              hint={t("join.passwordHintJoin")}
+            />
+          )}
+
+          {(passwordError || sessionError) && (
+            <p className="text-sm text-destructive">{passwordError || sessionError}</p>
+          )}
+
+          {peerError && (
+            <p className="text-sm text-destructive">{peerError}</p>
+          )}
+
+          <div className="flex gap-3">
+            <Button variant="outline" onClick={handleCancelConfirm} className="flex-1">
+              {tP2p("cancel")}
+            </Button>
+            <Button
+              onClick={handleJoinWithPassword}
+              disabled={peerConnecting || isJoining || !peerId}
+              className="flex-1"
+            >
+              {peerConnecting || isJoining ? t("joining") : t("join.joinButton")}
+            </Button>
+          </div>
+        </div>
       )}
 
       {state === "joining" && (

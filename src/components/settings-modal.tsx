@@ -234,6 +234,18 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
                             Google AI Studio
                           </a>
                         </p>
+                        <p className="text-muted-foreground text-xs mt-2 p-2 bg-muted/50 rounded-md">
+                          <strong>Note:</strong> Currently only Gemini API is supported for testing. For other providers (OpenAI, Claude, etc.),{" "}
+                          <a
+                            href="https://github.com/anthropics/claude-code/issues"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-primary underline"
+                          >
+                            please create an issue
+                          </a>
+                          .
+                        </p>
                       </div>
                     )}
 
@@ -487,6 +499,18 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
                             >
                               Google AI Studio
                             </a>
+                          </p>
+                          <p className="text-muted-foreground text-xs mt-2 p-2 bg-muted/50 rounded-md">
+                            <strong>Note:</strong> Currently only Gemini API is supported for testing. For other providers (OpenAI, Claude, etc.),{" "}
+                            <a
+                              href="https://github.com/anthropics/claude-code/issues"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-primary underline"
+                            >
+                              please create an issue
+                            </a>
+                            .
                           </p>
                         </div>
                       )}

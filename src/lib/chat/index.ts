@@ -24,8 +24,4 @@ export type {
   ChatGenerationContext,
 } from "./types";
 
-export {
-  buildMessengerPrompt,
-  validateChatBubbleResponse,
-  extractJsonFromResponse,
-} from "./prompt-builder";
+export { buildMessengerPrompt } from "./prompt-builder";

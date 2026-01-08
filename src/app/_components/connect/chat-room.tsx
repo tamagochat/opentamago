@@ -1,10 +1,9 @@
 "use client";
 
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useState, useCallback, useRef, useEffect, memo } from "react";
 import { useTranslations } from "next-intl";
-import { Send, Loader2, LogOut, ArrowLeft } from "lucide-react";
+import { Loader2, LogOut, ArrowLeft } from "lucide-react";
 import { Button } from "~/components/ui/button";
-import { Input } from "~/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Badge } from "~/components/ui/badge";
 import { ScrollArea } from "~/components/ui/scroll-area";
@@ -12,6 +11,9 @@ import { Switch } from "~/components/ui/switch";
 import { Label } from "~/components/ui/label";
 import { Card } from "~/components/ui/card";
 import { cn } from "~/lib/utils";
+import { ParticipantList } from "./participant-list";
+import { LeaveConfirmDialog } from "./leave-confirm-dialog";
+import { ChatRoomInput } from "./chat-room-input";
 import type { Participant, ChatItemType } from "./hooks/use-connect-peers";
 import type { CharacterData, CharacterInfo, ChatMessageType, SystemMessageType } from "~/lib/connect/messages";
 
@@ -29,7 +31,7 @@ interface ChatRoomProps {
   onLeave: () => void;
 }
 
-export function ChatRoom({
+export const ChatRoom = memo(function ChatRoom({
   myPeerId,
   myCharacter,
   participants,
@@ -43,32 +45,14 @@ export function ChatRoom({
   onLeave,
 }: ChatRoomProps) {
   const t = useTranslations("connect");
-  const [input, setInput] = useState("");
+  const [showLeaveConfirm, setShowLeaveConfirm] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
 
   // Auto-scroll to bottom on new messages or thinking status change
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, thinkingPeers]);
-
-  const handleSend = useCallback(() => {
-    if (!input.trim()) return;
-    onSendMessage(input.trim(), true);
-    setInput("");
-    inputRef.current?.focus();
-  }, [input, onSendMessage]);
-
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent) => {
-      if (e.key === "Enter" && !e.shiftKey) {
-        e.preventDefault();
-        handleSend();
-      }
-    },
-    [handleSend]
-  );
 
   // Get character for a message (returns full CharacterData for self, CharacterInfo for others)
   const getCharacterForMessage = (
@@ -79,18 +63,10 @@ export function ChatRoom({
     return participant?.character ?? undefined;
   };
 
-  // Split participants into active (with character) and pending (without)
-  // Note: myCharacter is CharacterData (full), others are CharacterInfo (minimal - name and avatar only)
-  const activeParticipants: Array<{ peerId: string; character: CharacterData | CharacterInfo }> = [
-    { peerId: myPeerId, character: myCharacter },
-    ...participants
-      .filter((p) => p.status === "ready" && p.character !== null)
-      .map((p) => ({ peerId: p.peerId, character: p.character! })),
-  ];
-
-  const pendingParticipants = participants.filter(
-    (p) => p.status === "pending" || p.status === "connecting"
-  );
+  // Count active participants for header badge
+  const activeCount = participants.filter(
+    (p) => p.status === "ready" && p.character !== null
+  ).length + 1; // +1 for self
 
   return (
     <div className="flex h-[calc(100vh-12rem)] w-full max-w-4xl mx-auto gap-4">
@@ -111,7 +87,7 @@ export function ChatRoom({
             )}
             <h2 className="font-semibold">{t("chat.title")}</h2>
             <Badge variant="secondary">
-              {activeParticipants.length} {t("chat.participants")}
+              {activeCount} {t("chat.participants")}
             </Badge>
           </div>
           <div className="flex items-center gap-4">
@@ -125,7 +101,7 @@ export function ChatRoom({
                 {t("chat.autoReply")}
               </Label>
             </div>
-            <Button variant="ghost" size="sm" onClick={onLeave}>
+            <Button variant="ghost" size="sm" onClick={() => setShowLeaveConfirm(true)}>
               <LogOut className="h-4 w-4" />
             </Button>
           </div>
@@ -251,85 +227,29 @@ export function ChatRoom({
           </div>
         </ScrollArea>
 
-        {/* Input */}
-        <div className="p-4 border-t">
-          <div className="flex gap-2">
-            <Input
-              ref={inputRef}
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder={t("chat.placeholder", { name: myCharacter.name })}
-              className="flex-1"
-            />
-            <Button onClick={handleSend} disabled={!input.trim()}>
-              <Send className="h-4 w-4" />
-            </Button>
-          </div>
-        </div>
+        {/* Input - Isolated component to prevent re-renders when typing */}
+        <ChatRoomInput
+          placeholder={t("chat.placeholder", { name: myCharacter.name })}
+          onSendMessage={onSendMessage}
+        />
       </Card>
 
       {/* Participants Sidebar */}
       <Card className="hidden md:flex w-48 flex-col p-4 overflow-hidden">
-        {/* Active Participants */}
-        <div className="flex items-center gap-2 mb-3">
-          <h3 className="font-semibold">{t("chat.active")}</h3>
-          <Badge variant="secondary" className="text-xs">
-            {activeParticipants.length}
-          </Badge>
-        </div>
-        <div className="space-y-2 flex-1 overflow-y-auto">
-          {activeParticipants.map((p) => (
-            <div key={p.peerId} className="flex items-center gap-2">
-              <Avatar className="h-8 w-8">
-                <AvatarImage src={p.character.avatar} />
-                <AvatarFallback className="text-xs">
-                  {p.character.name.slice(0, 2).toUpperCase()}
-                </AvatarFallback>
-              </Avatar>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium truncate">
-                  {p.character.name}
-                </p>
-                {p.peerId === myPeerId && (
-                  <p className="text-xs text-muted-foreground">
-                    {t("lobby.you")}
-                  </p>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Pending Participants */}
-        {pendingParticipants.length > 0 && (
-          <div className="mt-4 pt-4 border-t">
-            <div className="flex items-center gap-2 mb-2">
-              <h4 className="text-sm font-medium text-muted-foreground">
-                {t("chat.pending")}
-              </h4>
-              <Badge variant="outline" className="text-xs">
-                {pendingParticipants.length}
-              </Badge>
-            </div>
-            <div className="space-y-2">
-              {pendingParticipants.map((p) => (
-                <div
-                  key={p.peerId}
-                  className="flex items-center gap-2 text-muted-foreground"
-                >
-                  <div className="h-8 w-8 rounded-full bg-muted flex items-center justify-center">
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                  </div>
-                  <span className="text-xs truncate">
-                    {t("lobby.selectingCharacter")}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+        <ParticipantList
+          myPeerId={myPeerId}
+          myCharacter={myCharacter}
+          participants={participants}
+          variant="sidebar"
+          showPending={true}
+        />
       </Card>
+
+      <LeaveConfirmDialog
+        open={showLeaveConfirm}
+        onOpenChange={setShowLeaveConfirm}
+        onConfirm={onLeave}
+      />
     </div>
   );
-}
+});

@@ -626,6 +626,11 @@
     },
     "creating": "セッションを作成中...",
     "joining": "セッションに参加中...",
+    "confirm": {
+      "subtitle": "キャラを確認して、必要ならパスワードを設定してね。",
+      "passwordHint": "他の人がセッションに参加するには、このパスワードが必要だよ。",
+      "start": "セッションを作成"
+    },
     "lobby": {
       "title": "待機室",
       "hostDescription": "下のリンクを共有して友達を招待しよう",
@@ -658,6 +663,11 @@
       "userJoined": "{name}が入ってきたよ",
       "userLeft": "{name}が退出したよ"
     },
+    "leaveConfirm": {
+      "title": "セッションを退出しますか？",
+      "description": "すべての参加者との接続が切断され、チャットから退出します。",
+      "confirm": "退出"
+    },
     "join": {
       "meta": {
         "title": "セッションに参加",
@@ -665,7 +675,13 @@
       },
       "title": "セッションに参加",
       "subtitle": "チャットに参加するキャラを選んでね",
-      "currentParticipants": "今{count}人が参加中だよ"
+      "currentParticipants": "今{count}人が参加中だよ",
+      "passwordProtected": "このセッションはパスワードが必要だよ",
+      "enterPassword": "パスワード",
+      "passwordHintJoin": "ホストが共有したパスワードを入力してね。",
+      "passwordRequired": "参加するにはパスワードが必要だよ",
+      "passwordError": "パスワードが違うよ。もう一度試してみて?",
+      "joinButton": "セッションに参加"
     },
     "notifications": {
       "joined": "{name}が入ってきたよ",

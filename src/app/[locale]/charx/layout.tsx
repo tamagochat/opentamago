@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "charx" });
 
-  const baseUrl = "https://opentamago.com";
+  const baseUrl = "https://opentamago.vercel.app";
   const localePath = locale === "en" ? "" : `/${locale}`;
   const canonicalUrl = `${baseUrl}${localePath}/charx`;
   const ogLocale = localeToOgLocale[locale] ?? "en_US";
@@ -33,6 +33,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       "lorebook viewer",
       "RisuAI",
       "AI character",
+      "character assets",
+      "browser-based",
+      "privacy-first",
+      "offline viewer",
+      "local processing",
     ],
     alternates: {
       canonical: canonicalUrl,
@@ -40,6 +45,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         en: `${baseUrl}/charx`,
         ko: `${baseUrl}/ko/charx`,
         ja: `${baseUrl}/ja/charx`,
+        "x-default": `${baseUrl}/charx`,
       },
     },
     openGraph: {

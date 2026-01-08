@@ -6,16 +6,54 @@ type PageProps = {
   params: Promise<{ locale: string }>;
 };
 
+const localeToOgLocale: Record<string, string> = {
+  en: "en_US",
+  ko: "ko_KR",
+  ja: "ja_JP",
+};
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "connect" });
 
+  const baseUrl = "https://opentamago.vercel.app";
+  const localePath = locale === "en" ? "" : `/${locale}`;
+  const canonicalUrl = `${baseUrl}${localePath}/p2p/connect`;
+  const ogLocale = localeToOgLocale[locale] ?? "en_US";
+
+  const title = t("meta.title");
+  const description = t("meta.description");
+
   return {
-    title: t("meta.title"),
-    description: t("meta.description"),
+    title,
+    description,
+    keywords: [
+      "multi-character chat",
+      "AI character chat",
+      "P2P chat",
+      "WebRTC chat",
+      "character roleplay",
+      "AI auto-reply",
+      "group AI chat",
+      "character session",
+    ],
+    alternates: {
+      canonical: canonicalUrl,
+      languages: {
+        en: `${baseUrl}/p2p/connect`,
+        ko: `${baseUrl}/ko/p2p/connect`,
+        ja: `${baseUrl}/ja/p2p/connect`,
+        "x-default": `${baseUrl}/p2p/connect`,
+      },
+    },
     openGraph: {
-      title: t("meta.title"),
-      description: t("meta.description"),
+      title: `${title} | OpenTamago`,
+      description,
+      locale: ogLocale,
+    },
+    twitter: {
+      title: `${title} | OpenTamago`,
+      description,
     },
   };
 }

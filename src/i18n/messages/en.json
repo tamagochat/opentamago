@@ -626,6 +626,11 @@
     },
     "creating": "Creating session...",
     "joining": "Joining session...",
+    "confirm": {
+      "subtitle": "Review your character and set a password if you want.",
+      "passwordHint": "Others will need this password to join your session.",
+      "start": "Create Session"
+    },
     "lobby": {
       "title": "Waiting Room",
       "hostDescription": "Share the link below to invite others",
@@ -658,6 +663,11 @@
       "userJoined": "{name} joined",
       "userLeft": "{name} left"
     },
+    "leaveConfirm": {
+      "title": "Leave Session?",
+      "description": "You will disconnect from all participants and leave the chat.",
+      "confirm": "Leave"
+    },
     "join": {
       "meta": {
         "title": "Join Session",
@@ -665,7 +675,13 @@
       },
       "title": "Join Session",
       "subtitle": "Pick a character to join with",
-      "currentParticipants": "{count} people already in the session"
+      "currentParticipants": "{count} people already in the session",
+      "passwordProtected": "This session requires a password",
+      "enterPassword": "Password",
+      "passwordHintJoin": "Enter the password shared by the host.",
+      "passwordRequired": "Password is required to join",
+      "passwordError": "Wrong password. Try again?",
+      "joinButton": "Join Session"
     },
     "notifications": {
       "joined": "{name} joined",

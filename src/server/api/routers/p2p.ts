@@ -1,9 +1,12 @@
 import { z } from "zod";
 import { eq, or } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
+import bcrypt from "bcryptjs";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { fileShareChannels } from "~/server/db/schema";
 import { generateShortSlug, generateLongSlug, P2P_CONFIG } from "~/lib/p2p";
+
+const BCRYPT_ROUNDS = 12;
 
 export const p2pRouter = createTRPCRouter({
   // Get PeerJS configuration
@@ -61,16 +64,10 @@ export const p2pRouter = createTRPCRouter({
       const secret = crypto.randomUUID();
       const expiresAt = new Date(Date.now() + P2P_CONFIG.CHANNEL_TTL * 1000);
 
-      // Hash password if provided
+      // Hash password with bcrypt (includes salt automatically)
       let passwordHash: string | null = null;
       if (password) {
-        const encoder = new TextEncoder();
-        const data = encoder.encode(password);
-        const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        passwordHash = hashArray
-          .map((b) => b.toString(16).padStart(2, "0"))
-          .join("");
+        passwordHash = await bcrypt.hash(password, BCRYPT_ROUNDS);
       }
 
       const [channel] = await ctx.db
@@ -225,14 +222,7 @@ export const p2pRouter = createTRPCRouter({
         return { valid: false };
       }
 
-      const encoder = new TextEncoder();
-      const data = encoder.encode(password);
-      const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      const inputHash = hashArray
-        .map((b) => b.toString(16).padStart(2, "0"))
-        .join("");
-
-      return { valid: inputHash === channel.passwordHash };
+      const valid = await bcrypt.compare(password, channel.passwordHash);
+      return { valid };
     }),
 });

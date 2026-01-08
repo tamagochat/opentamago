@@ -1,11 +1,9 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
-import { Lock, Share2 } from "lucide-react";
+import { Share2 } from "lucide-react";
 import { Button } from "~/components/ui/button";
-import { Input } from "~/components/ui/input";
-import { Label } from "~/components/ui/label";
 import {
   Popover,
   PopoverContent,
@@ -19,8 +17,10 @@ import {
   FileInfo,
   ShareLinks,
   ConnectionList,
+  PasswordInput,
   useUploaderChannel,
   useUploaderConnections,
+  type PasswordInputRef,
 } from "~/app/_components/p2p";
 import { consumePendingFile } from "~/lib/stores";
 import { ExperimentalDisclaimer } from "~/components/experimental-disclaimer";
@@ -33,6 +33,7 @@ function P2PContent() {
   const [state, setState] = useState<PageState>("initial");
   const [file, setFile] = useState<File | null>(null);
   const [pendingFileConsumed, setPendingFileConsumed] = useState(false);
+  const passwordInputRef = useRef<PasswordInputRef>(null);
 
   // Check for pending file from charx page on mount
   useEffect(() => {
@@ -44,7 +45,8 @@ function P2PContent() {
       setPendingFileConsumed(true);
     }
   }, [pendingFileConsumed]);
-  const [password, setPassword] = useState("");
+  // Password is only set when sharing starts (to avoid re-renders while typing)
+  const [sharingPassword, setSharingPassword] = useState<string | undefined>(undefined);
   const [channel, setChannel] = useState<{
     shortSlug: string;
     longSlug: string;
@@ -55,14 +57,13 @@ function P2PContent() {
     useUploaderChannel({
       uploaderPeerId: peerId,
       file,
-      password: password || undefined,
       onChannelCreated: setChannel,
     });
 
   const { connections, activeCount, totalDownloads } = useUploaderConnections({
     peer,
     file,
-    password: password || undefined,
+    password: sharingPassword,
   });
 
   const handleFileSelect = useCallback((selectedFile: File) => {
@@ -72,13 +73,17 @@ function P2PContent() {
 
   const handleCancel = useCallback(() => {
     setFile(null);
-    setPassword("");
+    passwordInputRef.current?.reset();
     setState("initial");
   }, []);
 
   const handleStart = useCallback(async () => {
     if (!peerId || !file) return;
-    await createChannel();
+    // Get password from input and pass it directly to createChannel
+    const password = passwordInputRef.current?.getValue() || undefined;
+    // Set password in state for useUploaderConnections hook
+    setSharingPassword(password);
+    await createChannel(password);
     setState("sharing");
   }, [peerId, file, createChannel]);
 
@@ -86,7 +91,8 @@ function P2PContent() {
     destroyChannel();
     setChannel(null);
     setFile(null);
-    setPassword("");
+    setSharingPassword(undefined);
+    passwordInputRef.current?.reset();
     setState("initial");
   }, [destroyChannel]);
 
@@ -119,20 +125,12 @@ function P2PContent() {
           <FileInfo file={file} onRemove={handleCancel} />
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="password" className="flex items-center gap-2">
-            <Lock className="h-4 w-4" />
-            {t("passwordLabel")}
-          </Label>
-          <Input
-            id="password"
-            type="password"
-            placeholder={t("passwordPlaceholder")}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <p className="text-xs text-muted-foreground">{t("passwordHint")}</p>
-        </div>
+        <PasswordInput
+          ref={passwordInputRef}
+          label={t("passwordLabel")}
+          placeholder={t("passwordPlaceholder")}
+          hint={t("passwordHint")}
+        />
 
         {(peerError || channelError) && (
           <p className="text-sm text-destructive">{peerError || channelError}</p>
