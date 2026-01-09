@@ -823,6 +823,10 @@
     }
   },
   "pokebox": {
+    "meta": {
+      "title": "CharX PokeBox - Perpustakaan Karakter AI Kamu | OpenTamago",
+      "description": "Jelajahi, kelola, dan atur kartu karakter AI, lorebook, dan aset yang kamu simpan. Penyimpanan lokal untuk privasi penuh. Gratis dan open source."
+    },
     "title": "CharX PokeBox",
     "subtitle": "Lihat kartu karakter tersimpan, lorebook, dan aset Anda.",
     "description": "Jelajahi dan kelola karakter AI tersimpan Anda di satu tempat.",

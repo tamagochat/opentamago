@@ -823,6 +823,10 @@
     }
   },
   "pokebox": {
+    "meta": {
+      "title": "CharX PokeBox - 你的 AI 角色庫 | OpenTamago",
+      "description": "瀏覽、管理和整理你儲存的 AI 角色卡片、知識庫和資源。本地優先儲存，完全隱私保護。免費開源。"
+    },
     "title": "CharX PokeBox",
     "subtitle": "檢視您儲存的角色卡片、知識庫和資源。",
     "description": "在一處瀏覽和管理您儲存的 AI 角色。",

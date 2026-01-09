@@ -831,6 +831,10 @@
     "stayHere": "Stay Here"
   },
   "pokebox": {
+    "meta": {
+      "title": "CharX PokeBox - Your AI Character Library | OpenTamago",
+      "description": "Browse, manage and organize your saved AI character cards, lorebooks, and assets. Local-first storage for complete privacy. Free and open source."
+    },
     "title": "CharX PokeBox",
     "subtitle": "View your stored character cards, lorebooks, and assets.",
     "description": "Browse and manage your saved AI characters in one place.",

@@ -831,6 +831,10 @@
     "stayHere": "Hier bleiben"
   },
   "pokebox": {
+    "meta": {
+      "title": "CharX PokeBox - Deine KI-Charakter Bibliothek | OpenTamago",
+      "description": "Durchsuche, verwalte und organisiere deine gespeicherten KI-Charakter Cards, Lorebooks und Assets. Lokale Speicherung für komplette Privatsphäre. Kostenlos und Open Source."
+    },
     "title": "CharX PokeBox",
     "subtitle": "Sieh dir deine gespeicherten Character Cards, Lorebooks und Assets an.",
     "description": "Durchsuche und verwalte deine gespeicherten KI-Charaktere an einem Ort.",

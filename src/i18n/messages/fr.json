@@ -472,18 +472,18 @@
     },
     "centerPanel": {
       "selectCharacter": "Choisis un personnage et un chat pour commencer",
-      "createFromLeft": "Ou crée un nouveau personnage depuis le panneau de gauche",
+      "createFromLeft": "Ou crée-en un nouveau depuis le panneau de gauche",
       "apiKeyRequired": "Clé API requise",
-      "configureApiKey": "Configure ta clé API Gemini pour commencer à discuter.",
+      "configureApiKey": "Configure ta clé API Gemini pour discuter.",
       "openSettings": "Ouvrir les paramètres",
       "clearChat": "Effacer le chat",
       "thinking": "Réflexion...",
-      "messagePlaceholder": "Message à {name}...",
+      "messagePlaceholder": "Dis quelque chose à {name}...",
       "clearAllMessages": "Effacer tous les messages de ce chat ?",
       "selectPersona": "Sélectionner un persona",
       "noPersonas": "Pas encore de personas.",
       "createPersona": "Créer un persona",
-      "selectPersonaToSend": "Sélectionne un persona pour envoyer des messages",
+      "selectPersonaToSend": "Choisis un persona pour envoyer des messages",
       "createPersonaAction": "Créer"
     },
     "rightPanel": {
@@ -662,12 +662,12 @@
       "active": "Actif",
       "pending": "En attente",
       "autoReply": "Réponse auto",
-      "noMessages": "Pas encore de messages. Dis quelque chose !",
+      "noMessages": "Pas encore de messages. Dis quelque chose~!",
       "unknown": "Inconnu",
       "generating": "Réflexion...",
       "thinking": "{name} réfléchit...",
       "placeholder": "Message en tant que {name}...",
-      "userJoined": "{name} a rejoint",
+      "userJoined": "{name} est là",
       "userLeft": "{name} est parti"
     },
     "leaveConfirm": {
@@ -824,13 +824,17 @@
   },
   "localeDetector": {
     "title": "Bienvenue !",
-    "description": "Nous avons détecté que la langue de ton navigateur pourrait être différente de la page actuelle. Voudrais-tu changer ?",
-    "selectLanguage": "Sélectionne ta langue",
+    "description": "On dirait que la langue de ton navigateur est différente. Tu veux changer ?",
+    "selectLanguage": "Choisis ta langue",
     "dontShowAgain": "Ne plus afficher",
     "continue": "Changer de langue",
     "stayHere": "Rester ici"
   },
   "pokebox": {
+    "meta": {
+      "title": "CharX PokeBox - Ta Bibliothèque de Personnages IA | OpenTamago",
+      "description": "Parcours, gère et organise tes fiches de personnages IA, lorebooks et assets sauvegardés. Stockage local pour une confidentialité totale. Gratuit et open source."
+    },
     "title": "CharX PokeBox",
     "subtitle": "Visualise tes fiches de personnages, lorebooks et assets sauvegardés.",
     "description": "Parcours et gère tes personnages IA sauvegardés en un seul endroit.",

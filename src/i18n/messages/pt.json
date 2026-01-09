@@ -831,6 +831,10 @@
     "stayHere": "Ficar Aqui"
   },
   "pokebox": {
+    "meta": {
+      "title": "CharX PokeBox - Sua Biblioteca de Personagens IA | OpenTamago",
+      "description": "Navegue, gerencie e organize seus cards de personagens IA, lorebooks e assets salvos. Armazenamento local para privacidade total. Grátis e código aberto."
+    },
     "title": "CharX PokeBox",
     "subtitle": "Veja seus cards de personagens, lorebooks e assets salvos.",
     "description": "Navegue e gerencie seus personagens IA salvos em um só lugar.",

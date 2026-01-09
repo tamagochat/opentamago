@@ -831,6 +831,10 @@
     "stayHere": "このまま続ける"
   },
   "pokebox": {
+    "meta": {
+      "title": "CharX PokeBox - あなたのAIキャラクターライブラリ | OpenTamago",
+      "description": "保存されたAIキャラクターカード、ロアブック、アセットを管理しよう。ローカル保存で完全なプライバシー。無料でオープンソース。"
+    },
     "title": "CharX PokeBox",
     "subtitle": "保存されたキャラクターカード、ロアブック、アセットを確認しよう。",
     "description": "保存されたAIキャラクターを一か所で管理しよう。",

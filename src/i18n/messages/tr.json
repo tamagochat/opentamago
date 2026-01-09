@@ -8,11 +8,11 @@
     "comingSoon": "Yakında"
   },
   "experimental": {
-    "badge": "Deneysel",
-    "charx": "Bu özellik hâlâ geliştirme aşamasında! CharX sürüm 3'ü desteklemek için tasarlandı ama hâlâ iyileştiriyoruz.",
-    "p2p": "Bu, doğrudan P2P bağlantıları için WebRTC kullanır. Lütfen QR kodlarını ve bağlantıları yalnızca güvendiğiniz kişilerle paylaşın!",
-    "chat": "Bu sohbet özelliği, geliştiricilerin yerel olarak LLM test ettiği hata ayıklama amaçlıdır. AI sohbeti için lütfen diğer servisleri kullanın.",
-    "feedback": "Geri bildiriminiz mi var veya hata mı buldunuz? <link>GitHub Issues</link>'da bize bildirin!"
+    "badge": "Yeni",
+    "charx": "Bu özellik hâlâ geliştirme aşamasında! CharX v3'ü destekliyor, iyileştirmeye devam ediyoruz~",
+    "p2p": "WebRTC ile doğrudan P2P bağlantı kuruyor. QR kodu ve linkleri sadece güvendiğin kişilerle paylaş!",
+    "chat": "Bu sohbet özelliği LLM test etmek için. Günlük AI sohbeti için başka servisler kullan~",
+    "feedback": "Hata buldun veya önerin mi var? <link>GitHub Issues</link>'da bize bildir!"
   },
   "actions": {
     "save": "Kaydet",
@@ -142,10 +142,10 @@
         "participants": "Katılımcılar",
         "chat": "Sohbet",
         "p2pBadge": "P2P Bağlı",
-        "message1": "Hey! Sohbete hazır mısın?",
+        "message1": "Selam! Sohbete hazır mısın?~",
         "message2": "Hadi başlayalım!",
-        "aiReply": "Hepinizle tanıştığıma memnun oldum!",
-        "inputPlaceholder": "Bir mesaj yazın..."
+        "aiReply": "Selamlar herkese! Tanıştığıma çok memnun oldum~!",
+        "inputPlaceholder": "Bir mesaj yaz..."
       }
     },
     "connectShowcase": {
@@ -471,19 +471,19 @@
       "chatTitlePlaceholder": "Sohbet başlığı girin..."
     },
     "centerPanel": {
-      "selectCharacter": "Başlamak için bir karakter ve sohbet seçin",
-      "createFromLeft": "Veya sol panelden yeni bir karakter oluşturun",
+      "selectCharacter": "Başlamak için bir karakter ve sohbet seç",
+      "createFromLeft": "Veya sol panelden yeni bir karakter oluştur",
       "apiKeyRequired": "API Anahtarı Gerekli",
-      "configureApiKey": "Sohbet etmeye başlamak için Gemini API anahtarınızı ayarlayın.",
+      "configureApiKey": "Sohbet etmek için Gemini API anahtarını ayarla.",
       "openSettings": "Ayarları Aç",
       "clearChat": "Sohbeti temizle",
       "thinking": "Düşünüyor...",
-      "messagePlaceholder": "{name}'e mesaj gönder...",
+      "messagePlaceholder": "{name}'e bir şey yaz...",
       "clearAllMessages": "Bu sohbetteki tüm mesajlar silinsin mi?",
       "selectPersona": "Persona seç",
       "noPersonas": "Henüz persona yok.",
       "createPersona": "Persona oluştur",
-      "selectPersonaToSend": "Mesaj göndermek için bir persona seçin",
+      "selectPersonaToSend": "Mesaj göndermek için bir persona seç",
       "createPersonaAction": "Oluştur"
     },
     "rightPanel": {
@@ -667,11 +667,11 @@
       "active": "Aktif",
       "pending": "Beklemede",
       "autoReply": "Otomatik Yanıt",
-      "noMessages": "Henüz mesaj yok. Bir şeyler söyleyin!",
+      "noMessages": "Henüz mesaj yok. Bir şeyler söyle~!",
       "unknown": "Bilinmeyen",
       "generating": "Düşünüyor...",
       "thinking": "{name} düşünüyor...",
-      "placeholder": "{name} olarak mesaj gönder...",
+      "placeholder": "{name} olarak mesaj yaz...",
       "userJoined": "{name} katıldı",
       "userLeft": "{name} ayrıldı"
     },
@@ -823,14 +823,18 @@
     }
   },
   "localeDetector": {
-    "title": "Hoş Geldiniz!",
-    "description": "Tarayıcı dilinizin mevcut sayfadan farklı olabileceğini algıladık. Değiştirmek ister misiniz?",
-    "selectLanguage": "Dilinizi seçin",
+    "title": "Hoş Geldin!",
+    "description": "Tarayıcı dilin farklı görünüyor. Değiştirmek ister misin?",
+    "selectLanguage": "Dilini seç",
     "dontShowAgain": "Bir daha gösterme",
     "continue": "Dili Değiştir",
     "stayHere": "Burada Kal"
   },
   "pokebox": {
+    "meta": {
+      "title": "CharX PokeBox - AI Karakter Kütüphanen | OpenTamago",
+      "description": "Kayıtlı AI karakter kartlarını, lorebook'ları ve varlıkları incele, yönet ve düzenle. Tam gizlilik için yerel depolama. Ücretsiz ve açık kaynak."
+    },
     "title": "CharX PokeBox",
     "subtitle": "Kayıtlı karakter kartlarınızı, lorebook'larınızı ve varlıklarınızı görüntüleyin.",
     "description": "Kayıtlı AI karakterlerinizi tek bir yerde yönetin.",

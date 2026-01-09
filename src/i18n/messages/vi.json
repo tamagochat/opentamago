@@ -823,6 +823,10 @@
     }
   },
   "pokebox": {
+    "meta": {
+      "title": "CharX PokeBox - Thư Viện Nhân Vật AI Của Bạn | OpenTamago",
+      "description": "Duyệt, quản lý và sắp xếp thẻ nhân vật AI, lorebook và tài nguyên đã lưu. Lưu trữ cục bộ để bảo mật hoàn toàn. Miễn phí và mã nguồn mở."
+    },
     "title": "CharX PokeBox",
     "subtitle": "Xem thẻ nhân vật đã lưu, lorebook và tài nguyên của bạn.",
     "description": "Duyệt và quản lý các nhân vật AI đã lưu của bạn ở một nơi.",
