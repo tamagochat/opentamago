@@ -1,0 +1,924 @@
+{
+  "common": {
+    "appName": "OpenTamago",
+    "tagline": "Trình Xem & Chia Sẻ Nhân Vật AI Mã Nguồn Mở",
+    "loading": "Đang tải...",
+    "error": "Ối, có lỗi rồi",
+    "retry": "Thử lại",
+    "comingSoon": "Sắp ra mắt"
+  },
+  "experimental": {
+    "badge": "Tính năng mới",
+    "charx": "Tính năng này đang được phát triển! Đang hỗ trợ CharX v3, sẽ cải thiện tiếp~",
+    "p2p": "Dùng WebRTC để kết nối P2P trực tiếp. Nhớ chỉ chia sẻ QR và link với người mình tin tưởng nhé!",
+    "chat": "Tính năng chat này dành cho developer test LLM. Để chat AI hàng ngày thì dùng dịch vụ khác nha~",
+    "feedback": "Có góp ý hoặc tìm thấy bug? Báo cho tụi mình trên <link>GitHub Issues</link>!"
+  },
+  "actions": {
+    "save": "Lưu",
+    "cancel": "Hủy",
+    "delete": "Xóa",
+    "edit": "Sửa",
+    "close": "Đóng",
+    "submit": "Gửi",
+    "upload": "Tải lên",
+    "download": "Tải xuống"
+  },
+  "home": {
+    "hero": {
+      "title": "Nhân Vật AI",
+      "titleHighlight": "Của Bạn",
+      "description": "Xem, chia sẻ và trò chuyện với các nhân vật AI. Từ trình xem CharX đến chia sẻ CharX dựa trên P2P, mọi thứ đều miễn phí và mã nguồn mở."
+    },
+    "cta": {
+      "openViewer": "Mở Trình Xem CharX",
+      "viewGithub": "Xem trên GitHub",
+      "tryViewer": "Dùng thử Trình Xem CharX",
+      "startSharing": "Bắt Đầu Chia Sẻ CharX",
+      "startConnect": "Bắt Đầu Phiên CharX",
+      "p2pLabel": "Tính năng P2P"
+    },
+    "features": {
+      "title": "Mọi Thứ Bạn Cần",
+      "description": "Bộ công cụ tất cả trong một cho người đam mê nhân vật AI",
+      "charxViewer": {
+        "title": "Trình Xem CharX",
+        "description": "Xem thẻ nhân vật, lorebook và tài nguyên từ file CharX. Mọi thứ chạy ngay trong trình duyệt của bạn."
+      },
+      "p2pSharing": {
+        "title": "Chia Sẻ CharX P2P",
+        "description": "Chia sẻ file nhân vật trực tiếp với bạn bè bằng P2P. Không cần tải lên máy chủ, chuyển ngay lập tức!"
+      },
+      "connect": {
+        "title": "Chat Đa Nhân Vật P2P",
+        "description": "Thiết lập phiên chat với nhiều nhân vật AI. Mời bạn bè và xem các nhân vật tương tác với nhau."
+      }
+    },
+    "showcase": {
+      "badge": "Trình Xem CharX",
+      "title": "Xem File Nhân Vật Dễ Dàng",
+      "dragDrop": {
+        "title": "Kéo & Thả",
+        "description": "Chỉ cần thả file .charx của bạn để xem nội dung ngay lập tức"
+      },
+      "cardInfo": {
+        "title": "Tất Cả Thông Tin Nhân Vật Trong Một Cái Nhìn",
+        "description": "Xem chi tiết nhân vật, lorebook, tài nguyên hình ảnh và nhiều hơn nữa"
+      },
+      "clientSide": {
+        "title": "100% Xử Lý Cục Bộ",
+        "description": "File của bạn không bao giờ rời khỏi trình duyệt. Đảm bảo quyền riêng tư hoàn toàn!"
+      },
+      "dropzone": {
+        "title": "Thả file .charx vào đây",
+        "subtitle": "hoặc nhấp để duyệt"
+      }
+    },
+    "p2pShowcase": {
+      "badge": "Chia Sẻ CharX P2P",
+      "title": "Chia Sẻ Thẻ Nhân Vật Ngay Lập Tức",
+      "sender": "Bạn",
+      "receivers": "Bạn Bè",
+      "directTransfer": "Chuyển trực tiếp từ trình duyệt sang trình duyệt",
+      "qrCode": {
+        "title": "Mã QR & Liên Kết Chia Sẻ",
+        "description": "Tạo mã QR và liên kết để chuyển dễ dàng trên di động"
+      },
+      "webrtc": {
+        "title": "Chuyển Trực Tiếp WebRTC",
+        "description": "File chuyển thẳng giữa các trình duyệt. Không lưu trữ trên máy chủ."
+      },
+      "password": {
+        "title": "Bảo Vệ Bằng Mật Khẩu",
+        "description": "Bảo vệ chia sẻ của bạn bằng mật khẩu nếu muốn"
+      }
+    },
+    "highlights": {
+      "privacy": {
+        "title": "100% Xử Lý Cục Bộ",
+        "description": "Xem file CharX ngay trong trình duyệt của bạn. Dữ liệu không bao giờ rời khỏi thiết bị của bạn."
+      },
+      "fast": {
+        "title": "Kết Nối P2P Trực Tiếp",
+        "description": "Chia sẻ file và chat với bạn bè trực tiếp. Không có máy chủ ở giữa!"
+      },
+      "openSource": {
+        "title": "Mã Nguồn Mở",
+        "description": "Tất cả mã đều công khai. Đóng góp, tùy chỉnh và tạo phiên bản của riêng bạn."
+      }
+    },
+    "ready": {
+      "title": "Sẵn Sàng Bắt Đầu?",
+      "description": "Khám phá file nhân vật của bạn với trình xem ưu tiên quyền riêng tư của chúng tôi."
+    },
+    "demo": {
+      "charx": {
+        "tabs": {
+          "character": "Nhân Vật",
+          "lorebook": "Lorebook",
+          "assets": "Tài Nguyên"
+        },
+        "greetings": "biến thể lời chào",
+        "lorebookEntries": "{count} mục",
+        "assetsFound": "{count} tài nguyên",
+        "fileReceived": "Đã nhận file rồi~",
+        "processing": "Đang xử lý..."
+      },
+      "p2p": {
+        "selectFile": "Chọn file",
+        "generating": "Đang tạo...",
+        "scanToJoin": "Quét để tham gia",
+        "waiting": "Đang chờ...",
+        "readyToScan": "Sẵn sàng quét",
+        "scanning": "Đang quét...",
+        "connecting": "Đang kết nối...",
+        "complete": "Xong rồi!",
+        "waitingConnection": "Đang chờ...",
+        "connected": "Đã kết nối",
+        "transferred": "Chuyển xong!"
+      },
+      "connect": {
+        "waitingRoom": "Phòng Chờ",
+        "participants": "Người Tham Gia",
+        "chat": "Chat",
+        "p2pBadge": "Đã Kết Nối P2P",
+        "message1": "Chào! Sẵn sàng chat chưa~",
+        "message2": "Bắt đầu thôi nào!",
+        "aiReply": "Xin chào mọi người! Rất vui được gặp các bạn~",
+        "inputPlaceholder": "Nhập tin nhắn..."
+      }
+    },
+    "connectShowcase": {
+      "badge": "Kết Nối P2P",
+      "poweredBy": "Tham Gia Với Nhân Vật Của Bạn",
+      "title": "Kết Nối AI Của Bạn Với Những Người Khác",
+      "description": "Tạo phòng chat với nhân vật AI của bạn và mời bạn bè. Xem các AI khác nhau chat theo thời gian thực. Sẽ rất vui!",
+      "realtime": {
+        "title": "Chat P2P",
+        "description": "Kết nối trình duyệt trực tiếp. Chat với bạn bè không cần máy chủ."
+      },
+      "aiPowered": {
+        "title": "Trả Lời Tự Động AI",
+        "description": "Mỗi nhân vật trả lời với tính cách riêng của họ"
+      },
+      "multiParty": {
+        "title": "Tối Đa 8 Người",
+        "description": "Chia sẻ mã QR hoặc liên kết để mời bạn bè"
+      }
+    }
+  },
+  "charx": {
+    "title": "Trình Xem CharX",
+    "subtitle": "Xem thẻ nhân vật, lorebook và tài nguyên. Chạy ngay trong trình duyệt của bạn!",
+    "description": "Mở file nhân vật CharX ngay trong trình duyệt của bạn. Xem thẻ nhân vật, lorebook và tài nguyên với quyền riêng tư hoàn chỉnh.",
+    "upload": {
+      "title": "Tải Lên File CharX",
+      "description": "Kéo và thả file .charx hoặc nhấp để duyệt",
+      "dropHere": "Thả file của bạn vào đây",
+      "invalidFile": "Chỉ hỗ trợ file .charx",
+      "dropFiles": "Thả file .charx của bạn vào đây",
+      "browseMultiple": "hoặc nhấp để duyệt (nhiều file OK)",
+      "downloadLink": "Lấy file nhân vật (.charx) tại <link>realm.risuai.net</link>",
+      "unsupportedFile": "File không được hỗ trợ: {names}. Chỉ file .charx hoạt động ở đây.",
+      "unsupportedFiles": "File không được hỗ trợ: {names}. Chỉ file .charx hoạt động ở đây.",
+      "andMore": " và {count} nữa",
+      "or": "hoặc",
+      "realmPlaceholder": "Dán URL RisuRealm hoặc ID nhân vật...",
+      "realmDownload": "Tải xuống",
+      "realmHint": "Hoạt động với URL realm.risuai.net hoặc UUID nhân vật",
+      "realmDownloadSuccess": "Đã tải nhân vật xuống!",
+      "realmError": {
+        "INVALID_UUID": "ID hoặc URL RisuRealm không hợp lệ",
+        "INVALID_CHARX": "Không thể tìm thấy nhân vật đó trên RisuRealm. Kiểm tra ID?",
+        "FILE_TOO_LARGE": "File quá lớn ({size}). Thử tải xuống và tải lên thủ công.",
+        "DOWNLOAD_FAILED": "Không thể tải xuống từ RisuRealm. Thử lại?"
+      },
+      "tryDemo": "Dùng Thử Nhân Vật Demo",
+      "demoHint": "Tải nhân vật mẫu để khám phá trình xem"
+    },
+    "tabs": {
+      "character": "Nhân Vật",
+      "lorebook": "Lorebook",
+      "assets": "Tài Nguyên",
+      "module": "Module"
+    },
+    "empty": {
+      "noCharacterCard": "Không tìm thấy thẻ nhân vật",
+      "noLorebook": "Không tìm thấy lorebook",
+      "noModule": "Không tìm thấy module",
+      "noAssets": "Không có tài nguyên trong danh mục này",
+      "noAssetsInFile": "Không có tài nguyên trong file này",
+      "noModuleContent": "Không có nội dung module",
+      "noTriggerScripts": "Không có script kích hoạt",
+      "noRegexScripts": "Không có script regex",
+      "noCommonJSCode": "Không có mã CommonJS"
+    },
+    "files": {
+      "title": "File",
+      "loaded": "Đã tải {count} file",
+      "parsing": "Đang phân tích...",
+      "dropMore": "Thả thêm file .charx hoặc nhấp để thêm",
+      "queue": "Hàng đợi",
+      "queued": "Đang chờ",
+      "delete": "Xóa"
+    },
+    "assets": {
+      "title": "Tài Nguyên",
+      "totalExtracted": "Tổng {count} tài nguyên",
+      "sort": "Sắp xếp",
+      "group": "Nhóm",
+      "sortAZ": "A-Z",
+      "sortZA": "Z-A",
+      "sortByFilename": "Theo tên file",
+      "groupByFilename": "Nhóm theo tên file",
+      "emotions": "Cảm xúc",
+      "icons": "Biểu tượng",
+      "backgrounds": "Nền",
+      "other": "Khác",
+      "cardMetadata": "Metadata Thẻ ({count} tham chiếu)",
+      "cardMetadataPlural": "Metadata Thẻ ({count} tham chiếu)"
+    },
+    "module": {
+      "title": "Module: {name}",
+      "unnamed": "Không Tên",
+      "noDescription": "Không có mô tả",
+      "triggers": "Kích Hoạt",
+      "triggersCount": "{count} Kích Hoạt",
+      "regex": "Regex",
+      "regexCount": "{count} Regex",
+      "code": "Mã",
+      "cjsCode": "Mã CJS",
+      "lowLevelAccess": "Truy Cập Cấp Thấp"
+    },
+    "character": {
+      "unnamedCharacter": "Nhân Vật Không Tên",
+      "byCreator": "{creator}",
+      "tabs": {
+        "basic": "Cơ bản",
+        "messages": "Tin nhắn",
+        "prompts": "Prompt",
+        "others": "Khác"
+      },
+      "viewMode": {
+        "list": "Danh sách",
+        "raw": "Raw",
+        "markdown": "Markdown"
+      },
+      "expandAll": "Mở rộng tất cả",
+      "collapseAll": "Thu gọn tất cả",
+      "saveAsFile": "Lưu dưới dạng file",
+      "copyToClipboard": "Sao chép vào clipboard",
+      "created": "Đã tạo",
+      "modified": "Đã sửa",
+      "empty": "Trống",
+      "loreCount": "{count} lorebook",
+      "assetsCount": "{count} tài nguyên"
+    },
+    "lorebook": {
+      "title": "Lorebook Nhân Vật",
+      "entries": "{count} mục",
+      "noEntries": "Không có mục lorebook",
+      "enabled": "Đã bật",
+      "disabled": "Đã tắt",
+      "priority": "Ưu tiên",
+      "noKeys": "Không có từ khóa",
+      "moreKeys": "+{count} nữa",
+      "moreKeysPrefix": "+"
+    },
+    "toast": {
+      "copiedToClipboard": "Đã sao chép!",
+      "failedToCopy": "Sao chép thất bại",
+      "fileSaved": "Đã lưu file",
+      "lorebookCopied": "Đã sao chép JSON Lorebook!",
+      "characterCopied": "Đã sao chép JSON Nhân vật!",
+      "couldNotCopy": "Không thể sao chép vào clipboard"
+    },
+    "errorBoundary": {
+      "title": "Ối, có gì đó không ổn",
+      "description": "Đã xảy ra lỗi không mong muốn. Vui lòng làm mới trang.",
+      "refreshPage": "Làm mới"
+    },
+    "export": {
+      "button": "Lưu vào Database",
+      "title": "Lưu Nhân Vật vào Database",
+      "description": "Lưu nhân vật và lorebook này để bạn có thể dùng trong chat nhé.",
+      "character": {
+        "title": "Nhân Vật",
+        "unnamed": "Không Tên",
+        "description": "Dữ liệu thẻ nhân vật gồm tên, mô tả, tính cách và tin nhắn.",
+        "moreTags": "thêm"
+      },
+      "lorebook": {
+        "title": "Lorebook",
+        "entries": "mục",
+        "description": "Các mục lorebook sẽ được lưu làm ngữ cảnh trong chat.",
+        "noLorebook": "File nhân vật này không có lorebook."
+      },
+      "info": "Sau khi lưu, bạn có thể dễ dàng dùng nhân vật để chia sẻ P2P và kết nối.",
+      "infoMessages": {
+        "databaseReady": "Database sẵn sàng rồi! Có thể lưu ngay."
+      },
+      "save": "Lưu",
+      "cancel": "Hủy",
+      "saving": "Đang lưu...",
+      "loading": "Đang tải...",
+      "success": {
+        "title": "Đã lưu xong!",
+        "description": "{name} đã được lưu vào database rồi.",
+        "goToChat": "Đi đến Chat"
+      },
+      "error": {
+        "title": "Không lưu được",
+        "description": "Có lỗi khi lưu. Thử lại nha?",
+        "databaseNotReady": "Database chưa sẵn sàng. Đợi chút rồi thử lại.",
+        "databaseInitFailed": "Không khởi động được database. Làm mới trang và thử lại."
+      },
+      "initializing": "Đang khởi động..."
+    },
+    "shareP2P": "Chia sẻ qua P2P",
+    "error": "Lỗi",
+    "warning": "Cảnh báo",
+    "filesExcluded": "{count} file bị loại trừ do giới hạn kích thước (>50MB):"
+  },
+  "errors": {
+    "notFound": {
+      "title": "404",
+      "heading": "Không Tìm Thấy Trang",
+      "description": "Trang bạn tìm không tồn tại hoặc đã chuyển đi nơi khác rồi.",
+      "goHome": "Về Trang Chủ",
+      "openCharxViewer": "Trình Xem CharX"
+    },
+    "generic": {
+      "title": "Ối, có lỗi rồi",
+      "description": "Có lỗi không mong muốn xảy ra. Thử lại hoặc quay về trang chủ nha.",
+      "retry": "Thử Lại",
+      "goHome": "Về Trang Chủ"
+    },
+    "charx": {
+      "title": "Lỗi Trình Xem CharX",
+      "description": "Có lỗi khi tải trình xem. File có thể bị hỏng hoặc trình duyệt không tương thích.",
+      "retry": "Thử Lại",
+      "goHome": "Về Trang Chủ"
+    },
+    "pokebox": {
+      "title": "Lỗi CharX PokeBox",
+      "description": "Có lỗi khi tải nhân vật đã lưu. Thử làm mới trang xem sao.",
+      "retry": "Thử Lại",
+      "goHome": "Về Trang Chủ"
+    }
+  },
+  "footer": {
+    "description": "Nền tảng nhân vật AI mã nguồn mở. Xem, chia sẻ và chat với các nhân vật AI.",
+    "product": "Sản phẩm",
+    "resources": "Tài nguyên",
+    "documentation": "Tài liệu",
+    "legal": "Pháp lý",
+    "privacy": "Chính Sách Quyền Riêng Tư",
+    "terms": "Điều Khoản Dịch Vụ",
+    "copyright": "OpenTamago. Đã đăng ký bản quyền."
+  },
+  "nav": {
+    "home": "Trang Chủ",
+    "charxViewer": "Trình Xem CharX",
+    "charxPokebox": "CharX PokeBox",
+    "p2pShare": "Chia Sẻ P2P",
+    "chat": "Chat",
+    "connect": "Kết Nối P2P",
+    "howItWorks": "Cách Hoạt Động",
+    "github": "GitHub",
+    "toggleMenu": "Chuyển đổi menu",
+    "navigationMenu": "Menu"
+  },
+  "p2p": {
+    "title": "Chia Sẻ CharX P2P",
+    "subtitle": "Chia sẻ file nhân vật trực tiếp với bạn bè. P2P có nghĩa là không có máy chủ ở giữa.",
+    "privacyNote": "File chuyển trực tiếp giữa các trình duyệt qua WebRTC. Không được lưu trên máy chủ.",
+    "confirmTitle": "Sẵn Sàng Chia Sẻ",
+    "confirmSubtitle": "Xem lại file của bạn và đặt mật khẩu nếu muốn.",
+    "passwordLabel": "Mật khẩu (tùy chọn)",
+    "passwordPlaceholder": "Nhập mật khẩu...",
+    "passwordHint": "Để trống để chia sẻ mà không cần bảo vệ mật khẩu.",
+    "cancel": "Hủy",
+    "start": "Bắt Đầu Chia Sẻ",
+    "connecting": "Đang kết nối...",
+    "sharingTitle": "Đang Chia Sẻ File Của Bạn",
+    "sharingSubtitle": "Giữ tab này mở. Chia sẻ liên kết bên dưới để cho phép người khác tải xuống.",
+    "stopSharing": "Dừng Chia Sẻ",
+    "stopSharingConfirm": "Thực sự dừng chia sẻ?",
+    "stopSharingDescription": "Tất cả tải xuống đang hoạt động sẽ bị ngắt.",
+    "confirmStop": "Có, dừng lại",
+    "sharingWarning": "Chia sẻ sẽ ngắt nếu bạn rời đi hoặc làm mới. Giữ tab này mở.",
+    "dropzone": {
+      "dropHere": "Thả file của bạn vào đây",
+      "dropToShare": "Thả file .charx để chia sẻ",
+      "orClickToBrowse": "hoặc nhấp để duyệt"
+    },
+    "download": {
+      "title": "Tải Xuống File CharX",
+      "connecting": "Đang kết nối với người chia sẻ...",
+      "connectionFailed": "Không kết nối được. Họ có thể đã đóng trình duyệt rồi.",
+      "notFound": "Link chia sẻ không tìm thấy hoặc hết hạn rồi",
+      "notFoundDescription": "File bạn tìm không còn nữa. Có thể người chia sẻ đã dừng chia sẻ.",
+      "passwordRequired": "File này cần mật khẩu",
+      "passwordPlaceholder": "Nhập mật khẩu...",
+      "passwordError": "Mật khẩu sai rồi. Thử lại nha?",
+      "submit": "Gửi",
+      "readyTitle": "Sẵn Sàng Tải Xuống",
+      "readyDescription": "Nhấp bên dưới để bắt đầu tải nhé.",
+      "startDownload": "Tải xuống",
+      "downloading": "Đang tải xuống...",
+      "complete": "Tải Xong Rồi!",
+      "completeDescription": "Đã nhận file thành công.",
+      "charxDetected": "Đây là file nhân vật nè!",
+      "charxDescription": "Lưu nhân vật và lorebook vào database chỉ với một cú nhấp.",
+      "saveToDatabase": "Lưu vào Database",
+      "downloadAnother": "Lấy File Khác",
+      "goHome": "Về Trang Chủ",
+      "troubleshooting": "Lâu quá? Người chia sẻ có thể ở sau tường lửa hoặc đã đóng trình duyệt.",
+      "sharePrompt": "Muốn chia sẻ file CharX?",
+      "startSharing": "Bắt Đầu Chia Sẻ CharX"
+    }
+  },
+  "theme": {
+    "toggle": "Chuyển đổi chủ đề",
+    "light": "Sáng",
+    "dark": "Tối",
+    "system": "Hệ thống"
+  },
+  "chat": {
+    "leftPanel": {
+      "create": "Tạo",
+      "createCharacter": "Tạo Nhân Vật",
+      "importCharx": "Nhập .charx",
+      "createPersona": "Tạo Persona",
+      "noCharacters": "Chưa có nhân vật nào.",
+      "createOne": "Tạo mới",
+      "noDescription": "Không có mô tả",
+      "characters": "Nhân Vật",
+      "chats": "Chat",
+      "recentChats": "Chat Gần Đây",
+      "newChat": "Chat Mới",
+      "noChats": "Chưa có chat nào.",
+      "startOne": "Bắt đầu ngay",
+      "yesterday": "Hôm qua",
+      "deleteChat": "Xóa chat này không?",
+      "deleteCharacter": "Xóa \"{name}\"? Tất cả chat liên quan cũng sẽ bị xóa luôn.",
+      "importing": "Đang nhập...",
+      "importSuccess": "Đã nhập nhân vật xong!",
+      "importError": "Nhập thất bại rồi",
+      "chatTitle": "Tiêu Đề Chat",
+      "editChatTitleDescription": "Đổi tiêu đề của phiên chat này.",
+      "chatTitlePlaceholder": "Nhập tiêu đề chat..."
+    },
+    "centerPanel": {
+      "selectCharacter": "Chọn nhân vật và chat để bắt đầu nha",
+      "createFromLeft": "Hoặc tạo nhân vật mới từ bảng bên trái",
+      "apiKeyRequired": "Cần Khóa API",
+      "configureApiKey": "Thiết lập khóa API Gemini để bắt đầu chat nhé.",
+      "openSettings": "Mở Cài Đặt",
+      "clearChat": "Xóa chat",
+      "thinking": "Đang suy nghĩ...",
+      "messagePlaceholder": "Nói gì đó với {name}...",
+      "clearAllMessages": "Xóa hết tin nhắn trong chat này không?",
+      "selectPersona": "Chọn persona",
+      "noPersonas": "Chưa có persona nào.",
+      "createPersona": "Tạo persona",
+      "selectPersonaToSend": "Chọn persona để gửi tin nhắn",
+      "createPersonaAction": "Tạo"
+    },
+    "rightPanel": {
+      "selectCharacter": "Chọn nhân vật để xem chi tiết",
+      "characterDetails": "Chi Tiết Nhân Vật",
+      "personality": "Tính cách",
+      "scenario": "Kịch bản",
+      "firstMessage": "Tin Nhắn Đầu Tiên",
+      "exampleDialogue": "Hội Thoại Mẫu",
+      "systemPrompt": "Prompt Hệ Thống",
+      "noPersonaDetails": "Không có chi tiết persona được thiết lập.",
+      "creatorNotes": "Ghi Chú Người Tạo",
+      "created": "Đã tạo",
+      "lastUpdated": "Cập Nhật Lần Cuối",
+      "persona": "Persona",
+      "info": "Thông tin",
+      "deleteCharacter": "Xóa \"{name}\"? Tất cả chat liên quan cũng sẽ bị xóa. Không thể hoàn tác."
+    },
+    "editor": {
+      "editCharacter": "Sửa Nhân Vật",
+      "createCharacter": "Tạo Nhân Vật",
+      "editPersona": "Sửa Persona",
+      "createPersona": "Tạo Persona",
+      "modifyPersona": "Sửa đổi chi tiết persona của bạn.",
+      "createPersonaDesc": "Tạo persona để đại diện cho bạn trong chat.",
+      "modifyCharacter": "Sửa đổi chi tiết nhân vật của bạn.",
+      "createCharacterDesc": "Tạo nhân vật mới để chat.",
+      "uploadAvatar": "Tải Lên Avatar",
+      "avatarHint": "PNG, JPG tối đa 2MB",
+      "basic": "Cơ bản",
+      "persona": "Persona",
+      "details": "Chi tiết",
+      "advanced": "Nâng cao",
+      "nameLabel": "Tên",
+      "nameRequired": "Tên *",
+      "yourName": "Tên của bạn",
+      "characterName": "Tên nhân vật",
+      "description": "Mô tả",
+      "descriptionPersona": "Mô tả ngắn gọn về bản thân bạn",
+      "descriptionCharacter": "Mô tả ngắn gọn về nhân vật của bạn",
+      "firstMessage": "Tin Nhắn Đầu Tiên",
+      "firstMessagePlaceholder": "Tin nhắn đầu tiên nhân vật của bạn sẽ gửi",
+      "personality": "Tính cách",
+      "personalityCharacter": "Mô tả đặc điểm tính cách, hành vi, đặc điểm...",
+      "scenario": "Kịch bản",
+      "scenarioPlaceholder": "Bối cảnh hoặc ngữ cảnh cho cuộc trò chuyện",
+      "exampleDialogue": "Hội Thoại Mẫu",
+      "exampleDialoguePlaceholder": "Cuộc trò chuyện mẫu để thiết lập tông điệu...",
+      "systemPrompt": "Prompt Hệ Thống",
+      "systemPromptPlaceholder": "Prompt hệ thống tùy chỉnh (ghi đè mặc định)",
+      "creatorNotes": "Ghi Chú Người Tạo",
+      "privateNotes": "Ghi Chú Riêng",
+      "notesPlaceholder": "Ghi chú riêng (không gửi cho AI)",
+      "saving": "Đang lưu...",
+      "saveChanges": "Lưu Thay Đổi"
+    },
+    "settings": {
+      "title": "Cài Đặt",
+      "description": "Thiết lập cài đặt API của bạn. Mọi thứ được lưu cục bộ.",
+      "apiSection": "API",
+      "apiKeySection": "Khóa API",
+      "apiKeyDescription": "Cấu hình kết nối API và cài đặt mô hình của bạn.",
+      "chatUISection": "Giao Diện Chat",
+      "chatUIDescription": "Tùy chỉnh cách tin nhắn chat được hiển thị.",
+      "databaseSection": "Database",
+      "safety": "An toàn",
+      "apiMode": "Chế Độ API",
+      "apiModeServer": "API Máy Chủ",
+      "apiModeServerDesc": "Sử dụng khóa API của máy chủ",
+      "apiModeClient": "Khóa API Của Bạn",
+      "apiModeClientDesc": "Riêng tư hơn",
+      "geminiApiKey": "Khóa API Gemini",
+      "enterApiKey": "Nhập khóa API Gemini của bạn",
+      "getApiKey": "Lấy khóa API của bạn từ",
+      "googleAiStudio": "Google AI Studio",
+      "defaultModel": "Mô Hình Mặc Định",
+      "selectModel": "Chọn mô hình",
+      "temperature": "Nhiệt độ",
+      "maxTokens": "Token Tối Đa",
+      "bubbleTheme": "Chủ Đề Bong Bóng Chat",
+      "themeRoleplay": "Nhập vai",
+      "themeRoleplayDesc": "Văn bản được tạo kiểu với dấu ngoặc kép và hành động",
+      "themeMessenger": "Messenger",
+      "themeMessengerDesc": "Văn bản thuần túy, không định dạng",
+      "database": {
+        "title": "Quản Lý Database",
+        "description": "Xem thống kê database và quản lý dữ liệu cục bộ của bạn.",
+        "storageUsage": "Sử Dụng Bộ Nhớ",
+        "collections": "Bộ Sưu Tập",
+        "actions": "Hành Động",
+        "exportData": "Xuất Dữ Liệu",
+        "dangerZone": "Vùng Nguy Hiểm",
+        "resetWarning": "Điều này sẽ xóa vĩnh viễn TẤT CẢ dữ liệu của bạn bao gồm nhân vật, chat, tin nhắn và cài đặt. Sử dụng khi gặp sự cố di chuyển.",
+        "resetDatabase": "Đặt Lại Database",
+        "resetting": "Đang đặt lại..."
+      },
+      "safetyDescription": "Thiết lập bộ lọc an toàn nội dung. Theo mặc định, tất cả bộ lọc đều tắt để nhập vai không giới hạn.",
+      "hateSpeech": "Ngôn Từ Thù Ghét",
+      "harassment": "Quấy Rối",
+      "sexuallyExplicit": "Nội Dung Tình Dục",
+      "dangerousContent": "Nội Dung Nguy Hiểm",
+      "blockNone": "Không Chặn",
+      "blockLow": "Chặn Thấp+",
+      "blockMedium": "Chặn Trung Bình+",
+      "blockHigh": "Chỉ Chặn Cao",
+      "saving": "Đang lưu..."
+    }
+  },
+  "connect": {
+    "meta": {
+      "title": "Chat Đa Nhân Vật P2P",
+      "description": "Tạo phiên mà các nhân vật AI có thể chat với nhau"
+    },
+    "title": "Chat Đa Nhân Vật P2P",
+    "subtitle": "Chat với nhiều nhân vật AI cùng nhau. P2P có nghĩa là không có máy chủ ở giữa.",
+    "tabs": {
+      "existing": "Nhân Vật Của Tôi",
+      "upload": "Tải Lên .charx",
+      "photo": "Từ Ảnh"
+    },
+    "noCharacters": "Không tìm thấy nhân vật.",
+    "createInChat": "Tạo một trong Chat",
+    "upload": {
+      "title": "Tải Lên File CharX",
+      "description": "Thả file .charx hoặc nhấp để chọn",
+      "formats": "Chỉ hỗ trợ file .charx",
+      "error": "Nhập thất bại",
+      "confirm": "Xác Nhận & Sử Dụng Nhân Vật Này"
+    },
+    "photo": {
+      "dropTitle": "Tải Lên Ảnh",
+      "dropDescription": "Thả hình ảnh hoặc nhấp để chọn. AI sẽ tạo nhân vật từ nó.",
+      "selectFile": "Chọn Hình Ảnh",
+      "invalidType": "Vui lòng chọn file hình ảnh (PNG, JPG, WebP hoặc GIF)",
+      "tooLarge": "Hình ảnh quá lớn. Tối đa 10MB.",
+      "contextLabel": "Gợi ý (tùy chọn)",
+      "contextPlaceholder": "vd: 'Chiến binh tưởng tượng' hoặc 'Làm cho họ thân thiện'",
+      "contextHint": "Thêm gợi ý để hướng dẫn tạo nhân vật",
+      "generating": "Đang tạo nhân vật...",
+      "generate": "Tạo Nhân Vật",
+      "generated": "{name} đã sẵn sàng!",
+      "generateError": "Không thể tạo nhân vật. Thử lại?",
+      "noApiKey": "Vui lòng thiết lập khóa API Gemini của bạn trong Cài Đặt trước.",
+      "apiKeyRequired": "Cần Khóa API",
+      "apiKeyDescription": "Để tạo nhân vật từ ảnh, hãy thiết lập khóa API Gemini của bạn trong Cài Đặt.",
+      "goToSettings": "Đến Cài Đặt"
+    },
+    "confirm": {
+      "subtitle": "Xem lại nhân vật của bạn và đặt mật khẩu nếu muốn.",
+      "passwordHint": "Người khác sẽ cần mật khẩu này để tham gia phiên của bạn.",
+      "start": "Tạo Phiên"
+    },
+    "leaveConfirm": {
+      "title": "Rời Khỏi Phiên?",
+      "description": "Bạn sẽ ngắt kết nối với tất cả người tham gia và rời khỏi chat.",
+      "confirm": "Rời đi"
+    },
+    "creating": "Đang tạo phiên...",
+    "joining": "Đang tham gia phiên...",
+    "lobby": {
+      "title": "Phòng Chờ",
+      "hostDescription": "Chia sẻ liên kết bên dưới để mời người khác",
+      "guestDescription": "Đang chờ host bắt đầu",
+      "shortUrl": "URL Ngắn",
+      "longUrl": "URL Dài",
+      "copied": "Đã sao chép liên kết!",
+      "copyFailed": "Không thể sao chép liên kết",
+      "participants": "Người Tham Gia",
+      "you": "Bạn",
+      "host": "Host",
+      "connecting": "Đang kết nối...",
+      "selectingCharacter": "Đang chọn nhân vật...",
+      "waitingForOthers": "Đang chờ người khác...",
+      "leave": "Rời đi",
+      "startChat": "Bắt Đầu Chat",
+      "needMoreParticipants": "Cần ít nhất 2 người để bắt đầu"
+    },
+    "chat": {
+      "title": "Chat",
+      "participants": "người tham gia",
+      "active": "Hoạt động",
+      "pending": "Đang chờ",
+      "autoReply": "Trả Lời Tự Động",
+      "noMessages": "Chưa có tin nhắn nào. Nói gì đó đi~",
+      "unknown": "Không rõ",
+      "generating": "Đang nghĩ...",
+      "thinking": "{name} đang nghĩ...",
+      "placeholder": "Nhắn với tư cách {name}...",
+      "userJoined": "{name} vừa vào",
+      "userLeft": "{name} đã rời đi"
+    },
+    "join": {
+      "meta": {
+        "title": "Tham Gia Phiên",
+        "description": "Tham gia phiên chat đa nhân vật"
+      },
+      "title": "Tham Gia Phiên",
+      "subtitle": "Chọn nhân vật để tham gia",
+      "currentParticipants": "{count} người đã ở trong phiên",
+      "passwordProtected": "Phiên này được bảo vệ bằng mật khẩu",
+      "enterPassword": "Nhập Mật Khẩu",
+      "passwordHintJoin": "Hỏi host để lấy mật khẩu",
+      "passwordRequired": "Cần mật khẩu để tham gia phiên này",
+      "passwordError": "Mật khẩu không đúng. Thử lại.",
+      "joinButton": "Tham Gia Phiên"
+    },
+    "notifications": {
+      "joined": "{name} đã tham gia",
+      "left": "{name} đã rời đi"
+    },
+    "status": {
+      "connecting": "Đang kết nối...",
+      "connected": "Đã kết nối",
+      "connectedInfo": "Bạn đã sẵn sàng kết nối phiên P2P",
+      "disconnected": "Đã ngắt kết nối"
+    },
+    "errors": {
+      "noPeer": "Kết nối mạng thất bại rồi. Làm mới trang và thử lại nha.",
+      "hostLeft": "Host đã kết thúc phiên",
+      "sessionFull": "Phiên Đã Đầy",
+      "sessionFullDescription": "Phiên này đầy rồi, hết chỗ rồi.",
+      "createOwn": "Tạo Phiên Của Bạn",
+      "connectionFailed": "Kết Nối Thất Bại",
+      "connectionFailedDescription": "Không kết nối được với phiên. Host có thể đã rời đi hoặc mạng có vấn đề.",
+      "tryAgain": "Thử Lại",
+      "apiNotReady": "Cần Khóa API",
+      "apiNotReadyDescription": "Thiết lập khóa API trong Cài Đặt để dùng tính năng AI nhé.",
+      "openSettings": "Mở Cài Đặt"
+    }
+  },
+  "howItWorks": {
+    "meta": {
+      "title": "Cách Hoạt Động | OpenTamago",
+      "description": "Tìm hiểu cách sử dụng Trình Xem CharX, Chia Sẻ P2P và Chat Đa Nhân Vật P2P"
+    },
+    "hero": {
+      "title": "Cách Hoạt Động",
+      "description": "Tìm hiểu cách xem, chia sẻ và chat với các nhân vật AI bằng OpenTamago"
+    },
+    "tryNow": "Dùng Thử Ngay",
+    "charx": {
+      "title": "Trình Xem CharX",
+      "description": "Mở file nhân vật CharX ngay trong trình duyệt của bạn. Mọi thứ được xử lý cục bộ để có quyền riêng tư hoàn chỉnh.",
+      "steps": {
+        "upload": {
+          "title": "Tải Lên File",
+          "description": "Kéo và thả file .charx hoặc nhấp để duyệt"
+        },
+        "view": {
+          "title": "Xem Nhân Vật",
+          "description": "Xem chi tiết nhân vật, tính cách và lời chào"
+        },
+        "lorebook": {
+          "title": "Khám Phá Lorebook",
+          "description": "Duyệt các mục lorebook với kích hoạt từ khóa"
+        },
+        "assets": {
+          "title": "Xem Tài Nguyên",
+          "description": "Xem hình ảnh nhúng như cảm xúc và avatar"
+        }
+      },
+      "highlights": {
+        "privacy": "100% xử lý cục bộ",
+        "formats": "Hỗ trợ file .charx và .json",
+        "export": "Lưu nhân vật vào database cục bộ"
+      }
+    },
+    "p2pShare": {
+      "title": "Chia Sẻ P2P",
+      "description": "Chia sẻ file trực tiếp với bạn bè bằng P2P. Không được lưu trên máy chủ.",
+      "steps": {
+        "select": {
+          "title": "Chọn File",
+          "description": "Chọn file để chia sẻ"
+        },
+        "generate": {
+          "title": "Tạo Liên Kết",
+          "description": "Nhận mã QR và liên kết có thể chia sẻ"
+        },
+        "transfer": {
+          "title": "Chuyển Trực Tiếp",
+          "description": "File chuyển trực tiếp qua WebRTC"
+        },
+        "receive": {
+          "title": "Tải Xuống",
+          "description": "Người nhận tải xuống trực tiếp từ bạn"
+        }
+      },
+      "highlights": {
+        "noServer": "Không lưu trữ máy chủ",
+        "password": "Bảo vệ mật khẩu tùy chọn",
+        "qrCode": "Mã QR để chia sẻ di động"
+      }
+    },
+    "p2pConnect": {
+      "title": "Chat Đa Nhân Vật P2P",
+      "description": "Tạo phiên chat đa nhân vật. Mời bạn bè và để các nhân vật AI chat với nhau.",
+      "steps": {
+        "select": {
+          "title": "Chọn Nhân Vật",
+          "description": "Chọn từ thư viện của bạn hoặc tạo một"
+        },
+        "invite": {
+          "title": "Mời Bạn Bè",
+          "description": "Chia sẻ liên kết hoặc mã QR để mời"
+        },
+        "chat": {
+          "title": "Bắt Đầu Chat",
+          "description": "Gửi tin nhắn với tư cách nhân vật của bạn"
+        },
+        "ai": {
+          "title": "Trả Lời AI",
+          "description": "Bật trả lời tự động cho phản hồi AI"
+        }
+      },
+      "highlights": {
+        "realtime": "Nhắn tin P2P theo thời gian thực",
+        "multiParty": "Tối đa 8 nhân vật mỗi phiên",
+        "autoReply": "Trả lời tự động do AI cung cấp"
+      }
+    },
+    "privacy": {
+      "title": "Ưu Tiên Quyền Riêng Tư",
+      "description": "Tất cả tính năng OpenTamago được xây dựng với quyền riêng tư trong tâm trí. Dữ liệu của bạn vẫn ở trên thiết bị của bạn.",
+      "noServer": {
+        "title": "Không Lưu Trữ Máy Chủ",
+        "description": "File không bao giờ được tải lên máy chủ của chúng tôi. Mọi thứ xảy ra trong trình duyệt của bạn."
+      },
+      "encrypted": {
+        "title": "Chuyển Được Mã Hóa",
+        "description": "Kết nối P2P sử dụng WebRTC với mã hóa tích hợp."
+      },
+      "openSource": {
+        "title": "Mã Nguồn Mở",
+        "description": "Tất cả mã đều công khai và có sẵn trên GitHub."
+      }
+    }
+  },
+  "pokebox": {
+    "title": "CharX PokeBox",
+    "subtitle": "Xem thẻ nhân vật đã lưu, lorebook và tài nguyên của bạn.",
+    "description": "Duyệt và quản lý các nhân vật AI đã lưu của bạn ở một nơi.",
+    "selectCharacter": "Chọn nhân vật để xem chi tiết",
+    "moduleNotStored": "Module không được lưu trong database.",
+    "back": "Quay lại",
+    "tabs": {
+      "character": "Nhân Vật",
+      "lorebook": "Lorebook",
+      "assets": "Tài Nguyên",
+      "module": "Module"
+    },
+    "characterList": {
+      "title": "Nhân Vật Của Tôi",
+      "search": "Tìm nhân vật...",
+      "empty": "Chưa có nhân vật đã lưu.",
+      "noResults": "Không có nhân vật nào phù hợp với tìm kiếm.",
+      "importFromCharx": "Nhập từ CharX"
+    },
+    "deleteConfirm": {
+      "title": "Xóa Nhân Vật?",
+      "description": "Điều này sẽ xóa \"{name}\" và tất cả dữ liệu liên quan bao gồm các mục lorebook và tài nguyên. Không thể hoàn tác.",
+      "cancel": "Hủy",
+      "confirm": "Xóa"
+    },
+    "byCreator": "{creator}",
+    "unnamedCharacter": "Nhân Vật Không Tên",
+    "created": "Đã tạo",
+    "modified": "Đã sửa",
+    "empty": "Trống",
+    "expandAll": "Mở rộng tất cả",
+    "collapseAll": "Thu gọn tất cả",
+    "greetingIndex": "Lời chào {index}",
+    "viewMode": {
+      "list": "Danh sách",
+      "raw": "Raw",
+      "markdown": "Markdown"
+    },
+    "characterTabs": {
+      "basic": "Cơ bản",
+      "messages": "Tin nhắn",
+      "prompts": "Prompt",
+      "others": "Khác"
+    },
+    "fields": {
+      "description": "Mô tả",
+      "personality": "Tính cách",
+      "scenario": "Kịch bản",
+      "firstMessage": "Tin Nhắn Đầu Tiên",
+      "exampleDialogue": "Hội Thoại Mẫu",
+      "alternateGreetings": "Lời Chào Thay Thế",
+      "groupOnlyGreetings": "Lời Chào Chỉ Nhóm",
+      "systemPrompt": "Prompt Hệ Thống",
+      "postHistoryInstructions": "Hướng Dẫn Sau Lịch Sử",
+      "creatorInfo": "Thông Tin Người Tạo",
+      "creator": "Người Tạo",
+      "characterVersion": "Phiên Bản",
+      "dates": "Ngày",
+      "creatorNotes": "Ghi Chú Người Tạo"
+    },
+    "lorebook": {
+      "title": "Các Mục Lorebook",
+      "entries": "{count} mục",
+      "noEntries": "Nhân vật này không có mục lorebook.",
+      "enabled": "Đã bật",
+      "disabled": "Đã tắt",
+      "priority": "Ưu tiên",
+      "noKeys": "Không có từ khóa",
+      "moreKeys": "+{count} nữa"
+    },
+    "assets": {
+      "title": "Tài Nguyên Nhân Vật",
+      "totalExtracted": "Tổng {count} tài nguyên",
+      "noAssets": "Không có tài nguyên trong danh mục này",
+      "sort": "Sắp xếp",
+      "group": "Nhóm",
+      "sortAZ": "A-Z",
+      "sortZA": "Z-A",
+      "sortByFilename": "Theo tên file",
+      "groupByFilename": "Nhóm theo tên file",
+      "emotions": "Cảm xúc",
+      "icons": "Biểu tượng",
+      "backgrounds": "Nền",
+      "other": "Khác"
+    },
+    "toast": {
+      "copiedToClipboard": "Đã sao chép!",
+      "failedToCopy": "Sao chép thất bại"
+    }
+  },
+  "localeDetector": {
+    "title": "Chào mừng!",
+    "description": "Có vẻ ngôn ngữ trình duyệt của bạn khác với trang hiện tại. Bạn muốn chuyển ngôn ngữ không?",
+    "selectLanguage": "Chọn ngôn ngữ",
+    "dontShowAgain": "Không hiện lại",
+    "continue": "Chuyển Ngôn Ngữ",
+    "stayHere": "Ở Lại Đây"
+  }
+}

@@ -359,6 +359,12 @@
       "description": "CharX 뷰어를 불러오다가 문제가 생겼어요. 파일이 손상됐거나 브라우저 호환 문제일 수 있어요.",
       "retry": "다시 시도",
       "goHome": "홈으로 가기"
+    },
+    "pokebox": {
+      "title": "CharX PokeBox 오류",
+      "description": "저장된 캐릭터를 불러오다가 문제가 생겼어요. 페이지를 새로고침 해주세요.",
+      "retry": "다시 시도",
+      "goHome": "홈으로 가기"
     }
   },
   "footer": {
@@ -374,6 +380,7 @@
   "nav": {
     "home": "홈",
     "charxViewer": "CharX 뷰어",
+    "charxPokebox": "CharX PokeBox",
     "p2pShare": "P2P 공유",
     "chat": "채팅",
     "connect": "P2P 연결",
@@ -822,5 +829,96 @@
     "dontShowAgain": "다시 표시하지 않기",
     "continue": "언어 변경",
     "stayHere": "현재 언어 유지"
+  },
+  "pokebox": {
+    "title": "CharX PokeBox",
+    "subtitle": "저장된 캐릭터 카드, 로어북, 에셋을 확인하세요.",
+    "description": "저장된 AI 캐릭터를 한 곳에서 관리하세요.",
+    "selectCharacter": "캐릭터를 선택해서 상세 정보를 확인하세요",
+    "moduleNotStored": "모듈은 데이터베이스에 저장되지 않아요.",
+    "back": "뒤로",
+    "tabs": {
+      "character": "캐릭터",
+      "lorebook": "로어북",
+      "assets": "에셋",
+      "module": "모듈"
+    },
+    "characterList": {
+      "title": "내 캐릭터",
+      "search": "캐릭터 검색...",
+      "empty": "저장된 캐릭터가 없어요.",
+      "noResults": "검색 결과가 없어요.",
+      "importFromCharx": "CharX에서 불러오기"
+    },
+    "deleteConfirm": {
+      "title": "캐릭터 삭제",
+      "description": "\"{name}\"을(를) 삭제하면 로어북과 에셋도 함께 삭제돼요. 되돌릴 수 없어요.",
+      "cancel": "취소",
+      "confirm": "삭제"
+    },
+    "byCreator": "{creator}",
+    "unnamedCharacter": "이름 없는 캐릭터",
+    "created": "생성일",
+    "modified": "수정일",
+    "empty": "비어 있음",
+    "expandAll": "모두 펼치기",
+    "collapseAll": "모두 접기",
+    "greetingIndex": "인사 {index}",
+    "viewMode": {
+      "list": "목록",
+      "raw": "원본",
+      "markdown": "마크다운"
+    },
+    "characterTabs": {
+      "basic": "기본",
+      "messages": "메시지",
+      "prompts": "프롬프트",
+      "others": "기타"
+    },
+    "fields": {
+      "description": "설명",
+      "personality": "성격",
+      "scenario": "시나리오",
+      "firstMessage": "첫 번째 메시지",
+      "exampleDialogue": "예시 대화",
+      "alternateGreetings": "대체 인사",
+      "groupOnlyGreetings": "그룹 전용 인사",
+      "systemPrompt": "시스템 프롬프트",
+      "postHistoryInstructions": "대화 후 지침",
+      "creatorInfo": "제작자 정보",
+      "creator": "제작자",
+      "characterVersion": "버전",
+      "dates": "날짜",
+      "creatorNotes": "제작자 노트"
+    },
+    "lorebook": {
+      "title": "로어북 항목",
+      "entries": "{count}개 항목",
+      "noEntries": "이 캐릭터의 로어북 항목이 없어요.",
+      "enabled": "활성",
+      "disabled": "비활성",
+      "priority": "우선순위",
+      "noKeys": "키 없음",
+      "moreKeys": "+{count}개 더"
+    },
+    "assets": {
+      "title": "캐릭터 에셋",
+      "totalExtracted": "총 {count}개 에셋",
+      "noAssets": "이 카테고리에 에셋이 없어요",
+      "sort": "정렬",
+      "group": "그룹",
+      "sortAZ": "오름차순",
+      "sortZA": "내림차순",
+      "sortByFilename": "파일명순",
+      "groupByFilename": "파일명으로 그룹",
+      "emotions": "표정",
+      "icons": "아이콘",
+      "backgrounds": "배경",
+      "other": "기타"
+    },
+    "toast": {
+      "copiedToClipboard": "복사됨!",
+      "failedToCopy": "복사 실패"
+    }
   }
 }

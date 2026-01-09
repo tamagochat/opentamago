@@ -1,0 +1,924 @@
+{
+  "common": {
+    "appName": "OpenTamago",
+    "tagline": "Penampil & Berbagi Karakter AI Open Source",
+    "loading": "Memuat...",
+    "error": "Waduh, ada yang salah",
+    "retry": "Coba lagi",
+    "comingSoon": "Segera hadir"
+  },
+  "experimental": {
+    "badge": "Fitur Baru",
+    "charx": "Fitur ini masih dikembangkan! Sedang support CharX v3, dan terus diperbaiki ya~",
+    "p2p": "Pakai WebRTC untuk koneksi P2P langsung. Bagikan QR dan link hanya ke orang yang kamu percaya ya!",
+    "chat": "Fitur chat ini buat developer testing LLM. Untuk chat AI sehari-hari, pakai layanan lain ya~",
+    "feedback": "Ada masukan atau nemuin bug? Kasih tau di <link>GitHub Issues</link>!"
+  },
+  "actions": {
+    "save": "Simpan",
+    "cancel": "Batal",
+    "delete": "Hapus",
+    "edit": "Edit",
+    "close": "Tutup",
+    "submit": "Kirim",
+    "upload": "Unggah",
+    "download": "Unduh"
+  },
+  "home": {
+    "hero": {
+      "title": "Karakter AI",
+      "titleHighlight": "Anda",
+      "description": "Lihat, bagikan, dan ngobrol dengan karakter AI. Dari penampil CharX hingga berbagi CharX berbasis P2P, semuanya gratis dan open source."
+    },
+    "cta": {
+      "openViewer": "Buka Penampil CharX",
+      "viewGithub": "Lihat di GitHub",
+      "tryViewer": "Coba Penampil CharX",
+      "startSharing": "Mulai Berbagi CharX",
+      "startConnect": "Mulai Sesi CharX",
+      "p2pLabel": "Fitur P2P"
+    },
+    "features": {
+      "title": "Semua yang Anda Butuhkan",
+      "description": "Toolkit lengkap untuk penggemar karakter AI",
+      "charxViewer": {
+        "title": "Penampil CharX",
+        "description": "Lihat kartu karakter, lorebook, dan aset dari file CharX. Semuanya berjalan langsung di browser Anda."
+      },
+      "p2pSharing": {
+        "title": "Berbagi CharX P2P",
+        "description": "Bagikan file karakter langsung dengan teman menggunakan P2P. Tanpa upload server, transfer instan!"
+      },
+      "connect": {
+        "title": "Chat Multi-Karakter P2P",
+        "description": "Buat sesi chat dengan beberapa karakter AI. Undang teman dan lihat karakter berinteraksi satu sama lain."
+      }
+    },
+    "showcase": {
+      "badge": "Penampil CharX",
+      "title": "Lihat File Karakter dengan Mudah",
+      "dragDrop": {
+        "title": "Drag & Drop",
+        "description": "Cukup drop file .charx untuk langsung melihat isinya"
+      },
+      "cardInfo": {
+        "title": "Semua Info Karakter Sekilas",
+        "description": "Lihat detail karakter, lorebook, aset gambar, dan lainnya"
+      },
+      "clientSide": {
+        "title": "100% Pemrosesan Lokal",
+        "description": "File Anda tidak pernah meninggalkan browser. Privasi terjamin!"
+      },
+      "dropzone": {
+        "title": "Drop file .charx di sini",
+        "subtitle": "atau klik untuk browse"
+      }
+    },
+    "p2pShowcase": {
+      "badge": "Berbagi CharX P2P",
+      "title": "Bagikan Kartu Karakter Instan",
+      "sender": "Anda",
+      "receivers": "Teman",
+      "directTransfer": "Transfer langsung browser-ke-browser",
+      "qrCode": {
+        "title": "Kode QR & Link Berbagi",
+        "description": "Buat kode QR dan link untuk transfer mobile yang mudah"
+      },
+      "webrtc": {
+        "title": "Transfer Langsung WebRTC",
+        "description": "File langsung antar browser. Tanpa penyimpanan server."
+      },
+      "password": {
+        "title": "Proteksi Password",
+        "description": "Lindungi berbagi Anda dengan password jika diinginkan"
+      }
+    },
+    "highlights": {
+      "privacy": {
+        "title": "100% Pemrosesan Lokal",
+        "description": "Lihat file CharX langsung di browser Anda. Data Anda tidak pernah meninggalkan perangkat."
+      },
+      "fast": {
+        "title": "Koneksi P2P Langsung",
+        "description": "Bagikan file dan chat dengan teman langsung. Tanpa server di antaranya!"
+      },
+      "openSource": {
+        "title": "Open Source",
+        "description": "Semua kode terbuka. Kontribusi, kustomisasi, dan buat versi Anda sendiri."
+      }
+    },
+    "ready": {
+      "title": "Siap Mulai?",
+      "description": "Jelajahi file karakter Anda dengan penampil yang mengutamakan privasi."
+    },
+    "demo": {
+      "charx": {
+        "tabs": {
+          "character": "Karakter",
+          "lorebook": "Lorebook",
+          "assets": "Aset"
+        },
+        "greetings": "variasi salam",
+        "lorebookEntries": "{count} entri",
+        "assetsFound": "{count} aset",
+        "fileReceived": "File diterima",
+        "processing": "Memproses..."
+      },
+      "p2p": {
+        "selectFile": "Pilih file",
+        "generating": "Membuat...",
+        "scanToJoin": "Scan untuk gabung",
+        "waiting": "Menunggu...",
+        "readyToScan": "Siap scan",
+        "scanning": "Scanning...",
+        "connecting": "Menghubungkan...",
+        "complete": "Selesai!",
+        "waitingConnection": "Menunggu...",
+        "connected": "Terhubung",
+        "transferred": "Ditransfer!"
+      },
+      "connect": {
+        "waitingRoom": "Ruang Tunggu",
+        "participants": "Peserta",
+        "chat": "Chat",
+        "p2pBadge": "P2P Terhubung",
+        "message1": "Halo! Siap ngobrol?",
+        "message2": "Yuk mulai!",
+        "aiReply": "Hai semuanya! Senang ketemu kalian~",
+        "inputPlaceholder": "Ketik sesuatu..."
+      }
+    },
+    "connectShowcase": {
+      "badge": "Koneksi P2P",
+      "poweredBy": "Gabung dengan Karaktermu",
+      "title": "Hubungkan AI Kamu dengan yang Lain",
+      "description": "Buat room chat dengan karakter AI kamu dan ajak teman. Lihat AI berbeda ngobrol real-time. Seru banget!",
+      "realtime": {
+        "title": "Chat P2P",
+        "description": "Koneksi browser langsung. Chat dengan teman tanpa server."
+      },
+      "aiPowered": {
+        "title": "Balas Otomatis AI",
+        "description": "Setiap karakter membalas dengan kepribadiannya sendiri"
+      },
+      "multiParty": {
+        "title": "Hingga 8 Orang",
+        "description": "Bagikan kode QR atau link untuk mengundang teman"
+      }
+    }
+  },
+  "charx": {
+    "title": "Penampil CharX",
+    "subtitle": "Lihat kartu karakter, lorebook, dan aset. Berjalan langsung di browser Anda!",
+    "description": "Buka file karakter CharX langsung di browser Anda. Lihat kartu karakter, lorebook, dan aset dengan privasi lengkap.",
+    "upload": {
+      "title": "Unggah File CharX",
+      "description": "Drag and drop file .charx atau klik untuk browse",
+      "dropHere": "Drop file Anda di sini",
+      "invalidFile": "Hanya file .charx yang didukung",
+      "dropFiles": "Drop file .charx Anda di sini",
+      "browseMultiple": "atau klik untuk browse (beberapa file OK)",
+      "downloadLink": "Dapatkan file karakter (.charx) di <link>realm.risuai.net</link>",
+      "unsupportedFile": "File tidak didukung: {names}. Hanya file .charx yang bisa.",
+      "unsupportedFiles": "File tidak didukung: {names}. Hanya file .charx yang bisa.",
+      "andMore": " dan {count} lainnya",
+      "or": "atau",
+      "realmPlaceholder": "Paste URL RisuRealm atau ID karakter...",
+      "realmDownload": "Unduh",
+      "realmHint": "Bekerja dengan URL realm.risuai.net atau UUID karakter",
+      "realmDownloadSuccess": "Karakter diunduh!",
+      "realmError": {
+        "INVALID_UUID": "ID atau URL RisuRealm tidak valid",
+        "INVALID_CHARX": "Tidak dapat menemukan karakter di RisuRealm. Periksa ID?",
+        "FILE_TOO_LARGE": "File terlalu besar ({size}). Coba unduh dan unggah manual.",
+        "DOWNLOAD_FAILED": "Tidak dapat mengunduh dari RisuRealm. Coba lagi?"
+      },
+      "tryDemo": "Coba Karakter Demo",
+      "demoHint": "Muat karakter sampel untuk jelajahi penampil"
+    },
+    "tabs": {
+      "character": "Karakter",
+      "lorebook": "Lorebook",
+      "assets": "Aset",
+      "module": "Modul"
+    },
+    "empty": {
+      "noCharacterCard": "Tidak ada kartu karakter",
+      "noLorebook": "Tidak ada lorebook",
+      "noModule": "Tidak ada modul",
+      "noAssets": "Tidak ada aset di kategori ini",
+      "noAssetsInFile": "Tidak ada aset di file ini",
+      "noModuleContent": "Tidak ada konten modul",
+      "noTriggerScripts": "Tidak ada skrip trigger",
+      "noRegexScripts": "Tidak ada skrip regex",
+      "noCommonJSCode": "Tidak ada kode CommonJS"
+    },
+    "files": {
+      "title": "File",
+      "loaded": "{count} file dimuat",
+      "parsing": "Parsing...",
+      "dropMore": "Drop lebih banyak file .charx atau klik untuk tambah",
+      "queue": "Antrian",
+      "queued": "Antri",
+      "delete": "Hapus"
+    },
+    "assets": {
+      "title": "Aset",
+      "totalExtracted": "{count} total aset",
+      "sort": "Urutkan",
+      "group": "Kelompok",
+      "sortAZ": "A-Z",
+      "sortZA": "Z-A",
+      "sortByFilename": "Berdasar nama file",
+      "groupByFilename": "Kelompokkan berdasar nama file",
+      "emotions": "Emosi",
+      "icons": "Ikon",
+      "backgrounds": "Latar Belakang",
+      "other": "Lainnya",
+      "cardMetadata": "Metadata Kartu ({count} referensi)",
+      "cardMetadataPlural": "Metadata Kartu ({count} referensi)"
+    },
+    "module": {
+      "title": "Modul: {name}",
+      "unnamed": "Tanpa Nama",
+      "noDescription": "Tidak ada deskripsi",
+      "triggers": "Trigger",
+      "triggersCount": "{count} Trigger",
+      "regex": "Regex",
+      "regexCount": "{count} Regex",
+      "code": "Kode",
+      "cjsCode": "Kode CJS",
+      "lowLevelAccess": "Akses Low Level"
+    },
+    "character": {
+      "unnamedCharacter": "Karakter Tanpa Nama",
+      "byCreator": "{creator}",
+      "tabs": {
+        "basic": "Dasar",
+        "messages": "Pesan",
+        "prompts": "Prompt",
+        "others": "Lainnya"
+      },
+      "viewMode": {
+        "list": "List",
+        "raw": "Raw",
+        "markdown": "Markdown"
+      },
+      "expandAll": "Perluas Semua",
+      "collapseAll": "Tutup Semua",
+      "saveAsFile": "Simpan sebagai file",
+      "copyToClipboard": "Salin ke clipboard",
+      "created": "Dibuat",
+      "modified": "Dimodifikasi",
+      "empty": "Kosong",
+      "loreCount": "{count} lorebook",
+      "assetsCount": "{count} aset"
+    },
+    "lorebook": {
+      "title": "Lorebook Karakter",
+      "entries": "{count} entri",
+      "noEntries": "Tidak ada entri lorebook",
+      "enabled": "Aktif",
+      "disabled": "Nonaktif",
+      "priority": "Prioritas",
+      "noKeys": "Tidak ada kata kunci",
+      "moreKeys": "+{count} lagi",
+      "moreKeysPrefix": "+"
+    },
+    "toast": {
+      "copiedToClipboard": "Disalin!",
+      "failedToCopy": "Gagal menyalin",
+      "fileSaved": "File disimpan",
+      "lorebookCopied": "JSON Lorebook disalin!",
+      "characterCopied": "JSON Karakter disalin!",
+      "couldNotCopy": "Tidak dapat menyalin ke clipboard"
+    },
+    "errorBoundary": {
+      "title": "Ups, ada yang salah",
+      "description": "Terjadi error tidak terduga. Silakan refresh halaman.",
+      "refreshPage": "Refresh"
+    },
+    "export": {
+      "button": "Simpan ke Database",
+      "title": "Simpan Karakter ke Database",
+      "description": "Simpan karakter dan lorebook ini secara lokal agar bisa diakses di chat.",
+      "character": {
+        "title": "Karakter",
+        "unnamed": "Tanpa Nama",
+        "description": "Data kartu karakter termasuk nama, deskripsi, kepribadian, dan pesan.",
+        "moreTags": "lainnya"
+      },
+      "lorebook": {
+        "title": "Lorebook",
+        "entries": "entri",
+        "description": "Entri lorebook akan disimpan untuk konteks selama chat.",
+        "noLorebook": "Tidak ada lorebook di file karakter ini."
+      },
+      "info": "Setelah disimpan, Anda dapat dengan mudah mengimpor kartu karakter untuk berbagi P2P dan connect.",
+      "infoMessages": {
+        "databaseReady": "Database siap! Anda dapat menyimpan sekarang."
+      },
+      "save": "Simpan",
+      "cancel": "Batal",
+      "saving": "Menyimpan...",
+      "loading": "Memuat...",
+      "success": {
+        "title": "Tersimpan!",
+        "description": "{name} telah disimpan ke database Anda.",
+        "goToChat": "Pergi ke Chat"
+      },
+      "error": {
+        "title": "Tidak dapat menyimpan",
+        "description": "Ada yang salah saat menyimpan. Coba lagi?",
+        "databaseNotReady": "Database belum siap. Tunggu sebentar dan coba lagi.",
+        "databaseInitFailed": "Tidak dapat memulai database. Refresh halaman dan coba lagi."
+      },
+      "initializing": "Memulai..."
+    },
+    "shareP2P": "Bagikan via P2P",
+    "error": "Error",
+    "warning": "Peringatan",
+    "filesExcluded": "{count} file dikecualikan karena batas ukuran (>50MB):"
+  },
+  "errors": {
+    "notFound": {
+      "title": "404",
+      "heading": "Halaman Tidak Ditemukan",
+      "description": "Halaman yang Anda cari tidak ada atau telah dipindahkan.",
+      "goHome": "Ke Beranda",
+      "openCharxViewer": "Penampil CharX"
+    },
+    "generic": {
+      "title": "Ups, ada yang salah",
+      "description": "Terjadi error tidak terduga. Coba lagi atau kembali ke beranda.",
+      "retry": "Coba Lagi",
+      "goHome": "Ke Beranda"
+    },
+    "charx": {
+      "title": "Error Penampil CharX",
+      "description": "Ada yang salah saat memuat penampil. File mungkin rusak atau ada masalah kompatibilitas browser.",
+      "retry": "Coba Lagi",
+      "goHome": "Ke Beranda"
+    },
+    "pokebox": {
+      "title": "Error CharX PokeBox",
+      "description": "Ada yang salah saat memuat karakter tersimpan. Coba refresh halaman.",
+      "retry": "Coba Lagi",
+      "goHome": "Ke Beranda"
+    }
+  },
+  "footer": {
+    "description": "Platform karakter AI open source. Lihat, bagikan, dan ngobrol dengan karakter AI.",
+    "product": "Produk",
+    "resources": "Sumber Daya",
+    "documentation": "Dokumentasi",
+    "legal": "Hukum",
+    "privacy": "Kebijakan Privasi",
+    "terms": "Ketentuan Layanan",
+    "copyright": "OpenTamago. Hak cipta dilindungi."
+  },
+  "nav": {
+    "home": "Beranda",
+    "charxViewer": "Penampil CharX",
+    "charxPokebox": "CharX PokeBox",
+    "p2pShare": "Berbagi P2P",
+    "chat": "Chat",
+    "connect": "Koneksi P2P",
+    "howItWorks": "Cara Kerja",
+    "github": "GitHub",
+    "toggleMenu": "Alihkan menu",
+    "navigationMenu": "Menu"
+  },
+  "p2p": {
+    "title": "Berbagi CharX P2P",
+    "subtitle": "Bagikan file karakter langsung dengan teman. P2P berarti tanpa server di antaranya.",
+    "privacyNote": "File ditransfer langsung antar browser via WebRTC. Tidak disimpan di server.",
+    "confirmTitle": "Siap Berbagi",
+    "confirmSubtitle": "Tinjau file Anda dan atur password jika diinginkan.",
+    "passwordLabel": "Password (opsional)",
+    "passwordPlaceholder": "Masukkan password...",
+    "passwordHint": "Biarkan kosong untuk berbagi tanpa proteksi password.",
+    "cancel": "Batal",
+    "start": "Mulai Berbagi",
+    "connecting": "Menghubungkan...",
+    "sharingTitle": "Membagikan File Anda",
+    "sharingSubtitle": "Biarkan tab ini terbuka. Bagikan link di bawah untuk mengizinkan orang lain mengunduh.",
+    "stopSharing": "Berhenti Berbagi",
+    "stopSharingConfirm": "Benar-benar berhenti berbagi?",
+    "stopSharingDescription": "Semua unduhan aktif akan terputus.",
+    "confirmStop": "Ya, berhenti",
+    "sharingWarning": "Berbagi akan terputus jika Anda meninggalkan atau refresh. Biarkan tab ini terbuka.",
+    "dropzone": {
+      "dropHere": "Drop file Anda di sini",
+      "dropToShare": "Drop file .charx untuk berbagi",
+      "orClickToBrowse": "atau klik untuk browse"
+    },
+    "download": {
+      "title": "Unduh File CharX",
+      "connecting": "Menghubungkan ke pengunggah...",
+      "connectionFailed": "Tidak dapat terhubung ke pengunggah. Mereka mungkin telah menutup browser.",
+      "notFound": "Link berbagi tidak ditemukan atau kadaluarsa",
+      "notFoundDescription": "File yang Anda cari tidak tersedia lagi. Pengunggah mungkin telah berhenti berbagi.",
+      "passwordRequired": "File ini dilindungi password",
+      "passwordPlaceholder": "Masukkan password...",
+      "passwordError": "Password salah. Coba lagi?",
+      "submit": "Kirim",
+      "readyTitle": "Siap Mengunduh",
+      "readyDescription": "Klik di bawah untuk mulai mengunduh.",
+      "startDownload": "Unduh",
+      "downloading": "Mengunduh...",
+      "complete": "Unduhan Selesai!",
+      "completeDescription": "File Anda berhasil didapat.",
+      "charxDetected": "Ini file karakter!",
+      "charxDescription": "Simpan karakter dan lorebook ini ke database dengan satu klik.",
+      "saveToDatabase": "Simpan ke Database",
+      "downloadAnother": "Dapatkan File Lain",
+      "goHome": "Ke Beranda",
+      "troubleshooting": "Terlalu lama? Pengunggah mungkin berada di belakang firewall atau menutup browser.",
+      "sharePrompt": "Ingin berbagi file CharX juga?",
+      "startSharing": "Mulai Berbagi CharX"
+    }
+  },
+  "theme": {
+    "toggle": "Alihkan tema",
+    "light": "Terang",
+    "dark": "Gelap",
+    "system": "Sistem"
+  },
+  "chat": {
+    "leftPanel": {
+      "create": "Buat",
+      "createCharacter": "Buat Karakter",
+      "importCharx": "Impor .charx",
+      "createPersona": "Buat Persona",
+      "noCharacters": "Belum ada karakter nih~",
+      "createOne": "Buat satu",
+      "noDescription": "Belum ada deskripsi",
+      "characters": "Karakter",
+      "chats": "Chat",
+      "recentChats": "Chat Terakhir",
+      "newChat": "Chat Baru",
+      "noChats": "Belum ada chat nih~",
+      "startOne": "Mulai satu",
+      "yesterday": "Kemarin",
+      "deleteChat": "Hapus chat ini?",
+      "deleteCharacter": "Hapus \"{name}\"? Chat terkait juga ikut kehapus ya.",
+      "importing": "Mengimpor...",
+      "importSuccess": "Karakter berhasil diimpor!",
+      "importError": "Gagal impor",
+      "chatTitle": "Judul Chat",
+      "editChatTitleDescription": "Ganti judul chat ini.",
+      "chatTitlePlaceholder": "Masukkan judul chat..."
+    },
+    "centerPanel": {
+      "selectCharacter": "Pilih karakter dan chat untuk mulai",
+      "createFromLeft": "Atau buat karakter baru dari panel kiri",
+      "apiKeyRequired": "Butuh API Key",
+      "configureApiKey": "Atur API key Gemini kamu buat mulai chatting.",
+      "openSettings": "Buka Pengaturan",
+      "clearChat": "Hapus chat",
+      "thinking": "Mikir...",
+      "messagePlaceholder": "Ngobrol sama {name}...",
+      "clearAllMessages": "Hapus semua pesan di chat ini?",
+      "selectPersona": "Pilih persona",
+      "noPersonas": "Belum ada persona nih~",
+      "createPersona": "Buat persona",
+      "selectPersonaToSend": "Pilih persona dulu buat kirim pesan",
+      "createPersonaAction": "Buat"
+    },
+    "rightPanel": {
+      "selectCharacter": "Pilih karakter buat lihat detail",
+      "characterDetails": "Detail Karakter",
+      "personality": "Kepribadian",
+      "scenario": "Skenario",
+      "firstMessage": "Pesan Pertama",
+      "exampleDialogue": "Contoh Dialog",
+      "systemPrompt": "System Prompt",
+      "noPersonaDetails": "Belum ada detail persona.",
+      "creatorNotes": "Catatan Pembuat",
+      "created": "Dibuat",
+      "lastUpdated": "Update Terakhir",
+      "persona": "Persona",
+      "info": "Info",
+      "deleteCharacter": "Hapus \"{name}\"? Semua chat terkait juga ikut kehapus dan gak bisa diundo."
+    },
+    "editor": {
+      "editCharacter": "Edit Karakter",
+      "createCharacter": "Buat Karakter",
+      "editPersona": "Edit Persona",
+      "createPersona": "Buat Persona",
+      "modifyPersona": "Modifikasi detail persona Anda.",
+      "createPersonaDesc": "Buat persona untuk mewakili diri Anda di chat.",
+      "modifyCharacter": "Modifikasi detail karakter Anda.",
+      "createCharacterDesc": "Buat karakter baru untuk diajak ngobrol.",
+      "uploadAvatar": "Unggah Avatar",
+      "avatarHint": "PNG, JPG hingga 2MB",
+      "basic": "Dasar",
+      "persona": "Persona",
+      "details": "Detail",
+      "advanced": "Lanjutan",
+      "nameLabel": "Nama",
+      "nameRequired": "Nama *",
+      "yourName": "Nama Anda",
+      "characterName": "Nama karakter",
+      "description": "Deskripsi",
+      "descriptionPersona": "Deskripsi singkat tentang diri Anda",
+      "descriptionCharacter": "Deskripsi singkat karakter Anda",
+      "firstMessage": "Pesan Pertama",
+      "firstMessagePlaceholder": "Pesan pertama yang akan dikirim karakter Anda",
+      "personality": "Kepribadian",
+      "personalityCharacter": "Deskripsikan sifat, perilaku, keunikan...",
+      "scenario": "Skenario",
+      "scenarioPlaceholder": "Pengaturan atau konteks untuk percakapan",
+      "exampleDialogue": "Dialog Contoh",
+      "exampleDialoguePlaceholder": "Contoh percakapan untuk mengatur nada...",
+      "systemPrompt": "Prompt Sistem",
+      "systemPromptPlaceholder": "Prompt sistem kustom (menimpa default)",
+      "creatorNotes": "Catatan Pembuat",
+      "privateNotes": "Catatan Pribadi",
+      "notesPlaceholder": "Catatan pribadi (tidak dikirim ke AI)",
+      "saving": "Menyimpan...",
+      "saveChanges": "Simpan Perubahan"
+    },
+    "settings": {
+      "title": "Pengaturan",
+      "description": "Atur pengaturan API Anda. Semuanya disimpan secara lokal.",
+      "apiSection": "API",
+      "apiKeySection": "Kunci API",
+      "apiKeyDescription": "Konfigurasikan koneksi API dan pengaturan model Anda.",
+      "chatUISection": "UI Chat",
+      "chatUIDescription": "Sesuaikan cara pesan chat ditampilkan.",
+      "databaseSection": "Database",
+      "safety": "Keamanan",
+      "apiMode": "Mode API",
+      "apiModeServer": "API Server",
+      "apiModeServerDesc": "Gunakan kunci API server",
+      "apiModeClient": "Kunci API Anda",
+      "apiModeClientDesc": "Lebih privat",
+      "geminiApiKey": "Kunci API Gemini",
+      "enterApiKey": "Masukkan kunci API Gemini Anda",
+      "getApiKey": "Dapatkan kunci API dari",
+      "googleAiStudio": "Google AI Studio",
+      "defaultModel": "Model Default",
+      "selectModel": "Pilih model",
+      "temperature": "Temperatur",
+      "maxTokens": "Token Maksimal",
+      "bubbleTheme": "Tema Bubble Chat",
+      "themeRoleplay": "Roleplay",
+      "themeRoleplayDesc": "Teks bergaya dengan tanda kutip dan aksi",
+      "themeMessenger": "Messenger",
+      "themeMessengerDesc": "Teks polos, tanpa format",
+      "database": {
+        "title": "Pengelolaan Database",
+        "description": "Lihat statistik database dan kelola data lokal Anda.",
+        "storageUsage": "Penggunaan Penyimpanan",
+        "collections": "Koleksi",
+        "actions": "Aksi",
+        "exportData": "Ekspor Data",
+        "dangerZone": "Zona Berbahaya",
+        "resetWarning": "Ini akan menghapus SEMUA data Anda secara permanen termasuk karakter, chat, pesan, dan pengaturan. Gunakan jika mengalami masalah migrasi.",
+        "resetDatabase": "Reset Database",
+        "resetting": "Mereset..."
+      },
+      "safetyDescription": "Atur filter keamanan konten. Secara default, semua filter dimatikan untuk roleplay tanpa batasan.",
+      "hateSpeech": "Ujaran Kebencian",
+      "harassment": "Pelecehan",
+      "sexuallyExplicit": "Konten Seksual",
+      "dangerousContent": "Konten Berbahaya",
+      "blockNone": "Jangan Blokir",
+      "blockLow": "Blokir Rendah+",
+      "blockMedium": "Blokir Sedang+",
+      "blockHigh": "Blokir Tinggi Saja",
+      "saving": "Menyimpan..."
+    }
+  },
+  "connect": {
+    "meta": {
+      "title": "Chat Multi-Karakter P2P",
+      "description": "Buat sesi di mana karakter AI dapat ngobrol satu sama lain"
+    },
+    "title": "Chat Multi-Karakter P2P",
+    "subtitle": "Chat dengan beberapa karakter AI bersama. P2P berarti tanpa server di antaranya.",
+    "tabs": {
+      "existing": "Karakter Saya",
+      "upload": "Unggah .charx",
+      "photo": "Dari Foto"
+    },
+    "noCharacters": "Tidak ada karakter.",
+    "createInChat": "Buat satu di Chat",
+    "upload": {
+      "title": "Unggah File CharX",
+      "description": "Drop file .charx atau klik untuk pilih",
+      "formats": "Hanya file .charx yang didukung",
+      "error": "Gagal mengimpor",
+      "confirm": "Konfirmasi & Gunakan Karakter Ini"
+    },
+    "photo": {
+      "dropTitle": "Unggah Foto",
+      "dropDescription": "Drop gambar atau klik untuk pilih. AI akan menghasilkan karakter darinya.",
+      "selectFile": "Pilih Gambar",
+      "invalidType": "Silakan pilih file gambar (PNG, JPG, WebP, atau GIF)",
+      "tooLarge": "Gambar terlalu besar. Maks 10MB.",
+      "contextLabel": "Petunjuk (opsional)",
+      "contextPlaceholder": "mis., 'Pejuang fantasi' atau 'Buat mereka ramah'",
+      "contextHint": "Tambahkan petunjuk untuk memandu pembuatan karakter",
+      "generating": "Membuat karakter...",
+      "generate": "Buat Karakter",
+      "generated": "{name} siap!",
+      "generateError": "Tidak dapat membuat karakter. Coba lagi?",
+      "noApiKey": "Silakan atur kunci API Gemini Anda di Pengaturan terlebih dahulu.",
+      "apiKeyRequired": "Perlu Kunci API",
+      "apiKeyDescription": "Untuk membuat karakter dari foto, atur kunci API Gemini Anda di Pengaturan.",
+      "goToSettings": "Ke Pengaturan"
+    },
+    "confirm": {
+      "subtitle": "Tinjau karakter Anda dan atur password jika diinginkan.",
+      "passwordHint": "Orang lain memerlukan password ini untuk bergabung ke sesi Anda.",
+      "start": "Buat Sesi"
+    },
+    "leaveConfirm": {
+      "title": "Keluar dari Sesi?",
+      "description": "Anda akan terputus dari semua peserta dan meninggalkan chat.",
+      "confirm": "Keluar"
+    },
+    "creating": "Membuat sesi...",
+    "joining": "Bergabung ke sesi...",
+    "lobby": {
+      "title": "Ruang Tunggu",
+      "hostDescription": "Bagikan link di bawah untuk mengundang yang lain",
+      "guestDescription": "Menunggu host untuk memulai",
+      "shortUrl": "URL Pendek",
+      "longUrl": "URL Panjang",
+      "copied": "Link disalin!",
+      "copyFailed": "Tidak dapat menyalin link",
+      "participants": "Peserta",
+      "you": "Anda",
+      "host": "Host",
+      "connecting": "Menghubungkan...",
+      "selectingCharacter": "Memilih karakter...",
+      "waitingForOthers": "Menunggu yang lain...",
+      "leave": "Keluar",
+      "startChat": "Mulai Chat",
+      "needMoreParticipants": "Perlu setidaknya 2 orang untuk mulai"
+    },
+    "chat": {
+      "title": "Chat",
+      "participants": "peserta",
+      "active": "Aktif",
+      "pending": "Pending",
+      "autoReply": "Balas Otomatis",
+      "noMessages": "Belum ada pesan. Katakan sesuatu!",
+      "unknown": "Tidak Diketahui",
+      "generating": "Berpikir...",
+      "thinking": "{name} sedang berpikir...",
+      "placeholder": "Pesan sebagai {name}...",
+      "userJoined": "{name} bergabung",
+      "userLeft": "{name} keluar"
+    },
+    "join": {
+      "meta": {
+        "title": "Gabung Sesi",
+        "description": "Gabung sesi chat multi-karakter"
+      },
+      "title": "Gabung Sesi",
+      "subtitle": "Pilih karakter untuk bergabung",
+      "currentParticipants": "{count} orang sudah di sesi",
+      "passwordProtected": "Sesi ini dilindungi password",
+      "enterPassword": "Masukkan Password",
+      "passwordHintJoin": "Minta password dari host",
+      "passwordRequired": "Password diperlukan untuk bergabung sesi ini",
+      "passwordError": "Password salah. Coba lagi.",
+      "joinButton": "Gabung Sesi"
+    },
+    "notifications": {
+      "joined": "{name} bergabung",
+      "left": "{name} keluar"
+    },
+    "status": {
+      "connecting": "Menghubungkan...",
+      "connected": "Terhubung",
+      "connectedInfo": "Anda siap terhubung ke sesi P2P",
+      "disconnected": "Terputus"
+    },
+    "errors": {
+      "noPeer": "Koneksi jaringan gagal. Refresh halaman dan coba lagi.",
+      "hostLeft": "Host mengakhiri sesi",
+      "sessionFull": "Sesi Penuh",
+      "sessionFullDescription": "Sesi ini telah mencapai jumlah maksimal orang.",
+      "createOwn": "Buat Sesi Sendiri",
+      "connectionFailed": "Koneksi Gagal",
+      "connectionFailedDescription": "Tidak dapat terhubung ke sesi. Host mungkin telah keluar atau ada masalah jaringan.",
+      "tryAgain": "Coba Lagi",
+      "apiNotReady": "Perlu Kunci API",
+      "apiNotReadyDescription": "Silakan atur kunci API Anda di Pengaturan untuk menggunakan fitur AI.",
+      "openSettings": "Buka Pengaturan"
+    }
+  },
+  "howItWorks": {
+    "meta": {
+      "title": "Cara Kerja | OpenTamago",
+      "description": "Pelajari cara menggunakan Penampil CharX, Berbagi P2P, dan Chat Multi-Karakter P2P"
+    },
+    "hero": {
+      "title": "Cara Kerja",
+      "description": "Pelajari cara melihat, berbagi, dan ngobrol dengan karakter AI menggunakan OpenTamago"
+    },
+    "tryNow": "Coba Sekarang",
+    "charx": {
+      "title": "Penampil CharX",
+      "description": "Buka file karakter CharX langsung di browser Anda. Semua diproses secara lokal untuk privasi lengkap.",
+      "steps": {
+        "upload": {
+          "title": "Unggah File",
+          "description": "Drag and drop file .charx atau klik untuk browse"
+        },
+        "view": {
+          "title": "Lihat Karakter",
+          "description": "Lihat detail karakter, kepribadian, dan salam"
+        },
+        "lorebook": {
+          "title": "Jelajahi Lorebook",
+          "description": "Telusuri entri lorebook dengan trigger kata kunci"
+        },
+        "assets": {
+          "title": "Lihat Aset",
+          "description": "Lihat gambar tertanam seperti emosi dan avatar"
+        }
+      },
+      "highlights": {
+        "privacy": "100% pemrosesan lokal",
+        "formats": "Mendukung file .charx dan .json",
+        "export": "Simpan karakter ke database lokal"
+      }
+    },
+    "p2pShare": {
+      "title": "Berbagi P2P",
+      "description": "Bagikan file langsung dengan teman menggunakan P2P. Tidak disimpan di server.",
+      "steps": {
+        "select": {
+          "title": "Pilih File",
+          "description": "Pilih file untuk dibagikan"
+        },
+        "generate": {
+          "title": "Buat Link",
+          "description": "Dapatkan kode QR dan link yang dapat dibagikan"
+        },
+        "transfer": {
+          "title": "Transfer Langsung",
+          "description": "File ditransfer langsung via WebRTC"
+        },
+        "receive": {
+          "title": "Unduh",
+          "description": "Penerima mengunduh langsung dari Anda"
+        }
+      },
+      "highlights": {
+        "noServer": "Tanpa penyimpanan server",
+        "password": "Proteksi password opsional",
+        "qrCode": "Kode QR untuk berbagi mobile"
+      }
+    },
+    "p2pConnect": {
+      "title": "Chat Multi-Karakter P2P",
+      "description": "Buat sesi chat multi-karakter. Undang teman dan biarkan karakter AI ngobrol satu sama lain.",
+      "steps": {
+        "select": {
+          "title": "Pilih Karakter",
+          "description": "Pilih dari library Anda atau buat satu"
+        },
+        "invite": {
+          "title": "Undang Teman",
+          "description": "Bagikan link atau kode QR untuk mengundang"
+        },
+        "chat": {
+          "title": "Mulai Ngobrol",
+          "description": "Kirim pesan sebagai karakter Anda"
+        },
+        "ai": {
+          "title": "Balasan AI",
+          "description": "Nyalakan balas otomatis untuk respon AI"
+        }
+      },
+      "highlights": {
+        "realtime": "Pesan P2P real-time",
+        "multiParty": "Hingga 8 karakter per sesi",
+        "autoReply": "Balas otomatis bertenaga AI"
+      }
+    },
+    "privacy": {
+      "title": "Privasi Utama",
+      "description": "Semua fitur OpenTamago dibuat dengan privasi sebagai prioritas. Data Anda tetap di perangkat Anda.",
+      "noServer": {
+        "title": "Tanpa Penyimpanan Server",
+        "description": "File tidak pernah diunggah ke server kami. Semuanya terjadi di browser Anda."
+      },
+      "encrypted": {
+        "title": "Transfer Terenkripsi",
+        "description": "Koneksi P2P menggunakan WebRTC dengan enkripsi bawaan."
+      },
+      "openSource": {
+        "title": "Open Source",
+        "description": "Semua kode terbuka dan tersedia di GitHub."
+      }
+    }
+  },
+  "pokebox": {
+    "title": "CharX PokeBox",
+    "subtitle": "Lihat kartu karakter tersimpan, lorebook, dan aset Anda.",
+    "description": "Jelajahi dan kelola karakter AI tersimpan Anda di satu tempat.",
+    "selectCharacter": "Pilih karakter untuk melihat detail",
+    "moduleNotStored": "Modul tidak disimpan di database.",
+    "back": "Kembali",
+    "tabs": {
+      "character": "Karakter",
+      "lorebook": "Lorebook",
+      "assets": "Aset",
+      "module": "Modul"
+    },
+    "characterList": {
+      "title": "Karakter Saya",
+      "search": "Cari karakter...",
+      "empty": "Belum ada karakter tersimpan.",
+      "noResults": "Tidak ada karakter yang cocok dengan pencarian.",
+      "importFromCharx": "Impor dari CharX"
+    },
+    "deleteConfirm": {
+      "title": "Hapus Karakter?",
+      "description": "Ini akan menghapus \"{name}\" dan semua data terkait termasuk entri lorebook dan aset. Ini tidak dapat dibatalkan.",
+      "cancel": "Batal",
+      "confirm": "Hapus"
+    },
+    "byCreator": "{creator}",
+    "unnamedCharacter": "Karakter Tanpa Nama",
+    "created": "Dibuat",
+    "modified": "Dimodifikasi",
+    "empty": "Kosong",
+    "expandAll": "Perluas Semua",
+    "collapseAll": "Tutup Semua",
+    "greetingIndex": "Salam {index}",
+    "viewMode": {
+      "list": "List",
+      "raw": "Raw",
+      "markdown": "Markdown"
+    },
+    "characterTabs": {
+      "basic": "Dasar",
+      "messages": "Pesan",
+      "prompts": "Prompt",
+      "others": "Lainnya"
+    },
+    "fields": {
+      "description": "Deskripsi",
+      "personality": "Kepribadian",
+      "scenario": "Skenario",
+      "firstMessage": "Pesan Pertama",
+      "exampleDialogue": "Dialog Contoh",
+      "alternateGreetings": "Salam Alternatif",
+      "groupOnlyGreetings": "Salam Khusus Grup",
+      "systemPrompt": "Prompt Sistem",
+      "postHistoryInstructions": "Instruksi Pasca Riwayat",
+      "creatorInfo": "Info Pembuat",
+      "creator": "Pembuat",
+      "characterVersion": "Versi",
+      "dates": "Tanggal",
+      "creatorNotes": "Catatan Pembuat"
+    },
+    "lorebook": {
+      "title": "Entri Lorebook",
+      "entries": "{count} entri",
+      "noEntries": "Karakter ini tidak memiliki entri lorebook.",
+      "enabled": "Aktif",
+      "disabled": "Nonaktif",
+      "priority": "Prioritas",
+      "noKeys": "Tidak ada kata kunci",
+      "moreKeys": "+{count} lagi"
+    },
+    "assets": {
+      "title": "Aset Karakter",
+      "totalExtracted": "{count} total aset",
+      "noAssets": "Tidak ada aset di kategori ini",
+      "sort": "Urutkan",
+      "group": "Kelompok",
+      "sortAZ": "A-Z",
+      "sortZA": "Z-A",
+      "sortByFilename": "Berdasar nama file",
+      "groupByFilename": "Kelompokkan berdasar nama file",
+      "emotions": "Emosi",
+      "icons": "Ikon",
+      "backgrounds": "Latar Belakang",
+      "other": "Lainnya"
+    },
+    "toast": {
+      "copiedToClipboard": "Disalin!",
+      "failedToCopy": "Gagal menyalin"
+    }
+  },
+  "localeDetector": {
+    "title": "Halo!",
+    "description": "Kayaknya bahasa browser kamu beda sama halaman ini. Mau ganti?",
+    "selectLanguage": "Pilih bahasa",
+    "dontShowAgain": "Jangan tampilkan lagi",
+    "continue": "Ganti Bahasa",
+    "stayHere": "Tetap Di Sini"
+  }
+}

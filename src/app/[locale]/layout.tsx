@@ -10,11 +10,29 @@ import { LocaleDetectorDialog } from "~/components/locale-detector-dialog";
 import enMessages from "~/i18n/messages/en.json";
 import koMessages from "~/i18n/messages/ko.json";
 import jaMessages from "~/i18n/messages/ja.json";
+import zhCNMessages from "~/i18n/messages/zh-CN.json";
+import zhTWMessages from "~/i18n/messages/zh-TW.json";
+import idMessages from "~/i18n/messages/id.json";
+import viMessages from "~/i18n/messages/vi.json";
+import esMessages from "~/i18n/messages/es.json";
+import ptMessages from "~/i18n/messages/pt.json";
+import deMessages from "~/i18n/messages/de.json";
+import frMessages from "~/i18n/messages/fr.json";
+import trMessages from "~/i18n/messages/tr.json";
 
 const messages: Record<Locale, typeof enMessages> = {
   en: enMessages,
   ko: koMessages,
   ja: jaMessages,
+  "zh-CN": zhCNMessages,
+  "zh-TW": zhTWMessages,
+  id: idMessages,
+  vi: viMessages,
+  es: esMessages,
+  pt: ptMessages,
+  de: deMessages,
+  fr: frMessages,
+  tr: trMessages,
 };
 
 type Props = {

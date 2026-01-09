@@ -19,9 +19,11 @@
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
     "dev": "next dev --turbo",
+    "i18n:validate": "tsx scripts/validate-i18n.ts",
     "preview": "next build && next start",
     "start": "next start",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "prepare": "husky"
   },
   "dependencies": {
     "@ai-sdk/google": "^3.0.2",
@@ -88,6 +90,7 @@
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "drizzle-kit": "^0.30.5",
+    "husky": "^9.1.7",
     "postcss": "^8.5.3",
     "react-scan": "^0.4.3",
     "tailwindcss": "^4.0.15",

@@ -9,13 +9,14 @@ OpenTamago is a full-stack TypeScript application built with the T3 Stack (Next.
 ## Commands
 
 ```bash
-pnpm dev          # Start dev server with Turbo
-pnpm build        # Production build
-pnpm typecheck    # TypeScript type checking
-pnpm db:push      # Push schema to database
-pnpm db:generate  # Generate database migrations
-pnpm db:migrate   # Run migrations
-pnpm db:studio    # Open Drizzle Studio GUI
+pnpm dev           # Start dev server with Turbo
+pnpm build         # Production build
+pnpm typecheck     # TypeScript type checking
+pnpm i18n:validate # Validate i18n locale files match en.json
+pnpm db:push       # Push schema to database
+pnpm db:generate   # Generate database migrations
+pnpm db:migrate    # Run migrations
+pnpm db:studio     # Open Drizzle Studio GUI
 ```
 
 ## Architecture
@@ -85,6 +86,28 @@ const t = useTranslations("namespace");
 ```
 
 **Adding New Pages**: All pages must be under `src/app/[locale]/` and call `setRequestLocale(locale)` for static rendering.
+
+### Locale Validation
+
+A pre-push git hook validates that all locale files have the same keys as `en.json`. This prevents missing translations from being pushed.
+
+```bash
+pnpm i18n:validate                 # Validate all locales
+pnpm i18n:validate --locale ja     # Validate only Japanese
+pnpm i18n:validate --locale ja ko  # Validate Japanese and Korean
+```
+
+**When adding new translation keys:**
+1. Add the key to `en.json` first (English is the reference locale)
+2. Add the same key to all other locale files in `src/i18n/messages/`
+3. Run `pnpm i18n:validate` to verify all locales are in sync
+
+**Validation checks:**
+- Missing keys (in English but not in other locales)
+- Extra keys (in other locales but not in English)
+- JSON syntax errors
+
+The validation script is at `scripts/validate-i18n.ts` and the hook is configured in `.husky/pre-push`.
 
 ## SEO Requirements
 

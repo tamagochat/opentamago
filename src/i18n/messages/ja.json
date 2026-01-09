@@ -359,6 +359,12 @@
       "description": "CharXビューアーの読み込み中に問題が起きたよ。ファイルが壊れてるか、ブラウザの互換性の問題かも。",
       "retry": "もう一度試す",
       "goHome": "ホームに戻る"
+    },
+    "pokebox": {
+      "title": "CharX PokeBoxエラー",
+      "description": "保存されたキャラクターの読み込み中に問題が起きたよ。ページを更新してみてね。",
+      "retry": "もう一度試す",
+      "goHome": "ホームに戻る"
     }
   },
   "footer": {
@@ -374,6 +380,7 @@
   "nav": {
     "home": "ホーム",
     "charxViewer": "CharXビューアー",
+    "charxPokebox": "CharX PokeBox",
     "p2pShare": "P2P共有",
     "chat": "チャット",
     "connect": "P2Pコネクト",
@@ -822,5 +829,96 @@
     "dontShowAgain": "今後表示しない",
     "continue": "言語を切り替える",
     "stayHere": "このまま続ける"
+  },
+  "pokebox": {
+    "title": "CharX PokeBox",
+    "subtitle": "保存されたキャラクターカード、ロアブック、アセットを確認しよう。",
+    "description": "保存されたAIキャラクターを一か所で管理しよう。",
+    "selectCharacter": "キャラクターを選択して詳細を確認してね",
+    "moduleNotStored": "モジュールはデータベースに保存されないよ。",
+    "back": "戻る",
+    "tabs": {
+      "character": "キャラクター",
+      "lorebook": "ロアブック",
+      "assets": "アセット",
+      "module": "モジュール"
+    },
+    "characterList": {
+      "title": "マイキャラクター",
+      "search": "キャラクター検索...",
+      "empty": "保存されたキャラクターがないよ。",
+      "noResults": "検索結果がないよ。",
+      "importFromCharx": "CharXからインポート"
+    },
+    "deleteConfirm": {
+      "title": "キャラクター削除",
+      "description": "「{name}」を削除するとロアブックとアセットも削除されるよ。元に戻せないよ。",
+      "cancel": "キャンセル",
+      "confirm": "削除"
+    },
+    "byCreator": "{creator}",
+    "unnamedCharacter": "名前なしキャラクター",
+    "created": "作成日",
+    "modified": "更新日",
+    "empty": "空",
+    "expandAll": "すべて展開",
+    "collapseAll": "すべて折りたたむ",
+    "greetingIndex": "挨拶 {index}",
+    "viewMode": {
+      "list": "リスト",
+      "raw": "生データ",
+      "markdown": "マークダウン"
+    },
+    "characterTabs": {
+      "basic": "基本",
+      "messages": "メッセージ",
+      "prompts": "プロンプト",
+      "others": "その他"
+    },
+    "fields": {
+      "description": "説明",
+      "personality": "性格",
+      "scenario": "シナリオ",
+      "firstMessage": "最初のメッセージ",
+      "exampleDialogue": "サンプル会話",
+      "alternateGreetings": "代替挨拶",
+      "groupOnlyGreetings": "グループ専用挨拶",
+      "systemPrompt": "システムプロンプト",
+      "postHistoryInstructions": "履歴後指示",
+      "creatorInfo": "作成者情報",
+      "creator": "作成者",
+      "characterVersion": "バージョン",
+      "dates": "日付",
+      "creatorNotes": "作成者ノート"
+    },
+    "lorebook": {
+      "title": "ロアブックエントリ",
+      "entries": "{count}件のエントリ",
+      "noEntries": "このキャラクターのロアブックエントリがないよ。",
+      "enabled": "有効",
+      "disabled": "無効",
+      "priority": "優先度",
+      "noKeys": "キーなし",
+      "moreKeys": "+{count}件"
+    },
+    "assets": {
+      "title": "キャラクターアセット",
+      "totalExtracted": "合計{count}個のアセット",
+      "noAssets": "このカテゴリにアセットがないよ",
+      "sort": "並べ替え",
+      "group": "グループ",
+      "sortAZ": "昇順",
+      "sortZA": "降順",
+      "sortByFilename": "ファイル名順",
+      "groupByFilename": "ファイル名でグループ",
+      "emotions": "表情",
+      "icons": "アイコン",
+      "backgrounds": "背景",
+      "other": "その他"
+    },
+    "toast": {
+      "copiedToClipboard": "コピーしたよ!",
+      "failedToCopy": "コピー失敗"
+    }
   }
 }

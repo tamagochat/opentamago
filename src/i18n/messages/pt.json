@@ -1,0 +1,924 @@
+{
+  "common": {
+    "appName": "OpenTamago",
+    "tagline": "Visualizador e Compartilhamento de Personagens IA Open Source",
+    "loading": "Carregando...",
+    "error": "Ops, algo deu errado",
+    "retry": "Tentar novamente",
+    "comingSoon": "Em breve"
+  },
+  "experimental": {
+    "badge": "Novidade",
+    "charx": "Essa função ainda está em desenvolvimento! Suporta CharX v3, mas ainda estamos melhorando~",
+    "p2p": "Usa WebRTC para conexões P2P diretas. Só compartilhe QR e links com pessoas de confiança!",
+    "chat": "Esse chat é para devs testarem LLMs. Para chat com IA no dia a dia, use outros serviços~",
+    "feedback": "Encontrou um bug ou tem sugestões? Conta pra gente no <link>GitHub Issues</link>!"
+  },
+  "actions": {
+    "save": "Salvar",
+    "cancel": "Cancelar",
+    "delete": "Excluir",
+    "edit": "Editar",
+    "close": "Fechar",
+    "submit": "Enviar",
+    "upload": "Enviar",
+    "download": "Baixar"
+  },
+  "home": {
+    "hero": {
+      "title": "Seu Personagem IA",
+      "titleHighlight": "Amigo",
+      "description": "Visualize, compartilhe e converse com personagens IA. Do visualizador CharX ao compartilhamento CharX via P2P, tudo é gratuito e open source."
+    },
+    "cta": {
+      "openViewer": "Abrir Visualizador CharX",
+      "viewGithub": "Ver no GitHub",
+      "tryViewer": "Testar Visualizador CharX",
+      "startSharing": "Começar Compartilhamento CharX",
+      "startConnect": "Iniciar Sessão CharX",
+      "p2pLabel": "Recursos P2P"
+    },
+    "features": {
+      "title": "Tudo que Você Precisa",
+      "description": "Um kit completo de ferramentas para entusiastas de personagens IA",
+      "charxViewer": {
+        "title": "Visualizador CharX",
+        "description": "Confira cards de personagens, lorebooks e assets de arquivos CharX. Tudo roda direto no seu navegador."
+      },
+      "p2pSharing": {
+        "title": "Compartilhamento CharX P2P",
+        "description": "Compartilhe arquivos de personagens diretamente com amigos usando P2P. Sem upload para servidores, transferências instantâneas!"
+      },
+      "connect": {
+        "title": "Chat Multi-Personagem P2P",
+        "description": "Configure sessões de chat com múltiplos personagens IA. Convide amigos e veja os personagens interagindo entre si."
+      }
+    },
+    "showcase": {
+      "badge": "Visualizador CharX",
+      "title": "Explore Arquivos de Personagens Facilmente",
+      "dragDrop": {
+        "title": "Arrasta e Solta",
+        "description": "Só solte seus arquivos .charx para ver o conteúdo instantaneamente"
+      },
+      "cardInfo": {
+        "title": "Todas as Infos do Personagem de Uma Vez",
+        "description": "Veja detalhes do personagem, lorebooks, assets de imagem e mais"
+      },
+      "clientSide": {
+        "title": "100% Processamento Local",
+        "description": "Seus arquivos nunca saem do navegador. Privacidade total garantida!"
+      },
+      "dropzone": {
+        "title": "Solte arquivos .charx aqui",
+        "subtitle": "ou clique para navegar"
+      }
+    },
+    "p2pShowcase": {
+      "badge": "Compartilhamento CharX P2P",
+      "title": "Compartilhe Cards de Personagens Instantaneamente",
+      "sender": "Você",
+      "receivers": "Amigos",
+      "directTransfer": "Transferência direta entre navegadores",
+      "qrCode": {
+        "title": "Código QR e Links",
+        "description": "Gere códigos QR e links para transferências fáceis no celular"
+      },
+      "webrtc": {
+        "title": "Transferência Direta WebRTC",
+        "description": "Arquivos vão direto entre navegadores. Sem armazenamento em servidores."
+      },
+      "password": {
+        "title": "Proteção por Senha",
+        "description": "Proteja seus compartilhamentos com senha se quiser"
+      }
+    },
+    "highlights": {
+      "privacy": {
+        "title": "100% Processamento Local",
+        "description": "Visualize arquivos CharX direto no seu navegador. Seus dados nunca saem do seu dispositivo."
+      },
+      "fast": {
+        "title": "Conexão P2P Direta",
+        "description": "Compartilhe arquivos e converse com amigos diretamente. Sem servidores no meio!"
+      },
+      "openSource": {
+        "title": "Open Source",
+        "description": "Todo código é público. Contribua, personalize e faça do seu jeito."
+      }
+    },
+    "ready": {
+      "title": "Pronto para Começar?",
+      "description": "Explore seus arquivos de personagens com nosso visualizador que prioriza privacidade."
+    },
+    "demo": {
+      "charx": {
+        "tabs": {
+          "character": "Personagem",
+          "lorebook": "Lorebook",
+          "assets": "Assets"
+        },
+        "greetings": "variações de saudação",
+        "lorebookEntries": "{count} entradas",
+        "assetsFound": "{count} assets",
+        "fileReceived": "Arquivo recebido!",
+        "processing": "Processando..."
+      },
+      "p2p": {
+        "selectFile": "Selecionar arquivo",
+        "generating": "Criando...",
+        "scanToJoin": "Escaneie para entrar",
+        "waiting": "Aguardando...",
+        "readyToScan": "Pronto para escanear",
+        "scanning": "Escaneando...",
+        "connecting": "Conectando...",
+        "complete": "Pronto!",
+        "waitingConnection": "Aguardando...",
+        "connected": "Conectado",
+        "transferred": "Enviado!"
+      },
+      "connect": {
+        "waitingRoom": "Sala de Espera",
+        "participants": "Participantes",
+        "chat": "Chat",
+        "p2pBadge": "P2P Conectado",
+        "message1": "Oi! Prontos pra conversar?~",
+        "message2": "Bora lá!",
+        "aiReply": "Oi pessoal! Prazer em conhecer vocês~!",
+        "inputPlaceholder": "Digite uma mensagem..."
+      }
+    },
+    "connectShowcase": {
+      "badge": "Conectar P2P",
+      "poweredBy": "Entre com Seu Personagem",
+      "title": "Conecte Sua IA com Outras",
+      "description": "Crie uma sala de chat com seu personagem IA e convide amigos. Veja diferentes IAs conversando em tempo real. Vai ser muito legal!",
+      "realtime": {
+        "title": "Chat P2P",
+        "description": "Conexão direta entre navegadores. Converse com amigos sem servidores."
+      },
+      "aiPowered": {
+        "title": "Auto-Resposta IA",
+        "description": "Cada personagem responde com sua própria personalidade"
+      },
+      "multiParty": {
+        "title": "Até 8 Pessoas",
+        "description": "Compartilhe um código QR ou link para convidar amigos"
+      }
+    }
+  },
+  "charx": {
+    "title": "Visualizador CharX",
+    "subtitle": "Confira cards de personagens, lorebooks e assets. Roda direto no seu navegador!",
+    "description": "Abra arquivos de personagens CharX direto no seu navegador. Visualize cards, lorebooks e assets com privacidade completa.",
+    "upload": {
+      "title": "Enviar Arquivo CharX",
+      "description": "Arraste e solte um arquivo .charx ou clique para navegar",
+      "dropHere": "Solte seu arquivo aqui",
+      "invalidFile": "Apenas arquivos .charx são suportados",
+      "dropFiles": "Solte seus arquivos .charx aqui",
+      "browseMultiple": "ou clique para navegar (múltiplos arquivos OK)",
+      "downloadLink": "Obtenha arquivos de personagens (.charx) em <link>realm.risuai.net</link>",
+      "unsupportedFile": "Arquivo não suportado: {names}. Apenas arquivos .charx funcionam aqui.",
+      "unsupportedFiles": "Arquivos não suportados: {names}. Apenas arquivos .charx funcionam aqui.",
+      "andMore": " e mais {count}",
+      "or": "ou",
+      "realmPlaceholder": "Cole URL do RisuRealm ou ID do personagem...",
+      "realmDownload": "Baixar",
+      "realmHint": "Funciona com URLs do realm.risuai.net ou UUIDs de personagens",
+      "realmDownloadSuccess": "Personagem baixado!",
+      "realmError": {
+        "INVALID_UUID": "Esse ID ou URL do RisuRealm não parece correto",
+        "INVALID_CHARX": "Não foi possível encontrar esse personagem no RisuRealm. Verificar o ID?",
+        "FILE_TOO_LARGE": "Arquivo muito grande ({size}). Tente baixar e enviar manualmente.",
+        "DOWNLOAD_FAILED": "Não foi possível baixar do RisuRealm. Tentar novamente?"
+      },
+      "tryDemo": "Testar Personagem Demo",
+      "demoHint": "Carregue um personagem de exemplo para explorar o visualizador"
+    },
+    "tabs": {
+      "character": "Personagem",
+      "lorebook": "Lorebook",
+      "assets": "Assets",
+      "module": "Módulo"
+    },
+    "empty": {
+      "noCharacterCard": "Nenhum card de personagem encontrado",
+      "noLorebook": "Nenhum lorebook encontrado",
+      "noModule": "Nenhum módulo encontrado",
+      "noAssets": "Sem assets nesta categoria",
+      "noAssetsInFile": "Sem assets neste arquivo",
+      "noModuleContent": "Sem conteúdo de módulo",
+      "noTriggerScripts": "Sem scripts de trigger",
+      "noRegexScripts": "Sem scripts de regex",
+      "noCommonJSCode": "Sem código CommonJS"
+    },
+    "files": {
+      "title": "Arquivos",
+      "loaded": "{count} arquivos carregados",
+      "parsing": "Analisando...",
+      "dropMore": "Solte mais arquivos .charx ou clique para adicionar",
+      "queue": "Fila",
+      "queued": "Na fila",
+      "delete": "Excluir"
+    },
+    "assets": {
+      "title": "Assets",
+      "totalExtracted": "{count} assets no total",
+      "sort": "Ordenar",
+      "group": "Agrupar",
+      "sortAZ": "A-Z",
+      "sortZA": "Z-A",
+      "sortByFilename": "Por nome do arquivo",
+      "groupByFilename": "Agrupar por nome",
+      "emotions": "Emoções",
+      "icons": "Ícones",
+      "backgrounds": "Fundos",
+      "other": "Outros",
+      "cardMetadata": "Metadata do Card ({count} referência)",
+      "cardMetadataPlural": "Metadata do Card ({count} referências)"
+    },
+    "module": {
+      "title": "Módulo: {name}",
+      "unnamed": "Sem nome",
+      "noDescription": "Sem descrição",
+      "triggers": "Triggers",
+      "triggersCount": "{count} Triggers",
+      "regex": "Regex",
+      "regexCount": "{count} Regex",
+      "code": "Código",
+      "cjsCode": "Código CJS",
+      "lowLevelAccess": "Acesso de Baixo Nível"
+    },
+    "character": {
+      "unnamedCharacter": "Personagem Sem Nome",
+      "byCreator": "{creator}",
+      "tabs": {
+        "basic": "Básico",
+        "messages": "Mensagens",
+        "prompts": "Prompts",
+        "others": "Outros"
+      },
+      "viewMode": {
+        "list": "Lista",
+        "raw": "Raw",
+        "markdown": "Markdown"
+      },
+      "expandAll": "Expandir Tudo",
+      "collapseAll": "Recolher Tudo",
+      "saveAsFile": "Salvar como arquivo",
+      "copyToClipboard": "Copiar para área de transferência",
+      "created": "Criado",
+      "modified": "Modificado",
+      "empty": "Vazio",
+      "loreCount": "{count} lorebooks",
+      "assetsCount": "{count} assets"
+    },
+    "lorebook": {
+      "title": "Lorebook do Personagem",
+      "entries": "{count} entradas",
+      "noEntries": "Sem entradas de lorebook",
+      "enabled": "Ativado",
+      "disabled": "Desativado",
+      "priority": "Prioridade",
+      "noKeys": "Sem chaves",
+      "moreKeys": "+{count} mais",
+      "moreKeysPrefix": "+"
+    },
+    "toast": {
+      "copiedToClipboard": "Copiado!",
+      "failedToCopy": "Falha ao copiar",
+      "fileSaved": "Arquivo salvo",
+      "lorebookCopied": "JSON do Lorebook copiado!",
+      "characterCopied": "JSON do Personagem copiado!",
+      "couldNotCopy": "Não foi possível copiar para área de transferência"
+    },
+    "errorBoundary": {
+      "title": "Ops, algo deu errado",
+      "description": "Ocorreu um erro inesperado. Por favor, recarregue a página.",
+      "refreshPage": "Recarregar"
+    },
+    "export": {
+      "button": "Salvar no Banco de Dados",
+      "title": "Salvar Personagem no Banco de Dados",
+      "description": "Salve este personagem e lorebook localmente para acessar no chat.",
+      "character": {
+        "title": "Personagem",
+        "unnamed": "Sem nome",
+        "description": "Dados do card incluindo nome, descrição, personalidade e mensagens.",
+        "moreTags": "mais"
+      },
+      "lorebook": {
+        "title": "Lorebook",
+        "entries": "entradas",
+        "description": "Entradas do lorebook serão salvas para contexto durante os chats.",
+        "noLorebook": "Sem lorebook neste arquivo de personagem."
+      },
+      "info": "Uma vez salvo, você pode facilmente importar cards de personagens para compartilhamento P2P e connect.",
+      "infoMessages": {
+        "databaseReady": "Banco de dados pronto! Você pode salvar agora."
+      },
+      "save": "Salvar",
+      "cancel": "Cancelar",
+      "saving": "Salvando...",
+      "loading": "Carregando...",
+      "success": {
+        "title": "Salvo!",
+        "description": "{name} foi salvo no seu banco de dados.",
+        "goToChat": "Ir para o Chat"
+      },
+      "error": {
+        "title": "Não foi possível salvar",
+        "description": "Algo deu errado ao salvar. Tentar novamente?",
+        "databaseNotReady": "Banco de dados ainda não está pronto. Aguarde um momento e tente novamente.",
+        "databaseInitFailed": "Não foi possível iniciar o banco de dados. Recarregue a página e tente novamente."
+      },
+      "initializing": "Iniciando..."
+    },
+    "shareP2P": "Compartilhar via P2P",
+    "error": "Erro",
+    "warning": "Aviso",
+    "filesExcluded": "{count} arquivos excluídos por limite de tamanho (>50MB):"
+  },
+  "errors": {
+    "notFound": {
+      "title": "404",
+      "heading": "Página Não Encontrada",
+      "description": "A página que você está procurando não existe ou foi movida.",
+      "goHome": "Ir para Início",
+      "openCharxViewer": "Visualizador CharX"
+    },
+    "generic": {
+      "title": "Ops, algo deu errado",
+      "description": "Ocorreu um erro inesperado. Tente novamente ou volte para o início.",
+      "retry": "Tentar Novamente",
+      "goHome": "Ir para Início"
+    },
+    "charx": {
+      "title": "Erro do Visualizador CharX",
+      "description": "Algo deu errado ao carregar o visualizador. O arquivo pode estar corrompido ou há um problema de compatibilidade do navegador.",
+      "retry": "Tentar Novamente",
+      "goHome": "Ir para Início"
+    },
+    "pokebox": {
+      "title": "Erro do CharX PokeBox",
+      "description": "Algo deu errado ao carregar seus personagens salvos. Por favor, tente recarregar a página.",
+      "retry": "Tentar Novamente",
+      "goHome": "Ir para Início"
+    }
+  },
+  "footer": {
+    "description": "Plataforma de personagens IA open source. Visualize, compartilhe e converse com personagens IA.",
+    "product": "Produto",
+    "resources": "Recursos",
+    "documentation": "Docs",
+    "legal": "Legal",
+    "privacy": "Política de Privacidade",
+    "terms": "Termos de Serviço",
+    "copyright": "OpenTamago. Todos os direitos reservados."
+  },
+  "nav": {
+    "home": "Início",
+    "charxViewer": "Visualizador CharX",
+    "charxPokebox": "CharX PokeBox",
+    "p2pShare": "Compartilhar P2P",
+    "chat": "Chat",
+    "connect": "Conectar P2P",
+    "howItWorks": "Como Funciona",
+    "github": "GitHub",
+    "toggleMenu": "Alternar menu",
+    "navigationMenu": "Menu"
+  },
+  "p2p": {
+    "title": "Compartilhamento CharX P2P",
+    "subtitle": "Compartilhe arquivos de personagens diretamente com amigos. P2P significa sem servidor no meio.",
+    "privacyNote": "Arquivos são transferidos diretamente entre navegadores via WebRTC. Nada fica armazenado em servidores.",
+    "confirmTitle": "Pronto para Compartilhar",
+    "confirmSubtitle": "Revise seu arquivo e defina uma senha se quiser.",
+    "passwordLabel": "Senha (opcional)",
+    "passwordPlaceholder": "Digite uma senha...",
+    "passwordHint": "Deixe vazio para compartilhar sem proteção por senha.",
+    "cancel": "Cancelar",
+    "start": "Começar a Compartilhar",
+    "connecting": "Conectando...",
+    "sharingTitle": "Compartilhando Seu Arquivo",
+    "sharingSubtitle": "Mantenha esta aba aberta. Compartilhe o link abaixo para que outros baixem.",
+    "stopSharing": "Parar Compartilhamento",
+    "stopSharingConfirm": "Realmente parar de compartilhar?",
+    "stopSharingDescription": "Todos os downloads ativos serão cortados.",
+    "confirmStop": "Sim, parar",
+    "sharingWarning": "O compartilhamento será desconectado se você sair ou recarregar. Mantenha esta aba aberta.",
+    "dropzone": {
+      "dropHere": "Solte seu arquivo aqui",
+      "dropToShare": "Solte um arquivo .charx para compartilhar",
+      "orClickToBrowse": "ou clique para navegar"
+    },
+    "download": {
+      "title": "Baixar Arquivo CharX",
+      "connecting": "Conectando com quem está compartilhando...",
+      "connectionFailed": "Não foi possível conectar com quem está compartilhando. Eles podem ter fechado o navegador.",
+      "notFound": "Link de compartilhamento não encontrado ou expirado",
+      "notFoundDescription": "O arquivo que você está procurando não está mais disponível. Quem estava compartilhando pode ter parado.",
+      "passwordRequired": "Este arquivo está protegido por senha",
+      "passwordPlaceholder": "Digite a senha...",
+      "passwordError": "Senha errada. Tentar novamente?",
+      "submit": "Enviar",
+      "readyTitle": "Pronto para Baixar",
+      "readyDescription": "Clique abaixo para começar a baixar.",
+      "startDownload": "Baixar",
+      "downloading": "Baixando...",
+      "complete": "Download Completo!",
+      "completeDescription": "Arquivo obtido com sucesso.",
+      "charxDetected": "É um arquivo de personagem!",
+      "charxDescription": "Salve este personagem e lorebook no seu banco de dados com um clique.",
+      "saveToDatabase": "Salvar no Banco de Dados",
+      "downloadAnother": "Obter Outro Arquivo",
+      "goHome": "Ir para Início",
+      "troubleshooting": "Demorando muito? Quem está compartilhando pode estar atrás de um firewall ou fechou o navegador.",
+      "sharePrompt": "Quer compartilhar arquivos CharX também?",
+      "startSharing": "Começar Compartilhamento CharX"
+    }
+  },
+  "theme": {
+    "toggle": "Alternar tema",
+    "light": "Claro",
+    "dark": "Escuro",
+    "system": "Sistema"
+  },
+  "chat": {
+    "leftPanel": {
+      "create": "Criar",
+      "createCharacter": "Criar Personagem",
+      "importCharx": "Importar .charx",
+      "createPersona": "Criar Persona",
+      "noCharacters": "Nenhum personagem ainda.",
+      "createOne": "Crie um",
+      "noDescription": "Sem descrição",
+      "characters": "Personagens",
+      "chats": "Chats",
+      "recentChats": "Chats Recentes",
+      "newChat": "Novo Chat",
+      "noChats": "Nenhum chat ainda.",
+      "startOne": "Comece um",
+      "yesterday": "Ontem",
+      "deleteChat": "Excluir esse chat?",
+      "deleteCharacter": "Excluir \"{name}\"? Todos os chats relacionados também serão excluídos.",
+      "importing": "Importando...",
+      "importSuccess": "Personagem importado!",
+      "importError": "Falha na importação",
+      "chatTitle": "Título do Chat",
+      "editChatTitleDescription": "Mude o título dessa conversa.",
+      "chatTitlePlaceholder": "Digite o título..."
+    },
+    "centerPanel": {
+      "selectCharacter": "Escolha um personagem e chat pra começar",
+      "createFromLeft": "Ou crie um novo pelo painel esquerdo",
+      "apiKeyRequired": "API Key Necessária",
+      "configureApiKey": "Configure sua API key do Gemini pra conversar.",
+      "openSettings": "Abrir Configurações",
+      "clearChat": "Limpar chat",
+      "thinking": "Pensando...",
+      "messagePlaceholder": "Fala algo pro {name}...",
+      "clearAllMessages": "Limpar todas as mensagens desse chat?",
+      "selectPersona": "Selecionar persona",
+      "noPersonas": "Nenhuma persona ainda.",
+      "createPersona": "Criar persona",
+      "selectPersonaToSend": "Selecione uma persona pra enviar mensagens",
+      "createPersonaAction": "Criar"
+    },
+    "rightPanel": {
+      "selectCharacter": "Selecione um personagem para ver detalhes",
+      "characterDetails": "Detalhes do Personagem",
+      "personality": "Personalidade",
+      "scenario": "Cenário",
+      "firstMessage": "Primeira Mensagem",
+      "exampleDialogue": "Diálogo de Exemplo",
+      "systemPrompt": "Prompt do Sistema",
+      "noPersonaDetails": "Sem detalhes de persona configurados.",
+      "creatorNotes": "Notas do Criador",
+      "created": "Criado",
+      "lastUpdated": "Última Atualização",
+      "persona": "Persona",
+      "info": "Info",
+      "deleteCharacter": "Excluir \"{name}\"? Todos os chats relacionados também serão excluídos. Isso não pode ser desfeito."
+    },
+    "editor": {
+      "editCharacter": "Editar Personagem",
+      "createCharacter": "Criar Personagem",
+      "editPersona": "Editar Persona",
+      "createPersona": "Criar Persona",
+      "modifyPersona": "Modifique os detalhes da sua persona.",
+      "createPersonaDesc": "Crie uma persona para representar você nos chats.",
+      "modifyCharacter": "Modifique os detalhes do seu personagem.",
+      "createCharacterDesc": "Crie um novo personagem para conversar.",
+      "uploadAvatar": "Enviar Avatar",
+      "avatarHint": "PNG, JPG até 2MB",
+      "basic": "Básico",
+      "persona": "Persona",
+      "details": "Detalhes",
+      "advanced": "Avançado",
+      "nameLabel": "Nome",
+      "nameRequired": "Nome *",
+      "yourName": "Seu nome",
+      "characterName": "Nome do personagem",
+      "description": "Descrição",
+      "descriptionPersona": "Uma breve descrição sobre você",
+      "descriptionCharacter": "Uma breve descrição do seu personagem",
+      "firstMessage": "Primeira Mensagem",
+      "firstMessagePlaceholder": "A primeira mensagem que seu personagem enviará",
+      "personality": "Personalidade",
+      "personalityCharacter": "Descreva traços de personalidade, comportamentos, manias...",
+      "scenario": "Cenário",
+      "scenarioPlaceholder": "O cenário ou contexto para as conversas",
+      "exampleDialogue": "Diálogo de Exemplo",
+      "exampleDialoguePlaceholder": "Conversas de exemplo para definir o tom...",
+      "systemPrompt": "Prompt do Sistema",
+      "systemPromptPlaceholder": "Prompt customizado (substitui o padrão)",
+      "creatorNotes": "Notas do Criador",
+      "privateNotes": "Notas Privadas",
+      "notesPlaceholder": "Notas privadas (não enviadas para a IA)",
+      "saving": "Salvando...",
+      "saveChanges": "Salvar Alterações"
+    },
+    "settings": {
+      "title": "Configurações",
+      "description": "Configure suas configurações de API. Tudo é armazenado localmente.",
+      "apiSection": "API",
+      "apiKeySection": "API Key",
+      "apiKeyDescription": "Configure sua conexão API e configurações do modelo.",
+      "chatUISection": "Interface do Chat",
+      "chatUIDescription": "Personalize como as mensagens do chat são exibidas.",
+      "databaseSection": "Banco de Dados",
+      "safety": "Segurança",
+      "apiMode": "Modo API",
+      "apiModeServer": "API do Servidor",
+      "apiModeServerDesc": "Usar API key do servidor",
+      "apiModeClient": "Sua API Key",
+      "apiModeClientDesc": "Mais privado",
+      "geminiApiKey": "API Key do Gemini",
+      "enterApiKey": "Digite sua API key do Gemini",
+      "getApiKey": "Obtenha sua API key em",
+      "googleAiStudio": "Google AI Studio",
+      "defaultModel": "Modelo Padrão",
+      "selectModel": "Selecione um modelo",
+      "temperature": "Temperatura",
+      "maxTokens": "Tokens Máximos",
+      "bubbleTheme": "Tema dos Balões",
+      "themeRoleplay": "Roleplay",
+      "themeRoleplayDesc": "Texto estilizado com aspas e ações",
+      "themeMessenger": "Messenger",
+      "themeMessengerDesc": "Texto simples, sem formatação",
+      "database": {
+        "title": "Gerenciamento do Banco de Dados",
+        "description": "Veja estatísticas do banco de dados e gerencie seus dados locais.",
+        "storageUsage": "Uso de Armazenamento",
+        "collections": "Coleções",
+        "actions": "Ações",
+        "exportData": "Exportar Dados",
+        "dangerZone": "Zona de Perigo",
+        "resetWarning": "Isso excluirá permanentemente TODOS os seus dados incluindo personagens, chats, mensagens e configurações. Use isso se encontrar problemas de migração.",
+        "resetDatabase": "Resetar Banco de Dados",
+        "resetting": "Resetando..."
+      },
+      "safetyDescription": "Configure filtros de segurança de conteúdo. Por padrão, todos os filtros estão desativados para roleplay sem restrições.",
+      "hateSpeech": "Discurso de Ódio",
+      "harassment": "Assédio",
+      "sexuallyExplicit": "Conteúdo Sexual",
+      "dangerousContent": "Conteúdo Perigoso",
+      "blockNone": "Não Bloquear",
+      "blockLow": "Bloquear Baixo+",
+      "blockMedium": "Bloquear Médio+",
+      "blockHigh": "Só Bloquear Alto",
+      "saving": "Salvando..."
+    }
+  },
+  "connect": {
+    "meta": {
+      "title": "Chat Multi-Personagem P2P",
+      "description": "Crie uma sessão onde personagens IA podem conversar entre si"
+    },
+    "title": "Chat Multi-Personagem P2P",
+    "subtitle": "Converse com múltiplos personagens IA juntos. P2P significa sem servidores no meio.",
+    "tabs": {
+      "existing": "Meus Personagens",
+      "upload": "Enviar .charx",
+      "photo": "Da Foto"
+    },
+    "noCharacters": "Nenhum personagem encontrado.",
+    "createInChat": "Crie um no Chat",
+    "upload": {
+      "title": "Enviar Arquivo CharX",
+      "description": "Solte um arquivo .charx ou clique para selecionar",
+      "formats": "Apenas arquivos .charx são suportados",
+      "error": "Falha na importação",
+      "confirm": "Confirmar e Usar Este Personagem"
+    },
+    "photo": {
+      "dropTitle": "Enviar uma Foto",
+      "dropDescription": "Solte uma imagem ou clique para selecionar. A IA vai gerar um personagem a partir dela.",
+      "selectFile": "Selecionar Imagem",
+      "invalidType": "Por favor selecione um arquivo de imagem (PNG, JPG, WebP ou GIF)",
+      "tooLarge": "Imagem muito grande. Máx 10MB.",
+      "contextLabel": "Dicas (opcional)",
+      "contextPlaceholder": "ex., 'Guerreiro de fantasia' ou 'Faça ele amigável'",
+      "contextHint": "Adicione dicas para guiar a geração do personagem",
+      "generating": "Gerando personagem...",
+      "generate": "Gerar Personagem",
+      "generated": "{name} está pronto!",
+      "generateError": "Não foi possível gerar o personagem. Tentar novamente?",
+      "noApiKey": "Por favor configure sua API key do Gemini nas Configurações primeiro.",
+      "apiKeyRequired": "API Key Necessária",
+      "apiKeyDescription": "Para gerar personagens de fotos, configure sua API key do Gemini nas Configurações.",
+      "goToSettings": "Ir para Configurações"
+    },
+    "confirm": {
+      "subtitle": "Revise seu personagem e defina uma senha se quiser.",
+      "passwordHint": "Outros precisarão desta senha para entrar na sua sessão.",
+      "start": "Criar Sessão"
+    },
+    "leaveConfirm": {
+      "title": "Sair da Sessão?",
+      "description": "Você será desconectado de todos os participantes e sairá do chat.",
+      "confirm": "Sair"
+    },
+    "creating": "Criando sessão...",
+    "joining": "Entrando na sessão...",
+    "lobby": {
+      "title": "Sala de Espera",
+      "hostDescription": "Compartilhe o link abaixo para convidar outros",
+      "guestDescription": "Aguardando o host iniciar",
+      "shortUrl": "URL Curta",
+      "longUrl": "URL Longa",
+      "copied": "Link copiado!",
+      "copyFailed": "Não foi possível copiar o link",
+      "participants": "Participantes",
+      "you": "Você",
+      "host": "Host",
+      "connecting": "Conectando...",
+      "selectingCharacter": "Selecionando personagem...",
+      "waitingForOthers": "Aguardando outros...",
+      "leave": "Sair",
+      "startChat": "Iniciar Chat",
+      "needMoreParticipants": "Precisa de pelo menos 2 pessoas para começar"
+    },
+    "chat": {
+      "title": "Chat",
+      "participants": "participantes",
+      "active": "Ativo",
+      "pending": "Pendente",
+      "autoReply": "Resposta Automática",
+      "noMessages": "Nenhuma mensagem ainda. Fala algo aí~!",
+      "unknown": "Desconhecido",
+      "generating": "Pensando...",
+      "thinking": "{name} tá pensando...",
+      "placeholder": "Mensagem como {name}...",
+      "userJoined": "{name} entrou",
+      "userLeft": "{name} saiu"
+    },
+    "join": {
+      "meta": {
+        "title": "Entrar na Sessão",
+        "description": "Entre em uma sessão de chat multi-personagem"
+      },
+      "title": "Entrar na Sessão",
+      "subtitle": "Escolha um personagem para entrar",
+      "currentParticipants": "{count} pessoas já na sessão",
+      "passwordProtected": "Esta sessão requer senha",
+      "enterPassword": "Senha",
+      "passwordHintJoin": "Digite a senha compartilhada pelo host.",
+      "passwordRequired": "Senha necessária para entrar",
+      "passwordError": "Senha errada. Tentar novamente?",
+      "joinButton": "Entrar na Sessão"
+    },
+    "notifications": {
+      "joined": "{name} entrou",
+      "left": "{name} saiu"
+    },
+    "status": {
+      "connecting": "Conectando...",
+      "connected": "Conectado",
+      "connectedInfo": "Você está pronto para conectar sessões P2P",
+      "disconnected": "Desconectado"
+    },
+    "errors": {
+      "noPeer": "Falha na conexão de rede. Recarregue a página e tente novamente.",
+      "hostLeft": "O host encerrou a sessão",
+      "sessionFull": "Sessão Lotada",
+      "sessionFullDescription": "Esta sessão atingiu o número máximo de pessoas.",
+      "createOwn": "Criar Sua Própria Sessão",
+      "connectionFailed": "Conexão Falhou",
+      "connectionFailedDescription": "Não foi possível conectar à sessão. O host pode ter saído ou há um problema de rede.",
+      "tryAgain": "Tentar Novamente",
+      "apiNotReady": "API Key Necessária",
+      "apiNotReadyDescription": "Por favor configure sua API key nas Configurações para usar recursos de IA.",
+      "openSettings": "Abrir Configurações"
+    }
+  },
+  "howItWorks": {
+    "meta": {
+      "title": "Como Funciona | OpenTamago",
+      "description": "Aprenda a usar o Visualizador CharX, Compartilhar P2P e Chat Multi-Personagem P2P"
+    },
+    "hero": {
+      "title": "Como Funciona",
+      "description": "Aprenda a visualizar, compartilhar e conversar com personagens IA usando OpenTamago"
+    },
+    "tryNow": "Testar Agora",
+    "charx": {
+      "title": "Visualizador CharX",
+      "description": "Abra arquivos de personagens CharX direto no seu navegador. Tudo é processado localmente para privacidade completa.",
+      "steps": {
+        "upload": {
+          "title": "Enviar Arquivo",
+          "description": "Arraste e solte arquivos .charx ou clique para navegar"
+        },
+        "view": {
+          "title": "Ver Personagem",
+          "description": "Veja detalhes do personagem, personalidade e saudações"
+        },
+        "lorebook": {
+          "title": "Explorar Lorebook",
+          "description": "Navegue pelas entradas do lorebook com triggers de palavras-chave"
+        },
+        "assets": {
+          "title": "Ver Assets",
+          "description": "Confira imagens embutidas como emoções e avatares"
+        }
+      },
+      "highlights": {
+        "privacy": "100% processamento local",
+        "formats": "Suporta arquivos .charx e .json",
+        "export": "Salve personagens no banco de dados local"
+      }
+    },
+    "p2pShare": {
+      "title": "Compartilhar P2P",
+      "description": "Compartilhe arquivos diretamente com amigos usando P2P. Nada fica armazenado em servidores.",
+      "steps": {
+        "select": {
+          "title": "Selecionar Arquivo",
+          "description": "Escolha um arquivo para compartilhar"
+        },
+        "generate": {
+          "title": "Gerar Link",
+          "description": "Obtenha um código QR e link para compartilhar"
+        },
+        "transfer": {
+          "title": "Transferência Direta",
+          "description": "Arquivos são transferidos diretamente via WebRTC"
+        },
+        "receive": {
+          "title": "Baixar",
+          "description": "Quem recebe baixa diretamente de você"
+        }
+      },
+      "highlights": {
+        "noServer": "Sem armazenamento em servidor",
+        "password": "Proteção por senha opcional",
+        "qrCode": "Código QR para compartilhar no celular"
+      }
+    },
+    "p2pConnect": {
+      "title": "Chat Multi-Personagem P2P",
+      "description": "Crie sessões de chat multi-personagem. Convide amigos e deixe os personagens IA conversarem entre si.",
+      "steps": {
+        "select": {
+          "title": "Selecionar Personagem",
+          "description": "Escolha da sua biblioteca ou crie um"
+        },
+        "invite": {
+          "title": "Convidar Amigos",
+          "description": "Compartilhe um link ou código QR para convidar"
+        },
+        "chat": {
+          "title": "Começar a Conversar",
+          "description": "Envie mensagens como seu personagem"
+        },
+        "ai": {
+          "title": "Respostas IA",
+          "description": "Ative resposta automática para respostas da IA"
+        }
+      },
+      "highlights": {
+        "realtime": "Mensagens P2P em tempo real",
+        "multiParty": "Até 8 personagens por sessão",
+        "autoReply": "Resposta automática com IA"
+      }
+    },
+    "privacy": {
+      "title": "Privacidade em Primeiro Lugar",
+      "description": "Todos os recursos do OpenTamago são feitos com privacidade em mente. Seus dados ficam no seu dispositivo.",
+      "noServer": {
+        "title": "Sem Armazenamento em Servidor",
+        "description": "Arquivos nunca são enviados para nossos servidores. Tudo acontece no seu navegador."
+      },
+      "encrypted": {
+        "title": "Transferências Criptografadas",
+        "description": "Conexões P2P usam WebRTC com criptografia integrada."
+      },
+      "openSource": {
+        "title": "Open Source",
+        "description": "Todo código é público e disponível no GitHub."
+      }
+    }
+  },
+  "localeDetector": {
+    "title": "Bem-vindo!",
+    "description": "Parece que o idioma do seu navegador é diferente. Quer mudar?",
+    "selectLanguage": "Escolha seu idioma",
+    "dontShowAgain": "Não mostrar de novo",
+    "continue": "Mudar Idioma",
+    "stayHere": "Ficar Aqui"
+  },
+  "pokebox": {
+    "title": "CharX PokeBox",
+    "subtitle": "Veja seus cards de personagens, lorebooks e assets salvos.",
+    "description": "Navegue e gerencie seus personagens IA salvos em um só lugar.",
+    "selectCharacter": "Selecione um personagem para ver detalhes",
+    "moduleNotStored": "Módulos não são armazenados no banco de dados.",
+    "back": "Voltar",
+    "tabs": {
+      "character": "Personagem",
+      "lorebook": "Lorebook",
+      "assets": "Assets",
+      "module": "Módulo"
+    },
+    "characterList": {
+      "title": "Meus Personagens",
+      "search": "Buscar personagens...",
+      "empty": "Nenhum personagem salvo ainda.",
+      "noResults": "Nenhum personagem corresponde à sua busca.",
+      "importFromCharx": "Importar do CharX"
+    },
+    "deleteConfirm": {
+      "title": "Excluir Personagem?",
+      "description": "Isso excluirá \"{name}\" e todos os dados associados incluindo entradas de lorebook e assets. Isso não pode ser desfeito.",
+      "cancel": "Cancelar",
+      "confirm": "Excluir"
+    },
+    "byCreator": "{creator}",
+    "unnamedCharacter": "Personagem Sem Nome",
+    "created": "Criado",
+    "modified": "Modificado",
+    "empty": "Vazio",
+    "expandAll": "Expandir Tudo",
+    "collapseAll": "Recolher Tudo",
+    "greetingIndex": "Saudação {index}",
+    "viewMode": {
+      "list": "Lista",
+      "raw": "Raw",
+      "markdown": "Markdown"
+    },
+    "characterTabs": {
+      "basic": "Básico",
+      "messages": "Mensagens",
+      "prompts": "Prompts",
+      "others": "Outros"
+    },
+    "fields": {
+      "description": "Descrição",
+      "personality": "Personalidade",
+      "scenario": "Cenário",
+      "firstMessage": "Primeira Mensagem",
+      "exampleDialogue": "Diálogo de Exemplo",
+      "alternateGreetings": "Saudações Alternativas",
+      "groupOnlyGreetings": "Saudações Só para Grupo",
+      "systemPrompt": "Prompt do Sistema",
+      "postHistoryInstructions": "Instruções Pós-Histórico",
+      "creatorInfo": "Info do Criador",
+      "creator": "Criador",
+      "characterVersion": "Versão",
+      "dates": "Datas",
+      "creatorNotes": "Notas do Criador"
+    },
+    "lorebook": {
+      "title": "Entradas do Lorebook",
+      "entries": "{count} entradas",
+      "noEntries": "Sem entradas de lorebook para este personagem.",
+      "enabled": "Ativado",
+      "disabled": "Desativado",
+      "priority": "Prioridade",
+      "noKeys": "Sem chaves",
+      "moreKeys": "+{count} mais"
+    },
+    "assets": {
+      "title": "Assets do Personagem",
+      "totalExtracted": "{count} assets no total",
+      "noAssets": "Sem assets nesta categoria",
+      "sort": "Ordenar",
+      "group": "Agrupar",
+      "sortAZ": "A-Z",
+      "sortZA": "Z-A",
+      "sortByFilename": "Por nome",
+      "groupByFilename": "Agrupar por nome",
+      "emotions": "Emoções",
+      "icons": "Ícones",
+      "backgrounds": "Fundos",
+      "other": "Outros"
+    },
+    "toast": {
+      "copiedToClipboard": "Copiado!",
+      "failedToCopy": "Falha ao copiar"
+    }
+  }
+}

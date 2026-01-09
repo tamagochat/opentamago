@@ -22,7 +22,7 @@ export function LocaleSwitcher() {
 
   return (
     <Select value={locale} onValueChange={handleChange}>
-      <SelectTrigger className="w-[120px]">
+      <SelectTrigger className="w-[160px]">
         <SelectValue />
       </SelectTrigger>
       <SelectContent>

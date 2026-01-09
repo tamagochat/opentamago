@@ -1,0 +1,924 @@
+{
+  "common": {
+    "appName": "OpenTamago",
+    "tagline": "开源 AI 角色查看器 & 分享平台",
+    "loading": "加载中...",
+    "error": "哎呀，出问题了",
+    "retry": "再试一次",
+    "comingSoon": "敬请期待"
+  },
+  "experimental": {
+    "badge": "测试功能",
+    "charx": "这个功能还在打磨中！我们正在支持 CharX v3，会越做越好的~",
+    "p2p": "WebRTC 点对点直连。二维码和链接只分享给信任的人哦！",
+    "chat": "这个聊天功能是给开发者测试 LLM 用的。日常聊天请用其他平台~",
+    "feedback": "有想法或发现 bug？来 <link>GitHub Issues</link> 告诉我们！"
+  },
+  "actions": {
+    "save": "保存",
+    "cancel": "取消",
+    "delete": "删除",
+    "edit": "编辑",
+    "close": "关闭",
+    "submit": "提交",
+    "upload": "上传",
+    "download": "下载"
+  },
+  "home": {
+    "hero": {
+      "title": "你的 AI 角色",
+      "titleHighlight": "小伙伴",
+      "description": "查看、分享、和 AI 角色畅聊。从 CharX 查看器到 P2P 分享，全部免费开源！"
+    },
+    "cta": {
+      "openViewer": "打开查看器",
+      "viewGithub": "GitHub 源码",
+      "tryViewer": "试试查看器",
+      "startSharing": "开始分享",
+      "startConnect": "开始聊天",
+      "p2pLabel": "P2P 功能"
+    },
+    "features": {
+      "title": "功能齐全",
+      "description": "AI 角色爱好者的一站式工具箱",
+      "charxViewer": {
+        "title": "CharX 查看器",
+        "description": "浏览 CharX 文件里的角色卡、世界书和资源，全在浏览器里搞定。"
+      },
+      "p2pSharing": {
+        "title": "P2P 分享",
+        "description": "直接和好友分享角色文件，不经过服务器，秒传！"
+      },
+      "connect": {
+        "title": "多角色群聊",
+        "description": "创建多个 AI 角色的聊天房间，叫上朋友，看角色们互动~"
+      }
+    },
+    "showcase": {
+      "badge": "CharX 查看器",
+      "title": "角色文件一览无余",
+      "dragDrop": {
+        "title": "拖放即看",
+        "description": "把 .charx 文件拖进来就能看"
+      },
+      "cardInfo": {
+        "title": "信息一目了然",
+        "description": "角色详情、世界书、图片资源都能看"
+      },
+      "clientSide": {
+        "title": "完全本地",
+        "description": "你的文件不会离开浏览器，隐私无忧！"
+      },
+      "dropzone": {
+        "title": "把 .charx 文件拖到这里",
+        "subtitle": "或者点击选择"
+      }
+    },
+    "p2pShowcase": {
+      "badge": "P2P 分享",
+      "title": "角色卡秒传",
+      "sender": "你",
+      "receivers": "好友",
+      "directTransfer": "浏览器直连传输",
+      "qrCode": {
+        "title": "二维码 / 链接",
+        "description": "生成二维码和链接，手机也能收"
+      },
+      "webrtc": {
+        "title": "WebRTC 直传",
+        "description": "文件直接在浏览器间传输，不过服务器"
+      },
+      "password": {
+        "title": "密码保护",
+        "description": "可以给分享加个密码"
+      }
+    },
+    "highlights": {
+      "privacy": {
+        "title": "完全本地",
+        "description": "CharX 文件在浏览器里打开，数据不出设备"
+      },
+      "fast": {
+        "title": "点对点直连",
+        "description": "和好友直接传文件、聊天，不经过服务器！"
+      },
+      "openSource": {
+        "title": "开源项目",
+        "description": "代码完全公开，欢迎贡献、魔改、自建！"
+      }
+    },
+    "ready": {
+      "title": "准备好了吗？",
+      "description": "用我们的隐私友好查看器来探索你的角色文件吧~"
+    },
+    "demo": {
+      "charx": {
+        "tabs": {
+          "character": "角色",
+          "lorebook": "世界书",
+          "assets": "资源"
+        },
+        "greetings": "开场白",
+        "lorebookEntries": "{count} 条",
+        "assetsFound": "{count} 个资源",
+        "fileReceived": "收到文件啦",
+        "processing": "处理中..."
+      },
+      "p2p": {
+        "selectFile": "选择文件",
+        "generating": "生成中...",
+        "scanToJoin": "扫码加入",
+        "waiting": "等待中...",
+        "readyToScan": "准备扫码",
+        "scanning": "扫描中...",
+        "connecting": "连接中...",
+        "complete": "搞定！",
+        "waitingConnection": "等待中...",
+        "connected": "已连接",
+        "transferred": "传完啦！"
+      },
+      "connect": {
+        "waitingRoom": "等候室",
+        "participants": "成员",
+        "chat": "聊天",
+        "p2pBadge": "P2P 连接中",
+        "message1": "嗨！准备好聊天了吗～",
+        "message2": "来吧来吧！",
+        "aiReply": "大家好呀！很高兴认识你们~",
+        "inputPlaceholder": "说点什么..."
+      }
+    },
+    "connectShowcase": {
+      "badge": "P2P 连接",
+      "poweredBy": "带上你的角色加入",
+      "title": "让你的 AI 和其他人互动",
+      "description": "用你的 AI 角色建个聊天室，叫上好友一起。看不同 AI 互相对话，超有趣！",
+      "realtime": {
+        "title": "P2P 聊天",
+        "description": "浏览器直连，不过服务器"
+      },
+      "aiPowered": {
+        "title": "AI 自动回复",
+        "description": "每个角色都有自己的性格"
+      },
+      "multiParty": {
+        "title": "最多 8 人",
+        "description": "分享二维码或链接叫上朋友"
+      }
+    }
+  },
+  "charx": {
+    "title": "CharX 查看器",
+    "subtitle": "查看角色卡、世界书和资源。浏览器里直接看！",
+    "description": "在浏览器里打开 CharX 角色文件，完全隐私地查看角色卡、世界书和资源。",
+    "upload": {
+      "title": "上传 CharX 文件",
+      "description": "拖放 .charx 文件，或点击选择",
+      "dropHere": "拖到这里",
+      "invalidFile": "只支持 .charx 文件哦",
+      "dropFiles": "把 .charx 文件拖到这里",
+      "browseMultiple": "或点击选择（可以选多个）",
+      "downloadLink": "去 <link>realm.risuai.net</link> 下载角色文件（.charx）",
+      "unsupportedFile": "不支持的文件：{names}，只能用 .charx",
+      "unsupportedFiles": "不支持的文件：{names}，只能用 .charx",
+      "andMore": " 还有 {count} 个",
+      "or": "或者",
+      "realmPlaceholder": "粘贴 RisuRealm 链接或角色 ID...",
+      "realmDownload": "下载",
+      "realmHint": "支持 realm.risuai.net 链接或角色 UUID",
+      "realmDownloadSuccess": "下载成功！",
+      "realmError": {
+        "INVALID_UUID": "RisuRealm ID 或链接格式不对",
+        "INVALID_CHARX": "在 RisuRealm 找不到这个角色，检查一下 ID？",
+        "FILE_TOO_LARGE": "文件太大了（{size}），手动下载后再上传吧",
+        "DOWNLOAD_FAILED": "从 RisuRealm 下载失败，再试一次？"
+      },
+      "tryDemo": "试试示例角色",
+      "demoHint": "加载示例角色体验一下"
+    },
+    "tabs": {
+      "character": "角色",
+      "lorebook": "世界书",
+      "assets": "资源",
+      "module": "模块"
+    },
+    "empty": {
+      "noCharacterCard": "没有角色卡",
+      "noLorebook": "没有世界书",
+      "noModule": "没有模块",
+      "noAssets": "这个分类没有资源",
+      "noAssetsInFile": "这个文件里没有资源",
+      "noModuleContent": "没有模块内容",
+      "noTriggerScripts": "没有触发脚本",
+      "noRegexScripts": "没有正则脚本",
+      "noCommonJSCode": "没有 CommonJS 代码"
+    },
+    "files": {
+      "title": "文件",
+      "loaded": "已加载 {count} 个文件",
+      "parsing": "解析中...",
+      "dropMore": "拖更多 .charx 文件进来，或点击添加",
+      "queue": "队列",
+      "queued": "排队中",
+      "delete": "删除"
+    },
+    "assets": {
+      "title": "资源",
+      "totalExtracted": "共 {count} 个资源",
+      "sort": "排序",
+      "group": "分组",
+      "sortAZ": "A-Z",
+      "sortZA": "Z-A",
+      "sortByFilename": "按文件名",
+      "groupByFilename": "按文件名分组",
+      "emotions": "表情",
+      "icons": "图标",
+      "backgrounds": "背景",
+      "other": "其他",
+      "cardMetadata": "卡片元数据（{count} 个引用）",
+      "cardMetadataPlural": "卡片元数据（{count} 个引用）"
+    },
+    "module": {
+      "title": "模块：{name}",
+      "unnamed": "未命名",
+      "noDescription": "暂无描述",
+      "triggers": "触发器",
+      "triggersCount": "{count} 个触发器",
+      "regex": "正则",
+      "regexCount": "{count} 个正则",
+      "code": "代码",
+      "cjsCode": "CJS 代码",
+      "lowLevelAccess": "底层访问"
+    },
+    "character": {
+      "unnamedCharacter": "未命名角色",
+      "byCreator": "{creator}",
+      "tabs": {
+        "basic": "基本",
+        "messages": "消息",
+        "prompts": "提示词",
+        "others": "其他"
+      },
+      "viewMode": {
+        "list": "列表",
+        "raw": "原始",
+        "markdown": "Markdown"
+      },
+      "expandAll": "全部展开",
+      "collapseAll": "全部折叠",
+      "saveAsFile": "保存为文件",
+      "copyToClipboard": "复制到剪贴板",
+      "created": "创建时间",
+      "modified": "修改时间",
+      "empty": "空",
+      "loreCount": "{count} 条世界书",
+      "assetsCount": "{count} 个资源"
+    },
+    "lorebook": {
+      "title": "世界书",
+      "entries": "{count} 条",
+      "noEntries": "没有世界书条目",
+      "enabled": "已启用",
+      "disabled": "已禁用",
+      "priority": "优先级",
+      "noKeys": "无关键词",
+      "moreKeys": "+{count}",
+      "moreKeysPrefix": "+"
+    },
+    "toast": {
+      "copiedToClipboard": "已复制！",
+      "failedToCopy": "复制失败",
+      "fileSaved": "文件已保存",
+      "lorebookCopied": "世界书 JSON 已复制！",
+      "characterCopied": "角色 JSON 已复制！",
+      "couldNotCopy": "复制不了，换个浏览器试试？"
+    },
+    "errorBoundary": {
+      "title": "哎呀，出问题了",
+      "description": "发生了意外错误，刷新一下试试？",
+      "refreshPage": "刷新"
+    },
+    "export": {
+      "button": "保存到本地",
+      "title": "保存角色到本地数据库",
+      "description": "把这个角色和世界书保存在本地，方便之后聊天用。",
+      "character": {
+        "title": "角色",
+        "unnamed": "未命名",
+        "description": "角色卡数据，包括名字、描述、性格和消息。",
+        "moreTags": "更多"
+      },
+      "lorebook": {
+        "title": "世界书",
+        "entries": "条",
+        "description": "世界书条目会在聊天时作为上下文使用。",
+        "noLorebook": "这个角色文件里没有世界书。"
+      },
+      "info": "保存后可以方便地用于 P2P 分享和连接。",
+      "infoMessages": {
+        "databaseReady": "数据库准备好了，可以保存啦！"
+      },
+      "save": "保存",
+      "cancel": "取消",
+      "saving": "保存中...",
+      "loading": "加载中...",
+      "success": {
+        "title": "保存成功！",
+        "description": "{name} 已保存到数据库。",
+        "goToChat": "去聊天"
+      },
+      "error": {
+        "title": "保存失败",
+        "description": "保存时出错了，再试一次？",
+        "databaseNotReady": "数据库还没准备好，稍等一下~",
+        "databaseInitFailed": "数据库启动失败，刷新页面试试？"
+      },
+      "initializing": "启动中..."
+    },
+    "shareP2P": "P2P 分享",
+    "error": "错误",
+    "warning": "警告",
+    "filesExcluded": "{count} 个文件太大（>50MB）被跳过了："
+  },
+  "errors": {
+    "notFound": {
+      "title": "404",
+      "heading": "页面走丢了",
+      "description": "你要找的页面不存在或者已经搬家了。",
+      "goHome": "回首页",
+      "openCharxViewer": "去查看器"
+    },
+    "generic": {
+      "title": "哎呀，出问题了",
+      "description": "发生了意外错误，重试一下或者回首页看看？",
+      "retry": "重试",
+      "goHome": "回首页"
+    },
+    "charx": {
+      "title": "查看器出错了",
+      "description": "加载查看器时出了点问题。文件可能损坏了，或者是浏览器兼容问题。",
+      "retry": "重试",
+      "goHome": "回首页"
+    },
+    "pokebox": {
+      "title": "PokeBox 出错了",
+      "description": "加载保存的角色时出问题了，刷新一下试试？",
+      "retry": "重试",
+      "goHome": "回首页"
+    }
+  },
+  "footer": {
+    "description": "开源 AI 角色平台。查看、分享、和 AI 角色聊天。",
+    "product": "产品",
+    "resources": "资源",
+    "documentation": "文档",
+    "legal": "法律",
+    "privacy": "隐私政策",
+    "terms": "服务条款",
+    "copyright": "OpenTamago. 保留所有权利。"
+  },
+  "nav": {
+    "home": "首页",
+    "charxViewer": "查看器",
+    "charxPokebox": "PokeBox",
+    "p2pShare": "P2P 分享",
+    "chat": "聊天",
+    "connect": "P2P 连接",
+    "howItWorks": "使用指南",
+    "github": "GitHub",
+    "toggleMenu": "菜单",
+    "navigationMenu": "菜单"
+  },
+  "p2p": {
+    "title": "P2P 分享",
+    "subtitle": "直接和好友分享角色文件，P2P 意味着不经过服务器。",
+    "privacyNote": "文件通过 WebRTC 直接在浏览器间传输，不存在服务器上。",
+    "confirmTitle": "准备分享",
+    "confirmSubtitle": "检查一下文件，需要的话可以设个密码。",
+    "passwordLabel": "密码（可选）",
+    "passwordPlaceholder": "输入密码...",
+    "passwordHint": "留空就是不设密码。",
+    "cancel": "取消",
+    "start": "开始分享",
+    "connecting": "连接中...",
+    "sharingTitle": "正在分享你的文件",
+    "sharingSubtitle": "保持这个标签页打开，把下面的链接发给别人就行。",
+    "stopSharing": "停止分享",
+    "stopSharingConfirm": "确定停止分享？",
+    "stopSharingDescription": "正在进行的下载都会中断。",
+    "confirmStop": "确定停止",
+    "sharingWarning": "离开或刷新页面会断开分享，保持这个标签页开着哦。",
+    "dropzone": {
+      "dropHere": "拖到这里",
+      "dropToShare": "拖 .charx 文件进来分享",
+      "orClickToBrowse": "或者点击选择"
+    },
+    "download": {
+      "title": "下载 CharX 文件",
+      "connecting": "正在连接分享者...",
+      "connectionFailed": "连不上分享者，可能对方关掉浏览器了。",
+      "notFound": "分享链接找不到或已失效",
+      "notFoundDescription": "你要的文件已经不在了，分享者可能停止分享了。",
+      "passwordRequired": "这个文件有密码保护",
+      "passwordPlaceholder": "输入密码...",
+      "passwordError": "密码不对，再试一次？",
+      "submit": "确定",
+      "readyTitle": "准备下载",
+      "readyDescription": "点下面开始下载。",
+      "startDownload": "下载",
+      "downloading": "下载中...",
+      "complete": "下载完成！",
+      "completeDescription": "文件拿到啦！",
+      "charxDetected": "这是个角色文件！",
+      "charxDescription": "一键保存这个角色和世界书到数据库。",
+      "saveToDatabase": "保存到数据库",
+      "downloadAnother": "下载另一个",
+      "goHome": "回首页",
+      "troubleshooting": "太慢了？分享者可能在防火墙后面或者关掉浏览器了。",
+      "sharePrompt": "你也想分享 CharX 文件？",
+      "startSharing": "开始分享"
+    }
+  },
+  "theme": {
+    "toggle": "切换主题",
+    "light": "浅色",
+    "dark": "深色",
+    "system": "系统"
+  },
+  "chat": {
+    "leftPanel": {
+      "create": "创建",
+      "createCharacter": "创建角色",
+      "importCharx": "导入 .charx",
+      "createPersona": "创建人设",
+      "noCharacters": "还没有角色呢~",
+      "createOne": "创建一个",
+      "noDescription": "暂无描述",
+      "characters": "角色",
+      "chats": "聊天",
+      "recentChats": "最近聊天",
+      "newChat": "新建聊天",
+      "noChats": "还没有聊天记录~",
+      "startOne": "开始一个",
+      "yesterday": "昨天",
+      "deleteChat": "删除这个聊天？",
+      "deleteCharacter": "删除「{name}」？相关的聊天记录也会一起删掉。",
+      "importing": "导入中...",
+      "importSuccess": "角色导入成功！",
+      "importError": "导入失败了",
+      "chatTitle": "聊天标题",
+      "editChatTitleDescription": "给这个聊天改个名字。",
+      "chatTitlePlaceholder": "输入聊天标题..."
+    },
+    "centerPanel": {
+      "selectCharacter": "选个角色开始聊天吧",
+      "createFromLeft": "或者从左边创建新角色",
+      "apiKeyRequired": "需要 API 密钥",
+      "configureApiKey": "设置你的 Gemini API 密钥来开始聊天。",
+      "openSettings": "打开设置",
+      "clearChat": "清空聊天",
+      "thinking": "思考中...",
+      "messagePlaceholder": "对 {name} 说点什么...",
+      "clearAllMessages": "清空这个聊天的所有消息？",
+      "selectPersona": "选择人设",
+      "noPersonas": "还没有人设呢~",
+      "createPersona": "创建人设",
+      "selectPersonaToSend": "选个人设再发消息",
+      "createPersonaAction": "创建"
+    },
+    "rightPanel": {
+      "selectCharacter": "选个角色看看详情",
+      "characterDetails": "角色详情",
+      "personality": "性格",
+      "scenario": "场景",
+      "firstMessage": "开场白",
+      "exampleDialogue": "示例对话",
+      "systemPrompt": "系统提示词",
+      "noPersonaDetails": "还没设置人设详情。",
+      "creatorNotes": "创作者笔记",
+      "created": "创建时间",
+      "lastUpdated": "最后更新",
+      "persona": "人设",
+      "info": "信息",
+      "deleteCharacter": "删除「{name}」？相关聊天也会删掉，没法恢复哦。"
+    },
+    "editor": {
+      "editCharacter": "编辑角色",
+      "createCharacter": "创建角色",
+      "editPersona": "编辑人设",
+      "createPersona": "创建人设",
+      "modifyPersona": "修改你的人设信息。",
+      "createPersonaDesc": "创建一个人设来代表聊天中的你。",
+      "modifyCharacter": "修改角色信息。",
+      "createCharacterDesc": "创建新角色来聊天。",
+      "uploadAvatar": "上传头像",
+      "avatarHint": "PNG、JPG，最大 2MB",
+      "basic": "基本",
+      "persona": "人设",
+      "details": "详情",
+      "advanced": "高级",
+      "nameLabel": "名字",
+      "nameRequired": "名字 *",
+      "yourName": "你的名字",
+      "characterName": "角色名字",
+      "description": "描述",
+      "descriptionPersona": "简单介绍一下自己",
+      "descriptionCharacter": "简单介绍一下角色",
+      "firstMessage": "开场白",
+      "firstMessagePlaceholder": "角色说的第一句话",
+      "personality": "性格",
+      "personalityCharacter": "描述性格特点、行为习惯、小癖好...",
+      "scenario": "场景",
+      "scenarioPlaceholder": "对话的背景设定",
+      "exampleDialogue": "示例对话",
+      "exampleDialoguePlaceholder": "定个调子的示例对话...",
+      "systemPrompt": "系统提示词",
+      "systemPromptPlaceholder": "自定义系统提示词（会覆盖默认的）",
+      "creatorNotes": "创作者笔记",
+      "privateNotes": "私人笔记",
+      "notesPlaceholder": "私人笔记（不会发给 AI）",
+      "saving": "保存中...",
+      "saveChanges": "保存"
+    },
+    "settings": {
+      "title": "设置",
+      "description": "配置 API。所有数据都存在本地。",
+      "apiSection": "API",
+      "apiKeySection": "API 密钥",
+      "apiKeyDescription": "配置 API 连接和模型设置。",
+      "chatUISection": "聊天界面",
+      "chatUIDescription": "自定义聊天消息的显示方式。",
+      "databaseSection": "数据库",
+      "safety": "安全",
+      "apiMode": "API 模式",
+      "apiModeServer": "服务器 API",
+      "apiModeServerDesc": "用服务器的 API 密钥",
+      "apiModeClient": "自己的 API 密钥",
+      "apiModeClientDesc": "更私密",
+      "geminiApiKey": "Gemini API 密钥",
+      "enterApiKey": "输入你的 Gemini API 密钥",
+      "getApiKey": "获取 API 密钥",
+      "googleAiStudio": "Google AI Studio",
+      "defaultModel": "默认模型",
+      "selectModel": "选择模型",
+      "temperature": "温度",
+      "maxTokens": "最大 token 数",
+      "bubbleTheme": "聊天气泡样式",
+      "themeRoleplay": "角色扮演",
+      "themeRoleplayDesc": "带引号和动作描述的样式",
+      "themeMessenger": "即时通讯",
+      "themeMessengerDesc": "纯文本，无格式",
+      "database": {
+        "title": "数据库管理",
+        "description": "查看数据库状态，管理本地数据。",
+        "storageUsage": "存储使用",
+        "collections": "集合",
+        "actions": "操作",
+        "exportData": "导出数据",
+        "dangerZone": "危险操作",
+        "resetWarning": "这会永久删除所有数据，包括角色、聊天记录、消息和设置。遇到数据库问题时才用。",
+        "resetDatabase": "重置数据库",
+        "resetting": "重置中..."
+      },
+      "safetyDescription": "设置内容安全过滤。默认全部关闭，方便自由角色扮演。",
+      "hateSpeech": "仇恨言论",
+      "harassment": "骚扰",
+      "sexuallyExplicit": "色情内容",
+      "dangerousContent": "危险内容",
+      "blockNone": "不过滤",
+      "blockLow": "过滤低级+",
+      "blockMedium": "过滤中级+",
+      "blockHigh": "只过滤高级",
+      "saving": "保存中..."
+    }
+  },
+  "connect": {
+    "meta": {
+      "title": "P2P 多角色聊天",
+      "description": "创建 AI 角色互相聊天的房间"
+    },
+    "title": "多角色群聊",
+    "subtitle": "和多个 AI 角色一起聊天，P2P 意味着不经过服务器。",
+    "tabs": {
+      "existing": "我的角色",
+      "upload": "上传 .charx",
+      "photo": "从照片"
+    },
+    "noCharacters": "还没有角色呢~",
+    "createInChat": "去聊天页创建一个",
+    "upload": {
+      "title": "上传 CharX 文件",
+      "description": "拖 .charx 文件进来，或点击选择",
+      "formats": "只支持 .charx 文件",
+      "error": "导入失败了",
+      "confirm": "确认使用这个角色"
+    },
+    "photo": {
+      "dropTitle": "上传照片",
+      "dropDescription": "拖图片进来或点击选择，AI 会根据图片生成角色。",
+      "selectFile": "选择图片",
+      "invalidType": "请选择图片文件（PNG、JPG、WebP 或 GIF）",
+      "tooLarge": "图片太大了，最大 10MB。",
+      "contextLabel": "提示词（可选）",
+      "contextPlaceholder": "比如：「奇幻战士」或「性格活泼」",
+      "contextHint": "加点提示来引导角色生成",
+      "generating": "生成角色中...",
+      "generate": "生成角色",
+      "generated": "{name} 准备好了！",
+      "generateError": "角色生成失败，再试一次？",
+      "noApiKey": "先去设置里配置 Gemini API 密钥。",
+      "apiKeyRequired": "需要 API 密钥",
+      "apiKeyDescription": "要从照片生成角色，需要在设置里配置 Gemini API 密钥。",
+      "goToSettings": "去设置"
+    },
+    "confirm": {
+      "subtitle": "检查一下角色，需要的话可以设个密码。",
+      "passwordHint": "别人需要这个密码才能加入你的房间。",
+      "start": "创建房间"
+    },
+    "leaveConfirm": {
+      "title": "离开房间？",
+      "description": "会断开和所有人的连接，离开聊天。",
+      "confirm": "离开"
+    },
+    "creating": "创建房间中...",
+    "joining": "加入房间中...",
+    "lobby": {
+      "title": "等候室",
+      "hostDescription": "把下面的链接分享出去邀请别人",
+      "guestDescription": "等房主开始",
+      "shortUrl": "短链接",
+      "longUrl": "长链接",
+      "copied": "链接已复制！",
+      "copyFailed": "复制失败",
+      "participants": "成员",
+      "you": "你",
+      "host": "房主",
+      "connecting": "连接中...",
+      "selectingCharacter": "选角色中...",
+      "waitingForOthers": "等其他人...",
+      "leave": "离开",
+      "startChat": "开始聊天",
+      "needMoreParticipants": "至少要 2 个人才能开始"
+    },
+    "chat": {
+      "title": "聊天",
+      "participants": "成员",
+      "active": "在线",
+      "pending": "等待",
+      "autoReply": "自动回复",
+      "noMessages": "还没有消息，说点什么吧！",
+      "unknown": "未知",
+      "generating": "思考中...",
+      "thinking": "{name} 正在思考...",
+      "placeholder": "以 {name} 的身份说...",
+      "userJoined": "{name} 来了",
+      "userLeft": "{name} 走了"
+    },
+    "join": {
+      "meta": {
+        "title": "加入房间",
+        "description": "加入多角色聊天房间"
+      },
+      "title": "加入房间",
+      "subtitle": "选个角色加入",
+      "currentParticipants": "已有 {count} 人在房间里",
+      "passwordProtected": "这个房间有密码",
+      "enterPassword": "输入密码",
+      "passwordHintJoin": "问房主要密码",
+      "passwordRequired": "需要密码才能加入",
+      "passwordError": "密码不对，再试一次？",
+      "joinButton": "加入房间"
+    },
+    "notifications": {
+      "joined": "{name} 来了",
+      "left": "{name} 走了"
+    },
+    "status": {
+      "connecting": "连接中...",
+      "connected": "已连接",
+      "connectedInfo": "可以加入 P2P 房间了",
+      "disconnected": "已断开"
+    },
+    "errors": {
+      "noPeer": "网络连接失败，刷新页面试试？",
+      "hostLeft": "房主结束了房间",
+      "sessionFull": "房间满了",
+      "sessionFullDescription": "这个房间已经满员了。",
+      "createOwn": "自己创建一个",
+      "connectionFailed": "连接失败",
+      "connectionFailedDescription": "连不上房间，房主可能走了或者网络有问题。",
+      "tryAgain": "重试",
+      "apiNotReady": "需要 API 密钥",
+      "apiNotReadyDescription": "在设置里配置 API 密钥才能用 AI 功能。",
+      "openSettings": "打开设置"
+    }
+  },
+  "howItWorks": {
+    "meta": {
+      "title": "使用指南 | OpenTamago",
+      "description": "了解如何使用 CharX 查看器、P2P 分享和多角色群聊"
+    },
+    "hero": {
+      "title": "使用指南",
+      "description": "了解如何用 OpenTamago 查看、分享、和 AI 角色聊天"
+    },
+    "tryNow": "试试看",
+    "charx": {
+      "title": "CharX 查看器",
+      "description": "在浏览器里打开 CharX 角色文件，全程本地处理，完全隐私。",
+      "steps": {
+        "upload": {
+          "title": "上传文件",
+          "description": "拖 .charx 文件进来或点击选择"
+        },
+        "view": {
+          "title": "查看角色",
+          "description": "看角色详情、性格和开场白"
+        },
+        "lorebook": {
+          "title": "探索世界书",
+          "description": "浏览带关键词触发的世界书条目"
+        },
+        "assets": {
+          "title": "查看资源",
+          "description": "看嵌入的图片，比如表情和头像"
+        }
+      },
+      "highlights": {
+        "privacy": "完全本地处理",
+        "formats": "支持 .charx 和 .json",
+        "export": "保存到本地数据库"
+      }
+    },
+    "p2pShare": {
+      "title": "P2P 分享",
+      "description": "P2P 直接和好友分享文件，不经过服务器。",
+      "steps": {
+        "select": {
+          "title": "选择文件",
+          "description": "选要分享的文件"
+        },
+        "generate": {
+          "title": "生成链接",
+          "description": "拿到二维码和分享链接"
+        },
+        "transfer": {
+          "title": "直接传输",
+          "description": "文件通过 WebRTC 直传"
+        },
+        "receive": {
+          "title": "下载",
+          "description": "接收者直接从你这里下载"
+        }
+      },
+      "highlights": {
+        "noServer": "不过服务器",
+        "password": "可选密码保护",
+        "qrCode": "手机扫码即传"
+      }
+    },
+    "p2pConnect": {
+      "title": "多角色群聊",
+      "description": "创建多角色聊天房间，叫上朋友，让 AI 角色互相聊天。",
+      "steps": {
+        "select": {
+          "title": "选角色",
+          "description": "从库里选或新建一个"
+        },
+        "invite": {
+          "title": "邀请好友",
+          "description": "发链接或二维码邀请"
+        },
+        "chat": {
+          "title": "开始聊",
+          "description": "以角色身份发消息"
+        },
+        "ai": {
+          "title": "AI 回复",
+          "description": "开启自动回复让 AI 响应"
+        }
+      },
+      "highlights": {
+        "realtime": "实时 P2P 消息",
+        "multiParty": "每个房间最多 8 个角色",
+        "autoReply": "AI 自动回复"
+      }
+    },
+    "privacy": {
+      "title": "隐私优先",
+      "description": "OpenTamago 所有功能都注重隐私，你的数据留在你的设备上。",
+      "noServer": {
+        "title": "不过服务器",
+        "description": "文件永远不会上传到我们的服务器，一切都在浏览器里。"
+      },
+      "encrypted": {
+        "title": "加密传输",
+        "description": "P2P 连接用 WebRTC 内置加密。"
+      },
+      "openSource": {
+        "title": "开源",
+        "description": "所有代码公开，在 GitHub 上。"
+      }
+    }
+  },
+  "pokebox": {
+    "title": "CharX PokeBox",
+    "subtitle": "查看保存的角色卡、世界书和资源。",
+    "description": "在这里浏览和管理你保存的 AI 角色。",
+    "selectCharacter": "选个角色看看详情",
+    "moduleNotStored": "模块不会存到数据库里。",
+    "back": "返回",
+    "tabs": {
+      "character": "角色",
+      "lorebook": "世界书",
+      "assets": "资源",
+      "module": "模块"
+    },
+    "characterList": {
+      "title": "我的角色",
+      "search": "搜索角色...",
+      "empty": "还没有保存角色呢~",
+      "noResults": "没找到匹配的角色。",
+      "importFromCharx": "从 CharX 导入"
+    },
+    "deleteConfirm": {
+      "title": "删除角色？",
+      "description": "会删除「{name}」和所有相关数据，包括世界书和资源。没法恢复哦。",
+      "cancel": "取消",
+      "confirm": "删除"
+    },
+    "byCreator": "{creator}",
+    "unnamedCharacter": "未命名角色",
+    "created": "创建时间",
+    "modified": "修改时间",
+    "empty": "空",
+    "expandAll": "全部展开",
+    "collapseAll": "全部折叠",
+    "greetingIndex": "开场白 {index}",
+    "viewMode": {
+      "list": "列表",
+      "raw": "原始",
+      "markdown": "Markdown"
+    },
+    "characterTabs": {
+      "basic": "基本",
+      "messages": "消息",
+      "prompts": "提示词",
+      "others": "其他"
+    },
+    "fields": {
+      "description": "描述",
+      "personality": "性格",
+      "scenario": "场景",
+      "firstMessage": "开场白",
+      "exampleDialogue": "示例对话",
+      "alternateGreetings": "备选开场白",
+      "groupOnlyGreetings": "群聊开场白",
+      "systemPrompt": "系统提示词",
+      "postHistoryInstructions": "历史后指令",
+      "creatorInfo": "创作者信息",
+      "creator": "创作者",
+      "characterVersion": "版本",
+      "dates": "日期",
+      "creatorNotes": "创作者笔记"
+    },
+    "lorebook": {
+      "title": "世界书条目",
+      "entries": "{count} 条",
+      "noEntries": "这个角色没有世界书条目。",
+      "enabled": "已启用",
+      "disabled": "已禁用",
+      "priority": "优先级",
+      "noKeys": "无关键词",
+      "moreKeys": "+{count}"
+    },
+    "assets": {
+      "title": "角色资源",
+      "totalExtracted": "共 {count} 个资源",
+      "noAssets": "这个分类没有资源",
+      "sort": "排序",
+      "group": "分组",
+      "sortAZ": "A-Z",
+      "sortZA": "Z-A",
+      "sortByFilename": "按文件名",
+      "groupByFilename": "按文件名分组",
+      "emotions": "表情",
+      "icons": "图标",
+      "backgrounds": "背景",
+      "other": "其他"
+    },
+    "toast": {
+      "copiedToClipboard": "已复制！",
+      "failedToCopy": "复制失败"
+    }
+  },
+  "localeDetector": {
+    "title": "欢迎！",
+    "description": "检测到你的浏览器语言和当前页面不一样，要切换吗？",
+    "selectLanguage": "选择语言",
+    "dontShowAgain": "不再提示",
+    "continue": "切换语言",
+    "stayHere": "留在这里"
+  }
+}

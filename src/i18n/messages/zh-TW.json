@@ -1,0 +1,924 @@
+{
+  "common": {
+    "appName": "OpenTamago",
+    "tagline": "開源 AI 角色查看器 & 分享平台",
+    "loading": "載入中...",
+    "error": "哎呀，出問題了",
+    "retry": "再試一次",
+    "comingSoon": "敬請期待"
+  },
+  "experimental": {
+    "badge": "測試功能",
+    "charx": "這個功能還在開發中！我們正在支援 CharX v3，會持續改進的～",
+    "p2p": "WebRTC 點對點直連。QR Code 和連結只分享給信任的人喔！",
+    "chat": "這個聊天功能是給開發者測試 LLM 用的，日常聊天請用其他平台～",
+    "feedback": "有想法或發現 bug？來 <link>GitHub Issues</link> 告訴我們！"
+  },
+  "actions": {
+    "save": "儲存",
+    "cancel": "取消",
+    "delete": "刪除",
+    "edit": "編輯",
+    "close": "關閉",
+    "submit": "提交",
+    "upload": "上傳",
+    "download": "下載"
+  },
+  "home": {
+    "hero": {
+      "title": "你的 AI 角色",
+      "titleHighlight": "小夥伴",
+      "description": "查看、分享、和 AI 角色暢聊。從 CharX 查看器到 P2P 分享，全部免費開源！"
+    },
+    "cta": {
+      "openViewer": "開啟查看器",
+      "viewGithub": "GitHub 原始碼",
+      "tryViewer": "試試查看器",
+      "startSharing": "開始分享",
+      "startConnect": "開始聊天",
+      "p2pLabel": "P2P 功能"
+    },
+    "features": {
+      "title": "功能齊全",
+      "description": "AI 角色愛好者的一站式工具箱",
+      "charxViewer": {
+        "title": "CharX 查看器",
+        "description": "瀏覽 CharX 檔案裡的角色卡、世界書和資源，全在瀏覽器裡搞定。"
+      },
+      "p2pSharing": {
+        "title": "P2P 分享",
+        "description": "直接和好友分享角色檔案，不經過伺服器，秒傳！"
+      },
+      "connect": {
+        "title": "多角色群聊",
+        "description": "建立多個 AI 角色的聊天房間，找朋友一起，看角色們互動～"
+      }
+    },
+    "showcase": {
+      "badge": "CharX 查看器",
+      "title": "角色檔案一覽無遺",
+      "dragDrop": {
+        "title": "拖放即看",
+        "description": "把 .charx 檔案拖進來就能看"
+      },
+      "cardInfo": {
+        "title": "資訊一目了然",
+        "description": "角色詳情、世界書、圖片資源都能看"
+      },
+      "clientSide": {
+        "title": "完全本地",
+        "description": "你的檔案不會離開瀏覽器，隱私無憂！"
+      },
+      "dropzone": {
+        "title": "把 .charx 檔案拖到這裡",
+        "subtitle": "或者點擊選擇"
+      }
+    },
+    "p2pShowcase": {
+      "badge": "P2P 分享",
+      "title": "角色卡秒傳",
+      "sender": "你",
+      "receivers": "好友",
+      "directTransfer": "瀏覽器直連傳輸",
+      "qrCode": {
+        "title": "QR Code / 連結",
+        "description": "產生 QR Code 和連結，手機也能收"
+      },
+      "webrtc": {
+        "title": "WebRTC 直傳",
+        "description": "檔案直接在瀏覽器間傳輸，不經過伺服器"
+      },
+      "password": {
+        "title": "密碼保護",
+        "description": "可以幫分享加個密碼"
+      }
+    },
+    "highlights": {
+      "privacy": {
+        "title": "完全本地",
+        "description": "CharX 檔案在瀏覽器裡開啟，資料不出裝置"
+      },
+      "fast": {
+        "title": "點對點直連",
+        "description": "和好友直接傳檔案、聊天，不經過伺服器！"
+      },
+      "openSource": {
+        "title": "開源專案",
+        "description": "程式碼完全公開，歡迎貢獻、魔改、自建！"
+      }
+    },
+    "ready": {
+      "title": "準備好了嗎？",
+      "description": "用我們的隱私友善查看器來探索你的角色檔案吧～"
+    },
+    "demo": {
+      "charx": {
+        "tabs": {
+          "character": "角色",
+          "lorebook": "世界書",
+          "assets": "資源"
+        },
+        "greetings": "開場白",
+        "lorebookEntries": "{count} 條",
+        "assetsFound": "{count} 個資源",
+        "fileReceived": "收到檔案囉",
+        "processing": "處理中..."
+      },
+      "p2p": {
+        "selectFile": "選擇檔案",
+        "generating": "產生中...",
+        "scanToJoin": "掃碼加入",
+        "waiting": "等待中...",
+        "readyToScan": "準備掃碼",
+        "scanning": "掃描中...",
+        "connecting": "連線中...",
+        "complete": "搞定！",
+        "waitingConnection": "等待中...",
+        "connected": "已連線",
+        "transferred": "傳完了！"
+      },
+      "connect": {
+        "waitingRoom": "等候室",
+        "participants": "成員",
+        "chat": "聊天",
+        "p2pBadge": "P2P 連線中",
+        "message1": "嗨！準備好聊天了嗎～",
+        "message2": "來吧來吧！",
+        "aiReply": "大家好呀！很高興認識你們～",
+        "inputPlaceholder": "說點什麼..."
+      }
+    },
+    "connectShowcase": {
+      "badge": "P2P 連線",
+      "poweredBy": "帶上你的角色加入",
+      "title": "讓你的 AI 和其他人互動",
+      "description": "用你的 AI 角色建個聊天室，找好友一起。看不同 AI 互相對話，超有趣！",
+      "realtime": {
+        "title": "P2P 聊天",
+        "description": "瀏覽器直連，不經過伺服器"
+      },
+      "aiPowered": {
+        "title": "AI 自動回覆",
+        "description": "每個角色都有自己的個性"
+      },
+      "multiParty": {
+        "title": "最多 8 人",
+        "description": "分享 QR Code 或連結找朋友"
+      }
+    }
+  },
+  "charx": {
+    "title": "CharX 查看器",
+    "subtitle": "查看角色卡、世界書和資源。瀏覽器裡直接看！",
+    "description": "在瀏覽器裡開啟 CharX 角色檔案，完全隱私地查看角色卡、世界書和資源。",
+    "upload": {
+      "title": "上傳 CharX 檔案",
+      "description": "拖放 .charx 檔案，或點擊選擇",
+      "dropHere": "拖到這裡",
+      "invalidFile": "只支援 .charx 檔案喔",
+      "dropFiles": "把 .charx 檔案拖到這裡",
+      "browseMultiple": "或點擊選擇（可以選多個）",
+      "downloadLink": "去 <link>realm.risuai.net</link> 下載角色檔案（.charx）",
+      "unsupportedFile": "不支援的檔案：{names}，只能用 .charx",
+      "unsupportedFiles": "不支援的檔案：{names}，只能用 .charx",
+      "andMore": " 還有 {count} 個",
+      "or": "或者",
+      "realmPlaceholder": "貼上 RisuRealm 連結或角色 ID...",
+      "realmDownload": "下載",
+      "realmHint": "支援 realm.risuai.net 連結或角色 UUID",
+      "realmDownloadSuccess": "下載成功！",
+      "realmError": {
+        "INVALID_UUID": "RisuRealm ID 或連結格式不對",
+        "INVALID_CHARX": "在 RisuRealm 找不到這個角色，檢查一下 ID？",
+        "FILE_TOO_LARGE": "檔案太大了（{size}），手動下載後再上傳吧",
+        "DOWNLOAD_FAILED": "從 RisuRealm 下載失敗，再試一次？"
+      },
+      "tryDemo": "試試範例角色",
+      "demoHint": "載入範例角色體驗一下"
+    },
+    "tabs": {
+      "character": "角色",
+      "lorebook": "世界書",
+      "assets": "資源",
+      "module": "模組"
+    },
+    "empty": {
+      "noCharacterCard": "沒有角色卡",
+      "noLorebook": "沒有世界書",
+      "noModule": "沒有模組",
+      "noAssets": "這個分類沒有資源",
+      "noAssetsInFile": "這個檔案裡沒有資源",
+      "noModuleContent": "沒有模組內容",
+      "noTriggerScripts": "沒有觸發腳本",
+      "noRegexScripts": "沒有正則腳本",
+      "noCommonJSCode": "沒有 CommonJS 程式碼"
+    },
+    "files": {
+      "title": "檔案",
+      "loaded": "已載入 {count} 個檔案",
+      "parsing": "解析中...",
+      "dropMore": "拖放更多 .charx 檔案或點選新增",
+      "queue": "佇列",
+      "queued": "佇列中",
+      "delete": "刪除"
+    },
+    "assets": {
+      "title": "資源",
+      "totalExtracted": "總計 {count} 個資源",
+      "sort": "排序",
+      "group": "分組",
+      "sortAZ": "A-Z",
+      "sortZA": "Z-A",
+      "sortByFilename": "按檔名",
+      "groupByFilename": "按檔名分組",
+      "emotions": "表情",
+      "icons": "圖示",
+      "backgrounds": "背景",
+      "other": "其他",
+      "cardMetadata": "卡片中繼資料（{count} 個參考）",
+      "cardMetadataPlural": "卡片中繼資料（{count} 個參考）"
+    },
+    "module": {
+      "title": "模組：{name}",
+      "unnamed": "未命名",
+      "noDescription": "無描述",
+      "triggers": "觸發器",
+      "triggersCount": "{count} 個觸發器",
+      "regex": "正規表示式",
+      "regexCount": "{count} 個正規表示式",
+      "code": "程式碼",
+      "cjsCode": "CJS 程式碼",
+      "lowLevelAccess": "底層存取"
+    },
+    "character": {
+      "unnamedCharacter": "未命名角色",
+      "byCreator": "{creator}",
+      "tabs": {
+        "basic": "基本",
+        "messages": "訊息",
+        "prompts": "提示詞",
+        "others": "其他"
+      },
+      "viewMode": {
+        "list": "清單",
+        "raw": "原始",
+        "markdown": "Markdown"
+      },
+      "expandAll": "全部展開",
+      "collapseAll": "全部摺疊",
+      "saveAsFile": "儲存為檔案",
+      "copyToClipboard": "複製到剪貼簿",
+      "created": "建立時間",
+      "modified": "修改時間",
+      "empty": "空",
+      "loreCount": "{count} 個知識庫",
+      "assetsCount": "{count} 個資源"
+    },
+    "lorebook": {
+      "title": "世界書",
+      "entries": "{count} 條",
+      "noEntries": "沒有世界書條目",
+      "enabled": "已啟用",
+      "disabled": "已停用",
+      "priority": "優先順序",
+      "noKeys": "無關鍵詞",
+      "moreKeys": "+{count}",
+      "moreKeysPrefix": "+"
+    },
+    "toast": {
+      "copiedToClipboard": "已複製！",
+      "failedToCopy": "複製失敗",
+      "fileSaved": "檔案已儲存",
+      "lorebookCopied": "世界書 JSON 已複製！",
+      "characterCopied": "角色 JSON 已複製！",
+      "couldNotCopy": "複製不了，換個瀏覽器試試？"
+    },
+    "errorBoundary": {
+      "title": "哎呀，出問題了",
+      "description": "發生了意外錯誤，重新整理一下試試？",
+      "refreshPage": "重新整理"
+    },
+    "export": {
+      "button": "儲存到本地",
+      "title": "儲存角色到本地資料庫",
+      "description": "把這個角色和世界書存在本地，方便之後聊天用。",
+      "character": {
+        "title": "角色",
+        "unnamed": "未命名",
+        "description": "角色卡資料，包括名字、描述、性格和訊息。",
+        "moreTags": "更多"
+      },
+      "lorebook": {
+        "title": "世界書",
+        "entries": "條",
+        "description": "世界書條目會在聊天時作為上下文使用。",
+        "noLorebook": "這個角色檔案裡沒有世界書。"
+      },
+      "info": "儲存後可以方便地用於 P2P 分享和連線。",
+      "infoMessages": {
+        "databaseReady": "資料庫準備好了，可以儲存囉！"
+      },
+      "save": "儲存",
+      "cancel": "取消",
+      "saving": "儲存中...",
+      "loading": "載入中...",
+      "success": {
+        "title": "儲存成功！",
+        "description": "{name} 已儲存到資料庫。",
+        "goToChat": "去聊天"
+      },
+      "error": {
+        "title": "儲存失敗",
+        "description": "儲存時出錯了，再試一次？",
+        "databaseNotReady": "資料庫還沒準備好，稍等一下～",
+        "databaseInitFailed": "資料庫啟動失敗，重新整理頁面試試？"
+      },
+      "initializing": "啟動中..."
+    },
+    "shareP2P": "P2P 分享",
+    "error": "錯誤",
+    "warning": "警告",
+    "filesExcluded": "{count} 個檔案太大（>50MB）被跳過了："
+  },
+  "errors": {
+    "notFound": {
+      "title": "404",
+      "heading": "頁面走丟了",
+      "description": "你要找的頁面不存在或者已經搬家了。",
+      "goHome": "回首頁",
+      "openCharxViewer": "去查看器"
+    },
+    "generic": {
+      "title": "哎呀，出問題了",
+      "description": "發生了意外錯誤，重試一下或者回首頁看看？",
+      "retry": "重試",
+      "goHome": "回首頁"
+    },
+    "charx": {
+      "title": "查看器出錯了",
+      "description": "載入查看器時出了點問題。檔案可能損壞了，或者是瀏覽器相容性問題。",
+      "retry": "重試",
+      "goHome": "回首頁"
+    },
+    "pokebox": {
+      "title": "PokeBox 出錯了",
+      "description": "載入儲存的角色時出問題了，重新整理一下試試？",
+      "retry": "重試",
+      "goHome": "回首頁"
+    }
+  },
+  "footer": {
+    "description": "開源 AI 角色平台。查看、分享、和 AI 角色聊天。",
+    "product": "產品",
+    "resources": "資源",
+    "documentation": "文件",
+    "legal": "法律",
+    "privacy": "隱私權政策",
+    "terms": "服務條款",
+    "copyright": "OpenTamago. 保留所有權利。"
+  },
+  "nav": {
+    "home": "首頁",
+    "charxViewer": "查看器",
+    "charxPokebox": "PokeBox",
+    "p2pShare": "P2P 分享",
+    "chat": "聊天",
+    "connect": "P2P 連線",
+    "howItWorks": "使用指南",
+    "github": "GitHub",
+    "toggleMenu": "選單",
+    "navigationMenu": "選單"
+  },
+  "p2p": {
+    "title": "P2P CharX 分享",
+    "subtitle": "直接與好友分享角色檔案。P2P 意味著中間無伺服器。",
+    "privacyNote": "檔案透過 WebRTC 在瀏覽器之間直接傳輸。不會儲存在伺服器上。",
+    "confirmTitle": "準備分享",
+    "confirmSubtitle": "檢查您的檔案，如需要可設定密碼。",
+    "passwordLabel": "密碼（可選）",
+    "passwordPlaceholder": "輸入密碼...",
+    "passwordHint": "留空以不設密碼保護分享。",
+    "cancel": "取消",
+    "start": "開始分享",
+    "connecting": "連線中...",
+    "sharingTitle": "正在分享您的檔案",
+    "sharingSubtitle": "請保持此分頁開啟。分享下面的連結讓其他人下載。",
+    "stopSharing": "停止分享",
+    "stopSharingConfirm": "確定停止分享？",
+    "stopSharingDescription": "所有活動的下載將被中斷。",
+    "confirmStop": "是的，停止",
+    "sharingWarning": "如果您離開或重新整理，分享將中斷。請保持此分頁開啟。",
+    "dropzone": {
+      "dropHere": "將檔案拖到這裡",
+      "dropToShare": "拖放 .charx 檔案以分享",
+      "orClickToBrowse": "或點選瀏覽"
+    },
+    "download": {
+      "title": "下載 CharX 檔案",
+      "connecting": "正在連線到上傳者...",
+      "connectionFailed": "無法連線到上傳者。他們可能已關閉瀏覽器。",
+      "notFound": "分享連結未找到或已過期",
+      "notFoundDescription": "您要找的檔案已不可用。上傳者可能已停止分享。",
+      "passwordRequired": "此檔案受密碼保護",
+      "passwordPlaceholder": "輸入密碼...",
+      "passwordError": "密碼錯誤。要重試嗎？",
+      "submit": "提交",
+      "readyTitle": "準備下載",
+      "readyDescription": "點選下方開始下載。",
+      "startDownload": "下載",
+      "downloading": "下載中...",
+      "complete": "下載完成！",
+      "completeDescription": "成功取得您的檔案。",
+      "charxDetected": "這是角色檔案！",
+      "charxDescription": "一鍵將此角色和知識庫儲存到資料庫。",
+      "saveToDatabase": "儲存到資料庫",
+      "downloadAnother": "取得另一個檔案",
+      "goHome": "返回首頁",
+      "troubleshooting": "時間太長？上傳者可能在防火牆後或已關閉瀏覽器。",
+      "sharePrompt": "也想分享 CharX 檔案？",
+      "startSharing": "開始 CharX 分享"
+    }
+  },
+  "theme": {
+    "toggle": "切換主題",
+    "light": "淺色",
+    "dark": "深色",
+    "system": "系統"
+  },
+  "chat": {
+    "leftPanel": {
+      "create": "建立",
+      "createCharacter": "建立角色",
+      "importCharx": "匯入 .charx",
+      "createPersona": "建立人設",
+      "noCharacters": "還沒有角色呢～",
+      "createOne": "建立一個",
+      "noDescription": "暫無描述",
+      "characters": "角色",
+      "chats": "聊天",
+      "recentChats": "最近聊天",
+      "newChat": "新建聊天",
+      "noChats": "還沒有聊天記錄～",
+      "startOne": "開始一個",
+      "yesterday": "昨天",
+      "deleteChat": "刪除這個聊天？",
+      "deleteCharacter": "刪除「{name}」？相關的聊天記錄也會一起刪掉。",
+      "importing": "匯入中...",
+      "importSuccess": "角色匯入成功！",
+      "importError": "匯入失敗了",
+      "chatTitle": "聊天標題",
+      "editChatTitleDescription": "幫這個聊天改個名字。",
+      "chatTitlePlaceholder": "輸入聊天標題..."
+    },
+    "centerPanel": {
+      "selectCharacter": "選個角色開始聊天吧",
+      "createFromLeft": "或者從左邊建立新角色",
+      "apiKeyRequired": "需要 API 金鑰",
+      "configureApiKey": "設定你的 Gemini API 金鑰來開始聊天。",
+      "openSettings": "開啟設定",
+      "clearChat": "清空聊天",
+      "thinking": "思考中...",
+      "messagePlaceholder": "對 {name} 說點什麼...",
+      "clearAllMessages": "清空這個聊天的所有訊息？",
+      "selectPersona": "選擇人設",
+      "noPersonas": "還沒有人設呢～",
+      "createPersona": "建立人設",
+      "selectPersonaToSend": "選個人設再發訊息",
+      "createPersonaAction": "建立"
+    },
+    "rightPanel": {
+      "selectCharacter": "選個角色看看詳情",
+      "characterDetails": "角色詳情",
+      "personality": "性格",
+      "scenario": "場景",
+      "firstMessage": "開場白",
+      "exampleDialogue": "範例對話",
+      "systemPrompt": "系統提示詞",
+      "noPersonaDetails": "還沒設定人設詳情。",
+      "creatorNotes": "創作者筆記",
+      "created": "建立時間",
+      "lastUpdated": "最後更新",
+      "persona": "人設",
+      "info": "資訊",
+      "deleteCharacter": "刪除「{name}」？相關聊天也會刪掉，沒法恢復喔。"
+    },
+    "editor": {
+      "editCharacter": "編輯角色",
+      "createCharacter": "建立角色",
+      "editPersona": "編輯人設",
+      "createPersona": "建立人設",
+      "modifyPersona": "修改您的人設詳情。",
+      "createPersonaDesc": "建立人設以在聊天中代表您自己。",
+      "modifyCharacter": "修改您的角色詳情。",
+      "createCharacterDesc": "建立新角色以進行聊天。",
+      "uploadAvatar": "上傳頭像",
+      "avatarHint": "PNG、JPG 最大 2MB",
+      "basic": "基本",
+      "persona": "人設",
+      "details": "詳情",
+      "advanced": "進階",
+      "nameLabel": "名稱",
+      "nameRequired": "名稱 *",
+      "yourName": "您的名稱",
+      "characterName": "角色名稱",
+      "description": "描述",
+      "descriptionPersona": "關於您自己的簡短描述",
+      "descriptionCharacter": "角色的簡短描述",
+      "firstMessage": "首則訊息",
+      "firstMessagePlaceholder": "角色將傳送的第一則訊息",
+      "personality": "性格",
+      "personalityCharacter": "描述性格特徵、行為、怪癖...",
+      "scenario": "場景",
+      "scenarioPlaceholder": "對話的設定或背景",
+      "exampleDialogue": "範例對話",
+      "exampleDialoguePlaceholder": "設定基調的範例對話...",
+      "systemPrompt": "系統提示詞",
+      "systemPromptPlaceholder": "自訂系統提示詞（覆蓋預設）",
+      "creatorNotes": "創作者筆記",
+      "privateNotes": "私人筆記",
+      "notesPlaceholder": "私人筆記（不會傳送給 AI）",
+      "saving": "儲存中...",
+      "saveChanges": "儲存變更"
+    },
+    "settings": {
+      "title": "設定",
+      "description": "設定您的 API 配置。所有內容都儲存在本機。",
+      "apiSection": "API",
+      "apiKeySection": "API 金鑰",
+      "apiKeyDescription": "配置您的 API 連線和模型設定。",
+      "chatUISection": "聊天介面",
+      "chatUIDescription": "自訂聊天訊息的顯示方式。",
+      "databaseSection": "資料庫",
+      "safety": "安全",
+      "apiMode": "API 模式",
+      "apiModeServer": "伺服器 API",
+      "apiModeServerDesc": "使用伺服器的 API 金鑰",
+      "apiModeClient": "您的 API 金鑰",
+      "apiModeClientDesc": "更私密",
+      "geminiApiKey": "Gemini API 金鑰",
+      "enterApiKey": "輸入您的 Gemini API 金鑰",
+      "getApiKey": "從以下位置取得 API 金鑰",
+      "googleAiStudio": "Google AI Studio",
+      "defaultModel": "預設模型",
+      "selectModel": "選擇模型",
+      "temperature": "溫度",
+      "maxTokens": "最大 Token 數",
+      "bubbleTheme": "聊天氣泡主題",
+      "themeRoleplay": "角色扮演",
+      "themeRoleplayDesc": "帶引號和動作的樣式文字",
+      "themeMessenger": "訊息",
+      "themeMessengerDesc": "純文字，無格式",
+      "database": {
+        "title": "資料庫管理",
+        "description": "檢視資料庫統計資訊並管理本機資料。",
+        "storageUsage": "儲存空間使用情況",
+        "collections": "集合",
+        "actions": "操作",
+        "exportData": "匯出資料",
+        "dangerZone": "危險區域",
+        "resetWarning": "這將永久刪除所有資料，包括角色、聊天、訊息和設定。如遇到遷移問題時使用。",
+        "resetDatabase": "重設資料庫",
+        "resetting": "重設中..."
+      },
+      "safetyDescription": "設定內容安全篩選器。預設情況下，所有篩選器都已關閉，以實現不受限制的角色扮演。",
+      "hateSpeech": "仇恨言論",
+      "harassment": "騷擾",
+      "sexuallyExplicit": "色情內容",
+      "dangerousContent": "危險內容",
+      "blockNone": "不封鎖",
+      "blockLow": "封鎖低級+",
+      "blockMedium": "封鎖中級+",
+      "blockHigh": "僅封鎖高級",
+      "saving": "儲存中..."
+    }
+  },
+  "connect": {
+    "meta": {
+      "title": "P2P 多角色聊天",
+      "description": "建立 AI 角色互相聊天的房間"
+    },
+    "title": "多角色群聊",
+    "subtitle": "和多個 AI 角色一起聊天，P2P 意味著不經過伺服器。",
+    "tabs": {
+      "existing": "我的角色",
+      "upload": "上傳 .charx",
+      "photo": "從照片"
+    },
+    "noCharacters": "還沒有角色呢～",
+    "createInChat": "去聊天頁建立一個",
+    "upload": {
+      "title": "上傳 CharX 檔案",
+      "description": "拖放 .charx 檔案或點選選擇",
+      "formats": "僅支援 .charx 檔案",
+      "error": "匯入失敗",
+      "confirm": "確認並使用此角色"
+    },
+    "photo": {
+      "dropTitle": "上傳照片",
+      "dropDescription": "拖放圖像或點選選擇。AI 將從中產生角色。",
+      "selectFile": "選擇圖像",
+      "invalidType": "請選擇圖像檔案（PNG、JPG、WebP 或 GIF）",
+      "tooLarge": "圖像太大。最大 10MB。",
+      "contextLabel": "提示（可選）",
+      "contextPlaceholder": "例如：「奇幻戰士」或「讓他們友好」",
+      "contextHint": "新增提示以指導角色產生",
+      "generating": "產生角色中...",
+      "generate": "產生角色",
+      "generated": "{name} 已就緒！",
+      "generateError": "無法產生角色。要重試嗎？",
+      "noApiKey": "請先在設定中設定您的 Gemini API 金鑰。",
+      "apiKeyRequired": "需要 API 金鑰",
+      "apiKeyDescription": "要從照片產生角色，請在設定中設定您的 Gemini API 金鑰。",
+      "goToSettings": "前往設定"
+    },
+    "confirm": {
+      "subtitle": "檢查您的角色，如需要可設定密碼。",
+      "passwordHint": "其他人需要此密碼才能加入您的會話。",
+      "start": "建立會話"
+    },
+    "leaveConfirm": {
+      "title": "離開會話？",
+      "description": "您將中斷與所有參與者的連線並離開聊天。",
+      "confirm": "離開"
+    },
+    "creating": "建立會話中...",
+    "joining": "加入會話中...",
+    "lobby": {
+      "title": "等待室",
+      "hostDescription": "分享下面的連結以邀請其他人",
+      "guestDescription": "等待主持人開始",
+      "shortUrl": "短連結",
+      "longUrl": "長連結",
+      "copied": "連結已複製！",
+      "copyFailed": "無法複製連結",
+      "participants": "參與者",
+      "you": "您",
+      "host": "主持人",
+      "connecting": "連線中...",
+      "selectingCharacter": "選擇角色中...",
+      "waitingForOthers": "等待其他人...",
+      "leave": "離開",
+      "startChat": "開始聊天",
+      "needMoreParticipants": "需要至少 2 人才能開始"
+    },
+    "chat": {
+      "title": "聊天",
+      "participants": "參與者",
+      "active": "活躍",
+      "pending": "待定",
+      "autoReply": "自動回覆",
+      "noMessages": "還沒有訊息。說點什麼吧！",
+      "unknown": "未知",
+      "generating": "思考中...",
+      "thinking": "{name} 正在思考...",
+      "placeholder": "以 {name} 的身分發訊息...",
+      "userJoined": "{name} 加入了",
+      "userLeft": "{name} 離開了"
+    },
+    "join": {
+      "meta": {
+        "title": "加入會話",
+        "description": "加入多角色聊天會話"
+      },
+      "title": "加入會話",
+      "subtitle": "選擇要加入的角色",
+      "currentParticipants": "{count} 人已在會話中",
+      "passwordProtected": "此會話受密碼保護",
+      "enterPassword": "輸入密碼",
+      "passwordHintJoin": "請向主持人索取密碼",
+      "passwordRequired": "需要密碼才能加入此會話",
+      "passwordError": "密碼不正確。請重試。",
+      "joinButton": "加入會話"
+    },
+    "notifications": {
+      "joined": "{name} 加入了",
+      "left": "{name} 離開了"
+    },
+    "status": {
+      "connecting": "連線中...",
+      "connected": "已連線",
+      "connectedInfo": "您已準備好連線 P2P 會話",
+      "disconnected": "已中斷連線"
+    },
+    "errors": {
+      "noPeer": "網路連線失敗。重新整理頁面並重試。",
+      "hostLeft": "主持人結束了會話",
+      "sessionFull": "會話已滿",
+      "sessionFullDescription": "此會話已達到最大人數。",
+      "createOwn": "建立您自己的會話",
+      "connectionFailed": "連線失敗",
+      "connectionFailedDescription": "無法連線到會話。主持人可能已離開或存在網路問題。",
+      "tryAgain": "重試",
+      "apiNotReady": "需要 API 金鑰",
+      "apiNotReadyDescription": "請在設定中設定 API 金鑰以使用 AI 功能。",
+      "openSettings": "開啟設定"
+    }
+  },
+  "howItWorks": {
+    "meta": {
+      "title": "使用指南 | OpenTamago",
+      "description": "瞭解如何使用 CharX 檢視器、P2P 分享和 P2P 多角色聊天"
+    },
+    "hero": {
+      "title": "使用指南",
+      "description": "瞭解如何使用 OpenTamago 檢視、分享和與 AI 角色聊天"
+    },
+    "tryNow": "立即試用",
+    "charx": {
+      "title": "CharX 檢視器",
+      "description": "在瀏覽器中直接開啟 CharX 角色檔案。所有處理都在本機進行，完全保護隱私。",
+      "steps": {
+        "upload": {
+          "title": "上傳檔案",
+          "description": "拖放 .charx 檔案或點選瀏覽"
+        },
+        "view": {
+          "title": "檢視角色",
+          "description": "檢視角色詳情、性格和問候語"
+        },
+        "lorebook": {
+          "title": "探索知識庫",
+          "description": "瀏覽帶關鍵詞觸發器的知識庫條目"
+        },
+        "assets": {
+          "title": "檢視資源",
+          "description": "檢視嵌入的圖像，如表情和頭像"
+        }
+      },
+      "highlights": {
+        "privacy": "100% 本機處理",
+        "formats": "支援 .charx 和 .json 檔案",
+        "export": "將角色儲存到本機資料庫"
+      }
+    },
+    "p2pShare": {
+      "title": "P2P 分享",
+      "description": "使用 P2P 直接與好友分享檔案。不會儲存在伺服器上。",
+      "steps": {
+        "select": {
+          "title": "選擇檔案",
+          "description": "選擇要分享的檔案"
+        },
+        "generate": {
+          "title": "產生連結",
+          "description": "取得 QR Code 和可分享連結"
+        },
+        "transfer": {
+          "title": "直接傳輸",
+          "description": "檔案透過 WebRTC 直接傳輸"
+        },
+        "receive": {
+          "title": "下載",
+          "description": "接收者直接從您處下載"
+        }
+      },
+      "highlights": {
+        "noServer": "無伺服器儲存",
+        "password": "可選密碼保護",
+        "qrCode": "行動分享 QR Code"
+      }
+    },
+    "p2pConnect": {
+      "title": "P2P 多角色聊天",
+      "description": "建立多角色聊天會話。邀請好友，讓 AI 角色相互聊天。",
+      "steps": {
+        "select": {
+          "title": "選擇角色",
+          "description": "從庫中選擇或建立一個"
+        },
+        "invite": {
+          "title": "邀請好友",
+          "description": "分享連結或 QR Code 以邀請"
+        },
+        "chat": {
+          "title": "開始聊天",
+          "description": "以角色身分傳送訊息"
+        },
+        "ai": {
+          "title": "AI 回覆",
+          "description": "開啟自動回覆以取得 AI 回應"
+        }
+      },
+      "highlights": {
+        "realtime": "即時 P2P 訊息",
+        "multiParty": "每個會話最多 8 個角色",
+        "autoReply": "AI 驅動的自動回覆"
+      }
+    },
+    "privacy": {
+      "title": "隱私優先",
+      "description": "所有 OpenTamago 功能都注重隱私。您的資料保留在您的裝置上。",
+      "noServer": {
+        "title": "無伺服器儲存",
+        "description": "檔案永不上傳到我們的伺服器。一切都在瀏覽器中進行。"
+      },
+      "encrypted": {
+        "title": "加密傳輸",
+        "description": "P2P 連線使用內建加密的 WebRTC。"
+      },
+      "openSource": {
+        "title": "開源",
+        "description": "所有程式碼公開並可在 GitHub 上取得。"
+      }
+    }
+  },
+  "pokebox": {
+    "title": "CharX PokeBox",
+    "subtitle": "檢視您儲存的角色卡片、知識庫和資源。",
+    "description": "在一處瀏覽和管理您儲存的 AI 角色。",
+    "selectCharacter": "選擇一個角色檢視詳情",
+    "moduleNotStored": "模組不會儲存在資料庫中。",
+    "back": "返回",
+    "tabs": {
+      "character": "角色",
+      "lorebook": "知識庫",
+      "assets": "資源",
+      "module": "模組"
+    },
+    "characterList": {
+      "title": "我的角色",
+      "search": "搜尋角色...",
+      "empty": "還沒有儲存角色。",
+      "noResults": "沒有符合搜尋的角色。",
+      "importFromCharx": "從 CharX 匯入"
+    },
+    "deleteConfirm": {
+      "title": "刪除角色？",
+      "description": "這將刪除「{name}」及所有關聯資料，包括知識庫條目和資源。此操作無法復原。",
+      "cancel": "取消",
+      "confirm": "刪除"
+    },
+    "byCreator": "{creator}",
+    "unnamedCharacter": "未命名角色",
+    "created": "建立時間",
+    "modified": "修改時間",
+    "empty": "空",
+    "expandAll": "全部展開",
+    "collapseAll": "全部摺疊",
+    "greetingIndex": "問候 {index}",
+    "viewMode": {
+      "list": "清單",
+      "raw": "原始",
+      "markdown": "Markdown"
+    },
+    "characterTabs": {
+      "basic": "基本",
+      "messages": "訊息",
+      "prompts": "提示詞",
+      "others": "其他"
+    },
+    "fields": {
+      "description": "描述",
+      "personality": "性格",
+      "scenario": "場景",
+      "firstMessage": "首則訊息",
+      "exampleDialogue": "範例對話",
+      "alternateGreetings": "備選問候",
+      "groupOnlyGreetings": "僅群組問候",
+      "systemPrompt": "系統提示詞",
+      "postHistoryInstructions": "歷史後指令",
+      "creatorInfo": "創作者資訊",
+      "creator": "創作者",
+      "characterVersion": "版本",
+      "dates": "日期",
+      "creatorNotes": "創作者筆記"
+    },
+    "lorebook": {
+      "title": "知識庫條目",
+      "entries": "{count} 個條目",
+      "noEntries": "此角色沒有知識庫條目。",
+      "enabled": "已啟用",
+      "disabled": "已停用",
+      "priority": "優先順序",
+      "noKeys": "無關鍵詞",
+      "moreKeys": "+{count} 個"
+    },
+    "assets": {
+      "title": "角色資源",
+      "totalExtracted": "共 {count} 個資源",
+      "noAssets": "此類別無資源",
+      "sort": "排序",
+      "group": "分組",
+      "sortAZ": "A-Z",
+      "sortZA": "Z-A",
+      "sortByFilename": "按檔名",
+      "groupByFilename": "按檔名分組",
+      "emotions": "表情",
+      "icons": "圖示",
+      "backgrounds": "背景",
+      "other": "其他"
+    },
+    "toast": {
+      "copiedToClipboard": "已複製！",
+      "failedToCopy": "複製失敗"
+    }
+  },
+  "localeDetector": {
+    "title": "歡迎！",
+    "description": "偵測到你的瀏覽器語言和目前頁面不一樣，要切換嗎？",
+    "selectLanguage": "選擇語言",
+    "dontShowAgain": "不再提示",
+    "continue": "切換語言",
+    "stayHere": "留在這裡"
+  }
+}

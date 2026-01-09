@@ -359,6 +359,12 @@
       "description": "Something went wrong loading the viewer. The file might be corrupted or there's a browser compatibility issue.",
       "retry": "Try Again",
       "goHome": "Go Home"
+    },
+    "pokebox": {
+      "title": "CharX PokeBox Error",
+      "description": "Something went wrong loading your saved characters. Please try refreshing the page.",
+      "retry": "Try Again",
+      "goHome": "Go Home"
     }
   },
   "footer": {
@@ -374,6 +380,7 @@
   "nav": {
     "home": "Home",
     "charxViewer": "CharX Viewer",
+    "charxPokebox": "CharX PokeBox",
     "p2pShare": "P2P Share",
     "chat": "Chat",
     "connect": "P2P Connect",
@@ -822,5 +829,96 @@
     "dontShowAgain": "Don't show this again",
     "continue": "Switch Language",
     "stayHere": "Stay Here"
+  },
+  "pokebox": {
+    "title": "CharX PokeBox",
+    "subtitle": "View your stored character cards, lorebooks, and assets.",
+    "description": "Browse and manage your saved AI characters in one place.",
+    "selectCharacter": "Select a character to view details",
+    "moduleNotStored": "Modules are not stored in the database.",
+    "back": "Back",
+    "tabs": {
+      "character": "Character",
+      "lorebook": "Lorebook",
+      "assets": "Assets",
+      "module": "Module"
+    },
+    "characterList": {
+      "title": "My Characters",
+      "search": "Search characters...",
+      "empty": "No characters saved yet.",
+      "noResults": "No characters match your search.",
+      "importFromCharx": "Import from CharX"
+    },
+    "deleteConfirm": {
+      "title": "Delete Character?",
+      "description": "This will delete \"{name}\" and all associated data including lorebook entries and assets. This cannot be undone.",
+      "cancel": "Cancel",
+      "confirm": "Delete"
+    },
+    "byCreator": "{creator}",
+    "unnamedCharacter": "Unnamed Character",
+    "created": "Created",
+    "modified": "Modified",
+    "empty": "Empty",
+    "expandAll": "Expand All",
+    "collapseAll": "Collapse All",
+    "greetingIndex": "Greeting {index}",
+    "viewMode": {
+      "list": "List",
+      "raw": "Raw",
+      "markdown": "Markdown"
+    },
+    "characterTabs": {
+      "basic": "Basic",
+      "messages": "Messages",
+      "prompts": "Prompts",
+      "others": "Others"
+    },
+    "fields": {
+      "description": "Description",
+      "personality": "Personality",
+      "scenario": "Scenario",
+      "firstMessage": "First Message",
+      "exampleDialogue": "Example Dialogue",
+      "alternateGreetings": "Alternate Greetings",
+      "groupOnlyGreetings": "Group Only Greetings",
+      "systemPrompt": "System Prompt",
+      "postHistoryInstructions": "Post History Instructions",
+      "creatorInfo": "Creator Info",
+      "creator": "Creator",
+      "characterVersion": "Version",
+      "dates": "Dates",
+      "creatorNotes": "Creator Notes"
+    },
+    "lorebook": {
+      "title": "Lorebook Entries",
+      "entries": "{count} entries",
+      "noEntries": "No lorebook entries for this character.",
+      "enabled": "Enabled",
+      "disabled": "Disabled",
+      "priority": "Priority",
+      "noKeys": "No keys",
+      "moreKeys": "+{count} more"
+    },
+    "assets": {
+      "title": "Character Assets",
+      "totalExtracted": "{count} assets total",
+      "noAssets": "No assets in this category",
+      "sort": "Sort",
+      "group": "Group",
+      "sortAZ": "A-Z",
+      "sortZA": "Z-A",
+      "sortByFilename": "By filename",
+      "groupByFilename": "Group by filename",
+      "emotions": "Emotions",
+      "icons": "Icons",
+      "backgrounds": "Backgrounds",
+      "other": "Other"
+    },
+    "toast": {
+      "copiedToClipboard": "Copied!",
+      "failedToCopy": "Copy failed"
+    }
   }
 }

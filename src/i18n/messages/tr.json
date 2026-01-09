@@ -1,0 +1,924 @@
+{
+  "common": {
+    "appName": "OpenTamago",
+    "tagline": "Açık Kaynak AI Karakter Görüntüleyici & Paylaşım",
+    "loading": "Yükleniyor...",
+    "error": "Hay aksi, bir şeyler ters gitti",
+    "retry": "Tekrar dene",
+    "comingSoon": "Yakında"
+  },
+  "experimental": {
+    "badge": "Deneysel",
+    "charx": "Bu özellik hâlâ geliştirme aşamasında! CharX sürüm 3'ü desteklemek için tasarlandı ama hâlâ iyileştiriyoruz.",
+    "p2p": "Bu, doğrudan P2P bağlantıları için WebRTC kullanır. Lütfen QR kodlarını ve bağlantıları yalnızca güvendiğiniz kişilerle paylaşın!",
+    "chat": "Bu sohbet özelliği, geliştiricilerin yerel olarak LLM test ettiği hata ayıklama amaçlıdır. AI sohbeti için lütfen diğer servisleri kullanın.",
+    "feedback": "Geri bildiriminiz mi var veya hata mı buldunuz? <link>GitHub Issues</link>'da bize bildirin!"
+  },
+  "actions": {
+    "save": "Kaydet",
+    "cancel": "İptal",
+    "delete": "Sil",
+    "edit": "Düzenle",
+    "close": "Kapat",
+    "submit": "Gönder",
+    "upload": "Yükle",
+    "download": "İndir"
+  },
+  "home": {
+    "hero": {
+      "title": "AI Karakteriniz",
+      "titleHighlight": "Dostunuz",
+      "description": "AI karakterleri görüntüleyin, paylaşın ve sohbet edin. CharX görüntüleyiciden P2P tabanlı CharX paylaşımına kadar her şey ücretsiz ve açık kaynak."
+    },
+    "cta": {
+      "openViewer": "CharX Görüntüleyiciyi Aç",
+      "viewGithub": "GitHub'da Görüntüle",
+      "tryViewer": "CharX Görüntüleyiciyi Dene",
+      "startSharing": "CharX Paylaşımını Başlat",
+      "startConnect": "CharX Oturumu Başlat",
+      "p2pLabel": "P2P Özellikler"
+    },
+    "features": {
+      "title": "İhtiyacınız Olan Her Şey",
+      "description": "AI karakter meraklıları için hepsi bir arada araç seti",
+      "charxViewer": {
+        "title": "CharX Görüntüleyici",
+        "description": "CharX dosyalarından karakter kartlarını, lorebook'ları ve varlıkları inceleyin. Her şey doğrudan tarayıcınızda çalışır."
+      },
+      "p2pSharing": {
+        "title": "P2P CharX Paylaşımı",
+        "description": "Karakter dosyalarını P2P kullanarak doğrudan arkadaşlarınızla paylaşın. Sunucu yüklemesi yok, anında aktarım!"
+      },
+      "connect": {
+        "title": "P2P Çoklu Karakter Sohbeti",
+        "description": "Birden fazla AI karakteriyle sohbet oturumları kurun. Arkadaşlarınızı davet edin ve karakterlerin birbirleriyle etkileşimini izleyin."
+      }
+    },
+    "showcase": {
+      "badge": "CharX Görüntüleyici",
+      "title": "Karakter Dosyalarını Kolayca İnceleyin",
+      "dragDrop": {
+        "title": "Sürükle & Bırak",
+        "description": ".charx dosyalarınızı bırakın ve içindekileri anında görün"
+      },
+      "cardInfo": {
+        "title": "Tüm Karakter Bilgisi Bir Bakışta",
+        "description": "Karakter detaylarını, lorebook'ları, görsel varlıkları ve daha fazlasını görüntüleyin"
+      },
+      "clientSide": {
+        "title": "%100 Yerel İşleme",
+        "description": "Dosyalarınız asla tarayıcınızdan ayrılmaz. Tam gizlilik garantili!"
+      },
+      "dropzone": {
+        "title": ".charx dosyalarını buraya bırakın",
+        "subtitle": "veya göz atmak için tıklayın"
+      }
+    },
+    "p2pShowcase": {
+      "badge": "P2P CharX Paylaşımı",
+      "title": "Karakter Kartlarını Anında Paylaşın",
+      "sender": "Siz",
+      "receivers": "Arkadaşlar",
+      "directTransfer": "Doğrudan tarayıcıdan tarayıcıya aktarım",
+      "qrCode": {
+        "title": "QR Kodu & Paylaşım Linkleri",
+        "description": "Kolay mobil aktarımlar için QR kodları ve bağlantılar oluşturun"
+      },
+      "webrtc": {
+        "title": "WebRTC Doğrudan Aktarım",
+        "description": "Dosyalar doğrudan tarayıcılar arasında gider. Sunucu depolaması yok."
+      },
+      "password": {
+        "title": "Şifre Koruması",
+        "description": "İsterseniz paylaşımlarınızı şifreyle koruyun"
+      }
+    },
+    "highlights": {
+      "privacy": {
+        "title": "%100 Yerel İşleme",
+        "description": "CharX dosyalarını doğrudan tarayıcınızda görüntüleyin. Verileriniz asla cihazınızdan ayrılmaz."
+      },
+      "fast": {
+        "title": "Doğrudan P2P Bağlantısı",
+        "description": "Dosyaları paylaşın ve arkadaşlarınızla doğrudan sohbet edin. Arada sunucu yok!"
+      },
+      "openSource": {
+        "title": "Açık Kaynak",
+        "description": "Tüm kod herkese açık. Katkıda bulunun, özelleştirin ve kendinize ait yapın."
+      }
+    },
+    "ready": {
+      "title": "Başlamaya Hazır mısınız?",
+      "description": "Gizlilik odaklı görüntüleyicimizle karakter dosyalarınızı keşfedin."
+    },
+    "demo": {
+      "charx": {
+        "tabs": {
+          "character": "Karakter",
+          "lorebook": "Lorebook",
+          "assets": "Varlıklar"
+        },
+        "greetings": "selamlama varyasyonu",
+        "lorebookEntries": "{count} giriş",
+        "assetsFound": "{count} varlık",
+        "fileReceived": "Dosya alındı",
+        "processing": "İşleniyor..."
+      },
+      "p2p": {
+        "selectFile": "Dosya seç",
+        "generating": "Oluşturuluyor...",
+        "scanToJoin": "Katılmak için tara",
+        "waiting": "Bekleniyor...",
+        "readyToScan": "Taramaya hazır",
+        "scanning": "Taranıyor...",
+        "connecting": "Bağlanıyor...",
+        "complete": "Tamamlandı!",
+        "waitingConnection": "Bekleniyor...",
+        "connected": "Bağlandı",
+        "transferred": "Aktarıldı!"
+      },
+      "connect": {
+        "waitingRoom": "Bekleme Odası",
+        "participants": "Katılımcılar",
+        "chat": "Sohbet",
+        "p2pBadge": "P2P Bağlı",
+        "message1": "Hey! Sohbete hazır mısın?",
+        "message2": "Hadi başlayalım!",
+        "aiReply": "Hepinizle tanıştığıma memnun oldum!",
+        "inputPlaceholder": "Bir mesaj yazın..."
+      }
+    },
+    "connectShowcase": {
+      "badge": "P2P Bağlantı",
+      "poweredBy": "Karakterinizle Katılın",
+      "title": "AI'nızı Başkalarıyla Bağlayın",
+      "description": "AI karakterinizle bir sohbet odası kurun ve arkadaşlarınızı davet edin. Farklı AI'ların gerçek zamanlı sohbet etmesini izleyin. Çok eğlenceli olacak!",
+      "realtime": {
+        "title": "P2P Sohbet",
+        "description": "Doğrudan tarayıcı bağlantısı. Sunucu olmadan arkadaşlarınızla sohbet edin."
+      },
+      "aiPowered": {
+        "title": "AI Otomatik Yanıt",
+        "description": "Her karakter kendi kişiliğiyle yanıt verir"
+      },
+      "multiParty": {
+        "title": "8 Kişiye Kadar",
+        "description": "Arkadaşlarınızı davet etmek için QR kodu veya bağlantı paylaşın"
+      }
+    }
+  },
+  "charx": {
+    "title": "CharX Görüntüleyici",
+    "subtitle": "Karakter kartlarını, lorebook'ları ve varlıkları inceleyin. Doğrudan tarayıcınızda çalışır!",
+    "description": "CharX karakter dosyalarını doğrudan tarayıcınızda açın. Tam gizlilikle karakter kartlarını, lorebook'ları ve varlıkları görüntüleyin.",
+    "upload": {
+      "title": "CharX Dosyası Yükle",
+      "description": "Bir .charx dosyasını sürükleyip bırakın veya göz atmak için tıklayın",
+      "dropHere": "Dosyanızı buraya bırakın",
+      "invalidFile": "Yalnızca .charx dosyaları desteklenir",
+      "dropFiles": ".charx dosyalarınızı buraya bırakın",
+      "browseMultiple": "veya göz atmak için tıklayın (birden fazla dosya OK)",
+      "downloadLink": "Karakter dosyalarını (.charx) <link>realm.risuai.net</link> adresinden edinin",
+      "unsupportedFile": "Desteklenmeyen dosya: {names}. Burada yalnızca .charx dosyaları çalışır.",
+      "unsupportedFiles": "Desteklenmeyen dosyalar: {names}. Burada yalnızca .charx dosyaları çalışır.",
+      "andMore": " ve {count} tane daha",
+      "or": "veya",
+      "realmPlaceholder": "RisuRealm URL'si veya karakter ID'si yapıştırın...",
+      "realmDownload": "İndir",
+      "realmHint": "realm.risuai.net URL'leri veya karakter UUID'leriyle çalışır",
+      "realmDownloadSuccess": "Karakter indirildi!",
+      "realmError": {
+        "INVALID_UUID": "Bu RisuRealm ID'si veya URL'si doğru görünmüyor",
+        "INVALID_CHARX": "RisuRealm'de bu karakter bulunamadı. ID'yi kontrol edin?",
+        "FILE_TOO_LARGE": "Dosya çok büyük ({size}). Manuel olarak indirip yüklemeyi deneyin.",
+        "DOWNLOAD_FAILED": "RisuRealm'den indirilemedi. Tekrar deneyin?"
+      },
+      "tryDemo": "Demo Karakter Deneyin",
+      "demoHint": "Görüntüleyiciyi keşfetmek için örnek bir karakter yükleyin"
+    },
+    "tabs": {
+      "character": "Karakter",
+      "lorebook": "Lorebook",
+      "assets": "Varlıklar",
+      "module": "Modül"
+    },
+    "empty": {
+      "noCharacterCard": "Karakter kartı bulunamadı",
+      "noLorebook": "Lorebook bulunamadı",
+      "noModule": "Modül bulunamadı",
+      "noAssets": "Bu kategoride varlık yok",
+      "noAssetsInFile": "Bu dosyada varlık yok",
+      "noModuleContent": "Modül içeriği yok",
+      "noTriggerScripts": "Tetikleyici script yok",
+      "noRegexScripts": "Regex script yok",
+      "noCommonJSCode": "CommonJS kodu yok"
+    },
+    "files": {
+      "title": "Dosyalar",
+      "loaded": "{count} dosya yüklendi",
+      "parsing": "Ayrıştırılıyor...",
+      "dropMore": "Daha fazla .charx dosyası bırakın veya eklemek için tıklayın",
+      "queue": "Sıra",
+      "queued": "Sırada",
+      "delete": "Sil"
+    },
+    "assets": {
+      "title": "Varlıklar",
+      "totalExtracted": "toplam {count} varlık",
+      "sort": "Sırala",
+      "group": "Grupla",
+      "sortAZ": "A-Z",
+      "sortZA": "Z-A",
+      "sortByFilename": "Dosya adına göre",
+      "groupByFilename": "Dosya adına göre grupla",
+      "emotions": "Duygular",
+      "icons": "İkonlar",
+      "backgrounds": "Arka Planlar",
+      "other": "Diğer",
+      "cardMetadata": "Kart Meta Verisi ({count} referans)",
+      "cardMetadataPlural": "Kart Meta Verisi ({count} referans)"
+    },
+    "module": {
+      "title": "Modül: {name}",
+      "unnamed": "İsimsiz",
+      "noDescription": "Açıklama yok",
+      "triggers": "Tetikleyiciler",
+      "triggersCount": "{count} Tetikleyici",
+      "regex": "Regex",
+      "regexCount": "{count} Regex",
+      "code": "Kod",
+      "cjsCode": "CJS Kodu",
+      "lowLevelAccess": "Düşük Seviye Erişim"
+    },
+    "character": {
+      "unnamedCharacter": "İsimsiz Karakter",
+      "byCreator": "{creator}",
+      "tabs": {
+        "basic": "Temel",
+        "messages": "Mesajlar",
+        "prompts": "Promptlar",
+        "others": "Diğer"
+      },
+      "viewMode": {
+        "list": "Liste",
+        "raw": "Ham",
+        "markdown": "Markdown"
+      },
+      "expandAll": "Tümünü Genişlet",
+      "collapseAll": "Tümünü Daralt",
+      "saveAsFile": "Dosya olarak kaydet",
+      "copyToClipboard": "Panoya kopyala",
+      "created": "Oluşturulma",
+      "modified": "Değiştirilme",
+      "empty": "Boş",
+      "loreCount": "{count} lorebook",
+      "assetsCount": "{count} varlık"
+    },
+    "lorebook": {
+      "title": "Karakter Lorebook'u",
+      "entries": "{count} giriş",
+      "noEntries": "Lorebook girişi yok",
+      "enabled": "Etkin",
+      "disabled": "Devre Dışı",
+      "priority": "Öncelik",
+      "noKeys": "Anahtar yok",
+      "moreKeys": "+{count} daha",
+      "moreKeysPrefix": "+"
+    },
+    "toast": {
+      "copiedToClipboard": "Kopyalandı!",
+      "failedToCopy": "Kopyalama başarısız",
+      "fileSaved": "Dosya kaydedildi",
+      "lorebookCopied": "Lorebook JSON'u kopyalandı!",
+      "characterCopied": "Karakter JSON'u kopyalandı!",
+      "couldNotCopy": "Panoya kopyalanamadı"
+    },
+    "errorBoundary": {
+      "title": "Hay aksi, bir şeyler ters gitti",
+      "description": "Beklenmeyen bir hata oluştu. Lütfen sayfayı yenileyin.",
+      "refreshPage": "Yenile"
+    },
+    "export": {
+      "button": "Veritabanına Kaydet",
+      "title": "Karakteri Veritabanına Kaydet",
+      "description": "Bu karakteri ve lorebook'u yerel olarak kaydedin, böylece sohbette erişebilirsiniz.",
+      "character": {
+        "title": "Karakter",
+        "unnamed": "İsimsiz",
+        "description": "Ad, açıklama, kişilik ve mesajlar dahil karakter kartı verileri.",
+        "moreTags": "daha fazla"
+      },
+      "lorebook": {
+        "title": "Lorebook",
+        "entries": "giriş",
+        "description": "Lorebook girişleri sohbet sırasında bağlam için kaydedilecek.",
+        "noLorebook": "Bu karakter dosyasında lorebook yok."
+      },
+      "info": "Kaydedildikten sonra, P2P paylaşımı ve bağlantı için karakter kartlarını kolayca içe aktarabilirsiniz.",
+      "infoMessages": {
+        "databaseReady": "Veritabanı hazır! Şimdi kaydedebilirsiniz."
+      },
+      "save": "Kaydet",
+      "cancel": "İptal",
+      "saving": "Kaydediliyor...",
+      "loading": "Yükleniyor...",
+      "success": {
+        "title": "Kaydedildi!",
+        "description": "{name} veritabanınıza kaydedildi.",
+        "goToChat": "Sohbete Git"
+      },
+      "error": {
+        "title": "Kaydedilemedi",
+        "description": "Kaydederken bir şeyler ters gitti. Tekrar deneyin?",
+        "databaseNotReady": "Veritabanı henüz hazır değil. Bir an bekleyin ve tekrar deneyin.",
+        "databaseInitFailed": "Veritabanı başlatılamadı. Sayfayı yenileyin ve tekrar deneyin."
+      },
+      "initializing": "Başlatılıyor..."
+    },
+    "shareP2P": "P2P ile Paylaş",
+    "error": "Hata",
+    "warning": "Uyarı",
+    "filesExcluded": "Boyut sınırı nedeniyle {count} dosya hariç tutuldu (>50MB):"
+  },
+  "errors": {
+    "notFound": {
+      "title": "404",
+      "heading": "Sayfa Bulunamadı",
+      "description": "Aradığınız sayfa mevcut değil veya taşınmış.",
+      "goHome": "Ana Sayfaya Git",
+      "openCharxViewer": "CharX Görüntüleyici"
+    },
+    "generic": {
+      "title": "Hay aksi, bir şeyler ters gitti",
+      "description": "Beklenmeyen bir hata oluştu. Tekrar deneyin veya ana sayfaya dönün.",
+      "retry": "Tekrar Dene",
+      "goHome": "Ana Sayfaya Git"
+    },
+    "charx": {
+      "title": "CharX Görüntüleyici Hatası",
+      "description": "Görüntüleyiciyi yüklerken bir şeyler ters gitti. Dosya bozuk olabilir veya tarayıcı uyumluluk sorunu olabilir.",
+      "retry": "Tekrar Dene",
+      "goHome": "Ana Sayfaya Git"
+    },
+    "pokebox": {
+      "title": "CharX PokeBox Hatası",
+      "description": "Kayıtlı karakterlerinizi yüklerken bir şeyler ters gitti. Lütfen sayfayı yenilemeyi deneyin.",
+      "retry": "Tekrar Dene",
+      "goHome": "Ana Sayfaya Git"
+    }
+  },
+  "footer": {
+    "description": "Açık kaynak AI karakter platformu. AI karakterleri görüntüleyin, paylaşın ve sohbet edin.",
+    "product": "Ürün",
+    "resources": "Kaynaklar",
+    "documentation": "Dokümantasyon",
+    "legal": "Yasal",
+    "privacy": "Gizlilik Politikası",
+    "terms": "Hizmet Şartları",
+    "copyright": "OpenTamago. Tüm hakları saklıdır."
+  },
+  "nav": {
+    "home": "Ana Sayfa",
+    "charxViewer": "CharX Görüntüleyici",
+    "charxPokebox": "CharX PokeBox",
+    "p2pShare": "P2P Paylaşım",
+    "chat": "Sohbet",
+    "connect": "P2P Bağlantı",
+    "howItWorks": "Nasıl Çalışır",
+    "github": "GitHub",
+    "toggleMenu": "Menüyü aç/kapat",
+    "navigationMenu": "Menü"
+  },
+  "p2p": {
+    "title": "P2P CharX Paylaşımı",
+    "subtitle": "Karakter dosyalarını doğrudan arkadaşlarınızla paylaşın. P2P, arada sunucu olmadığı anlamına gelir.",
+    "privacyNote": "Dosyalar WebRTC aracılığıyla doğrudan tarayıcılar arasında aktarılır. Sunucularda hiçbir şey saklanmaz.",
+    "confirmTitle": "Paylaşmaya Hazır",
+    "confirmSubtitle": "Dosyanızı inceleyin ve isterseniz bir şifre belirleyin.",
+    "passwordLabel": "Şifre (isteğe bağlı)",
+    "passwordPlaceholder": "Bir şifre girin...",
+    "passwordHint": "Şifre koruması olmadan paylaşmak için boş bırakın.",
+    "cancel": "İptal",
+    "start": "Paylaşımı Başlat",
+    "connecting": "Bağlanıyor...",
+    "sharingTitle": "Dosyanız Paylaşılıyor",
+    "sharingSubtitle": "Bu sekmeyi açık tutun. Başkalarının indirmesine izin vermek için aşağıdaki bağlantıyı paylaşın.",
+    "stopSharing": "Paylaşımı Durdur",
+    "stopSharingConfirm": "Paylaşımı gerçekten durdurmak istiyor musunuz?",
+    "stopSharingDescription": "Tüm aktif indirmeler kesilecek.",
+    "confirmStop": "Evet, durdur",
+    "sharingWarning": "Ayrılırsanız veya yenilerseniz paylaşım kesilecek. Bu sekmeyi açık tutun.",
+    "dropzone": {
+      "dropHere": "Dosyanızı buraya bırakın",
+      "dropToShare": "Paylaşmak için bir .charx dosyası bırakın",
+      "orClickToBrowse": "veya göz atmak için tıklayın"
+    },
+    "download": {
+      "title": "CharX Dosyası İndir",
+      "connecting": "Yükleyiciye bağlanılıyor...",
+      "connectionFailed": "Yükleyiciye bağlanılamadı. Tarayıcısını kapatmış olabilir.",
+      "notFound": "Paylaşım bağlantısı bulunamadı veya süresi doldu",
+      "notFoundDescription": "Aradığınız dosya artık mevcut değil. Yükleyici paylaşımı durdurmuş olabilir.",
+      "passwordRequired": "Bu dosya şifre korumalı",
+      "passwordPlaceholder": "Şifre girin...",
+      "passwordError": "Yanlış şifre. Tekrar deneyin?",
+      "submit": "Gönder",
+      "readyTitle": "İndirmeye Hazır",
+      "readyDescription": "İndirmeye başlamak için aşağıya tıklayın.",
+      "startDownload": "İndir",
+      "downloading": "İndiriliyor...",
+      "complete": "İndirme Tamamlandı!",
+      "completeDescription": "Dosyanız başarıyla alındı.",
+      "charxDetected": "Bu bir karakter dosyası!",
+      "charxDescription": "Bu karakteri ve lorebook'u tek tıkla veritabanınıza kaydedin.",
+      "saveToDatabase": "Veritabanına Kaydet",
+      "downloadAnother": "Başka Dosya Al",
+      "goHome": "Ana Sayfaya Git",
+      "troubleshooting": "Çok mu uzun sürüyor? Yükleyici güvenlik duvarının arkasında olabilir veya tarayıcısını kapatmış olabilir.",
+      "sharePrompt": "Siz de CharX dosyaları paylaşmak ister misiniz?",
+      "startSharing": "CharX Paylaşımını Başlat"
+    }
+  },
+  "theme": {
+    "toggle": "Temayı değiştir",
+    "light": "Açık",
+    "dark": "Koyu",
+    "system": "Sistem"
+  },
+  "chat": {
+    "leftPanel": {
+      "create": "Oluştur",
+      "createCharacter": "Karakter Oluştur",
+      "importCharx": ".charx İçe Aktar",
+      "createPersona": "Persona Oluştur",
+      "noCharacters": "Henüz karakter yok.",
+      "createOne": "Bir tane oluştur",
+      "noDescription": "Açıklama yok",
+      "characters": "Karakterler",
+      "chats": "Sohbetler",
+      "recentChats": "Son Sohbetler",
+      "newChat": "Yeni Sohbet",
+      "noChats": "Henüz sohbet yok.",
+      "startOne": "Bir tane başlat",
+      "yesterday": "Dün",
+      "deleteChat": "Bu sohbeti sil?",
+      "deleteCharacter": "\"{name}\" silinsin mi? Bu, ilgili tüm sohbetleri de silecek.",
+      "importing": "İçe aktarılıyor...",
+      "importSuccess": "Karakter içe aktarıldı",
+      "importError": "İçe aktarma başarısız",
+      "chatTitle": "Sohbet Başlığı",
+      "editChatTitleDescription": "Bu sohbet konuşmasının başlığını değiştirin.",
+      "chatTitlePlaceholder": "Sohbet başlığı girin..."
+    },
+    "centerPanel": {
+      "selectCharacter": "Başlamak için bir karakter ve sohbet seçin",
+      "createFromLeft": "Veya sol panelden yeni bir karakter oluşturun",
+      "apiKeyRequired": "API Anahtarı Gerekli",
+      "configureApiKey": "Sohbet etmeye başlamak için Gemini API anahtarınızı ayarlayın.",
+      "openSettings": "Ayarları Aç",
+      "clearChat": "Sohbeti temizle",
+      "thinking": "Düşünüyor...",
+      "messagePlaceholder": "{name}'e mesaj gönder...",
+      "clearAllMessages": "Bu sohbetteki tüm mesajlar silinsin mi?",
+      "selectPersona": "Persona seç",
+      "noPersonas": "Henüz persona yok.",
+      "createPersona": "Persona oluştur",
+      "selectPersonaToSend": "Mesaj göndermek için bir persona seçin",
+      "createPersonaAction": "Oluştur"
+    },
+    "rightPanel": {
+      "selectCharacter": "Detayları görmek için bir karakter seçin",
+      "characterDetails": "Karakter Detayları",
+      "personality": "Kişilik",
+      "scenario": "Senaryo",
+      "firstMessage": "İlk Mesaj",
+      "exampleDialogue": "Örnek Diyalog",
+      "systemPrompt": "Sistem Promptu",
+      "noPersonaDetails": "Persona detayları ayarlanmamış.",
+      "creatorNotes": "Yaratıcı Notları",
+      "created": "Oluşturulma",
+      "lastUpdated": "Son Güncelleme",
+      "persona": "Persona",
+      "info": "Bilgi",
+      "deleteCharacter": "\"{name}\" silinsin mi? İlgili tüm sohbetler de silinecek. Bu geri alınamaz."
+    },
+    "editor": {
+      "editCharacter": "Karakteri Düzenle",
+      "createCharacter": "Karakter Oluştur",
+      "editPersona": "Personayı Düzenle",
+      "createPersona": "Persona Oluştur",
+      "modifyPersona": "Persona detaylarınızı değiştirin.",
+      "createPersonaDesc": "Sohbetlerde kendinizi temsil etmek için bir persona oluşturun.",
+      "modifyCharacter": "Karakter detaylarınızı değiştirin.",
+      "createCharacterDesc": "Sohbet etmek için yeni bir karakter oluşturun.",
+      "uploadAvatar": "Avatar Yükle",
+      "avatarHint": "PNG, JPG maksimum 2MB",
+      "basic": "Temel",
+      "persona": "Persona",
+      "details": "Detaylar",
+      "advanced": "Gelişmiş",
+      "nameLabel": "Ad",
+      "nameRequired": "Ad *",
+      "yourName": "Adınız",
+      "characterName": "Karakter adı",
+      "description": "Açıklama",
+      "descriptionPersona": "Kendiniz hakkında kısa bir açıklama",
+      "descriptionCharacter": "Karakteriniz hakkında kısa bir açıklama",
+      "firstMessage": "İlk Mesaj",
+      "firstMessagePlaceholder": "Karakterinizin göndereceği ilk mesaj",
+      "personality": "Kişilik",
+      "personalityCharacter": "Kişilik özelliklerini, davranışları, tuhaflıkları tanımlayın...",
+      "scenario": "Senaryo",
+      "scenarioPlaceholder": "Konuşmalar için ortam veya bağlam",
+      "exampleDialogue": "Örnek Diyalog",
+      "exampleDialoguePlaceholder": "Tonu belirlemek için örnek konuşmalar...",
+      "systemPrompt": "Sistem Promptu",
+      "systemPromptPlaceholder": "Özel sistem promptu (varsayılanı geçersiz kılar)",
+      "creatorNotes": "Yaratıcı Notları",
+      "privateNotes": "Özel Notlar",
+      "notesPlaceholder": "Özel notlar (AI'ya gönderilmez)",
+      "saving": "Kaydediliyor...",
+      "saveChanges": "Değişiklikleri Kaydet"
+    },
+    "settings": {
+      "title": "Ayarlar",
+      "description": "API ayarlarınızı yapın. Her şey yerel olarak saklanır.",
+      "apiSection": "API",
+      "apiKeySection": "API Anahtarı",
+      "apiKeyDescription": "API bağlantınızı ve model ayarlarınızı yapılandırın.",
+      "chatUISection": "Sohbet Arayüzü",
+      "chatUIDescription": "Sohbet mesajlarının nasıl görüntüleneceğini özelleştirin.",
+      "databaseSection": "Veritabanı",
+      "safety": "Güvenlik",
+      "apiMode": "API Modu",
+      "apiModeServer": "Sunucu API'si",
+      "apiModeServerDesc": "Sunucunun API anahtarını kullan",
+      "apiModeClient": "Sizin API Anahtarınız",
+      "apiModeClientDesc": "Daha gizli",
+      "geminiApiKey": "Gemini API Anahtarı",
+      "enterApiKey": "Gemini API anahtarınızı girin",
+      "getApiKey": "API anahtarınızı şuradan alın",
+      "googleAiStudio": "Google AI Studio",
+      "defaultModel": "Varsayılan Model",
+      "selectModel": "Bir model seçin",
+      "temperature": "Sıcaklık",
+      "maxTokens": "Maksimum Token",
+      "bubbleTheme": "Sohbet Baloncuğu Teması",
+      "themeRoleplay": "Rol Yapma",
+      "themeRoleplayDesc": "Tırnak işaretleri ve eylemlerle stilize metin",
+      "themeMessenger": "Mesajlaşma",
+      "themeMessengerDesc": "Düz metin, biçimlendirme yok",
+      "database": {
+        "title": "Veritabanı Yönetimi",
+        "description": "Veritabanı istatistiklerini görüntüleyin ve yerel verilerinizi yönetin.",
+        "storageUsage": "Depolama Kullanımı",
+        "collections": "Koleksiyonlar",
+        "actions": "Eylemler",
+        "exportData": "Verileri Dışa Aktar",
+        "dangerZone": "Tehlikeli Bölge",
+        "resetWarning": "Bu, karakterler, sohbetler, mesajlar ve ayarlar dahil TÜM verilerinizi kalıcı olarak silecek. Geçiş sorunlarıyla karşılaşırsanız bunu kullanın.",
+        "resetDatabase": "Veritabanını Sıfırla",
+        "resetting": "Sıfırlanıyor..."
+      },
+      "safetyDescription": "İçerik güvenlik filtrelerini ayarlayın. Varsayılan olarak, sınırsız rol yapma için tüm filtreler kapalıdır.",
+      "hateSpeech": "Nefret Söylemi",
+      "harassment": "Taciz",
+      "sexuallyExplicit": "Cinsel İçerik",
+      "dangerousContent": "Tehlikeli İçerik",
+      "blockNone": "Hiçbirini Engelleme",
+      "blockLow": "Düşük+ Engelle",
+      "blockMedium": "Orta+ Engelle",
+      "blockHigh": "Yalnızca Yüksek Engelle",
+      "saving": "Kaydediliyor..."
+    }
+  },
+  "connect": {
+    "meta": {
+      "title": "P2P Çoklu Karakter Sohbeti",
+      "description": "AI karakterlerin birbirleriyle sohbet edebileceği bir oturum oluşturun"
+    },
+    "title": "P2P Çoklu Karakter Sohbeti",
+    "subtitle": "Birden fazla AI karakteriyle birlikte sohbet edin. P2P, arada sunucu olmadığı anlamına gelir.",
+    "tabs": {
+      "existing": "Karakterlerim",
+      "upload": ".charx Yükle",
+      "photo": "Fotoğraftan"
+    },
+    "noCharacters": "Karakter bulunamadı.",
+    "createInChat": "Sohbette bir tane oluştur",
+    "upload": {
+      "title": "CharX Dosyası Yükle",
+      "description": "Bir .charx dosyası bırakın veya seçmek için tıklayın",
+      "formats": "Yalnızca .charx dosyaları desteklenir",
+      "error": "İçe aktarma başarısız",
+      "confirm": "Onayla & Bu Karakteri Kullan"
+    },
+    "photo": {
+      "dropTitle": "Bir Fotoğraf Yükle",
+      "dropDescription": "Bir görsel bırakın veya seçmek için tıklayın. AI bundan bir karakter oluşturacak.",
+      "selectFile": "Görsel Seç",
+      "invalidType": "Lütfen bir görsel dosyası seçin (PNG, JPG, WebP veya GIF)",
+      "tooLarge": "Görsel çok büyük. Maksimum 10MB.",
+      "contextLabel": "İpuçları (isteğe bağlı)",
+      "contextPlaceholder": "örn., 'Fantezi savaşçı' veya 'Onları dost canlısı yap'",
+      "contextHint": "Karakter oluşturmayı yönlendirmek için ipuçları ekleyin",
+      "generating": "Karakter oluşturuluyor...",
+      "generate": "Karakter Oluştur",
+      "generated": "{name} hazır!",
+      "generateError": "Karakter oluşturulamadı. Tekrar deneyin?",
+      "noApiKey": "Lütfen önce Ayarlar'da Gemini API anahtarınızı ayarlayın.",
+      "apiKeyRequired": "API Anahtarı Gerekli",
+      "apiKeyDescription": "Fotoğraflardan karakter oluşturmak için Ayarlar'da Gemini API anahtarınızı ayarlayın.",
+      "goToSettings": "Ayarlara Git"
+    },
+    "confirm": {
+      "subtitle": "Karakterinizi inceleyin ve isterseniz bir şifre belirleyin.",
+      "passwordHint": "Başkaları oturumunuza katılmak için bu şifreye ihtiyaç duyacak.",
+      "start": "Oturum Oluştur"
+    },
+    "leaveConfirm": {
+      "title": "Oturumdan Ayrıl?",
+      "description": "Tüm katılımcılarla bağlantınız kesilecek ve sohbetten ayrılacaksınız.",
+      "confirm": "Ayrıl"
+    },
+    "creating": "Oturum oluşturuluyor...",
+    "joining": "Oturuma katılınıyor...",
+    "lobby": {
+      "title": "Bekleme Odası",
+      "hostDescription": "Başkalarını davet etmek için aşağıdaki bağlantıyı paylaşın",
+      "guestDescription": "Ev sahibinin başlatmasını bekliyoruz",
+      "shortUrl": "Kısa URL",
+      "longUrl": "Uzun URL",
+      "copied": "Bağlantı kopyalandı!",
+      "copyFailed": "Bağlantı kopyalanamadı",
+      "participants": "Katılımcılar",
+      "you": "Siz",
+      "host": "Ev Sahibi",
+      "connecting": "Bağlanıyor...",
+      "selectingCharacter": "Karakter seçiliyor...",
+      "waitingForOthers": "Başkaları bekleniyor...",
+      "leave": "Ayrıl",
+      "startChat": "Sohbeti Başlat",
+      "needMoreParticipants": "Başlamak için en az 2 kişi gerekli"
+    },
+    "chat": {
+      "title": "Sohbet",
+      "participants": "katılımcı",
+      "active": "Aktif",
+      "pending": "Beklemede",
+      "autoReply": "Otomatik Yanıt",
+      "noMessages": "Henüz mesaj yok. Bir şeyler söyleyin!",
+      "unknown": "Bilinmeyen",
+      "generating": "Düşünüyor...",
+      "thinking": "{name} düşünüyor...",
+      "placeholder": "{name} olarak mesaj gönder...",
+      "userJoined": "{name} katıldı",
+      "userLeft": "{name} ayrıldı"
+    },
+    "join": {
+      "meta": {
+        "title": "Oturuma Katıl",
+        "description": "Çoklu karakter sohbet oturumuna katılın"
+      },
+      "title": "Oturuma Katıl",
+      "subtitle": "Katılmak için bir karakter seçin",
+      "currentParticipants": "Oturumda şu anda {count} kişi var",
+      "passwordProtected": "Bu oturum şifre gerektiriyor",
+      "enterPassword": "Şifre",
+      "passwordHintJoin": "Ev sahibi tarafından paylaşılan şifreyi girin.",
+      "passwordRequired": "Katılmak için şifre gerekli",
+      "passwordError": "Yanlış şifre. Tekrar deneyin?",
+      "joinButton": "Oturuma Katıl"
+    },
+    "notifications": {
+      "joined": "{name} katıldı",
+      "left": "{name} ayrıldı"
+    },
+    "status": {
+      "connecting": "Bağlanıyor...",
+      "connected": "Bağlandı",
+      "connectedInfo": "P2P oturumlarına bağlanmaya hazırsınız",
+      "disconnected": "Bağlantı kesildi"
+    },
+    "errors": {
+      "noPeer": "Ağ bağlantısı başarısız. Sayfayı yenileyin ve tekrar deneyin.",
+      "hostLeft": "Ev sahibi oturumu sonlandırdı",
+      "sessionFull": "Oturum Dolu",
+      "sessionFullDescription": "Bu oturum maksimum kişi sayısına ulaştı.",
+      "createOwn": "Kendi Oturumunuzu Oluşturun",
+      "connectionFailed": "Bağlantı Başarısız",
+      "connectionFailedDescription": "Oturuma bağlanılamadı. Ev sahibi ayrılmış olabilir veya ağ sorunu olabilir.",
+      "tryAgain": "Tekrar Dene",
+      "apiNotReady": "API Anahtarı Gerekli",
+      "apiNotReadyDescription": "AI özelliklerini kullanmak için lütfen Ayarlar'da API anahtarınızı ayarlayın.",
+      "openSettings": "Ayarları Aç"
+    }
+  },
+  "howItWorks": {
+    "meta": {
+      "title": "Nasıl Çalışır | OpenTamago",
+      "description": "CharX Görüntüleyici, P2P Paylaşım ve P2P Çoklu Karakter Sohbetini nasıl kullanacağınızı öğrenin"
+    },
+    "hero": {
+      "title": "Nasıl Çalışır",
+      "description": "OpenTamago kullanarak AI karakterleri nasıl görüntüleyeceğinizi, paylaşacağınızı ve sohbet edeceğinizi öğrenin"
+    },
+    "tryNow": "Şimdi Dene",
+    "charx": {
+      "title": "CharX Görüntüleyici",
+      "description": "CharX karakter dosyalarını doğrudan tarayıcınızda açın. Her şey tam gizlilik için yerel olarak işlenir.",
+      "steps": {
+        "upload": {
+          "title": "Dosya Yükle",
+          "description": ".charx dosyalarını sürükleyip bırakın veya göz atmak için tıklayın"
+        },
+        "view": {
+          "title": "Karakteri Görüntüle",
+          "description": "Karakter detaylarını, kişiliği ve selamlamaları görün"
+        },
+        "lorebook": {
+          "title": "Lorebook'u Keşfet",
+          "description": "Anahtar kelime tetikleyicileriyle lorebook girişlerine göz atın"
+        },
+        "assets": {
+          "title": "Varlıkları Görüntüle",
+          "description": "Duygular ve avatarlar gibi gömülü görsellere göz atın"
+        }
+      },
+      "highlights": {
+        "privacy": "%100 yerel işleme",
+        "formats": ".charx ve .json dosyalarını destekler",
+        "export": "Karakterleri yerel veritabanına kaydet"
+      }
+    },
+    "p2pShare": {
+      "title": "P2P Paylaşım",
+      "description": "P2P kullanarak dosyaları doğrudan arkadaşlarınızla paylaşın. Sunucularda hiçbir şey saklanmaz.",
+      "steps": {
+        "select": {
+          "title": "Dosya Seç",
+          "description": "Paylaşmak için bir dosya seçin"
+        },
+        "generate": {
+          "title": "Bağlantı Oluştur",
+          "description": "QR kodu ve paylaşılabilir bağlantı alın"
+        },
+        "transfer": {
+          "title": "Doğrudan Aktarım",
+          "description": "Dosyalar WebRTC aracılığıyla doğrudan aktarılır"
+        },
+        "receive": {
+          "title": "İndir",
+          "description": "Alıcılar doğrudan sizden indirir"
+        }
+      },
+      "highlights": {
+        "noServer": "Sunucu depolaması yok",
+        "password": "İsteğe bağlı şifre koruması",
+        "qrCode": "Mobil paylaşım için QR kodu"
+      }
+    },
+    "p2pConnect": {
+      "title": "P2P Çoklu Karakter Sohbeti",
+      "description": "Çoklu karakter sohbet oturumları oluşturun. Arkadaşlarınızı davet edin ve AI karakterlerin birbirleriyle sohbet etmesine izin verin.",
+      "steps": {
+        "select": {
+          "title": "Karakter Seç",
+          "description": "Kütüphanenizden seçin veya bir tane oluşturun"
+        },
+        "invite": {
+          "title": "Arkadaşları Davet Et",
+          "description": "Davet etmek için bağlantı veya QR kodu paylaşın"
+        },
+        "chat": {
+          "title": "Sohbete Başla",
+          "description": "Karakteriniz olarak mesaj gönderin"
+        },
+        "ai": {
+          "title": "AI Yanıtları",
+          "description": "AI yanıtları için otomatik yanıtı açın"
+        }
+      },
+      "highlights": {
+        "realtime": "Gerçek zamanlı P2P mesajlaşma",
+        "multiParty": "Oturum başına 8 karaktere kadar",
+        "autoReply": "AI destekli otomatik yanıt"
+      }
+    },
+    "privacy": {
+      "title": "Önce Gizlilik",
+      "description": "Tüm OpenTamago özellikleri gizlilik göz önünde bulundurularak oluşturulmuştur. Verileriniz cihazınızda kalır.",
+      "noServer": {
+        "title": "Sunucu Depolaması Yok",
+        "description": "Dosyalar asla sunucularımıza yüklenmez. Her şey tarayıcınızda gerçekleşir."
+      },
+      "encrypted": {
+        "title": "Şifreli Aktarımlar",
+        "description": "P2P bağlantıları yerleşik şifreleme ile WebRTC kullanır."
+      },
+      "openSource": {
+        "title": "Açık Kaynak",
+        "description": "Tüm kod herkese açıktır ve GitHub'da mevcuttur."
+      }
+    }
+  },
+  "localeDetector": {
+    "title": "Hoş Geldiniz!",
+    "description": "Tarayıcı dilinizin mevcut sayfadan farklı olabileceğini algıladık. Değiştirmek ister misiniz?",
+    "selectLanguage": "Dilinizi seçin",
+    "dontShowAgain": "Bir daha gösterme",
+    "continue": "Dili Değiştir",
+    "stayHere": "Burada Kal"
+  },
+  "pokebox": {
+    "title": "CharX PokeBox",
+    "subtitle": "Kayıtlı karakter kartlarınızı, lorebook'larınızı ve varlıklarınızı görüntüleyin.",
+    "description": "Kayıtlı AI karakterlerinizi tek bir yerde yönetin.",
+    "selectCharacter": "Detayları görmek için bir karakter seçin",
+    "moduleNotStored": "Modüller veritabanında saklanmaz.",
+    "back": "Geri",
+    "tabs": {
+      "character": "Karakter",
+      "lorebook": "Lorebook",
+      "assets": "Varlıklar",
+      "module": "Modül"
+    },
+    "characterList": {
+      "title": "Karakterlerim",
+      "search": "Karakter ara...",
+      "empty": "Henüz kaydedilmiş karakter yok.",
+      "noResults": "Aramanızla eşleşen karakter yok.",
+      "importFromCharx": "CharX'ten İçe Aktar"
+    },
+    "deleteConfirm": {
+      "title": "Karakter Silinsin mi?",
+      "description": "Bu, \"{name}\" ve lorebook girişleri ve varlıklar dahil tüm ilişkili verileri silecek. Bu geri alınamaz.",
+      "cancel": "İptal",
+      "confirm": "Sil"
+    },
+    "byCreator": "{creator}",
+    "unnamedCharacter": "İsimsiz Karakter",
+    "created": "Oluşturulma",
+    "modified": "Değiştirilme",
+    "empty": "Boş",
+    "expandAll": "Tümünü Genişlet",
+    "collapseAll": "Tümünü Daralt",
+    "greetingIndex": "Selamlama {index}",
+    "viewMode": {
+      "list": "Liste",
+      "raw": "Ham",
+      "markdown": "Markdown"
+    },
+    "characterTabs": {
+      "basic": "Temel",
+      "messages": "Mesajlar",
+      "prompts": "Promptlar",
+      "others": "Diğer"
+    },
+    "fields": {
+      "description": "Açıklama",
+      "personality": "Kişilik",
+      "scenario": "Senaryo",
+      "firstMessage": "İlk Mesaj",
+      "exampleDialogue": "Örnek Diyalog",
+      "alternateGreetings": "Alternatif Selamlamalar",
+      "groupOnlyGreetings": "Yalnızca Grup Selamlamaları",
+      "systemPrompt": "Sistem Promptu",
+      "postHistoryInstructions": "Geçmiş Sonrası Talimatlar",
+      "creatorInfo": "Yaratıcı Bilgisi",
+      "creator": "Yaratıcı",
+      "characterVersion": "Sürüm",
+      "dates": "Tarihler",
+      "creatorNotes": "Yaratıcı Notları"
+    },
+    "lorebook": {
+      "title": "Lorebook Girişleri",
+      "entries": "{count} giriş",
+      "noEntries": "Bu karakter için lorebook girişi yok.",
+      "enabled": "Etkin",
+      "disabled": "Devre Dışı",
+      "priority": "Öncelik",
+      "noKeys": "Anahtar yok",
+      "moreKeys": "+{count} daha"
+    },
+    "assets": {
+      "title": "Karakter Varlıkları",
+      "totalExtracted": "toplam {count} varlık",
+      "noAssets": "Bu kategoride varlık yok",
+      "sort": "Sırala",
+      "group": "Grupla",
+      "sortAZ": "A-Z",
+      "sortZA": "Z-A",
+      "sortByFilename": "Dosya adına göre",
+      "groupByFilename": "Dosya adına göre grupla",
+      "emotions": "Duygular",
+      "icons": "İkonlar",
+      "backgrounds": "Arka Planlar",
+      "other": "Diğer"
+    },
+    "toast": {
+      "copiedToClipboard": "Kopyalandı!",
+      "failedToCopy": "Kopyalama başarısız"
+    }
+  }
+}
