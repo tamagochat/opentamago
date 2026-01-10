@@ -1,10 +1,10 @@
 "use client";
 
-import { memo, useState, useEffect, useRef } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import { Loader2, Play, Pause, Volume2, VolumeX } from "lucide-react";
 import { Button } from "~/components/ui/button";
+import { ImageZoomDialog } from "~/components/image-zoom-dialog";
 import type { MessageAttachmentMeta } from "~/lib/db/schemas";
-import { cn } from "~/lib/utils";
 
 interface MessageAttachmentProps {
   /** Message ID that owns this attachment */
@@ -117,33 +117,16 @@ const ImageAttachment = memo(function ImageAttachment({
   width?: number;
   height?: number;
 }) {
-  const [isFullscreen, setIsFullscreen] = useState(false);
-
   return (
-    <>
-      <img
-        src={dataUrl}
-        alt="Generated image"
-        className="rounded-lg cursor-pointer hover:opacity-90 transition-opacity max-w-full h-auto"
-        style={{
-          aspectRatio: width && height ? `${width}/${height}` : undefined,
-        }}
-        onClick={() => setIsFullscreen(true)}
-      />
-      {/* Fullscreen modal */}
-      {isFullscreen && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 cursor-pointer"
-          onClick={() => setIsFullscreen(false)}
-        >
-          <img
-            src={dataUrl}
-            alt="Generated image (fullscreen)"
-            className="max-h-[90vh] max-w-[90vw] object-contain"
-          />
-        </div>
-      )}
-    </>
+    <ImageZoomDialog
+      src={dataUrl}
+      alt="Generated image"
+      imageClassName="max-w-full h-auto"
+      imageStyle={{
+        aspectRatio: width && height ? `${width}/${height}` : undefined,
+      }}
+      downloadFilename={`image_${Date.now()}.png`}
+    />
   );
 });
 

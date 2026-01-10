@@ -4,7 +4,8 @@ import { memo, useState, useCallback } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "~/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
-import { User, Trash2, Pencil, Image, Volume2, Languages, MoreHorizontal, ArrowRightLeft, Loader2 } from "lucide-react";
+import { User, Trash2, Pencil, Image, Volume2, Languages, MoreHorizontal, MoreVertical, ArrowRightLeft, Loader2 } from "lucide-react";
+import { ImageZoomDialog } from "~/components/image-zoom-dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -177,10 +178,12 @@ function AssetImage({ src, alt, assetContext }: { src: string; alt?: string; ass
   }
 
   return (
-    <img
+    <ImageZoomDialog
       src={dataUrl}
       alt={alt ?? asset.name}
-      className="inline-block max-h-48 max-w-full rounded align-middle"
+      className="inline-block align-middle"
+      imageClassName="max-h-48 max-w-full"
+      showZoomIndicator={false}
     />
   );
 }
@@ -299,6 +302,7 @@ export const MessageBubble = memo(function MessageBubble({
   getAttachmentBlob,
 }: MessageBubbleProps) {
   const t = useTranslations("chat.centerPanel");
+  const tActions = useTranslations("actions");
 
   // LOCAL translation view state - isolated to this bubble
   // true = show translated, false = show original
@@ -339,10 +343,10 @@ export const MessageBubble = memo(function MessageBubble({
   // Check if any async operation is running
   const isProcessing = isTranslating || isGeneratingImage || isGeneratingVoice;
 
-  // Button group component - extracted to avoid duplication
-  const buttonGroup = !isStreaming && (
+  // Desktop button group - shows on hover (hidden on mobile)
+  const desktopButtonGroup = !isStreaming && (
     <div className={cn(
-      "flex shrink-0 items-center gap-1 transition-opacity",
+      "hidden md:flex shrink-0 items-center gap-1 transition-opacity",
       isProcessing ? "opacity-100" : "opacity-0 group-hover:opacity-100"
     )}>
       {/* Spinner - shows when translating or generating image */}
@@ -377,6 +381,60 @@ export const MessageBubble = memo(function MessageBubble({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
+          <DropdownMenuItem onClick={handleGenerateImage} disabled={isGeneratingImage}>
+            <Image className="h-4 w-4" />
+            {isGeneratingImage ? t("generatingImage") : t("generateImage")}
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={handleGenerateVoice} disabled={isGeneratingVoice}>
+            <Volume2 className="h-4 w-4" />
+            {isGeneratingVoice ? t("generatingVoice") : t("generateVoice")}
+          </DropdownMenuItem>
+          {/* Translation options */}
+          {message.displayedContent ? (
+            <DropdownMenuItem onClick={toggleTranslation}>
+              <Languages className="h-4 w-4" />
+              {!showTranslation ? t("showTranslation") : t("showOriginal")}
+            </DropdownMenuItem>
+          ) : (
+            <DropdownMenuItem
+              onClick={handleTranslate}
+              disabled={isTranslating}
+            >
+              <Languages className="h-4 w-4" />
+              {isTranslating ? t("translating") : t("translate")}
+            </DropdownMenuItem>
+          )}
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
+  );
+
+  // Mobile button group - single "⋮" button with all actions (always visible on mobile)
+  const mobileButtonGroup = !isStreaming && (
+    <div className="flex md:hidden shrink-0 items-center gap-1">
+      {/* Spinner - shows when processing */}
+      {isProcessing && (
+        <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+      )}
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8 text-muted-foreground"
+          >
+            <MoreVertical className="h-4 w-4" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem onClick={handleEdit}>
+            <Pencil className="h-4 w-4" />
+            {tActions("edit")}
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={handleDelete} className="text-destructive focus:text-destructive">
+            <Trash2 className="h-4 w-4" />
+            {tActions("delete")}
+          </DropdownMenuItem>
           <DropdownMenuItem onClick={handleGenerateImage} disabled={isGeneratingImage}>
             <Image className="h-4 w-4" />
             {isGeneratingImage ? t("generatingImage") : t("generateImage")}
@@ -499,8 +557,9 @@ export const MessageBubble = memo(function MessageBubble({
             )}
           </div>
 
-          {/* Button group - positioned next to bubble only */}
-          {buttonGroup}
+          {/* Button groups - desktop (hover) and mobile (always visible) */}
+          {desktopButtonGroup}
+          {mobileButtonGroup}
         </div>
       </div>
     </div>

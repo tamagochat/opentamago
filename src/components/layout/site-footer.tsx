@@ -31,6 +31,11 @@ export function SiteFooter() {
                 </Link>
               </li>
               <li>
+                <Link href="/charx/editor" className="hover:text-foreground transition-colors">
+                  {tNav("charxEditor")}
+                </Link>
+              </li>
+              <li>
                 <Link href="/pokebox" className="hover:text-foreground transition-colors">
                   {tNav("charxPokebox")}
                 </Link>

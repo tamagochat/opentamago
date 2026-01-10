@@ -7,7 +7,7 @@ import { Button } from "~/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Badge } from "~/components/ui/badge";
-import { MessageSquare, Book, Image, Plus, Edit, Trash2 } from "lucide-react";
+import { Plus, Edit, Trash2 } from "lucide-react";
 import { useChats, useCharacters, useSettings } from "~/lib/db/hooks";
 import { ChatHistoryList } from "./chat-history-list";
 import { LorebookList } from "./lorebook-list";
@@ -119,17 +119,14 @@ export function RightPanel({
       <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
         <Tabs defaultValue="chats" className="flex-1 flex flex-col min-h-0">
           <TabsList className="grid w-full grid-cols-3 mx-4 mt-4 shrink-0">
-            <TabsTrigger value="chats" className="gap-1.5">
-              <MessageSquare className="h-4 w-4" />
-              <span className="hidden sm:inline">{tLeft("chats")}</span>
+            <TabsTrigger value="chats">
+              {tLeft("chats")}
             </TabsTrigger>
-            <TabsTrigger value="lorebooks" className="gap-1.5">
-              <Book className="h-4 w-4" />
-              <span className="hidden sm:inline">Lorebooks</span>
+            <TabsTrigger value="lorebooks">
+              Lorebooks
             </TabsTrigger>
-            <TabsTrigger value="images" className="gap-1.5">
-              <Image className="h-4 w-4" />
-              <span className="hidden sm:inline">Images</span>
+            <TabsTrigger value="images">
+              Images
             </TabsTrigger>
           </TabsList>
 

@@ -5,9 +5,9 @@ import { useTranslations } from "next-intl";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { Button } from "~/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
-import { Loader2, PanelRight, Box } from "lucide-react";
+import { Loader2, PanelRight, Box, ChevronRight } from "lucide-react";
 import { Sheet, SheetTrigger } from "~/components/ui/sheet";
-import { useMessages, useSettings, usePersonas, useMemories, useLRUMemory, useDeleteMemory, useDatabase, formatMemoriesForPrompt, useCharacterAssets, useProviderSettings, useGenerationSettings } from "~/lib/db/hooks";
+import { useMessages, useSettings, usePersonas, useMemories, useLRUMemory, useDeleteMemory, useDatabase, formatMemoriesForPrompt, useCharacterAssets, useProviderSettings, useGenerationSettings, useChats } from "~/lib/db/hooks";
 import type { CharacterDocument, ChatDocument, PersonaDocument } from "~/lib/db/schemas";
 import { cn } from "~/lib/utils";
 import { ChatInput } from "./chat-input";
@@ -22,18 +22,19 @@ import { ChatDialogsProvider, useChatDialogs } from "./chat-dialogs";
 interface CenterPanelProps {
   character: CharacterDocument | null;
   chat: ChatDocument | null;
+  onSelectChat?: (chat: ChatDocument) => void;
   className?: string;
   rightPanelOpen?: boolean;
   onRightPanelOpenChange?: (open: boolean) => void;
 }
 
 // Inner component that uses the dialog context
-function CenterPanelInner({ character, chat, className, rightPanelOpen, onRightPanelOpenChange }: CenterPanelProps) {
+function CenterPanelInner({ character, chat, onSelectChat, className, rightPanelOpen, onRightPanelOpenChange }: CenterPanelProps) {
   const t = useTranslations("chat.centerPanel");
   const { settings } = useSettings();
   const chatBubbleTheme = settings.chatBubbleTheme ?? "roleplay";
   const { personas } = usePersonas();
-  const { messages: storedMessages, addMessage, updateMessage, deleteMessage, setTranslation, addAttachment, getAttachmentDataUrl, getAttachmentBlob, isLoading: messagesLoading } = useMessages(chat?.id ?? "");
+  const { messages: storedMessages, addMessage, updateMessage, deleteMessage, setTranslation, addAttachment, getAttachmentDataUrl, getAttachmentBlob, isLoading: messagesLoading, hasMore, isLoadingMore, loadMore } = useMessages(chat?.id ?? "");
   const { memories } = useMemories(chat?.id ?? "", 50);
   const lruMemory = useLRUMemory(chat?.id ?? "", character?.id ?? "");
   const { providers } = useProviderSettings();
@@ -57,6 +58,7 @@ function CenterPanelInner({ character, chat, className, rightPanelOpen, onRightP
 
   // Voice generation state - tracks which message is currently generating voice
   const [isGeneratingVoice, setIsGeneratingVoice] = useState<Record<string, boolean>>({});
+
 
   // Character assets for image rendering in roleplay messages
   const { assets, findAssetByName, getAssetDataUrl } = useCharacterAssets(character?.id);
@@ -169,16 +171,53 @@ function CenterPanelInner({ character, chat, className, rightPanelOpen, onRightP
     return displayMessages;
   }, [displayMessages, streamingContent]);
 
-  // Auto-scroll to bottom
+  // Track if we should auto-scroll (only for new messages, not when loading older ones)
+  const shouldAutoScrollRef = useRef(true);
+  const prevMessageCountRef = useRef(0);
+
+  // Auto-scroll to bottom only for new messages
   useEffect(() => {
     const scrollElement = scrollRef.current?.querySelector("[data-radix-scroll-area-viewport]");
-    if (scrollElement) {
+    if (scrollElement && shouldAutoScrollRef.current) {
       // Use requestAnimationFrame to ensure DOM is updated
       requestAnimationFrame(() => {
         scrollElement.scrollTop = scrollElement.scrollHeight;
       });
     }
+    // Reset auto-scroll flag after handling
+    shouldAutoScrollRef.current = true;
+    prevMessageCountRef.current = allMessages.length;
   }, [allMessages]);
+
+  // Handle scroll event for infinite scroll (load older messages)
+  const handleScroll = useCallback((event: Event) => {
+    const target = event.target as HTMLElement;
+    // When user scrolls near the top (within 100px), load more messages
+    if (target.scrollTop < 100 && hasMore && !isLoadingMore) {
+      // Disable auto-scroll when loading older messages
+      shouldAutoScrollRef.current = false;
+
+      // Store current scroll height to preserve position after loading
+      const previousScrollHeight = target.scrollHeight;
+
+      loadMore().then(() => {
+        // Preserve scroll position after loading older messages
+        requestAnimationFrame(() => {
+          const newScrollHeight = target.scrollHeight;
+          target.scrollTop = newScrollHeight - previousScrollHeight;
+        });
+      }).catch(console.error);
+    }
+  }, [hasMore, isLoadingMore, loadMore]);
+
+  // Attach scroll listener
+  useEffect(() => {
+    const scrollElement = scrollRef.current?.querySelector("[data-radix-scroll-area-viewport]");
+    if (scrollElement) {
+      scrollElement.addEventListener("scroll", handleScroll);
+      return () => scrollElement.removeEventListener("scroll", handleScroll);
+    }
+  }, [handleScroll]);
 
   const handleSubmit = useCallback(async (userMessage: string) => {
     if (!isApiReady || isLoading) return;
@@ -542,7 +581,20 @@ function CenterPanelInner({ character, chat, className, rightPanelOpen, onRightP
     }
   }, [getSettings, providers, t, addAttachment]);
 
-  if (!character || !chat) {
+  // useChats for creating new chats
+  const { chats, createChat } = useChats(character?.id);
+
+  // Handle starting a new chat with selected character
+  const handleStartChat = useCallback(async () => {
+    if (!character) return;
+    const newChat = await createChat(character.id);
+    if (newChat && onSelectChat) {
+      onSelectChat(newChat);
+    }
+  }, [character, createChat, onSelectChat]);
+
+  // No character selected
+  if (!character) {
     return (
       <div className={cn("flex h-full flex-col", className)}>
         <div className="flex flex-1 flex-col items-center justify-center gap-4 p-8 max-w-2xl mx-auto">
@@ -551,6 +603,59 @@ function CenterPanelInner({ character, chat, className, rightPanelOpen, onRightP
             <p className="text-lg font-medium">{t("selectCharacter")}</p>
             <p className="text-sm">{t("createFromLeft")}</p>
           </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Character selected but no chat
+  if (!chat) {
+    // Get the 3 most recent chats for this character
+    const recentChats = chats.slice(0, 3);
+
+    return (
+      <div className={cn("flex h-full flex-col", className)}>
+        <div className="flex flex-1 flex-col items-center justify-center gap-6 p-8 max-w-md mx-auto">
+          <ExperimentalDisclaimer type="chat" />
+          <Button
+            size="lg"
+            className="gap-3 h-14 px-6"
+            onClick={handleStartChat}
+          >
+            <Avatar className="h-6 w-6">
+              <AvatarImage src={character.avatarData} />
+              <AvatarFallback className="text-xs text-black dark:text-white">{character.name.slice(0, 2).toUpperCase()}</AvatarFallback>
+            </Avatar>
+            <span>{t("chatWith", { name: character.name })}</span>
+          </Button>
+
+          {/* Recent chats list */}
+          {recentChats.length > 0 && (
+            <div className="w-full space-y-2">
+              <p className="text-xs text-muted-foreground text-center">{t("recentChats")}</p>
+              <div className="space-y-1">
+                {recentChats.map((recentChat) => (
+                  <button
+                    key={recentChat.id}
+                    onClick={() => onSelectChat?.(recentChat)}
+                    className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-accent transition-colors text-left group"
+                  >
+                    <Avatar className="h-6 w-6 shrink-0">
+                      <AvatarImage src={character.avatarData} />
+                      <AvatarFallback className="text-xs text-black dark:text-white">{character.name.slice(0, 2).toUpperCase()}</AvatarFallback>
+                    </Avatar>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-sm font-medium truncate">{recentChat.title}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {new Date(recentChat.lastMessageAt ?? recentChat.createdAt).toLocaleDateString()}
+                      </p>
+                    </div>
+                    <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground shrink-0" />
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     );
@@ -573,8 +678,8 @@ function CenterPanelInner({ character, chat, className, rightPanelOpen, onRightP
 
   return (
     <div className={cn("flex h-full flex-col min-h-0", className)}>
-      {/* Header */}
-      <div className="flex shrink-0 items-center justify-between px-4 py-3">
+      {/* Header - hidden on mobile since ChatMobileHeader handles it */}
+      <div className="hidden md:flex shrink-0 items-center justify-between px-4 py-3">
         <div className="flex items-center gap-3 min-w-0">
           <Avatar className="h-8 w-8 shrink-0">
             <AvatarImage src={character.avatarData} />
@@ -604,6 +709,20 @@ function CenterPanelInner({ character, chat, className, rightPanelOpen, onRightP
       <div className="flex-1 min-h-0 overflow-hidden">
         <ScrollArea className="h-full p-4" ref={scrollRef}>
           <div className="space-y-4">
+            {/* Loading indicator for older messages */}
+            {isLoadingMore && (
+              <div className="flex justify-center py-2">
+                <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+              </div>
+            )}
+
+            {/* "Load more" hint when there are older messages */}
+            {hasMore && !isLoadingMore && (
+              <div className="flex justify-center py-2">
+                <span className="text-xs text-muted-foreground">{t("scrollForMore")}</span>
+              </div>
+            )}
+
             {allMessages
               .filter((m) => m.role !== "system")
               .map((message, index, filteredMessages) => {

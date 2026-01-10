@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useDatabase } from "./useDatabase";
 import type { MessageDocument, MessageAttachmentMeta } from "../schemas";
@@ -30,25 +30,48 @@ export interface AddAttachmentInput {
   height?: number;
 }
 
-export function useMessages(chatId: string) {
+/** Default page size for message pagination */
+const DEFAULT_PAGE_SIZE = 20;
+
+export function useMessages(chatId: string, pageSize = DEFAULT_PAGE_SIZE) {
   const { db, isLoading: dbLoading } = useDatabase();
   const [messages, setMessages] = useState<MessageDocument[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [hasMore, setHasMore] = useState(false);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+
+  // Track how many messages we're currently displaying
+  const displayLimitRef = useRef(pageSize);
+  // Track total message count
+  const totalCountRef = useRef(0);
 
   useEffect(() => {
     if (!db || !chatId) return;
 
+    // Reset display limit when chat changes
+    displayLimitRef.current = pageSize;
+    setHasMore(false);
+
+    // Subscribe to all messages but only display the latest ones
     const subscription = db.messages
       .find({ selector: { chatId } })
       .sort({ createdAt: "asc" })
       .$
       .subscribe((docs) => {
-        setMessages(docs.map((doc) => toMutable<MessageDocument>(doc.toJSON())));
+        const allMessages = docs.map((doc) => toMutable<MessageDocument>(doc.toJSON()));
+        totalCountRef.current = allMessages.length;
+
+        // Calculate how many to skip to get the latest messages
+        const skip = Math.max(0, allMessages.length - displayLimitRef.current);
+        const displayedMessages = allMessages.slice(skip);
+
+        setMessages(displayedMessages);
+        setHasMore(skip > 0);
         setIsLoading(false);
       });
 
     return () => subscription.unsubscribe();
-  }, [db, chatId]);
+  }, [db, chatId, pageSize]);
 
   /**
    * Options for adding a message
@@ -296,9 +319,40 @@ export function useMessages(chatId: string) {
     [db]
   );
 
+  /**
+   * Load more (older) messages by increasing the display limit
+   */
+  const loadMore = useCallback(async () => {
+    if (!db || !chatId || isLoadingMore || !hasMore) return;
+
+    setIsLoadingMore(true);
+
+    // Increase the display limit by another page
+    displayLimitRef.current += pageSize;
+
+    // Re-fetch messages with the new limit
+    const docs = await db.messages
+      .find({ selector: { chatId } })
+      .sort({ createdAt: "asc" })
+      .exec();
+
+    const allMessages = docs.map((doc) => toMutable<MessageDocument>(doc.toJSON()));
+    totalCountRef.current = allMessages.length;
+
+    const skip = Math.max(0, allMessages.length - displayLimitRef.current);
+    const displayedMessages = allMessages.slice(skip);
+
+    setMessages(displayedMessages);
+    setHasMore(skip > 0);
+    setIsLoadingMore(false);
+  }, [db, chatId, isLoadingMore, hasMore, pageSize]);
+
   return {
     messages,
     isLoading: dbLoading || isLoading,
+    hasMore,
+    isLoadingMore,
+    loadMore,
     addMessage,
     updateMessage,
     deleteMessage,
