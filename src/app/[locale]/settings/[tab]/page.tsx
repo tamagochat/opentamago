@@ -78,7 +78,7 @@ function ApiKeysTabWrapper({
 }: {
   isProviderReady: (providerId: string) => boolean;
 }) {
-  const { providers } = useProviderSettings();
+  const { providers, setApiKey } = useProviderSettings();
 
   // Initialize all providers with empty strings to avoid uncontrolled → controlled transition
   const initialApiKeys = ALL_PROVIDERS.reduce(
@@ -90,11 +90,24 @@ function ApiKeysTabWrapper({
     {} as Record<Provider, string>
   );
 
+  const handleSave = async (apiKeys: Record<Provider, string>) => {
+    // Save each provider's API key
+    for (const providerId of ALL_PROVIDERS) {
+      const newKey = apiKeys[providerId];
+      const currentKey = initialApiKeys[providerId];
+      // Only update if the key changed
+      if (newKey !== currentKey) {
+        await setApiKey(providerId, newKey);
+      }
+    }
+  };
+
   return (
     <div className="p-6">
       <ApiKeysTab
         initialApiKeys={initialApiKeys}
         isProviderReady={isProviderReady as any}
+        onSave={handleSave}
       />
     </div>
   );

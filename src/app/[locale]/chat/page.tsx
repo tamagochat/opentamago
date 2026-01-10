@@ -1,12 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Button } from "~/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from "~/components/ui/sheet";
-import { Menu } from "lucide-react";
+import { Sheet, SheetContent, SheetTitle, SheetDescription } from "~/components/ui/sheet";
 import { LeftPanel } from "./_components/left-panel";
 import { CenterPanel } from "./_components/center-panel";
 import { RightPanel } from "./_components/right-panel";
+import { ChatMobileHeader } from "./_components/chat-mobile-header";
 import { useSettings } from "~/lib/db/hooks";
 import type { CharacterDocument, ChatDocument } from "~/lib/db/schemas";
 
@@ -63,25 +62,20 @@ export default function ChatPage() {
       {/* Center Panel */}
       <div className="relative flex flex-1 flex-col min-h-0 overflow-hidden">
         {/* Mobile Header (below md) */}
-        <div className="flex shrink-0 items-center justify-between border-b p-2 md:hidden">
-          <Sheet open={leftPanelOpen} onOpenChange={setLeftPanelOpen}>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <Menu className="h-5 w-5" />
-              </Button>
-            </SheetTrigger>
-          </Sheet>
-
-          <span className="text-sm font-medium truncate min-w-0 flex-1 px-2">
-            {selectedCharacter?.name ?? "OpenTamago"}
-          </span>
-
-        </div>
+        <ChatMobileHeader
+          character={selectedCharacter}
+          chat={selectedChat}
+          onMenuClick={() => setLeftPanelOpen(true)}
+          onSettingsClick={() => setSettingsOpen(true)}
+          rightPanelOpen={rightPanelOpen}
+          onRightPanelOpenChange={setRightPanelOpen}
+        />
 
         {/* Chat Area */}
         <CenterPanel
           character={selectedCharacter}
           chat={selectedChat}
+          onSelectChat={setSelectedChat}
           className="flex-1 min-h-0"
           rightPanelOpen={rightPanelOpen}
           onRightPanelOpenChange={setRightPanelOpen}

@@ -380,7 +380,9 @@
   },
   "nav": {
     "home": "Beranda",
+    "charx": "CharX",
     "charxViewer": "Penampil CharX",
+    "charxEditor": "Editor CharX",
     "charxPokebox": "CharX PokeBox",
     "p2pShare": "Berbagi P2P",
     "chat": "Chat",
@@ -504,7 +506,15 @@
       "generatingVoice": "Membuat...",
       "voiceGenerationError": "Gagal membuat suara",
       "voiceGenerationNotConfigured": "Pembuatan suara belum dikonfigurasi",
-      "voiceGenerated": "Suara berhasil dibuat"
+      "voiceGenerated": "Suara berhasil dibuat",
+      "chatMode": "Mode chat",
+      "imageMode": "Mode gambar",
+      "imagePlaceholder": "Jelaskan gambar yang ingin Anda buat...",
+      "aiEnhanceOn": "Peningkatan AI aktif",
+      "aiEnhanceOff": "Peningkatan AI nonaktif",
+      "scrollForMore": "Gulir ke atas untuk melihat pesan lama",
+      "chatWith": "Chat dengan {name}",
+      "recentChats": "Chat terbaru"
     },
     "rightPanel": {
       "selectCharacter": "Pilih karakter buat lihat detail",
@@ -772,6 +782,60 @@
         "export": "Simpan karakter ke database lokal"
       }
     },
+    "charxEditor": {
+      "title": "Editor CharX",
+      "description": "Buat dan edit karakter AI dengan asisten AI. Rancang kepribadian, tulis sapaan, dan buat lorebook.",
+      "steps": {
+        "create": {
+          "title": "Buat Karakter",
+          "description": "Mulai dari awal atau impor dari PokeBox"
+        },
+        "edit": {
+          "title": "Edit Detail",
+          "description": "Tentukan kepribadian, skenario, dan dialog contoh"
+        },
+        "lorebook": {
+          "title": "Buat Lorebook",
+          "description": "Tambahkan entri dengan pemicu kata kunci"
+        },
+        "export": {
+          "title": "Ekspor",
+          "description": "Simpan ke PokeBox atau ekspor sebagai .charx"
+        }
+      },
+      "highlights": {
+        "aiAssistant": "Asisten penulisan AI",
+        "templates": "Impor dari karakter yang ada",
+        "localSave": "Simpan langsung ke perpustakaan"
+      }
+    },
+    "charxPokebox": {
+      "title": "CharX PokeBox",
+      "description": "Perpustakaan karakter pribadimu. Simpan, atur, dan kelola semua karakter AI di satu tempat.",
+      "steps": {
+        "import": {
+          "title": "Impor Karakter",
+          "description": "Tambahkan dari file .charx atau buat baru"
+        },
+        "organize": {
+          "title": "Atur Perpustakaan",
+          "description": "Jelajahi dan cari koleksi karaktermu"
+        },
+        "preview": {
+          "title": "Lihat Detail",
+          "description": "Lihat info karakter, lorebook, dan aset"
+        },
+        "use": {
+          "title": "Mulai Chat",
+          "description": "Pilih karakter dan mulai percakapan"
+        }
+      },
+      "highlights": {
+        "localStorage": "Disimpan lokal di browser",
+        "unlimited": "Tanpa batas karakter",
+        "quickAccess": "Akses cepat ke semua karakter"
+      }
+    },
     "p2pShare": {
       "title": "Berbagi P2P",
       "description": "Bagikan file langsung dengan teman menggunakan P2P. Tidak disimpan di server.",
@@ -981,6 +1045,193 @@
       "bugDesc": "Masalah tampilan atau format? Laporkan di sini :)",
       "community": "Mau gabung komunitas?",
       "communityDesc": "Yuk gabung Discord kami! Ngobrol sama tim dan pengguna lain"
+    }
+  },
+  "charxEditor": {
+    "meta": {
+      "title": "Character Editor | OpenTamago",
+      "description": "Create and edit AI character cards with AI assistance"
+    },
+    "title": "Character Editor",
+    "subtitle": "Create or edit AI character cards with AI assistance",
+    "createNew": "Create New",
+    "editExisting": "Edit from PokeBox",
+    "back": "Back",
+    "assistant": {
+      "title": "AI Assistant",
+      "placeholder": "Ask me to help with your character...",
+      "imagePlaceholder": "Jelaskan gambar yang ingin kamu buat...",
+      "chatMode": "Mode chat",
+      "imageMode": "Mode gambar",
+      "aiEnhanceOn": "Peningkatan AI aktif",
+      "aiEnhanceOff": "Peningkatan AI nonaktif",
+      "thinking": "Thinking...",
+      "examples": {
+        "personality": "Help me write a personality for a shy but brave knight",
+        "dialogue": "Write example dialogue for this character",
+        "lorebook": "Create a lorebook entry about their hometown",
+        "improve": "How can I improve this character description?"
+      },
+      "actions": {
+        "copy": "Copy",
+        "copyToField": "Copy to Field",
+        "copyToLorebook": "Add to Lorebook",
+        "addToAssets": "Add to Assets",
+        "download": "Unduh",
+        "downloaded": "Gambar diunduh",
+        "generateImage": "Buat gambar",
+        "selectField": "Select field...",
+        "selectAssetType": "Asset type..."
+      },
+      "fields": {
+        "description": "Description",
+        "personality": "Personality",
+        "scenario": "Scenario",
+        "firstMessage": "First Message",
+        "exampleDialogue": "Example Dialogue",
+        "systemPrompt": "System Prompt",
+        "postHistory": "Post History Instructions",
+        "creatorNotes": "Creator Notes"
+      },
+      "assetTypes": {
+        "avatar": "Avatar",
+        "icon": "Ikon",
+        "emotion": "Emosi",
+        "background": "Latar belakang",
+        "other": "Lainnya"
+      },
+      "apiKeyRequired": "API key required for {provider}",
+      "openSettings": "Settings",
+      "chatHistoryDisclaimer": "Percakapan ini bersifat sementara dan akan dihapus saat Anda menyegarkan halaman. Salin konten yang ingin Anda simpan ke kolom karakter."
+    },
+    "editor": {
+      "tabs": {
+        "character": "Character",
+        "lorebook": "Lorebook",
+        "assets": "Assets"
+      },
+      "save": "Save to PokeBox",
+      "saving": "Saving...",
+      "export": "Export",
+      "unsavedChanges": "You have unsaved changes",
+      "askAssistant": "Ask AI",
+      "character": {
+        "avatar": "Avatar",
+        "uploadAvatar": "Upload Avatar",
+        "avatarHint": "PNG, JPG up to 2MB",
+        "name": "Name",
+        "nameRequired": "Name is required",
+        "description": "Description",
+        "descriptionPlaceholder": "A brief description of your character",
+        "personality": "Personality",
+        "personalityPlaceholder": "Describe personality traits, behaviors, quirks...",
+        "scenario": "Scenario",
+        "scenarioPlaceholder": "The setting or context for conversations",
+        "firstMessage": "First Message",
+        "firstMessagePlaceholder": "The first message your character will send",
+        "exampleDialogue": "Example Dialogue",
+        "exampleDialoguePlaceholder": "Example conversations to set the tone...",
+        "systemPrompt": "System Prompt",
+        "systemPromptPlaceholder": "Custom system prompt (overrides default)",
+        "postHistory": "Post History Instructions",
+        "postHistoryPlaceholder": "Instructions added after conversation history",
+        "alternateGreetings": "Alternate Greetings",
+        "addGreeting": "Add Greeting",
+        "removeGreeting": "Remove",
+        "greetingPlaceholder": "An alternate first message...",
+        "tags": "Tags",
+        "addTag": "Add tag...",
+        "creator": "Creator",
+        "creatorPlaceholder": "Your name or handle",
+        "version": "Version",
+        "versionPlaceholder": "1.0.0",
+        "creatorNotes": "Creator Notes",
+        "creatorNotesPlaceholder": "Private notes (not sent to AI)",
+        "basic": "Basic",
+        "messages": "Messages",
+        "prompts": "Prompts",
+        "meta": "Meta"
+      },
+      "lorebook": {
+        "title": "Lorebook Entries",
+        "empty": "No lorebook entries yet",
+        "emptyHint": "Add entries to provide context about your character's world",
+        "addEntry": "Add Entry",
+        "deleteEntry": "Delete Entry",
+        "keys": "Keys",
+        "keysPlaceholder": "trigger, keywords, separated by comma",
+        "keysHint": "Comma-separated trigger keywords",
+        "content": "Content",
+        "contentPlaceholder": "The lore content that will be injected...",
+        "enabled": "Enabled",
+        "priority": "Priority",
+        "position": "Position",
+        "positions": {
+          "before_char": "Before Character",
+          "after_char": "After Character"
+        },
+        "useRegex": "Use Regex",
+        "caseSensitive": "Case Sensitive",
+        "constant": "Always Active",
+        "entryName": "Entry Name",
+        "entryNamePlaceholder": "Optional name for organization",
+        "comment": "Comment",
+        "commentPlaceholder": "Private notes about this entry"
+      },
+      "assets": {
+        "title": "Character Assets",
+        "empty": "No assets yet",
+        "emptyHint": "Upload images or generate with AI",
+        "upload": "Upload Asset",
+        "generateWithAI": "Generate with AI",
+        "selectType": "Select asset type",
+        "types": {
+          "icon": "Icon",
+          "emotion": "Emotion",
+          "background": "Background",
+          "other": "Other"
+        },
+        "deleteAsset": "Delete Asset",
+        "deleteConfirm": "Delete this asset?",
+        "preview": "Preview",
+        "cancel": "Batal",
+        "delete": "Hapus"
+      }
+    },
+    "export": {
+      "title": "Export Character",
+      "description": "Choose export format",
+      "charx": {
+        "title": "CharX File (.charx)",
+        "description": "Full character package with lorebook and assets"
+      },
+      "png": {
+        "title": "Character Card PNG",
+        "description": "Avatar with embedded character data"
+      },
+      "cancel": "Cancel",
+      "download": "Download",
+      "noAvatar": "No avatar set. Please upload an avatar first for PNG export."
+    },
+    "import": {
+      "title": "Select Character to Edit",
+      "description": "Choose a character from your PokeBox to edit",
+      "search": "Search characters...",
+      "empty": "No characters found",
+      "emptyHint": "Import characters from CharX Viewer first",
+      "select": "Select"
+    },
+    "toast": {
+      "saved": "Character saved!",
+      "saveError": "Failed to save character",
+      "validationError": "Please fill in all required fields",
+      "copied": "Copied to clipboard",
+      "copiedToField": "Copied to field",
+      "addedToLorebook": "Added to lorebook",
+      "addedToAssets": "Added to assets",
+      "avatarSet": "Avatar diperbarui",
+      "exported": "Character exported",
+      "imported": "Character loaded"
     }
   }
 }

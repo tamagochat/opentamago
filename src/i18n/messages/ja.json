@@ -380,7 +380,9 @@
   },
   "nav": {
     "home": "ホーム",
+    "charx": "CharX",
     "charxViewer": "CharXビューアー",
+    "charxEditor": "CharXエディター",
     "charxPokebox": "CharX PokeBox",
     "p2pShare": "P2P共有",
     "chat": "チャット",
@@ -504,7 +506,15 @@
       "generatingVoice": "生成中...",
       "voiceGenerationError": "音声生成に失敗しました",
       "voiceGenerationNotConfigured": "音声生成が設定されていません",
-      "voiceGenerated": "音声を生成しました"
+      "voiceGenerated": "音声を生成しました",
+      "chatMode": "チャットモード",
+      "imageMode": "画像モード",
+      "imagePlaceholder": "生成したい画像を説明してください...",
+      "aiEnhanceOn": "AI強化オン",
+      "aiEnhanceOff": "AI強化オフ",
+      "scrollForMore": "上にスクロールすると過去のメッセージが表示されます",
+      "chatWith": "{name}とチャット",
+      "recentChats": "最近のチャット"
     },
     "rightPanel": {
       "selectCharacter": "キャラクターを選んで詳細を見よう",
@@ -772,6 +782,60 @@
         "export": "ローカルDBにキャラを保存"
       }
     },
+    "charxEditor": {
+      "title": "CharXエディター",
+      "description": "AIアシスタントと一緒にAIキャラクターを作成・編集しよう。性格設定、挨拶文、ロアブックの作成ができるよ。",
+      "steps": {
+        "create": {
+          "title": "キャラ作成",
+          "description": "新規作成またはPokeBoxからインポート"
+        },
+        "edit": {
+          "title": "詳細編集",
+          "description": "性格、シナリオ、サンプル会話を定義"
+        },
+        "lorebook": {
+          "title": "ロアブック作成",
+          "description": "キーワードトリガーで世界設定を追加"
+        },
+        "export": {
+          "title": "エクスポート",
+          "description": "PokeBoxに保存または.charxファイルに出力"
+        }
+      },
+      "highlights": {
+        "aiAssistant": "AI執筆アシスタント",
+        "templates": "既存キャラからインポート",
+        "localSave": "ライブラリに直接保存"
+      }
+    },
+    "charxPokebox": {
+      "title": "CharX PokeBox",
+      "description": "あなた専用のキャラクターライブラリ。すべてのAIキャラクターを一か所で保存・管理できるよ。",
+      "steps": {
+        "import": {
+          "title": "キャラをインポート",
+          "description": ".charxファイルから追加または新規作成"
+        },
+        "organize": {
+          "title": "ライブラリ整理",
+          "description": "キャラコレクションを閲覧・検索"
+        },
+        "preview": {
+          "title": "詳細プレビュー",
+          "description": "キャラ情報、ロアブック、アセットを確認"
+        },
+        "use": {
+          "title": "チャット開始",
+          "description": "キャラを選んで会話スタート"
+        }
+      },
+      "highlights": {
+        "localStorage": "ブラウザにローカル保存",
+        "unlimited": "キャラ数制限なし",
+        "quickAccess": "すべてのキャラに素早くアクセス"
+      }
+    },
     "p2pShare": {
       "title": "P2P共有",
       "description": "P2Pでファイルを直接共有。サーバーにファイルは保存されないよ。",
@@ -981,6 +1045,193 @@
     "toast": {
       "copiedToClipboard": "コピーしたよ!",
       "failedToCopy": "コピー失敗"
+    }
+  },
+  "charxEditor": {
+    "meta": {
+      "title": "Character Editor | OpenTamago",
+      "description": "Create and edit AI character cards with AI assistance"
+    },
+    "title": "Character Editor",
+    "subtitle": "Create or edit AI character cards with AI assistance",
+    "createNew": "Create New",
+    "editExisting": "Edit from PokeBox",
+    "back": "Back",
+    "assistant": {
+      "title": "AI Assistant",
+      "placeholder": "Ask me to help with your character...",
+      "imagePlaceholder": "生成したい画像を説明してください...",
+      "chatMode": "チャットモード",
+      "imageMode": "画像モード",
+      "aiEnhanceOn": "AI強化オン",
+      "aiEnhanceOff": "AI強化オフ",
+      "thinking": "Thinking...",
+      "examples": {
+        "personality": "Help me write a personality for a shy but brave knight",
+        "dialogue": "Write example dialogue for this character",
+        "lorebook": "Create a lorebook entry about their hometown",
+        "improve": "How can I improve this character description?"
+      },
+      "actions": {
+        "copy": "Copy",
+        "copyToField": "Copy to Field",
+        "copyToLorebook": "Add to Lorebook",
+        "addToAssets": "Add to Assets",
+        "download": "ダウンロード",
+        "downloaded": "画像をダウンロードしました",
+        "generateImage": "画像を生成",
+        "selectField": "Select field...",
+        "selectAssetType": "Asset type..."
+      },
+      "fields": {
+        "description": "Description",
+        "personality": "Personality",
+        "scenario": "Scenario",
+        "firstMessage": "First Message",
+        "exampleDialogue": "Example Dialogue",
+        "systemPrompt": "System Prompt",
+        "postHistory": "Post History Instructions",
+        "creatorNotes": "Creator Notes"
+      },
+      "assetTypes": {
+        "avatar": "アバター",
+        "icon": "アイコン",
+        "emotion": "表情",
+        "background": "背景",
+        "other": "その他"
+      },
+      "apiKeyRequired": "API key required for {provider}",
+      "openSettings": "Settings",
+      "chatHistoryDisclaimer": "この会話は一時的なもので、ページを更新すると消去されます。保持したいコンテンツはキャラクターフィールドにコピーしてください。"
+    },
+    "editor": {
+      "tabs": {
+        "character": "Character",
+        "lorebook": "Lorebook",
+        "assets": "Assets"
+      },
+      "save": "Save to PokeBox",
+      "saving": "Saving...",
+      "export": "Export",
+      "unsavedChanges": "You have unsaved changes",
+      "askAssistant": "Ask AI",
+      "character": {
+        "avatar": "Avatar",
+        "uploadAvatar": "Upload Avatar",
+        "avatarHint": "PNG, JPG up to 2MB",
+        "name": "Name",
+        "nameRequired": "Name is required",
+        "description": "Description",
+        "descriptionPlaceholder": "A brief description of your character",
+        "personality": "Personality",
+        "personalityPlaceholder": "Describe personality traits, behaviors, quirks...",
+        "scenario": "Scenario",
+        "scenarioPlaceholder": "The setting or context for conversations",
+        "firstMessage": "First Message",
+        "firstMessagePlaceholder": "The first message your character will send",
+        "exampleDialogue": "Example Dialogue",
+        "exampleDialoguePlaceholder": "Example conversations to set the tone...",
+        "systemPrompt": "System Prompt",
+        "systemPromptPlaceholder": "Custom system prompt (overrides default)",
+        "postHistory": "Post History Instructions",
+        "postHistoryPlaceholder": "Instructions added after conversation history",
+        "alternateGreetings": "Alternate Greetings",
+        "addGreeting": "Add Greeting",
+        "removeGreeting": "Remove",
+        "greetingPlaceholder": "An alternate first message...",
+        "tags": "Tags",
+        "addTag": "Add tag...",
+        "creator": "Creator",
+        "creatorPlaceholder": "Your name or handle",
+        "version": "Version",
+        "versionPlaceholder": "1.0.0",
+        "creatorNotes": "Creator Notes",
+        "creatorNotesPlaceholder": "Private notes (not sent to AI)",
+        "basic": "Basic",
+        "messages": "Messages",
+        "prompts": "Prompts",
+        "meta": "Meta"
+      },
+      "lorebook": {
+        "title": "Lorebook Entries",
+        "empty": "No lorebook entries yet",
+        "emptyHint": "Add entries to provide context about your character's world",
+        "addEntry": "Add Entry",
+        "deleteEntry": "Delete Entry",
+        "keys": "Keys",
+        "keysPlaceholder": "trigger, keywords, separated by comma",
+        "keysHint": "Comma-separated trigger keywords",
+        "content": "Content",
+        "contentPlaceholder": "The lore content that will be injected...",
+        "enabled": "Enabled",
+        "priority": "Priority",
+        "position": "Position",
+        "positions": {
+          "before_char": "Before Character",
+          "after_char": "After Character"
+        },
+        "useRegex": "Use Regex",
+        "caseSensitive": "Case Sensitive",
+        "constant": "Always Active",
+        "entryName": "Entry Name",
+        "entryNamePlaceholder": "Optional name for organization",
+        "comment": "Comment",
+        "commentPlaceholder": "Private notes about this entry"
+      },
+      "assets": {
+        "title": "Character Assets",
+        "empty": "No assets yet",
+        "emptyHint": "Upload images or generate with AI",
+        "upload": "Upload Asset",
+        "generateWithAI": "Generate with AI",
+        "selectType": "Select asset type",
+        "types": {
+          "icon": "Icon",
+          "emotion": "Emotion",
+          "background": "Background",
+          "other": "Other"
+        },
+        "deleteAsset": "Delete Asset",
+        "deleteConfirm": "Delete this asset?",
+        "preview": "Preview",
+        "cancel": "キャンセル",
+        "delete": "削除"
+      }
+    },
+    "export": {
+      "title": "Export Character",
+      "description": "Choose export format",
+      "charx": {
+        "title": "CharX File (.charx)",
+        "description": "Full character package with lorebook and assets"
+      },
+      "png": {
+        "title": "Character Card PNG",
+        "description": "Avatar with embedded character data"
+      },
+      "cancel": "Cancel",
+      "download": "Download",
+      "noAvatar": "No avatar set. Please upload an avatar first for PNG export."
+    },
+    "import": {
+      "title": "Select Character to Edit",
+      "description": "Choose a character from your PokeBox to edit",
+      "search": "Search characters...",
+      "empty": "No characters found",
+      "emptyHint": "Import characters from CharX Viewer first",
+      "select": "Select"
+    },
+    "toast": {
+      "saved": "Character saved!",
+      "saveError": "Failed to save character",
+      "validationError": "Please fill in all required fields",
+      "copied": "Copied to clipboard",
+      "copiedToField": "Copied to field",
+      "addedToLorebook": "Added to lorebook",
+      "addedToAssets": "Added to assets",
+      "avatarSet": "アバターを更新しました",
+      "exported": "Character exported",
+      "imported": "Character loaded"
     }
   }
 }

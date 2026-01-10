@@ -7,6 +7,7 @@ import {
   Trash2,
   Search,
   FileArchive,
+  Pencil,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "~/components/ui/button";
@@ -124,6 +125,17 @@ function CharacterCard({
 
         {/* Action Buttons */}
         <div className="flex gap-1.5 pt-1">
+          <Button
+            variant="outline"
+            size="sm"
+            className="flex-1 h-8 text-xs"
+            asChild
+            onClick={(e) => e.stopPropagation()}
+          >
+            <Link href={`/charx/editor?characterId=${character.id}`}>
+              <Pencil className="h-3.5 w-3.5" />
+            </Link>
+          </Button>
           <Button
             variant="outline"
             size="sm"

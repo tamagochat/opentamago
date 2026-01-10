@@ -1,5 +1,7 @@
 import {
   FileArchive,
+  FolderHeart,
+  Pencil,
   Share2,
   Users,
   Lock,
@@ -13,6 +15,9 @@ import {
   MessageSquare,
   Bot,
   ArrowRight,
+  Save,
+  Search,
+  Sparkles,
 } from "lucide-react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";
@@ -115,6 +120,74 @@ export default async function HowItWorksPage({ params }: Props) {
         t("charx.highlights.privacy"),
         t("charx.highlights.formats"),
         t("charx.highlights.export"),
+      ],
+    },
+    {
+      id: "charx-editor",
+      icon: Pencil,
+      title: t("charxEditor.title"),
+      description: t("charxEditor.description"),
+      href: "/charx/editor" as const,
+      steps: [
+        {
+          icon: Sparkles,
+          title: t("charxEditor.steps.create.title"),
+          description: t("charxEditor.steps.create.description"),
+        },
+        {
+          icon: Pencil,
+          title: t("charxEditor.steps.edit.title"),
+          description: t("charxEditor.steps.edit.description"),
+        },
+        {
+          icon: Book,
+          title: t("charxEditor.steps.lorebook.title"),
+          description: t("charxEditor.steps.lorebook.description"),
+        },
+        {
+          icon: Save,
+          title: t("charxEditor.steps.export.title"),
+          description: t("charxEditor.steps.export.description"),
+        },
+      ],
+      highlights: [
+        t("charxEditor.highlights.aiAssistant"),
+        t("charxEditor.highlights.templates"),
+        t("charxEditor.highlights.localSave"),
+      ],
+    },
+    {
+      id: "charx-pokebox",
+      icon: FolderHeart,
+      title: t("charxPokebox.title"),
+      description: t("charxPokebox.description"),
+      href: "/pokebox" as const,
+      steps: [
+        {
+          icon: Upload,
+          title: t("charxPokebox.steps.import.title"),
+          description: t("charxPokebox.steps.import.description"),
+        },
+        {
+          icon: Search,
+          title: t("charxPokebox.steps.organize.title"),
+          description: t("charxPokebox.steps.organize.description"),
+        },
+        {
+          icon: Eye,
+          title: t("charxPokebox.steps.preview.title"),
+          description: t("charxPokebox.steps.preview.description"),
+        },
+        {
+          icon: MessageSquare,
+          title: t("charxPokebox.steps.use.title"),
+          description: t("charxPokebox.steps.use.description"),
+        },
+      ],
+      highlights: [
+        t("charxPokebox.highlights.localStorage"),
+        t("charxPokebox.highlights.unlimited"),
+        t("charxPokebox.highlights.quickAccess"),
       ],
     },
     {

@@ -115,6 +115,49 @@ export function useCharacters() {
     [db]
   );
 
+  const getLorebookEntries = useCallback(
+    async (characterId: string) => {
+      if (!db) return [];
+
+      const docs = await db.lorebookEntries
+        .find({ selector: { characterId } })
+        .exec();
+      return docs.map((doc) => toMutable<LorebookEntryDocument>(doc.toJSON()));
+    },
+    [db]
+  );
+
+  const getAssets = useCallback(
+    async (characterId: string) => {
+      if (!db) return [];
+
+      const docs = await db.characterAssets
+        .find({ selector: { characterId } })
+        .exec();
+
+      // Load asset data from attachments
+      const assets = await Promise.all(
+        docs.map(async (doc) => {
+          const metadata = toMutable<CharacterAssetDocument>(doc.toJSON());
+          const attachmentId = `asset-${metadata.id}.${metadata.ext}`;
+          const attachment = doc.getAttachment(attachmentId);
+
+          let data = new Uint8Array();
+          if (attachment) {
+            const blob = await attachment.getData();
+            const buffer = await blob.arrayBuffer();
+            data = new Uint8Array(buffer);
+          }
+
+          return { ...metadata, data };
+        })
+      );
+
+      return assets;
+    },
+    [db]
+  );
+
   /**
    * Comprehensive function to save a character with all associated data:
    * - Character document (with avatarData as data URL for immediate display)
@@ -268,6 +311,8 @@ export function useCharacters() {
     updateCharacter,
     deleteCharacter,
     getCharacter,
+    getLorebookEntries,
+    getAssets,
     saveCharacterWithAssets,
   };
 }
