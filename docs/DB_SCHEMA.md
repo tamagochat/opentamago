@@ -1,7 +1,7 @@
 # OpenTamago Database Schema
 
-**Version:** 1.0.0
-**Last Updated:** 2026-01-08
+**Version:** 1.4.0
+**Last Updated:** 2026-01-09
 
 This document describes the database schemas used in OpenTamago. The application uses two types of databases:
 
@@ -20,11 +20,13 @@ All client-side data is stored locally in the browser using RxDB with Dexie.js (
 |------------|---------|-------------|
 | characters | 4 | Character definitions (CCv3 format) |
 | chats | 1 | Chat sessions with characters |
-| messages | 0 | Individual chat messages |
+| messages | 1 | Individual chat messages |
 | personas | 0 | User personas |
-| settings | 3 | Application settings |
+| settings | 5 | Application settings |
+| providerSettings | 0 | Provider API keys (credentials only) |
+| generationSettings | 0 | Per-scenario generation settings |
 | lorebookEntries | 1 | Character world information |
-| memories | 0 | Chat memory summaries |
+| memories | 1 | LRU-based context memory |
 | connectSessions | 0 | P2P Connect session state |
 | connectMessages | 0 | P2P Connect chat messages |
 | characterAssets | 0 | Character image assets (CharX) |
@@ -82,7 +84,7 @@ Stores chat session metadata.
 
 ---
 
-### messages (v0)
+### messages (v1)
 
 Stores individual chat messages.
 
@@ -94,6 +96,9 @@ Stores individual chat messages.
 | content | string | Yes | No | Message content |
 | createdAt | number | Yes | Yes* | Unix timestamp (ms) |
 | editedAt | number | No | No | Edit timestamp (ms) |
+| reasoning | string | No | No | Merged reasoning/thinking content from LLM |
+| displayedContent | string | No | No | Translated or alternative displayed content |
+| displayedContentLanguage | string (10) | No | No | Language code of displayedContent |
 
 **Indexes:** `[chatId, createdAt]` (compound)
 
@@ -116,25 +121,127 @@ Stores user persona definitions.
 
 ---
 
-### settings (v3)
+### settings (v5)
 
 Stores application settings (singleton pattern - uses "default" as id).
 
 | Field | Type | Required | Indexed | Description |
 |-------|------|----------|---------|-------------|
 | id | string (36) | Yes | PK | Fixed to "default" |
-| apiMode | enum | Yes | No | "server" \| "client" |
-| geminiApiKey | string | No | No | User's Gemini API key |
-| defaultModel | string | Yes | No | Default AI model ID |
-| temperature | number | Yes | No | Generation temperature (0-2) |
-| maxTokens | number | Yes | No | Max output tokens (1-8192) |
-| safetySettings | object | Yes | No | Gemini safety settings |
+| apiMode | enum | Yes | No | "server" \| "client" (deprecated) |
+| geminiApiKey | string | No | No | User's Gemini API key (deprecated) |
+| defaultModel | string | Yes | No | Default AI model ID (deprecated) |
+| temperature | number | Yes | No | (deprecated) Use generationSettings |
+| maxTokens | number | Yes | No | (deprecated) Use generationSettings |
+| safetySettings | object | Yes | No | (deprecated) Use generationSettings.metadata.safetySettings |
 | chatBubbleTheme | enum | Yes | No | "roleplay" \| "messenger" |
 | localeDialogDismissed | boolean | Yes | No | Locale dialog state |
 | localeDialogShownAt | number | No | No | Unix timestamp (ms) |
+| selectedProvider | string (50) | Yes | No | Active LLM provider ID |
+| defaultPersonaId | string (36) | No | No | Default persona ID for new chats |
 | updatedAt | number | Yes | No | Unix timestamp (ms) |
 
 **Indexes:** None
+
+**Notes:**
+- `apiMode`, `geminiApiKey`, `defaultModel`, `temperature`, `maxTokens`, `safetySettings` are deprecated
+- Use `providerSettings` for API keys, `generationSettings` for generation parameters
+- `selectedProvider` values: "gemini", "openrouter", "anthropic", "grok", "openai", "nanogpt", "falai", "elevenlabs"
+- Default: "gemini"
+
+---
+
+### providerSettings (v0)
+
+Stores API credentials for each provider. Generation settings (model, temperature, etc.) are stored in `generationSettings`.
+
+| Field | Type | Required | Indexed | Description |
+|-------|------|----------|---------|-------------|
+| id | string (50) | Yes | PK | Provider ID (e.g., "gemini") |
+| apiKey | string | No | No | Provider API key |
+| enabled | boolean | Yes | No | Is provider configured (has API key) |
+| baseUrl | string (500) | No | No | Custom API base URL |
+| updatedAt | number | Yes | No | Unix timestamp (ms) |
+
+**Indexes:** None
+
+**Supported Providers:**
+| Provider ID | Name | Modality | SDK |
+|-------------|------|----------|-----|
+| gemini | Google Gemini | text, image, voice | @ai-sdk/google |
+| openrouter | OpenRouter | text, image, voice | @ai-sdk/openai |
+| anthropic | Anthropic | text | @ai-sdk/anthropic |
+| grok | Grok (xAI) | text | @ai-sdk/openai |
+| openai | OpenAI | text, image, voice | @ai-sdk/openai |
+| nanogpt | NanoGPT | text | @ai-sdk/openai |
+| falai | Fal.ai | image | @ai-sdk/openai |
+| elevenlabs | ElevenLabs | voice | custom |
+
+---
+
+### generationSettings (v0)
+
+Stores per-scenario generation settings for different modalities (text, image, voice).
+
+| Field | Type | Required | Indexed | Description |
+|-------|------|----------|---------|-------------|
+| id | string (50) | Yes | PK | Scenario ID (see below) |
+| modality | enum | Yes | No | "text" \| "image" \| "voice" |
+| scenario | enum | No | No | "chat" \| "translation" \| "hitmeup" \| "aibot" (text only) |
+| enabled | boolean | No | No | Is scenario enabled (default: true) |
+| providerId | string (50) | Yes | No | Provider ID to use |
+| model | string (100) | Yes | No | Model ID to use |
+| temperature | number | No | No | Generation temperature (0-2) |
+| maxTokens | integer | No | No | Max output tokens (1-65536) |
+| thinking | boolean | No | No | Enable thinking/reasoning mode |
+| imageWidth | integer | No | No | Image width in pixels (64-4096) |
+| imageHeight | integer | No | No | Image height in pixels (64-4096) |
+| metadata | object | No | No | Generation-specific settings |
+| updatedAt | number | Yes | No | Unix timestamp (ms) |
+
+**Indexes:** None
+
+**Metadata Structure:**
+The `metadata` field stores generation-specific settings.
+
+Example for Gemini safety settings:
+```json
+{
+  "safetySettings": {
+    "HARM_CATEGORY_HARASSMENT": "BLOCK_NONE",
+    "HARM_CATEGORY_HATE_SPEECH": "BLOCK_NONE",
+    "HARM_CATEGORY_SEXUALLY_EXPLICIT": "BLOCK_NONE",
+    "HARM_CATEGORY_DANGEROUS_CONTENT": "BLOCK_NONE"
+  }
+}
+```
+
+Example for translation target language:
+```json
+{
+  "targetLanguage": "ko"
+}
+```
+
+**Document IDs:**
+| ID | Modality | Can Disable | Description |
+|----|----------|-------------|-------------|
+| text_chat | text | No | Main roleplay/conversation |
+| text_translation | text | Yes | Message translation |
+| text_hitmeup | text | Yes | Quick auto-reply |
+| text_aibot | text | No | Automated bot responses |
+| image | image | Yes | Image generation |
+| voice | voice | Yes | Text-to-speech |
+
+**Default Values:**
+| Scenario | Enabled | Provider | Temperature | Max Tokens |
+|----------|---------|----------|-------------|------------|
+| text_chat | true | gemini | 0.9 | 4096 |
+| text_translation | true | gemini | 0.3 | 2048 |
+| text_hitmeup | true | gemini | 1.0 | 512 |
+| text_aibot | true | gemini | 0.1 | 2048 |
+| image | true | falai | - | - |
+| voice | true | elevenlabs | - | - |
 
 ---
 
@@ -167,19 +274,29 @@ Stores character world information entries (CCv3 lorebook format).
 
 ---
 
-### memories (v0)
+### memories (v1)
 
-Stores chat memory summaries for long-term context.
+Stores LRU-based context memory for intelligent prompt injection. Memories are populated from lorebook matches and can be manually added. The LRU (Least Recently Used) algorithm ensures the most relevant context stays active.
 
 | Field | Type | Required | Indexed | Description |
 |-------|------|----------|---------|-------------|
-| id | string (36) | Yes | PK | UUID primary key |
+| id | string (100) | Yes | PK | Derived from chatId + contentHash |
 | chatId | string (36) | Yes | Yes* | FK to chats |
 | characterId | string (36) | Yes | No | FK to characters |
-| content | string | Yes | No | Memory summary (third-person) |
-| createdAt | number | Yes | Yes* | Unix timestamp (ms) |
+| content | string | Yes | No | Interpolated memory content |
+| contentHash | string (64) | Yes | No | Hash for deduplication |
+| source | enum | Yes | No | "lorebook" \| "manual" \| "system" |
+| sourceId | string (36) | No | No | Original source ID (e.g., lorebook entry ID) |
+| createdAt | number | Yes | No | Unix timestamp (ms) |
+| updatedAt | number | Yes | Yes* | Unix timestamp (ms) - LRU ordering |
 
-**Indexes:** `[chatId, createdAt]` (compound)
+**Indexes:** `[chatId, updatedAt]` (compound)
+
+**Notes:**
+- Default limit: 50 entries per chat
+- When duplicate content is added, only `updatedAt` is refreshed (keeps content "hot")
+- Supports recursive lorebook scanning (matched content triggers additional matches)
+- `allowUser`/`allowCharacter` options filter entries containing `{{user}}`/`{{char}}` placeholders
 
 ---
 

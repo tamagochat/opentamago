@@ -20,6 +20,8 @@ const DEFAULT_SETTINGS: SettingsDocument = {
   chatBubbleTheme: "roleplay",
   localeDialogDismissed: false,
   localeDialogShownAt: undefined,
+  selectedProvider: "gemini",
+  defaultPersonaId: undefined,
   updatedAt: Date.now(),
 };
 
@@ -61,6 +63,8 @@ export function useSettings() {
           apiMode: stored.apiMode ?? DEFAULT_SETTINGS.apiMode,
           chatBubbleTheme: stored.chatBubbleTheme ?? DEFAULT_SETTINGS.chatBubbleTheme,
           localeDialogDismissed: stored.localeDialogDismissed ?? DEFAULT_SETTINGS.localeDialogDismissed,
+          selectedProvider: stored.selectedProvider ?? DEFAULT_SETTINGS.selectedProvider,
+          defaultPersonaId: stored.defaultPersonaId ?? DEFAULT_SETTINGS.defaultPersonaId,
           safetySettings: {
             ...DEFAULT_SAFETY_SETTINGS,
             ...stored.safetySettings,
@@ -81,6 +85,8 @@ export function useSettings() {
           apiMode: stored.apiMode ?? DEFAULT_SETTINGS.apiMode,
           chatBubbleTheme: stored.chatBubbleTheme ?? DEFAULT_SETTINGS.chatBubbleTheme,
           localeDialogDismissed: stored.localeDialogDismissed ?? DEFAULT_SETTINGS.localeDialogDismissed,
+          selectedProvider: stored.selectedProvider ?? DEFAULT_SETTINGS.selectedProvider,
+          defaultPersonaId: stored.defaultPersonaId ?? DEFAULT_SETTINGS.defaultPersonaId,
           safetySettings: {
             ...DEFAULT_SAFETY_SETTINGS,
             ...stored.safetySettings,

@@ -13,6 +13,7 @@
 export * from "./system-prompt";
 export * from "./message-filters";
 export * from "./lorebook-matcher";
+export * from "./simple-lorebook-matcher";
 export * from "./generation-context";
 export * from "./generator";
 export { generateMessengerChatResponse } from "./generator";

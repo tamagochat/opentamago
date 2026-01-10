@@ -8,11 +8,11 @@
     "comingSoon": "Yakında"
   },
   "experimental": {
-    "badge": "Deneysel",
-    "charx": "Bu özellik hâlâ geliştirme aşamasında! CharX sürüm 3'ü desteklemek için tasarlandı ama hâlâ iyileştiriyoruz.",
-    "p2p": "Bu, doğrudan P2P bağlantıları için WebRTC kullanır. Lütfen QR kodlarını ve bağlantıları yalnızca güvendiğiniz kişilerle paylaşın!",
-    "chat": "Bu sohbet özelliği, geliştiricilerin yerel olarak LLM test ettiği hata ayıklama amaçlıdır. AI sohbeti için lütfen diğer servisleri kullanın.",
-    "feedback": "Geri bildiriminiz mi var veya hata mı buldunuz? <link>GitHub Issues</link>'da bize bildirin!"
+    "badge": "Yeni",
+    "charx": "Bu özellik hâlâ geliştirme aşamasında! CharX v3'ü destekliyor, iyileştirmeye devam ediyoruz~",
+    "p2p": "WebRTC ile doğrudan P2P bağlantı kuruyor. QR kodu ve linkleri sadece güvendiğin kişilerle paylaş!",
+    "chat": "Bu sohbet özelliği LLM test etmek için. Günlük AI sohbeti için başka servisler kullan~",
+    "feedback": "Hata buldun veya önerin mi var? <link>GitHub Issues</link>'da bize bildir!"
   },
   "actions": {
     "save": "Kaydet",
@@ -22,7 +22,8 @@
     "close": "Kapat",
     "submit": "Gönder",
     "upload": "Yükle",
-    "download": "İndir"
+    "download": "İndir",
+    "confirmDelete": "Silmeyi onayla"
   },
   "home": {
     "hero": {
@@ -142,10 +143,10 @@
         "participants": "Katılımcılar",
         "chat": "Sohbet",
         "p2pBadge": "P2P Bağlı",
-        "message1": "Hey! Sohbete hazır mısın?",
+        "message1": "Selam! Sohbete hazır mısın?~",
         "message2": "Hadi başlayalım!",
-        "aiReply": "Hepinizle tanıştığıma memnun oldum!",
-        "inputPlaceholder": "Bir mesaj yazın..."
+        "aiReply": "Selamlar herkese! Tanıştığıma çok memnun oldum~!",
+        "inputPlaceholder": "Bir mesaj yaz..."
       }
     },
     "connectShowcase": {
@@ -471,20 +472,39 @@
       "chatTitlePlaceholder": "Sohbet başlığı girin..."
     },
     "centerPanel": {
-      "selectCharacter": "Başlamak için bir karakter ve sohbet seçin",
-      "createFromLeft": "Veya sol panelden yeni bir karakter oluşturun",
+      "selectCharacter": "Başlamak için bir karakter ve sohbet seç",
+      "createFromLeft": "Veya sol panelden yeni bir karakter oluştur",
       "apiKeyRequired": "API Anahtarı Gerekli",
-      "configureApiKey": "Sohbet etmeye başlamak için Gemini API anahtarınızı ayarlayın.",
+      "configureApiKey": "Sohbet etmek için Gemini API anahtarını ayarla.",
       "openSettings": "Ayarları Aç",
       "clearChat": "Sohbeti temizle",
       "thinking": "Düşünüyor...",
-      "messagePlaceholder": "{name}'e mesaj gönder...",
+      "messagePlaceholder": "{name}'e bir şey yaz...",
       "clearAllMessages": "Bu sohbetteki tüm mesajlar silinsin mi?",
       "selectPersona": "Persona seç",
       "noPersonas": "Henüz persona yok.",
       "createPersona": "Persona oluştur",
-      "selectPersonaToSend": "Mesaj göndermek için bir persona seçin",
-      "createPersonaAction": "Oluştur"
+      "selectPersonaToSend": "Mesaj göndermek için bir persona seç",
+      "createPersonaAction": "Oluştur",
+      "reasoning": "Akıl yürütme",
+      "translate": "Çevir",
+      "translating": "Çevriliyor...",
+      "showOriginal": "Orijinali göster",
+      "showTranslation": "Çeviriyi göster",
+      "translated": "Çevrildi",
+      "original": "Orijinal",
+      "translationError": "Çeviri başarısız",
+      "translationNotConfigured": "Çeviri yapılandırılmamış",
+      "generateImage": "Görsel oluştur",
+      "generatingImage": "Oluşturuluyor...",
+      "imageGenerationError": "Görsel oluşturma başarısız",
+      "imageGenerationNotConfigured": "Görsel oluşturma yapılandırılmamış",
+      "imageGenerated": "Görsel oluşturuldu",
+      "generateVoice": "Ses Oluştur",
+      "generatingVoice": "Oluşturuluyor...",
+      "voiceGenerationError": "Ses oluşturma başarısız",
+      "voiceGenerationNotConfigured": "Ses oluşturma yapılandırılmamış",
+      "voiceGenerated": "Ses oluşturuldu"
     },
     "rightPanel": {
       "selectCharacter": "Detayları görmek için bir karakter seçin",
@@ -589,7 +609,8 @@
       "blockLow": "Düşük+ Engelle",
       "blockMedium": "Orta+ Engelle",
       "blockHigh": "Yalnızca Yüksek Engelle",
-      "saving": "Kaydediliyor..."
+      "saving": "Kaydediliyor...",
+      "saved": "Ayarlar kaydedildi"
     }
   },
   "connect": {
@@ -667,11 +688,11 @@
       "active": "Aktif",
       "pending": "Beklemede",
       "autoReply": "Otomatik Yanıt",
-      "noMessages": "Henüz mesaj yok. Bir şeyler söyleyin!",
+      "noMessages": "Henüz mesaj yok. Bir şeyler söyle~!",
       "unknown": "Bilinmeyen",
       "generating": "Düşünüyor...",
       "thinking": "{name} düşünüyor...",
-      "placeholder": "{name} olarak mesaj gönder...",
+      "placeholder": "{name} olarak mesaj yaz...",
       "userJoined": "{name} katıldı",
       "userLeft": "{name} ayrıldı"
     },
@@ -823,14 +844,55 @@
     }
   },
   "localeDetector": {
-    "title": "Hoş Geldiniz!",
-    "description": "Tarayıcı dilinizin mevcut sayfadan farklı olabileceğini algıladık. Değiştirmek ister misiniz?",
-    "selectLanguage": "Dilinizi seçin",
+    "title": "Hoş Geldin!",
+    "description": "Tarayıcı dilin farklı görünüyor. Değiştirmek ister misin?",
+    "selectLanguage": "Dilini seç",
     "dontShowAgain": "Bir daha gösterme",
     "continue": "Dili Değiştir",
     "stayHere": "Burada Kal"
   },
+  "settings": {
+    "pageTitle": "Ayarlar",
+    "pageDescription": "Personalarını, API Keys, modelleri ve veritabanı ayarlarını yönet.",
+    "backToChat": "Sohbete Dön",
+    "tabs": {
+      "personas": "Personalar",
+      "apiKeys": "API Keys",
+      "models": "Modeller",
+      "database": "Veritabanı",
+      "contact": "İletişim"
+    },
+    "leftPanel": {
+      "defaultPersona": "Varsayılan Persona",
+      "noDefaultPersona": "Varsayılan persona yok",
+      "editPersona": "Düzenle",
+      "stats": "Veritabanı İstatistikleri",
+      "shortcuts": "Klavye Kısayolları"
+    },
+    "personas": {
+      "title": "Personaların",
+      "description": "Sohbet personalarını yönet",
+      "create": "Persona Oluştur",
+      "empty": "Henüz persona yok. Başlamak için bir tane oluştur!",
+      "setAsDefault": "Varsayılan Olarak Ayarla",
+      "isDefault": "Varsayılan",
+      "deleteConfirmation": "\"{name}\" adlı personayı silmek istediğinden emin misin? Bu işlem geri alınamaz."
+    },
+    "contact": {
+      "title": "Yardım etmek için buradayız!",
+      "featureIdea": "Harika bir fikrin mi var?",
+      "featureDesc": "Gelecek özellikler için oy ver veya kendi fikirlerini öner",
+      "bugReport": "Küçük bir hata mı buldun?",
+      "bugDesc": "Arayüz sorunları veya biçimlendirme hataları mı? Buradan bildir :)",
+      "community": "Topluluğa katılmak ister misin?",
+      "communityDesc": "Discord'umuza gel! Ekip ve diğer kullanıcılarla sohbet et"
+    }
+  },
   "pokebox": {
+    "meta": {
+      "title": "CharX PokeBox - AI Karakter Kütüphanen | OpenTamago",
+      "description": "Kayıtlı AI karakter kartlarını, lorebook'ları ve varlıkları incele, yönet ve düzenle. Tam gizlilik için yerel depolama. Ücretsiz ve açık kaynak."
+    },
     "title": "CharX PokeBox",
     "subtitle": "Kayıtlı karakter kartlarınızı, lorebook'larınızı ve varlıklarınızı görüntüleyin.",
     "description": "Kayıtlı AI karakterlerinizi tek bir yerde yönetin.",

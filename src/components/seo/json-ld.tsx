@@ -3,7 +3,7 @@ export function WebApplicationJsonLd() {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     name: "OpenTamago",
-    url: "https://opentamago.vercel.app",
+    url: "https://open.tamago.chat",
     applicationCategory: "EntertainmentApplication",
     operatingSystem: "Web Browser",
     offers: {
@@ -22,12 +22,12 @@ export function WebApplicationJsonLd() {
       "Password-protected sharing",
       "QR code sharing",
     ],
-    screenshot: "https://opentamago.vercel.app/og-image.png",
+    screenshot: "https://open.tamago.chat/og-image.png",
     softwareVersion: "1.0.0",
     author: {
       "@type": "Organization",
       name: "OpenTamago",
-      url: "https://opentamago.vercel.app",
+      url: "https://open.tamago.chat",
     },
   };
 
@@ -44,8 +44,8 @@ export function OrganizationJsonLd() {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "OpenTamago",
-    url: "https://opentamago.vercel.app",
-    logo: "https://opentamago.vercel.app/favicon.ico",
+    url: "https://open.tamago.chat",
+    logo: "https://open.tamago.chat/favicon.ico",
     sameAs: ["https://github.com/opentamago"],
   };
 
@@ -62,12 +62,12 @@ export function WebsiteJsonLd() {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: "OpenTamago",
-    url: "https://opentamago.vercel.app",
+    url: "https://open.tamago.chat",
     potentialAction: {
       "@type": "SearchAction",
       target: {
         "@type": "EntryPoint",
-        urlTemplate: "https://opentamago.vercel.app/charx?q={search_term_string}",
+        urlTemplate: "https://open.tamago.chat/charx?q={search_term_string}",
       },
       "query-input": "required name=search_term_string",
     },

@@ -1,0 +1,986 @@
+{
+  "common": {
+    "appName": "OpenTamago",
+    "tagline": "โปรแกรมดูและแชร์ตัวละคร AI แบบโอเพนซอร์ส",
+    "loading": "กำลังโหลด...",
+    "error": "อุ๊ปส์ มีบางอย่างผิดพลาด",
+    "retry": "ลองอีกครั้ง",
+    "comingSoon": "เร็วๆ นี้"
+  },
+  "experimental": {
+    "badge": "ทดลอง",
+    "charx": "ฟีเจอร์นี้ยังอยู่ระหว่างการพัฒนา! ออกแบบมาเพื่อรองรับ CharX เวอร์ชัน 3 แต่เรายังคงปรับปรุงอยู่",
+    "p2p": "ใช้ WebRTC สำหรับการเชื่อมต่อ P2P โดยตรง กรุณาแชร์ QR โค้ดและลิงก์กับคนที่คุณไว้ใจเท่านั้น!",
+    "chat": "ฟีเจอร์แชทนี้มีไว้สำหรับการดีบักที่นักพัฒนาทดสอบ LLM ในเครื่อง กรุณาใช้บริการอื่นสำหรับแชท AI",
+    "feedback": "มีความคิดเห็นหรือพบบั๊ก? แจ้งเราได้ที่ <link>GitHub Issues</link>!"
+  },
+  "actions": {
+    "save": "บันทึก",
+    "cancel": "ยกเลิก",
+    "delete": "ลบ",
+    "edit": "แก้ไข",
+    "close": "ปิด",
+    "submit": "ส่ง",
+    "upload": "อัปโหลด",
+    "download": "ดาวน์โหลด",
+    "confirmDelete": "ยืนยันการลบ"
+  },
+  "home": {
+    "hero": {
+      "title": "ตัวละคร AI ของคุณ",
+      "titleHighlight": "เพื่อน",
+      "description": "ดู แชร์ และแชทกับตัวละคร AI ตั้งแต่โปรแกรมดู CharX ไปจนถึงการแชร์ CharX แบบ P2P ทุกอย่างฟรีและโอเพนซอร์ส"
+    },
+    "cta": {
+      "openViewer": "เปิดโปรแกรมดู CharX",
+      "viewGithub": "ดูบน GitHub",
+      "tryViewer": "ลองโปรแกรมดู CharX",
+      "startSharing": "เริ่มแชร์ CharX",
+      "startConnect": "เริ่มเซสชัน CharX",
+      "p2pLabel": "ฟีเจอร์ P2P"
+    },
+    "features": {
+      "title": "ทุกสิ่งที่คุณต้องการ",
+      "description": "ชุดเครื่องมือครบวงจรสำหรับผู้ชื่นชอบตัวละคร AI",
+      "charxViewer": {
+        "title": "โปรแกรมดู CharX",
+        "description": "ดูการ์ดตัวละคร lorebook และ asset จากไฟล์ CharX ทุกอย่างทำงานในเบราว์เซอร์ของคุณ"
+      },
+      "p2pSharing": {
+        "title": "แชร์ CharX แบบ P2P",
+        "description": "แชร์ไฟล์ตัวละครโดยตรงกับเพื่อนผ่าน P2P ไม่ต้องอัปโหลดเซิร์ฟเวอร์ โอนถ่ายทันที!"
+      },
+      "connect": {
+        "title": "แชทหลายตัวละคร P2P",
+        "description": "สร้างเซสชันแชทกับตัวละคร AI หลายตัว เชิญเพื่อนและดูตัวละครคุยกัน"
+      }
+    },
+    "showcase": {
+      "badge": "โปรแกรมดู CharX",
+      "title": "ดูไฟล์ตัวละครได้ง่ายๆ",
+      "dragDrop": {
+        "title": "ลากและวาง",
+        "description": "แค่วางไฟล์ .charx เพื่อดูเนื้อหาข้างในทันที"
+      },
+      "cardInfo": {
+        "title": "ข้อมูลตัวละครทั้งหมดในมุมมองเดียว",
+        "description": "ดูรายละเอียดตัวละคร lorebook รูปภาพ และอื่นๆ"
+      },
+      "clientSide": {
+        "title": "ประมวลผลในเครื่อง 100%",
+        "description": "ไฟล์ของคุณไม่เคยออกจากเบราว์เซอร์ รับประกันความเป็นส่วนตัว!"
+      },
+      "dropzone": {
+        "title": "วางไฟล์ .charx ที่นี่",
+        "subtitle": "หรือคลิกเพื่อเรียกดู"
+      }
+    },
+    "p2pShowcase": {
+      "badge": "แชร์ CharX แบบ P2P",
+      "title": "แชร์การ์ดตัวละครทันที",
+      "sender": "คุณ",
+      "receivers": "เพื่อน",
+      "directTransfer": "โอนถ่ายโดยตรงระหว่างเบราว์เซอร์",
+      "qrCode": {
+        "title": "QR โค้ดและลิงก์แชร์",
+        "description": "สร้าง QR โค้ดและลิงก์สำหรับโอนถ่ายผ่านมือถือ"
+      },
+      "webrtc": {
+        "title": "โอนถ่ายโดยตรงผ่าน WebRTC",
+        "description": "ไฟล์ไปตรงระหว่างเบราว์เซอร์ ไม่มีการเก็บบนเซิร์ฟเวอร์"
+      },
+      "password": {
+        "title": "ป้องกันด้วยรหัสผ่าน",
+        "description": "ป้องกันการแชร์ด้วยรหัสผ่านถ้าต้องการ"
+      }
+    },
+    "highlights": {
+      "privacy": {
+        "title": "ประมวลผลในเครื่อง 100%",
+        "description": "ดูไฟล์ CharX ในเบราว์เซอร์ของคุณ ข้อมูลไม่เคยออกจากอุปกรณ์"
+      },
+      "fast": {
+        "title": "เชื่อมต่อ P2P โดยตรง",
+        "description": "แชร์ไฟล์และแชทกับเพื่อนโดยตรง ไม่มีเซิร์ฟเวอร์คั่นกลาง!"
+      },
+      "openSource": {
+        "title": "โอเพนซอร์ส",
+        "description": "โค้ดทั้งหมดเปิดเผย ร่วมพัฒนา ปรับแต่ง และทำให้เป็นของคุณ"
+      }
+    },
+    "ready": {
+      "title": "พร้อมเริ่มต้นหรือยัง?",
+      "description": "สำรวจไฟล์ตัวละครด้วยโปรแกรมดูที่คำนึงถึงความเป็นส่วนตัว"
+    },
+    "demo": {
+      "charx": {
+        "tabs": {
+          "character": "ตัวละคร",
+          "lorebook": "Lorebook",
+          "assets": "Asset"
+        },
+        "greetings": "รูปแบบคำทักทาย",
+        "lorebookEntries": "{count} รายการ",
+        "assetsFound": "{count} asset",
+        "fileReceived": "ได้รับไฟล์แล้ว",
+        "processing": "กำลังประมวลผล..."
+      },
+      "p2p": {
+        "selectFile": "เลือกไฟล์",
+        "generating": "กำลังสร้าง...",
+        "scanToJoin": "สแกนเพื่อเข้าร่วม",
+        "waiting": "รอ...",
+        "readyToScan": "พร้อมสแกน",
+        "scanning": "กำลังสแกน...",
+        "connecting": "กำลังเชื่อมต่อ...",
+        "complete": "เสร็จสิ้น!",
+        "waitingConnection": "รอ...",
+        "connected": "เชื่อมต่อแล้ว",
+        "transferred": "โอนถ่ายแล้ว!"
+      },
+      "connect": {
+        "waitingRoom": "ห้องรอ",
+        "participants": "ผู้เข้าร่วม",
+        "chat": "แชท",
+        "p2pBadge": "เชื่อมต่อ P2P แล้ว",
+        "message1": "เฮ้! พร้อมแชทหรือยัง?",
+        "message2": "ไปเลย!",
+        "aiReply": "ยินดีที่ได้พบทุกคน!",
+        "inputPlaceholder": "พิมพ์ข้อความ..."
+      }
+    },
+    "connectShowcase": {
+      "badge": "P2P Connect",
+      "poweredBy": "เข้าร่วมกับตัวละครของคุณ",
+      "title": "เชื่อมต่อ AI ของคุณกับคนอื่น",
+      "description": "สร้างห้องแชทกับตัวละคร AI และเชิญเพื่อน ดู AI ต่างๆ คุยกันแบบเรียลไทม์ สนุกแน่นอน!",
+      "realtime": {
+        "title": "แชท P2P",
+        "description": "เชื่อมต่อเบราว์เซอร์โดยตรง แชทกับเพื่อนโดยไม่ต้องผ่านเซิร์ฟเวอร์"
+      },
+      "aiPowered": {
+        "title": "ตอบอัตโนมัติด้วย AI",
+        "description": "แต่ละตัวละครตอบด้วยบุคลิกของตัวเอง"
+      },
+      "multiParty": {
+        "title": "สูงสุด 8 คน",
+        "description": "แชร์ QR โค้ดหรือลิงก์เพื่อเชิญเพื่อน"
+      }
+    }
+  },
+  "charx": {
+    "title": "โปรแกรมดู CharX",
+    "subtitle": "ดูการ์ดตัวละคร lorebook และ asset ทำงานในเบราว์เซอร์ของคุณ!",
+    "description": "เปิดไฟล์ตัวละคร CharX ในเบราว์เซอร์ ดูการ์ดตัวละคร lorebook และ asset ด้วยความเป็นส่วนตัวเต็มที่",
+    "upload": {
+      "title": "อัปโหลดไฟล์ CharX",
+      "description": "ลากและวางไฟล์ .charx หรือคลิกเพื่อเรียกดู",
+      "dropHere": "วางไฟล์ที่นี่",
+      "invalidFile": "รองรับเฉพาะไฟล์ .charx",
+      "dropFiles": "วางไฟล์ .charx ที่นี่",
+      "browseMultiple": "หรือคลิกเพื่อเรียกดู (หลายไฟล์ได้)",
+      "downloadLink": "ดาวน์โหลดไฟล์ตัวละคร (.charx) ที่ <link>realm.risuai.net</link>",
+      "unsupportedFile": "ไฟล์ไม่รองรับ: {names} รองรับเฉพาะไฟล์ .charx",
+      "unsupportedFiles": "ไฟล์ไม่รองรับ: {names} รองรับเฉพาะไฟล์ .charx",
+      "andMore": " และอีก {count}",
+      "or": "หรือ",
+      "realmPlaceholder": "วาง URL RisuRealm หรือ ID ตัวละคร...",
+      "realmDownload": "ดาวน์โหลด",
+      "realmHint": "ใช้งานได้กับ URL realm.risuai.net หรือ UUID ตัวละคร",
+      "realmDownloadSuccess": "ดาวน์โหลดตัวละครแล้ว!",
+      "realmError": {
+        "INVALID_UUID": "ID หรือ URL RisuRealm ไม่ถูกต้อง",
+        "INVALID_CHARX": "ไม่พบตัวละครนั้นบน RisuRealm ตรวจสอบ ID?",
+        "FILE_TOO_LARGE": "ไฟล์ใหญ่เกินไป ({size}) ลองดาวน์โหลดและอัปโหลดเอง",
+        "DOWNLOAD_FAILED": "ไม่สามารถดาวน์โหลดจาก RisuRealm ลองอีกครั้ง?"
+      },
+      "tryDemo": "ลองตัวละครตัวอย่าง",
+      "demoHint": "โหลดตัวละครตัวอย่างเพื่อสำรวจโปรแกรมดู"
+    },
+    "tabs": {
+      "character": "ตัวละคร",
+      "lorebook": "Lorebook",
+      "assets": "Asset",
+      "module": "โมดูล"
+    },
+    "empty": {
+      "noCharacterCard": "ไม่พบการ์ดตัวละคร",
+      "noLorebook": "ไม่พบ lorebook",
+      "noModule": "ไม่พบโมดูล",
+      "noAssets": "ไม่มี asset ในหมวดนี้",
+      "noAssetsInFile": "ไม่มี asset ในไฟล์นี้",
+      "noModuleContent": "ไม่มีเนื้อหาโมดูล",
+      "noTriggerScripts": "ไม่มี trigger script",
+      "noRegexScripts": "ไม่มี regex script",
+      "noCommonJSCode": "ไม่มีโค้ด CommonJS"
+    },
+    "files": {
+      "title": "ไฟล์",
+      "loaded": "โหลด {count} ไฟล์แล้ว",
+      "parsing": "กำลังแยกวิเคราะห์...",
+      "dropMore": "วางไฟล์ .charx เพิ่มหรือคลิกเพื่อเพิ่ม",
+      "queue": "คิว",
+      "queued": "อยู่ในคิว",
+      "delete": "ลบ"
+    },
+    "assets": {
+      "title": "Asset",
+      "totalExtracted": "รวม {count} asset",
+      "sort": "เรียง",
+      "group": "จัดกลุ่ม",
+      "sortAZ": "ก-ฮ",
+      "sortZA": "ฮ-ก",
+      "sortByFilename": "ตามชื่อไฟล์",
+      "groupByFilename": "จัดกลุ่มตามชื่อไฟล์",
+      "emotions": "อารมณ์",
+      "icons": "ไอคอน",
+      "backgrounds": "พื้นหลัง",
+      "other": "อื่นๆ",
+      "cardMetadata": "ข้อมูลเมตาการ์ด ({count} อ้างอิง)",
+      "cardMetadataPlural": "ข้อมูลเมตาการ์ด ({count} อ้างอิง)"
+    },
+    "module": {
+      "title": "โมดูล: {name}",
+      "unnamed": "ไม่มีชื่อ",
+      "noDescription": "ไม่มีคำอธิบาย",
+      "triggers": "ทริกเกอร์",
+      "triggersCount": "{count} ทริกเกอร์",
+      "regex": "Regex",
+      "regexCount": "{count} Regex",
+      "code": "โค้ด",
+      "cjsCode": "โค้ด CJS",
+      "lowLevelAccess": "การเข้าถึงระดับต่ำ"
+    },
+    "character": {
+      "unnamedCharacter": "ตัวละครไม่มีชื่อ",
+      "byCreator": "{creator}",
+      "tabs": {
+        "basic": "พื้นฐาน",
+        "messages": "ข้อความ",
+        "prompts": "Prompt",
+        "others": "อื่นๆ"
+      },
+      "viewMode": {
+        "list": "รายการ",
+        "raw": "ดิบ",
+        "markdown": "Markdown"
+      },
+      "expandAll": "ขยายทั้งหมด",
+      "collapseAll": "ย่อทั้งหมด",
+      "saveAsFile": "บันทึกเป็นไฟล์",
+      "copyToClipboard": "คัดลอกไปคลิปบอร์ด",
+      "created": "สร้างเมื่อ",
+      "modified": "แก้ไขเมื่อ",
+      "empty": "ว่างเปล่า",
+      "loreCount": "{count} lorebook",
+      "assetsCount": "{count} asset"
+    },
+    "lorebook": {
+      "title": "Lorebook ตัวละคร",
+      "entries": "{count} รายการ",
+      "noEntries": "ไม่มีรายการ lorebook",
+      "enabled": "เปิดใช้งาน",
+      "disabled": "ปิดใช้งาน",
+      "priority": "ลำดับความสำคัญ",
+      "noKeys": "ไม่มีคีย์",
+      "moreKeys": "+{count} เพิ่มเติม",
+      "moreKeysPrefix": "+"
+    },
+    "toast": {
+      "copiedToClipboard": "คัดลอกแล้ว!",
+      "failedToCopy": "คัดลอกไม่สำเร็จ",
+      "fileSaved": "บันทึกไฟล์แล้ว",
+      "lorebookCopied": "คัดลอก JSON lorebook แล้ว!",
+      "characterCopied": "คัดลอก JSON ตัวละครแล้ว!",
+      "couldNotCopy": "ไม่สามารถคัดลอกไปคลิปบอร์ด"
+    },
+    "errorBoundary": {
+      "title": "อุ๊ปส์ มีบางอย่างผิดพลาด",
+      "description": "เกิดข้อผิดพลาดที่ไม่คาดคิด กรุณารีเฟรชหน้า",
+      "refreshPage": "รีเฟรช"
+    },
+    "export": {
+      "button": "บันทึกลงฐานข้อมูล",
+      "title": "บันทึกตัวละครลงฐานข้อมูล",
+      "description": "บันทึกตัวละครและ lorebook ในเครื่องเพื่อเข้าถึงในแชท",
+      "character": {
+        "title": "ตัวละคร",
+        "unnamed": "ไม่มีชื่อ",
+        "description": "ข้อมูลการ์ดตัวละครรวมถึงชื่อ คำอธิบาย บุคลิก และข้อความ",
+        "moreTags": "เพิ่มเติม"
+      },
+      "lorebook": {
+        "title": "Lorebook",
+        "entries": "รายการ",
+        "description": "รายการ lorebook จะถูกบันทึกสำหรับบริบทในแชท",
+        "noLorebook": "ไม่มี lorebook ในไฟล์ตัวละครนี้"
+      },
+      "info": "หลังจากบันทึก คุณสามารถนำเข้าการ์ดตัวละครสำหรับการแชร์ P2P และเชื่อมต่อได้ง่ายๆ",
+      "infoMessages": {
+        "databaseReady": "ฐานข้อมูลพร้อม! คุณสามารถบันทึกได้แล้ว"
+      },
+      "save": "บันทึก",
+      "cancel": "ยกเลิก",
+      "saving": "กำลังบันทึก...",
+      "loading": "กำลังโหลด...",
+      "success": {
+        "title": "บันทึกแล้ว!",
+        "description": "{name} ถูกบันทึกลงฐานข้อมูลแล้ว",
+        "goToChat": "ไปที่แชท"
+      },
+      "error": {
+        "title": "บันทึกไม่สำเร็จ",
+        "description": "มีบางอย่างผิดพลาดขณะบันทึก ลองอีกครั้ง?",
+        "databaseNotReady": "ฐานข้อมูลยังไม่พร้อม รอสักครู่แล้วลองอีกครั้ง",
+        "databaseInitFailed": "ไม่สามารถเริ่มฐานข้อมูล รีเฟรชหน้าแล้วลองอีกครั้ง"
+      },
+      "initializing": "กำลังเริ่มต้น..."
+    },
+    "shareP2P": "แชร์ผ่าน P2P",
+    "error": "ข้อผิดพลาด",
+    "warning": "คำเตือน",
+    "filesExcluded": "{count} ไฟล์ถูกยกเว้นเนื่องจากขนาดเกินจำกัด (>50MB):"
+  },
+  "errors": {
+    "notFound": {
+      "title": "404",
+      "heading": "ไม่พบหน้า",
+      "description": "หน้าที่คุณกำลังค้นหาไม่มีอยู่หรือถูกย้ายแล้ว",
+      "goHome": "กลับหน้าแรก",
+      "openCharxViewer": "โปรแกรมดู CharX"
+    },
+    "generic": {
+      "title": "อุ๊ปส์ มีบางอย่างผิดพลาด",
+      "description": "เกิดข้อผิดพลาดที่ไม่คาดคิด ลองอีกครั้งหรือกลับหน้าแรก",
+      "retry": "ลองอีกครั้ง",
+      "goHome": "กลับหน้าแรก"
+    },
+    "charx": {
+      "title": "ข้อผิดพลาดโปรแกรมดู CharX",
+      "description": "มีบางอย่างผิดพลาดขณะโหลดโปรแกรมดู ไฟล์อาจเสียหายหรือมีปัญหาความเข้ากันได้ของเบราว์เซอร์",
+      "retry": "ลองอีกครั้ง",
+      "goHome": "กลับหน้าแรก"
+    },
+    "pokebox": {
+      "title": "ข้อผิดพลาด CharX PokeBox",
+      "description": "มีบางอย่างผิดพลาดขณะโหลดตัวละครที่บันทึก กรุณาลองรีเฟรชหน้า",
+      "retry": "ลองอีกครั้ง",
+      "goHome": "กลับหน้าแรก"
+    }
+  },
+  "footer": {
+    "description": "แพลตฟอร์มตัวละคร AI แบบโอเพนซอร์ส ดู แชร์ และแชทกับตัวละคร AI",
+    "product": "ผลิตภัณฑ์",
+    "resources": "ทรัพยากร",
+    "documentation": "เอกสาร",
+    "legal": "กฎหมาย",
+    "privacy": "นโยบายความเป็นส่วนตัว",
+    "terms": "ข้อกำหนดการให้บริการ",
+    "copyright": "OpenTamago สงวนลิขสิทธิ์"
+  },
+  "nav": {
+    "home": "หน้าแรก",
+    "charxViewer": "โปรแกรมดู CharX",
+    "charxPokebox": "CharX PokeBox",
+    "p2pShare": "แชร์ P2P",
+    "chat": "แชท",
+    "connect": "P2P Connect",
+    "howItWorks": "วิธีใช้งาน",
+    "github": "GitHub",
+    "toggleMenu": "สลับเมนู",
+    "navigationMenu": "เมนู"
+  },
+  "p2p": {
+    "title": "แชร์ CharX แบบ P2P",
+    "subtitle": "แชร์ไฟล์ตัวละครโดยตรงกับเพื่อน P2P หมายความว่าไม่มีเซิร์ฟเวอร์คั่นกลาง",
+    "privacyNote": "ไฟล์ถูกโอนถ่ายโดยตรงระหว่างเบราว์เซอร์ผ่าน WebRTC ไม่มีอะไรถูกเก็บบนเซิร์ฟเวอร์",
+    "confirmTitle": "พร้อมแชร์",
+    "confirmSubtitle": "ตรวจสอบไฟล์และตั้งรหัสผ่านถ้าต้องการ",
+    "passwordLabel": "รหัสผ่าน (ไม่บังคับ)",
+    "passwordPlaceholder": "ใส่รหัสผ่าน...",
+    "passwordHint": "เว้นว่างเพื่อแชร์โดยไม่มีรหัสผ่าน",
+    "cancel": "ยกเลิก",
+    "start": "เริ่มแชร์",
+    "connecting": "กำลังเชื่อมต่อ...",
+    "sharingTitle": "กำลังแชร์ไฟล์",
+    "sharingSubtitle": "เปิดแท็บนี้ไว้ แชร์ลิงก์ด้านล่างเพื่อให้คนอื่นดาวน์โหลด",
+    "stopSharing": "หยุดแชร์",
+    "stopSharingConfirm": "หยุดแชร์จริงๆ?",
+    "stopSharingDescription": "การดาวน์โหลดที่กำลังดำเนินอยู่จะถูกตัด",
+    "confirmStop": "ใช่ หยุด",
+    "sharingWarning": "การแชร์จะถูกตัดถ้าคุณออกหรือรีเฟรช เปิดแท็บนี้ไว้",
+    "dropzone": {
+      "dropHere": "วางไฟล์ที่นี่",
+      "dropToShare": "วางไฟล์ .charx เพื่อแชร์",
+      "orClickToBrowse": "หรือคลิกเพื่อเรียกดู"
+    },
+    "download": {
+      "title": "ดาวน์โหลดไฟล์ CharX",
+      "connecting": "กำลังเชื่อมต่อกับผู้อัปโหลด...",
+      "connectionFailed": "ไม่สามารถเชื่อมต่อกับผู้อัปโหลด อาจปิดเบราว์เซอร์แล้ว",
+      "notFound": "ไม่พบลิงก์แชร์หรือหมดอายุ",
+      "notFoundDescription": "ไฟล์ที่คุณกำลังค้นหาไม่มีให้บริการแล้ว ผู้อัปโหลดอาจหยุดแชร์แล้ว",
+      "passwordRequired": "ไฟล์นี้มีรหัสผ่านป้องกัน",
+      "passwordPlaceholder": "ใส่รหัสผ่าน...",
+      "passwordError": "รหัสผ่านผิด ลองอีกครั้ง?",
+      "submit": "ส่ง",
+      "readyTitle": "พร้อมดาวน์โหลด",
+      "readyDescription": "คลิกด้านล่างเพื่อเริ่มดาวน์โหลด",
+      "startDownload": "ดาวน์โหลด",
+      "downloading": "กำลังดาวน์โหลด...",
+      "complete": "ดาวน์โหลดเสร็จสิ้น!",
+      "completeDescription": "ได้รับไฟล์ของคุณสำเร็จแล้ว",
+      "charxDetected": "เป็นไฟล์ตัวละคร!",
+      "charxDescription": "บันทึกตัวละครและ lorebook ลงฐานข้อมูลด้วยคลิกเดียว",
+      "saveToDatabase": "บันทึกลงฐานข้อมูล",
+      "downloadAnother": "ดาวน์โหลดไฟล์อื่น",
+      "goHome": "กลับหน้าแรก",
+      "troubleshooting": "ใช้เวลานานเกินไป? ผู้อัปโหลดอาจอยู่หลังไฟร์วอลล์หรือปิดเบราว์เซอร์แล้ว",
+      "sharePrompt": "อยากแชร์ไฟล์ CharX ด้วยไหม?",
+      "startSharing": "เริ่มแชร์ CharX"
+    }
+  },
+  "theme": {
+    "toggle": "สลับธีม",
+    "light": "สว่าง",
+    "dark": "มืด",
+    "system": "ระบบ"
+  },
+  "chat": {
+    "leftPanel": {
+      "create": "สร้าง",
+      "createCharacter": "สร้างตัวละคร",
+      "importCharx": "นำเข้า .charx",
+      "createPersona": "สร้างเปอร์โซน่า",
+      "noCharacters": "ยังไม่มีตัวละคร",
+      "createOne": "สร้างหนึ่งตัว",
+      "noDescription": "ไม่มีคำอธิบาย",
+      "characters": "ตัวละคร",
+      "chats": "แชท",
+      "recentChats": "แชทล่าสุด",
+      "newChat": "แชทใหม่",
+      "noChats": "ยังไม่มีแชท",
+      "startOne": "เริ่มหนึ่งอัน",
+      "yesterday": "เมื่อวาน",
+      "deleteChat": "ลบแชทนี้?",
+      "deleteCharacter": "ลบ \"{name}\"? จะลบแชทที่เกี่ยวข้องทั้งหมดด้วย",
+      "importing": "กำลังนำเข้า...",
+      "importSuccess": "นำเข้าตัวละครแล้ว",
+      "importError": "นำเข้าไม่สำเร็จ",
+      "chatTitle": "ชื่อแชท",
+      "editChatTitleDescription": "เปลี่ยนชื่อการสนทนานี้",
+      "chatTitlePlaceholder": "ใส่ชื่อแชท..."
+    },
+    "centerPanel": {
+      "selectCharacter": "เลือกตัวละครและแชทเพื่อเริ่มต้น",
+      "createFromLeft": "หรือสร้างตัวละครใหม่จากแผงด้านซ้าย",
+      "apiKeyRequired": "ต้องการ API Key",
+      "configureApiKey": "ตั้งค่า Gemini API key เพื่อเริ่มแชท",
+      "openSettings": "เปิดการตั้งค่า",
+      "clearChat": "ล้างแชท",
+      "thinking": "กำลังคิด...",
+      "messagePlaceholder": "ส่งข้อความถึง {name}...",
+      "clearAllMessages": "ล้างข้อความทั้งหมดในแชทนี้?",
+      "selectPersona": "เลือกเปอร์โซน่า",
+      "noPersonas": "ยังไม่มีเปอร์โซน่า",
+      "createPersona": "สร้างเปอร์โซน่า",
+      "selectPersonaToSend": "เลือกเปอร์โซน่าเพื่อส่งข้อความ",
+      "createPersonaAction": "สร้าง",
+      "reasoning": "การให้เหตุผล",
+      "translate": "แปล",
+      "translating": "กำลังแปล...",
+      "showOriginal": "แสดงต้นฉบับ",
+      "showTranslation": "แสดงคำแปล",
+      "translated": "แปลแล้ว",
+      "original": "ต้นฉบับ",
+      "translationError": "การแปลล้มเหลว",
+      "translationNotConfigured": "ยังไม่ได้ตั้งค่าการแปล",
+      "generateImage": "สร้างภาพ",
+      "generatingImage": "กำลังสร้าง...",
+      "imageGenerationError": "สร้างภาพไม่สำเร็จ",
+      "imageGenerationNotConfigured": "ยังไม่ได้ตั้งค่าการสร้างภาพ",
+      "imageGenerated": "สร้างภาพสำเร็จ",
+      "generateVoice": "สร้างเสียง",
+      "generatingVoice": "กำลังสร้าง...",
+      "voiceGenerationError": "สร้างเสียงไม่สำเร็จ",
+      "voiceGenerationNotConfigured": "ยังไม่ได้ตั้งค่าการสร้างเสียง",
+      "voiceGenerated": "สร้างเสียงสำเร็จ"
+    },
+    "rightPanel": {
+      "selectCharacter": "เลือกตัวละครเพื่อดูรายละเอียด",
+      "characterDetails": "รายละเอียดตัวละคร",
+      "personality": "บุคลิก",
+      "scenario": "สถานการณ์",
+      "firstMessage": "ข้อความแรก",
+      "exampleDialogue": "บทสนทนาตัวอย่าง",
+      "systemPrompt": "System Prompt",
+      "noPersonaDetails": "ยังไม่ได้ตั้งค่ารายละเอียดเปอร์โซน่า",
+      "creatorNotes": "บันทึกผู้สร้าง",
+      "created": "สร้างเมื่อ",
+      "lastUpdated": "อัปเดตล่าสุด",
+      "persona": "เปอร์โซน่า",
+      "info": "ข้อมูล",
+      "deleteCharacter": "ลบ \"{name}\"? แชทที่เกี่ยวข้องทั้งหมดจะถูกลบด้วย ไม่สามารถยกเลิกได้"
+    },
+    "editor": {
+      "editCharacter": "แก้ไขตัวละคร",
+      "createCharacter": "สร้างตัวละคร",
+      "editPersona": "แก้ไขเปอร์โซน่า",
+      "createPersona": "สร้างเปอร์โซน่า",
+      "modifyPersona": "แก้ไขรายละเอียดเปอร์โซน่าของคุณ",
+      "createPersonaDesc": "สร้างเปอร์โซน่าเพื่อแทนตัวคุณในแชท",
+      "modifyCharacter": "แก้ไขรายละเอียดตัวละครของคุณ",
+      "createCharacterDesc": "สร้างตัวละครใหม่เพื่อแชทด้วย",
+      "uploadAvatar": "อัปโหลดอวาตาร์",
+      "avatarHint": "PNG, JPG ไม่เกิน 2MB",
+      "basic": "พื้นฐาน",
+      "persona": "เปอร์โซน่า",
+      "details": "รายละเอียด",
+      "advanced": "ขั้นสูง",
+      "nameLabel": "ชื่อ",
+      "nameRequired": "ชื่อ *",
+      "yourName": "ชื่อของคุณ",
+      "characterName": "ชื่อตัวละคร",
+      "description": "คำอธิบาย",
+      "descriptionPersona": "คำอธิบายสั้นๆ เกี่ยวกับตัวคุณ",
+      "descriptionCharacter": "คำอธิบายสั้นๆ เกี่ยวกับตัวละครของคุณ",
+      "firstMessage": "ข้อความแรก",
+      "firstMessagePlaceholder": "ข้อความแรกที่ตัวละครจะส่ง",
+      "personality": "บุคลิก",
+      "personalityCharacter": "อธิบายลักษณะบุคลิก พฤติกรรม ความแปลก...",
+      "scenario": "สถานการณ์",
+      "scenarioPlaceholder": "ฉากหรือบริบทสำหรับการสนทนา",
+      "exampleDialogue": "บทสนทนาตัวอย่าง",
+      "exampleDialoguePlaceholder": "การสนทนาตัวอย่างเพื่อกำหนดโทน...",
+      "systemPrompt": "System Prompt",
+      "systemPromptPlaceholder": "System prompt ที่กำหนดเอง (แทนที่ค่าเริ่มต้น)",
+      "creatorNotes": "บันทึกผู้สร้าง",
+      "privateNotes": "บันทึกส่วนตัว",
+      "notesPlaceholder": "บันทึกส่วนตัว (ไม่ส่งไป AI)",
+      "saving": "กำลังบันทึก...",
+      "saveChanges": "บันทึกการเปลี่ยนแปลง"
+    },
+    "settings": {
+      "title": "การตั้งค่า",
+      "description": "ตั้งค่า API ของคุณ ทุกอย่างถูกเก็บในเครื่อง",
+      "apiSection": "API",
+      "apiKeySection": "API Key",
+      "apiKeyDescription": "กำหนดค่าการเชื่อมต่อ API และการตั้งค่าโมเดล",
+      "chatUISection": "UI แชท",
+      "chatUIDescription": "ปรับแต่งวิธีแสดงข้อความแชท",
+      "databaseSection": "ฐานข้อมูล",
+      "safety": "ความปลอดภัย",
+      "apiMode": "โหมด API",
+      "apiModeServer": "API เซิร์ฟเวอร์",
+      "apiModeServerDesc": "ใช้ API key ของเซิร์ฟเวอร์",
+      "apiModeClient": "API Key ของคุณ",
+      "apiModeClientDesc": "เป็นส่วนตัวมากขึ้น",
+      "geminiApiKey": "Gemini API Key",
+      "enterApiKey": "ใส่ Gemini API key ของคุณ",
+      "getApiKey": "รับ API key จาก",
+      "googleAiStudio": "Google AI Studio",
+      "defaultModel": "โมเดลเริ่มต้น",
+      "selectModel": "เลือกโมเดล",
+      "temperature": "Temperature",
+      "maxTokens": "Token สูงสุด",
+      "bubbleTheme": "ธีมฟองแชท",
+      "themeRoleplay": "Roleplay",
+      "themeRoleplayDesc": "ข้อความมีสไตล์พร้อมเครื่องหมายคำพูดและการกระทำ",
+      "themeMessenger": "Messenger",
+      "themeMessengerDesc": "ข้อความธรรมดา ไม่มีการจัดรูปแบบ",
+      "database": {
+        "title": "การจัดการฐานข้อมูล",
+        "description": "ดูสถิติฐานข้อมูลและจัดการข้อมูลในเครื่อง",
+        "storageUsage": "การใช้พื้นที่เก็บข้อมูล",
+        "collections": "คอลเล็กชัน",
+        "actions": "การดำเนินการ",
+        "exportData": "ส่งออกข้อมูล",
+        "dangerZone": "โซนอันตราย",
+        "resetWarning": "การดำเนินการนี้จะลบข้อมูลทั้งหมดอย่างถาวร รวมถึงตัวละคร แชท ข้อความ และการตั้งค่า ใช้เมื่อพบปัญหาการย้ายข้อมูล",
+        "resetDatabase": "รีเซ็ตฐานข้อมูล",
+        "resetting": "กำลังรีเซ็ต..."
+      },
+      "safetyDescription": "ตั้งค่าตัวกรองความปลอดภัยเนื้อหา โดยค่าเริ่มต้นตัวกรองทั้งหมดปิดสำหรับ roleplay ไม่จำกัด",
+      "hateSpeech": "Hate Speech",
+      "harassment": "การล่วงละเมิด",
+      "sexuallyExplicit": "เนื้อหาทางเพศ",
+      "dangerousContent": "เนื้อหาอันตราย",
+      "blockNone": "ไม่บล็อก",
+      "blockLow": "บล็อกต่ำ+",
+      "blockMedium": "บล็อกปานกลาง+",
+      "blockHigh": "บล็อกสูงเท่านั้น",
+      "saving": "กำลังบันทึก...",
+      "saved": "บันทึกการตั้งค่าแล้ว"
+    }
+  },
+  "connect": {
+    "meta": {
+      "title": "แชทหลายตัวละคร P2P",
+      "description": "สร้างเซสชันที่ตัวละคร AI สามารถแชทกันได้"
+    },
+    "title": "แชทหลายตัวละคร P2P",
+    "subtitle": "แชทกับตัวละคร AI หลายตัวร่วมกัน P2P หมายความว่าไม่มีเซิร์ฟเวอร์คั่นกลาง",
+    "tabs": {
+      "existing": "ตัวละครของฉัน",
+      "upload": "อัปโหลด .charx",
+      "photo": "จากรูปภาพ"
+    },
+    "noCharacters": "ไม่พบตัวละคร",
+    "createInChat": "สร้างหนึ่งตัวในแชท",
+    "upload": {
+      "title": "อัปโหลดไฟล์ CharX",
+      "description": "วางไฟล์ .charx หรือคลิกเพื่อเลือก",
+      "formats": "รองรับเฉพาะไฟล์ .charx",
+      "error": "นำเข้าไม่สำเร็จ",
+      "confirm": "ยืนยันและใช้ตัวละครนี้"
+    },
+    "photo": {
+      "dropTitle": "อัปโหลดรูปภาพ",
+      "dropDescription": "วางรูปภาพหรือคลิกเพื่อเลือก AI จะสร้างตัวละครจากมัน",
+      "selectFile": "เลือกรูปภาพ",
+      "invalidType": "กรุณาเลือกไฟล์รูปภาพ (PNG, JPG, WebP หรือ GIF)",
+      "tooLarge": "รูปภาพใหญ่เกินไป สูงสุด 10MB",
+      "contextLabel": "คำใบ้ (ไม่บังคับ)",
+      "contextPlaceholder": "เช่น 'นักรบแฟนตาซี' หรือ 'ทำให้เป็นมิตร'",
+      "contextHint": "เพิ่มคำใบ้เพื่อแนะนำการสร้างตัวละคร",
+      "generating": "กำลังสร้างตัวละคร...",
+      "generate": "สร้างตัวละคร",
+      "generated": "{name} พร้อมแล้ว!",
+      "generateError": "ไม่สามารถสร้างตัวละคร ลองอีกครั้ง?",
+      "noApiKey": "กรุณาตั้งค่า Gemini API key ในการตั้งค่าก่อน",
+      "apiKeyRequired": "ต้องการ API Key",
+      "apiKeyDescription": "เพื่อสร้างตัวละครจากรูปภาพ ตั้งค่า Gemini API key ในการตั้งค่า",
+      "goToSettings": "ไปที่การตั้งค่า"
+    },
+    "creating": "กำลังสร้างเซสชัน...",
+    "joining": "กำลังเข้าร่วมเซสชัน...",
+    "confirm": {
+      "subtitle": "ตรวจสอบตัวละครและตั้งรหัสผ่านถ้าต้องการ",
+      "passwordHint": "คนอื่นจะต้องใช้รหัสผ่านนี้เพื่อเข้าร่วมเซสชันของคุณ",
+      "start": "สร้างเซสชัน"
+    },
+    "lobby": {
+      "title": "ห้องรอ",
+      "hostDescription": "แชร์ลิงก์ด้านล่างเพื่อเชิญคนอื่น",
+      "guestDescription": "รอให้โฮสต์เริ่ม",
+      "shortUrl": "URL สั้น",
+      "longUrl": "URL ยาว",
+      "copied": "คัดลอกลิงก์แล้ว!",
+      "copyFailed": "คัดลอกลิงก์ไม่สำเร็จ",
+      "participants": "ผู้เข้าร่วม",
+      "you": "คุณ",
+      "host": "โฮสต์",
+      "connecting": "กำลังเชื่อมต่อ...",
+      "selectingCharacter": "กำลังเลือกตัวละคร...",
+      "waitingForOthers": "รอคนอื่น...",
+      "leave": "ออก",
+      "startChat": "เริ่มแชท",
+      "needMoreParticipants": "ต้องมีอย่างน้อย 2 คนเพื่อเริ่ม"
+    },
+    "chat": {
+      "title": "แชท",
+      "participants": "ผู้เข้าร่วม",
+      "active": "ใช้งาน",
+      "pending": "รอดำเนินการ",
+      "autoReply": "ตอบอัตโนมัติ",
+      "noMessages": "ยังไม่มีข้อความ พูดอะไรสักอย่าง!",
+      "unknown": "ไม่ทราบ",
+      "generating": "กำลังคิด...",
+      "thinking": "{name} กำลังคิด...",
+      "placeholder": "ส่งข้อความในฐานะ {name}...",
+      "userJoined": "{name} เข้าร่วม",
+      "userLeft": "{name} ออกไป"
+    },
+    "leaveConfirm": {
+      "title": "ออกจากเซสชัน?",
+      "description": "คุณจะถูกตัดการเชื่อมต่อจากผู้เข้าร่วมทั้งหมดและออกจากแชท",
+      "confirm": "ออก"
+    },
+    "join": {
+      "meta": {
+        "title": "เข้าร่วมเซสชัน",
+        "description": "เข้าร่วมเซสชันแชทหลายตัวละคร"
+      },
+      "title": "เข้าร่วมเซสชัน",
+      "subtitle": "เลือกตัวละครเพื่อเข้าร่วม",
+      "currentParticipants": "{count} คนอยู่ในเซสชันแล้ว",
+      "passwordProtected": "เซสชันนี้ต้องใช้รหัสผ่าน",
+      "enterPassword": "รหัสผ่าน",
+      "passwordHintJoin": "ใส่รหัสผ่านที่โฮสต์แชร์มา",
+      "passwordRequired": "ต้องใช้รหัสผ่านเพื่อเข้าร่วม",
+      "passwordError": "รหัสผ่านผิด ลองอีกครั้ง?",
+      "joinButton": "เข้าร่วมเซสชัน"
+    },
+    "notifications": {
+      "joined": "{name} เข้าร่วม",
+      "left": "{name} ออกไป"
+    },
+    "status": {
+      "connecting": "กำลังเชื่อมต่อ...",
+      "connected": "เชื่อมต่อแล้ว",
+      "connectedInfo": "คุณพร้อมเชื่อมต่อเซสชัน P2P",
+      "disconnected": "ตัดการเชื่อมต่อแล้ว"
+    },
+    "errors": {
+      "noPeer": "การเชื่อมต่อเครือข่ายล้มเหลว รีเฟรชหน้าแล้วลองอีกครั้ง",
+      "hostLeft": "โฮสต์ยุติเซสชันแล้ว",
+      "sessionFull": "เซสชันเต็ม",
+      "sessionFullDescription": "เซสชันนี้มีผู้เข้าร่วมครบจำนวนสูงสุดแล้ว",
+      "createOwn": "สร้างเซสชันของคุณเอง",
+      "connectionFailed": "การเชื่อมต่อล้มเหลว",
+      "connectionFailedDescription": "ไม่สามารถเชื่อมต่อกับเซสชัน โฮสต์อาจออกไปแล้วหรือมีปัญหาเครือข่าย",
+      "tryAgain": "ลองอีกครั้ง",
+      "apiNotReady": "ต้องการ API Key",
+      "apiNotReadyDescription": "กรุณาตั้งค่า API key ในการตั้งค่าเพื่อใช้ฟีเจอร์ AI",
+      "openSettings": "เปิดการตั้งค่า"
+    }
+  },
+  "howItWorks": {
+    "meta": {
+      "title": "วิธีใช้งาน | OpenTamago",
+      "description": "เรียนรู้วิธีใช้โปรแกรมดู CharX แชร์ P2P และแชทหลายตัวละคร P2P"
+    },
+    "hero": {
+      "title": "วิธีใช้งาน",
+      "description": "เรียนรู้วิธีดู แชร์ และแชทกับตัวละคร AI ด้วย OpenTamago"
+    },
+    "tryNow": "ลองเลย",
+    "charx": {
+      "title": "โปรแกรมดู CharX",
+      "description": "เปิดไฟล์ตัวละคร CharX ในเบราว์เซอร์ ทุกอย่างถูกประมวลผลในเครื่องเพื่อความเป็นส่วนตัว",
+      "steps": {
+        "upload": {
+          "title": "อัปโหลดไฟล์",
+          "description": "ลากและวางไฟล์ .charx หรือคลิกเพื่อเรียกดู"
+        },
+        "view": {
+          "title": "ดูตัวละคร",
+          "description": "ดูรายละเอียดตัวละคร บุคลิก และคำทักทาย"
+        },
+        "lorebook": {
+          "title": "สำรวจ Lorebook",
+          "description": "เรียกดูรายการ lorebook พร้อมทริกเกอร์คำสำคัญ"
+        },
+        "assets": {
+          "title": "ดู Asset",
+          "description": "ดูรูปภาพที่ฝังไว้ เช่น อารมณ์และอวาตาร์"
+        }
+      },
+      "highlights": {
+        "privacy": "ประมวลผลในเครื่อง 100%",
+        "formats": "รองรับไฟล์ .charx และ .json",
+        "export": "บันทึกตัวละครลงฐานข้อมูลในเครื่อง"
+      }
+    },
+    "p2pShare": {
+      "title": "แชร์ P2P",
+      "description": "แชร์ไฟล์โดยตรงกับเพื่อนผ่าน P2P ไม่มีอะไรถูกเก็บบนเซิร์ฟเวอร์",
+      "steps": {
+        "select": {
+          "title": "เลือกไฟล์",
+          "description": "เลือกไฟล์เพื่อแชร์"
+        },
+        "generate": {
+          "title": "สร้างลิงก์",
+          "description": "รับ QR โค้ดและลิงก์แชร์"
+        },
+        "transfer": {
+          "title": "โอนถ่ายโดยตรง",
+          "description": "ไฟล์ถูกโอนถ่ายโดยตรงผ่าน WebRTC"
+        },
+        "receive": {
+          "title": "ดาวน์โหลด",
+          "description": "ผู้รับดาวน์โหลดโดยตรงจากคุณ"
+        }
+      },
+      "highlights": {
+        "noServer": "ไม่มีการเก็บบนเซิร์ฟเวอร์",
+        "password": "ป้องกันด้วยรหัสผ่าน (ไม่บังคับ)",
+        "qrCode": "QR โค้ดสำหรับแชร์ผ่านมือถือ"
+      }
+    },
+    "p2pConnect": {
+      "title": "แชทหลายตัวละคร P2P",
+      "description": "สร้างเซสชันแชทหลายตัวละคร เชิญเพื่อนและให้ตัวละคร AI คุยกัน",
+      "steps": {
+        "select": {
+          "title": "เลือกตัวละคร",
+          "description": "เลือกจากคลังของคุณหรือสร้างใหม่"
+        },
+        "invite": {
+          "title": "เชิญเพื่อน",
+          "description": "แชร์ลิงก์หรือ QR โค้ดเพื่อเชิญ"
+        },
+        "chat": {
+          "title": "เริ่มแชท",
+          "description": "ส่งข้อความในฐานะตัวละครของคุณ"
+        },
+        "ai": {
+          "title": "AI ตอบกลับ",
+          "description": "เปิดตอบอัตโนมัติสำหรับการตอบกลับ AI"
+        }
+      },
+      "highlights": {
+        "realtime": "ส่งข้อความ P2P แบบเรียลไทม์",
+        "multiParty": "สูงสุด 8 ตัวละครต่อเซสชัน",
+        "autoReply": "ตอบอัตโนมัติด้วย AI"
+      }
+    },
+    "privacy": {
+      "title": "ความเป็นส่วนตัวมาก่อน",
+      "description": "ฟีเจอร์ทั้งหมดของ OpenTamago ถูกสร้างขึ้นโดยคำนึงถึงความเป็นส่วนตัว ข้อมูลของคุณอยู่ในอุปกรณ์ของคุณ",
+      "noServer": {
+        "title": "ไม่มีการเก็บบนเซิร์ฟเวอร์",
+        "description": "ไฟล์ไม่เคยถูกอัปโหลดไปยังเซิร์ฟเวอร์ของเรา ทุกอย่างเกิดขึ้นในเบราว์เซอร์ของคุณ"
+      },
+      "encrypted": {
+        "title": "การโอนถ่ายที่เข้ารหัส",
+        "description": "การเชื่อมต่อ P2P ใช้ WebRTC พร้อมการเข้ารหัสในตัว"
+      },
+      "openSource": {
+        "title": "โอเพนซอร์ส",
+        "description": "โค้ดทั้งหมดเปิดเผยและมีอยู่บน GitHub"
+      }
+    }
+  },
+  "localeDetector": {
+    "title": "ยินดีต้อนรับ!",
+    "description": "เราตรวจพบว่าภาษาเบราว์เซอร์ของคุณอาจแตกต่างจากหน้าปัจจุบัน ต้องการเปลี่ยนไหม?",
+    "selectLanguage": "เลือกภาษาของคุณ",
+    "dontShowAgain": "ไม่ต้องแสดงอีก",
+    "continue": "เปลี่ยนภาษา",
+    "stayHere": "อยู่ที่นี่"
+  },
+  "settings": {
+    "pageTitle": "การตั้งค่า",
+    "pageDescription": "จัดการเปอร์โซน่า API key โมเดล และการตั้งค่าฐานข้อมูล",
+    "backToChat": "กลับไปแชท",
+    "tabs": {
+      "personas": "เปอร์โซน่า",
+      "apiKeys": "API Key",
+      "models": "โมเดล",
+      "database": "ฐานข้อมูล",
+      "contact": "ติดต่อ"
+    },
+    "leftPanel": {
+      "defaultPersona": "เปอร์โซน่าเริ่มต้น",
+      "noDefaultPersona": "ไม่มีเปอร์โซน่าเริ่มต้น",
+      "editPersona": "แก้ไข",
+      "stats": "สถิติฐานข้อมูล",
+      "shortcuts": "ปุ่มลัด"
+    },
+    "personas": {
+      "title": "เปอร์โซน่าของคุณ",
+      "description": "จัดการเปอร์โซน่าแชทของคุณ",
+      "create": "สร้างเปอร์โซน่า",
+      "empty": "ยังไม่มีเปอร์โซน่า สร้างหนึ่งอันเพื่อเริ่มต้น!",
+      "setAsDefault": "ตั้งเป็นค่าเริ่มต้น",
+      "isDefault": "ค่าเริ่มต้น",
+      "deleteConfirmation": "คุณแน่ใจหรือไม่ที่จะลบ \"{name}\"? การดำเนินการนี้ไม่สามารถยกเลิกได้"
+    },
+    "contact": {
+      "title": "เราพร้อมช่วยเหลือ!",
+      "featureIdea": "มีไอเดียฟีเจอร์เจ๋งๆ?",
+      "featureDesc": "โหวตฟีเจอร์ที่กำลังจะมาหรือเสนอของคุณเอง",
+      "bugReport": "พบบั๊กไม่ร้ายแรง?",
+      "bugDesc": "บั๊ก UI หรือปัญหาการจัดรูปแบบ? รายงานที่นี่ :)",
+      "community": "อยากเข้าร่วมชุมชน?",
+      "communityDesc": "มาเที่ยวใน Discord! พูดคุยกับทีมและผู้ใช้คนอื่น"
+    }
+  },
+  "pokebox": {
+    "meta": {
+      "title": "CharX PokeBox - คลังตัวละคร AI ของคุณ | OpenTamago",
+      "description": "เรียกดู จัดการ และจัดระเบียบการ์ดตัวละคร AI lorebook และ asset ที่บันทึกไว้ เก็บข้อมูลในเครื่องเพื่อความเป็นส่วนตัว ฟรีและโอเพนซอร์ส"
+    },
+    "title": "CharX PokeBox",
+    "subtitle": "ดูการ์ดตัวละคร lorebook และ asset ที่เก็บไว้",
+    "description": "เรียกดูและจัดการตัวละคร AI ที่บันทึกไว้ในที่เดียว",
+    "selectCharacter": "เลือกตัวละครเพื่อดูรายละเอียด",
+    "moduleNotStored": "โมดูลไม่ถูกเก็บในฐานข้อมูล",
+    "back": "กลับ",
+    "tabs": {
+      "character": "ตัวละคร",
+      "lorebook": "Lorebook",
+      "assets": "Asset",
+      "module": "โมดูล"
+    },
+    "characterList": {
+      "title": "ตัวละครของฉัน",
+      "search": "ค้นหาตัวละคร...",
+      "empty": "ยังไม่มีตัวละครที่บันทึก",
+      "noResults": "ไม่มีตัวละครที่ตรงกับการค้นหา",
+      "importFromCharx": "นำเข้าจาก CharX"
+    },
+    "deleteConfirm": {
+      "title": "ลบตัวละคร?",
+      "description": "การดำเนินการนี้จะลบ \"{name}\" และข้อมูลที่เกี่ยวข้องทั้งหมดรวมถึงรายการ lorebook และ asset ไม่สามารถยกเลิกได้",
+      "cancel": "ยกเลิก",
+      "confirm": "ลบ"
+    },
+    "byCreator": "{creator}",
+    "unnamedCharacter": "ตัวละครไม่มีชื่อ",
+    "created": "สร้างเมื่อ",
+    "modified": "แก้ไขเมื่อ",
+    "empty": "ว่างเปล่า",
+    "expandAll": "ขยายทั้งหมด",
+    "collapseAll": "ย่อทั้งหมด",
+    "greetingIndex": "คำทักทาย {index}",
+    "viewMode": {
+      "list": "รายการ",
+      "raw": "ดิบ",
+      "markdown": "Markdown"
+    },
+    "characterTabs": {
+      "basic": "พื้นฐาน",
+      "messages": "ข้อความ",
+      "prompts": "Prompt",
+      "others": "อื่นๆ"
+    },
+    "fields": {
+      "description": "คำอธิบาย",
+      "personality": "บุคลิก",
+      "scenario": "สถานการณ์",
+      "firstMessage": "ข้อความแรก",
+      "exampleDialogue": "บทสนทนาตัวอย่าง",
+      "alternateGreetings": "คำทักทายทางเลือก",
+      "groupOnlyGreetings": "คำทักทายกลุ่มเท่านั้น",
+      "systemPrompt": "System Prompt",
+      "postHistoryInstructions": "คำสั่งหลังประวัติ",
+      "creatorInfo": "ข้อมูลผู้สร้าง",
+      "creator": "ผู้สร้าง",
+      "characterVersion": "เวอร์ชัน",
+      "dates": "วันที่",
+      "creatorNotes": "บันทึกผู้สร้าง"
+    },
+    "lorebook": {
+      "title": "รายการ Lorebook",
+      "entries": "{count} รายการ",
+      "noEntries": "ไม่มีรายการ lorebook สำหรับตัวละครนี้",
+      "enabled": "เปิดใช้งาน",
+      "disabled": "ปิดใช้งาน",
+      "priority": "ลำดับความสำคัญ",
+      "noKeys": "ไม่มีคีย์",
+      "moreKeys": "+{count} เพิ่มเติม"
+    },
+    "assets": {
+      "title": "Asset ตัวละคร",
+      "totalExtracted": "รวม {count} asset",
+      "noAssets": "ไม่มี asset ในหมวดนี้",
+      "sort": "เรียง",
+      "group": "จัดกลุ่ม",
+      "sortAZ": "ก-ฮ",
+      "sortZA": "ฮ-ก",
+      "sortByFilename": "ตามชื่อไฟล์",
+      "groupByFilename": "จัดกลุ่มตามชื่อไฟล์",
+      "emotions": "อารมณ์",
+      "icons": "ไอคอน",
+      "backgrounds": "พื้นหลัง",
+      "other": "อื่นๆ"
+    },
+    "toast": {
+      "copiedToClipboard": "คัดลอกแล้ว!",
+      "failedToCopy": "คัดลอกไม่สำเร็จ"
+    }
+  }
+}

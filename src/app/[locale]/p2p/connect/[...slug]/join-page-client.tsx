@@ -17,7 +17,8 @@ import {
   useAutoReply,
 } from "~/app/_components/connect";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
-import { useSettings } from "~/lib/db/hooks";
+import { useSettings, useProviderSettings, useGenerationSettings } from "~/lib/db/hooks";
+import type { LLMProvider } from "~/lib/ai";
 import { SettingsModal } from "~/components/settings-modal";
 import { Button } from "~/components/ui/button";
 import { Link } from "~/i18n/routing";
@@ -56,7 +57,15 @@ function JoinPageContent({
   const t = useTranslations("connect");
   const tP2p = useTranslations("p2p");
   const { peer, peerId, isConnecting: peerConnecting, error: peerError } = useWebRTCPeer();
-  const { settings, isApiReady, effectiveApiKey, isClientMode } = useSettings();
+  const { settings } = useSettings();
+  const { providers, isProviderReady } = useProviderSettings();
+  const { getChatSettings } = useGenerationSettings();
+
+  // Get provider settings for chat
+  const chatGenSettings = getChatSettings();
+  const chatProviderId = (chatGenSettings?.providerId ?? "gemini") as LLMProvider;
+  const chatProviderSettings = providers.get(chatProviderId);
+  const isApiReady = isProviderReady(chatProviderId);
 
   const [state, setState] = useState<JoinState>(isFull ? "full" : "selecting");
   const [selectedCharacter, setSelectedCharacter] = useState<CharacterData | null>(null);
@@ -133,11 +142,11 @@ function JoinPageContent({
     myPeerId: peerId,
     myCharacter: selectedCharacter,
     enabled: autoReplyEnabled,
-    apiKey: effectiveApiKey ?? null,
+    providerId: chatProviderId,
+    providerSettings: chatProviderSettings,
     isApiReady,
-    isClientMode,
-    model: settings?.defaultModel,
-    temperature: settings?.temperature,
+    model: chatGenSettings?.model ?? settings?.defaultModel,
+    temperature: chatGenSettings?.temperature ?? settings?.temperature,
     onResponse: (content) => {
       sendChatMessage(content, false);
     },
@@ -369,7 +378,12 @@ function JoinPageContent({
               </p>
             </div>
           </div>
-          <SettingsModal open={settingsOpen} onOpenChange={setSettingsOpen} />
+          <SettingsModal
+            open={settingsOpen}
+            onOpenChange={setSettingsOpen}
+            hideTextScenarios={["translation"]}
+            hideThinking={true}
+          />
         </div>
         {initialParticipants.length > 0 && state === "selecting" && (
           <p className="text-sm text-muted-foreground mt-2">

@@ -22,7 +22,8 @@
     "close": "Fermer",
     "submit": "Envoyer",
     "upload": "Téléverser",
-    "download": "Télécharger"
+    "download": "Télécharger",
+    "confirmDelete": "Confirmer la suppression"
   },
   "home": {
     "hero": {
@@ -472,19 +473,38 @@
     },
     "centerPanel": {
       "selectCharacter": "Choisis un personnage et un chat pour commencer",
-      "createFromLeft": "Ou crée un nouveau personnage depuis le panneau de gauche",
+      "createFromLeft": "Ou crée-en un nouveau depuis le panneau de gauche",
       "apiKeyRequired": "Clé API requise",
-      "configureApiKey": "Configure ta clé API Gemini pour commencer à discuter.",
+      "configureApiKey": "Configure ta clé API Gemini pour discuter.",
       "openSettings": "Ouvrir les paramètres",
       "clearChat": "Effacer le chat",
       "thinking": "Réflexion...",
-      "messagePlaceholder": "Message à {name}...",
+      "messagePlaceholder": "Dis quelque chose à {name}...",
       "clearAllMessages": "Effacer tous les messages de ce chat ?",
       "selectPersona": "Sélectionner un persona",
       "noPersonas": "Pas encore de personas.",
       "createPersona": "Créer un persona",
-      "selectPersonaToSend": "Sélectionne un persona pour envoyer des messages",
-      "createPersonaAction": "Créer"
+      "selectPersonaToSend": "Choisis un persona pour envoyer des messages",
+      "createPersonaAction": "Créer",
+      "reasoning": "Raisonnement",
+      "translate": "Traduire",
+      "translating": "Traduction en cours...",
+      "showOriginal": "Afficher l'original",
+      "showTranslation": "Afficher la traduction",
+      "translated": "Traduit",
+      "original": "Original",
+      "translationError": "Échec de la traduction",
+      "translationNotConfigured": "Traduction non configurée",
+      "generateImage": "Générer une image",
+      "generatingImage": "Génération...",
+      "imageGenerationError": "Échec de la génération d'image",
+      "imageGenerationNotConfigured": "Génération d'image non configurée",
+      "imageGenerated": "Image générée",
+      "generateVoice": "Générer la voix",
+      "generatingVoice": "Génération...",
+      "voiceGenerationError": "Échec de la génération vocale",
+      "voiceGenerationNotConfigured": "Génération vocale non configurée",
+      "voiceGenerated": "Voix générée"
     },
     "rightPanel": {
       "selectCharacter": "Sélectionne un personnage pour voir les détails",
@@ -589,7 +609,8 @@
       "blockLow": "Bloquer Bas+",
       "blockMedium": "Bloquer Moyen+",
       "blockHigh": "Bloquer Élevé seulement",
-      "saving": "Enregistrement..."
+      "saving": "Enregistrement...",
+      "saved": "Paramètres enregistrés"
     }
   },
   "connect": {
@@ -662,12 +683,12 @@
       "active": "Actif",
       "pending": "En attente",
       "autoReply": "Réponse auto",
-      "noMessages": "Pas encore de messages. Dis quelque chose !",
+      "noMessages": "Pas encore de messages. Dis quelque chose~!",
       "unknown": "Inconnu",
       "generating": "Réflexion...",
       "thinking": "{name} réfléchit...",
       "placeholder": "Message en tant que {name}...",
-      "userJoined": "{name} a rejoint",
+      "userJoined": "{name} est là",
       "userLeft": "{name} est parti"
     },
     "leaveConfirm": {
@@ -824,13 +845,54 @@
   },
   "localeDetector": {
     "title": "Bienvenue !",
-    "description": "Nous avons détecté que la langue de ton navigateur pourrait être différente de la page actuelle. Voudrais-tu changer ?",
-    "selectLanguage": "Sélectionne ta langue",
+    "description": "On dirait que la langue de ton navigateur est différente. Tu veux changer ?",
+    "selectLanguage": "Choisis ta langue",
     "dontShowAgain": "Ne plus afficher",
     "continue": "Changer de langue",
     "stayHere": "Rester ici"
   },
+  "settings": {
+    "pageTitle": "Paramètres",
+    "pageDescription": "Gère tes personas, API Keys, modèles et paramètres de base de données.",
+    "backToChat": "Retour au Chat",
+    "tabs": {
+      "personas": "Personas",
+      "apiKeys": "API Keys",
+      "models": "Modèles",
+      "database": "Base de données",
+      "contact": "Contact"
+    },
+    "leftPanel": {
+      "defaultPersona": "Persona par défaut",
+      "noDefaultPersona": "Aucune persona par défaut",
+      "editPersona": "Modifier",
+      "stats": "Statistiques de la base de données",
+      "shortcuts": "Raccourcis clavier"
+    },
+    "personas": {
+      "title": "Tes Personas",
+      "description": "Gère tes personas de chat",
+      "create": "Créer une Persona",
+      "empty": "Pas encore de personas. Crées-en une pour commencer !",
+      "setAsDefault": "Définir par défaut",
+      "isDefault": "Par défaut",
+      "deleteConfirmation": "Es-tu sûr de vouloir supprimer \"{name}\" ? Cette action est irréversible."
+    },
+    "contact": {
+      "title": "On est là pour t'aider !",
+      "featureIdea": "Tu as une super idée ?",
+      "featureDesc": "Vote pour les prochaines fonctionnalités ou propose les tiennes",
+      "bugReport": "Tu as trouvé un petit bug ?",
+      "bugDesc": "Problèmes d'interface ou de mise en forme ? Signale-les ici :)",
+      "community": "Tu veux rejoindre la communauté ?",
+      "communityDesc": "Viens sur notre Discord ! Discute avec l'équipe et les autres utilisateurs"
+    }
+  },
   "pokebox": {
+    "meta": {
+      "title": "CharX PokeBox - Ta Bibliothèque de Personnages IA | OpenTamago",
+      "description": "Parcours, gère et organise tes fiches de personnages IA, lorebooks et assets sauvegardés. Stockage local pour une confidentialité totale. Gratuit et open source."
+    },
     "title": "CharX PokeBox",
     "subtitle": "Visualise tes fiches de personnages, lorebooks et assets sauvegardés.",
     "description": "Parcours et gère tes personnages IA sauvegardés en un seul endroit.",

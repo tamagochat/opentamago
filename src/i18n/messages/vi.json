@@ -22,7 +22,8 @@
     "close": "Đóng",
     "submit": "Gửi",
     "upload": "Tải lên",
-    "download": "Tải xuống"
+    "download": "Tải xuống",
+    "confirmDelete": "Xác nhận xóa"
   },
   "home": {
     "hero": {
@@ -484,7 +485,26 @@
       "noPersonas": "Chưa có persona nào.",
       "createPersona": "Tạo persona",
       "selectPersonaToSend": "Chọn persona để gửi tin nhắn",
-      "createPersonaAction": "Tạo"
+      "createPersonaAction": "Tạo",
+      "reasoning": "Suy luận",
+      "translate": "Dịch",
+      "translating": "Đang dịch...",
+      "showOriginal": "Hiển thị gốc",
+      "showTranslation": "Hiển thị bản dịch",
+      "translated": "Đã dịch",
+      "original": "Gốc",
+      "translationError": "Dịch thất bại",
+      "translationNotConfigured": "Chưa cấu hình dịch",
+      "generateImage": "Tạo ảnh",
+      "generatingImage": "Đang tạo...",
+      "imageGenerationError": "Tạo ảnh thất bại",
+      "imageGenerationNotConfigured": "Chưa cấu hình tạo ảnh",
+      "imageGenerated": "Đã tạo ảnh",
+      "generateVoice": "Tạo giọng nói",
+      "generatingVoice": "Đang tạo...",
+      "voiceGenerationError": "Tạo giọng nói thất bại",
+      "voiceGenerationNotConfigured": "Chưa cấu hình tạo giọng nói",
+      "voiceGenerated": "Đã tạo giọng nói"
     },
     "rightPanel": {
       "selectCharacter": "Chọn nhân vật để xem chi tiết",
@@ -589,7 +609,8 @@
       "blockLow": "Chặn Thấp+",
       "blockMedium": "Chặn Trung Bình+",
       "blockHigh": "Chỉ Chặn Cao",
-      "saving": "Đang lưu..."
+      "saving": "Đang lưu...",
+      "saved": "Đã lưu cài đặt"
     }
   },
   "connect": {
@@ -823,6 +844,10 @@
     }
   },
   "pokebox": {
+    "meta": {
+      "title": "CharX PokeBox - Thư Viện Nhân Vật AI Của Bạn | OpenTamago",
+      "description": "Duyệt, quản lý và sắp xếp thẻ nhân vật AI, lorebook và tài nguyên đã lưu. Lưu trữ cục bộ để bảo mật hoàn toàn. Miễn phí và mã nguồn mở."
+    },
     "title": "CharX PokeBox",
     "subtitle": "Xem thẻ nhân vật đã lưu, lorebook và tài nguyên của bạn.",
     "description": "Duyệt và quản lý các nhân vật AI đã lưu của bạn ở một nơi.",
@@ -920,5 +945,42 @@
     "dontShowAgain": "Không hiện lại",
     "continue": "Chuyển Ngôn Ngữ",
     "stayHere": "Ở Lại Đây"
+  },
+  "settings": {
+    "pageTitle": "Cài đặt",
+    "pageDescription": "Quản lý persona, API Keys, model và cài đặt cơ sở dữ liệu của bạn.",
+    "backToChat": "Quay lại Chat",
+    "tabs": {
+      "personas": "Persona",
+      "apiKeys": "API Keys",
+      "models": "Model",
+      "database": "Cơ sở dữ liệu",
+      "contact": "Liên hệ"
+    },
+    "leftPanel": {
+      "defaultPersona": "Persona mặc định",
+      "noDefaultPersona": "Chưa có persona mặc định",
+      "editPersona": "Chỉnh sửa",
+      "stats": "Thống kê cơ sở dữ liệu",
+      "shortcuts": "Phím tắt"
+    },
+    "personas": {
+      "title": "Persona của bạn",
+      "description": "Quản lý persona chat",
+      "create": "Tạo Persona",
+      "empty": "Chưa có persona nào. Tạo một cái để bắt đầu!",
+      "setAsDefault": "Đặt làm mặc định",
+      "isDefault": "Mặc định",
+      "deleteConfirmation": "Bạn có chắc muốn xóa \"{name}\" không? Hành động này không thể hoàn tác."
+    },
+    "contact": {
+      "title": "Chúng tôi sẵn sàng hỗ trợ!",
+      "featureIdea": "Có ý tưởng hay?",
+      "featureDesc": "Bình chọn tính năng sắp tới hoặc đề xuất ý tưởng của bạn",
+      "bugReport": "Phát hiện lỗi nhỏ?",
+      "bugDesc": "Vấn đề giao diện hoặc định dạng? Báo cáo tại đây :)",
+      "community": "Muốn tham gia cộng đồng?",
+      "communityDesc": "Ghé Discord của chúng tôi! Trò chuyện với đội ngũ và người dùng khác"
+    }
   }
 }

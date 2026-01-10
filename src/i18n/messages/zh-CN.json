@@ -22,7 +22,8 @@
     "close": "关闭",
     "submit": "提交",
     "upload": "上传",
-    "download": "下载"
+    "download": "下载",
+    "confirmDelete": "确定删除"
   },
   "home": {
     "hero": {
@@ -484,7 +485,26 @@
       "noPersonas": "还没有人设呢~",
       "createPersona": "创建人设",
       "selectPersonaToSend": "选个人设再发消息",
-      "createPersonaAction": "创建"
+      "createPersonaAction": "创建",
+      "reasoning": "推理",
+      "translate": "翻译",
+      "translating": "翻译中...",
+      "showOriginal": "显示原文",
+      "showTranslation": "显示翻译",
+      "translated": "已翻译",
+      "original": "原文",
+      "translationError": "翻译失败",
+      "translationNotConfigured": "翻译未配置",
+      "generateImage": "生成图片",
+      "generatingImage": "生成中...",
+      "imageGenerationError": "图片生成失败",
+      "imageGenerationNotConfigured": "图片生成未配置",
+      "imageGenerated": "图片已生成",
+      "generateVoice": "生成语音",
+      "generatingVoice": "生成中...",
+      "voiceGenerationError": "语音生成失败",
+      "voiceGenerationNotConfigured": "语音生成未配置",
+      "voiceGenerated": "语音已生成"
     },
     "rightPanel": {
       "selectCharacter": "选个角色看看详情",
@@ -589,7 +609,8 @@
       "blockLow": "过滤低级+",
       "blockMedium": "过滤中级+",
       "blockHigh": "只过滤高级",
-      "saving": "保存中..."
+      "saving": "保存中...",
+      "saved": "设置已保存"
     }
   },
   "connect": {
@@ -823,6 +844,10 @@
     }
   },
   "pokebox": {
+    "meta": {
+      "title": "CharX PokeBox - 你的 AI 角色库 | OpenTamago",
+      "description": "浏览、管理和整理你保存的 AI 角色卡、世界书和资源。本地优先存储，完全隐私保护。免费开源。"
+    },
     "title": "CharX PokeBox",
     "subtitle": "查看保存的角色卡、世界书和资源。",
     "description": "在这里浏览和管理你保存的 AI 角色。",
@@ -920,5 +945,42 @@
     "dontShowAgain": "不再提示",
     "continue": "切换语言",
     "stayHere": "留在这里"
+  },
+  "settings": {
+    "pageTitle": "设置",
+    "pageDescription": "管理你的角色、API Keys、模型和数据库设置。",
+    "backToChat": "返回聊天",
+    "tabs": {
+      "personas": "角色",
+      "apiKeys": "API Keys",
+      "models": "模型",
+      "database": "数据库",
+      "contact": "联系我们"
+    },
+    "leftPanel": {
+      "defaultPersona": "默认角色",
+      "noDefaultPersona": "无默认角色",
+      "editPersona": "编辑",
+      "stats": "数据库统计",
+      "shortcuts": "键盘快捷键"
+    },
+    "personas": {
+      "title": "你的角色",
+      "description": "管理聊天角色",
+      "create": "创建角色",
+      "empty": "还没有角色。创建一个开始吧！",
+      "setAsDefault": "设为默认",
+      "isDefault": "默认",
+      "deleteConfirmation": "确定要删除\"{name}\"吗？此操作无法撤销。"
+    },
+    "contact": {
+      "title": "我们随时为你服务！",
+      "featureIdea": "有好点子？",
+      "featureDesc": "为即将推出的功能投票或提出建议",
+      "bugReport": "发现小问题？",
+      "bugDesc": "界面问题或格式错误？在这里反馈 :)",
+      "community": "想加入社区？",
+      "communityDesc": "来我们的 Discord 聊聊！和团队及其他用户交流"
+    }
   }
 }

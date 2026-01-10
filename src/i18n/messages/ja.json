@@ -22,7 +22,8 @@
     "close": "閉じる",
     "submit": "送信",
     "upload": "アップロード",
-    "download": "ダウンロード"
+    "download": "ダウンロード",
+    "confirmDelete": "削除を確認"
   },
   "home": {
     "hero": {
@@ -484,7 +485,26 @@
       "noPersonas": "まだペルソナがないよ。",
       "createPersona": "ペルソナを作る",
       "selectPersonaToSend": "メッセージを送るにはペルソナを選んでね",
-      "createPersonaAction": "作る"
+      "createPersonaAction": "作る",
+      "reasoning": "推論",
+      "translate": "翻訳",
+      "translating": "翻訳中...",
+      "showOriginal": "原文を見る",
+      "showTranslation": "翻訳を見る",
+      "translated": "翻訳済み",
+      "original": "原文",
+      "translationError": "翻訳に失敗しました",
+      "translationNotConfigured": "翻訳が設定されていません",
+      "generateImage": "画像を生成",
+      "generatingImage": "生成中...",
+      "imageGenerationError": "画像生成に失敗しました",
+      "imageGenerationNotConfigured": "画像生成が設定されていません",
+      "imageGenerated": "画像が生成されました",
+      "generateVoice": "音声を生成",
+      "generatingVoice": "生成中...",
+      "voiceGenerationError": "音声生成に失敗しました",
+      "voiceGenerationNotConfigured": "音声生成が設定されていません",
+      "voiceGenerated": "音声を生成しました"
     },
     "rightPanel": {
       "selectCharacter": "キャラクターを選んで詳細を見よう",
@@ -589,7 +609,8 @@
       "blockLow": "低以上をブロック",
       "blockMedium": "中以上をブロック",
       "blockHigh": "高のみブロック",
-      "saving": "保存中..."
+      "saving": "保存中...",
+      "saved": "設定を保存しました"
     }
   },
   "connect": {
@@ -830,7 +851,48 @@
     "continue": "言語を切り替える",
     "stayHere": "このまま続ける"
   },
+  "settings": {
+    "pageTitle": "設定",
+    "pageDescription": "ペルソナ、APIキー、モデル、データベースの設定を管理します。",
+    "backToChat": "チャットに戻る",
+    "tabs": {
+      "personas": "ペルソナ",
+      "apiKeys": "APIキー",
+      "models": "モデル",
+      "database": "データベース",
+      "contact": "お問い合わせ"
+    },
+    "leftPanel": {
+      "defaultPersona": "デフォルトペルソナ",
+      "noDefaultPersona": "デフォルトペルソナなし",
+      "editPersona": "編集",
+      "stats": "データベース統計",
+      "shortcuts": "キーボードショートカット"
+    },
+    "personas": {
+      "title": "あなたのペルソナ",
+      "description": "チャットペルソナを管理",
+      "create": "ペルソナを作成",
+      "empty": "ペルソナがまだありません。作成して始めましょう！",
+      "setAsDefault": "デフォルトに設定",
+      "isDefault": "デフォルト",
+      "deleteConfirmation": "「{name}」を削除しますか？この操作は取り消せません。"
+    },
+    "contact": {
+      "title": "サポートが必要ですか？",
+      "featureIdea": "素敵な機能のアイデアがありますか？",
+      "featureDesc": "新機能に投票したり、提案したりできます",
+      "bugReport": "バグを見つけましたか？",
+      "bugDesc": "UIの不具合やフォーマットの問題をここで報告してください :)",
+      "community": "コミュニティに参加しませんか？",
+      "communityDesc": "Discordでチームや他のユーザーとチャットしましょう"
+    }
+  },
   "pokebox": {
+    "meta": {
+      "title": "CharX PokeBox - あなたのAIキャラクターライブラリ | OpenTamago",
+      "description": "保存されたAIキャラクターカード、ロアブック、アセットを管理しよう。ローカル保存で完全なプライバシー。無料でオープンソース。"
+    },
     "title": "CharX PokeBox",
     "subtitle": "保存されたキャラクターカード、ロアブック、アセットを確認しよう。",
     "description": "保存されたAIキャラクターを一か所で管理しよう。",

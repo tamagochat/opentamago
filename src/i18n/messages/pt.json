@@ -22,7 +22,8 @@
     "close": "Fechar",
     "submit": "Enviar",
     "upload": "Enviar",
-    "download": "Baixar"
+    "download": "Baixar",
+    "confirmDelete": "Confirmar exclusão"
   },
   "home": {
     "hero": {
@@ -484,7 +485,26 @@
       "noPersonas": "Nenhuma persona ainda.",
       "createPersona": "Criar persona",
       "selectPersonaToSend": "Selecione uma persona pra enviar mensagens",
-      "createPersonaAction": "Criar"
+      "createPersonaAction": "Criar",
+      "reasoning": "Raciocínio",
+      "translate": "Traduzir",
+      "translating": "Traduzindo...",
+      "showOriginal": "Mostrar original",
+      "showTranslation": "Mostrar tradução",
+      "translated": "Traduzido",
+      "original": "Original",
+      "translationError": "Falha na tradução",
+      "translationNotConfigured": "Tradução não configurada",
+      "generateImage": "Gerar imagem",
+      "generatingImage": "Gerando...",
+      "imageGenerationError": "Falha ao gerar imagem",
+      "imageGenerationNotConfigured": "Geração de imagem não configurada",
+      "imageGenerated": "Imagem gerada",
+      "generateVoice": "Gerar voz",
+      "generatingVoice": "Gerando...",
+      "voiceGenerationError": "Falha ao gerar voz",
+      "voiceGenerationNotConfigured": "Geracao de voz nao configurada",
+      "voiceGenerated": "Voz gerada"
     },
     "rightPanel": {
       "selectCharacter": "Selecione um personagem para ver detalhes",
@@ -589,7 +609,8 @@
       "blockLow": "Bloquear Baixo+",
       "blockMedium": "Bloquear Médio+",
       "blockHigh": "Só Bloquear Alto",
-      "saving": "Salvando..."
+      "saving": "Salvando...",
+      "saved": "Configurações salvas"
     }
   },
   "connect": {
@@ -830,7 +851,48 @@
     "continue": "Mudar Idioma",
     "stayHere": "Ficar Aqui"
   },
+  "settings": {
+    "pageTitle": "Configurações",
+    "pageDescription": "Gerencie suas personas, API Keys, modelos e configurações do banco de dados.",
+    "backToChat": "Voltar ao Chat",
+    "tabs": {
+      "personas": "Personas",
+      "apiKeys": "API Keys",
+      "models": "Modelos",
+      "database": "Banco de Dados",
+      "contact": "Contato"
+    },
+    "leftPanel": {
+      "defaultPersona": "Persona Padrão",
+      "noDefaultPersona": "Nenhuma persona padrão",
+      "editPersona": "Editar",
+      "stats": "Estatísticas do Banco de Dados",
+      "shortcuts": "Atalhos de Teclado"
+    },
+    "personas": {
+      "title": "Suas Personas",
+      "description": "Gerencie suas personas de chat",
+      "create": "Criar Persona",
+      "empty": "Ainda não há personas. Crie uma para começar!",
+      "setAsDefault": "Definir como Padrão",
+      "isDefault": "Padrão",
+      "deleteConfirmation": "Tem certeza de que quer excluir \"{name}\"? Esta ação não pode ser desfeita."
+    },
+    "contact": {
+      "title": "Estamos aqui para ajudar!",
+      "featureIdea": "Tem uma ideia legal?",
+      "featureDesc": "Vote nas próximas funcionalidades ou sugira as suas",
+      "bugReport": "Encontrou um bug menor?",
+      "bugDesc": "Problemas de interface ou formatação? Reporte aqui :)",
+      "community": "Quer fazer parte da comunidade?",
+      "communityDesc": "Venha para nosso Discord! Converse com a equipe e outros usuários"
+    }
+  },
   "pokebox": {
+    "meta": {
+      "title": "CharX PokeBox - Sua Biblioteca de Personagens IA | OpenTamago",
+      "description": "Navegue, gerencie e organize seus cards de personagens IA, lorebooks e assets salvos. Armazenamento local para privacidade total. Grátis e código aberto."
+    },
     "title": "CharX PokeBox",
     "subtitle": "Veja seus cards de personagens, lorebooks e assets salvos.",
     "description": "Navegue e gerencie seus personagens IA salvos em um só lugar.",

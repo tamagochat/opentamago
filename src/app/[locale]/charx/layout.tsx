@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "charx" });
 
-  const baseUrl = "https://opentamago.vercel.app";
+  const baseUrl = "https://open.tamago.chat";
   const localePath = locale === "en" ? "" : `/${locale}`;
   const canonicalUrl = `${baseUrl}${localePath}/charx`;
   const ogLocale = localeToOgLocale[locale] ?? "en_US";

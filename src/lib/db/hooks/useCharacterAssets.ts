@@ -231,6 +231,44 @@ export function useCharacterAssets(characterId?: string) {
     [db],
   );
 
+  /**
+   * Find an asset by name (with or without extension)
+   * Handles edge cases like "Callan_smile5" or "Callan_smile5.png"
+   */
+  const findAssetByName = useCallback(
+    (name: string): CharacterAssetDocument | null => {
+      if (!name) return null;
+
+      // Normalize the name by removing extension if present
+      const nameWithoutExt = name.replace(/\.[^.]+$/, "");
+
+      // First try exact match on name
+      const exactMatch = assets.find((asset) => asset.name === name);
+      if (exactMatch) return exactMatch;
+
+      // Try matching without extension
+      const noExtMatch = assets.find((asset) => asset.name === nameWithoutExt);
+      if (noExtMatch) return noExtMatch;
+
+      // Try matching asset name without its extension against input
+      const assetNoExtMatch = assets.find((asset) => {
+        const assetNameWithoutExt = asset.name.replace(/\.[^.]+$/, "");
+        return assetNameWithoutExt === name || assetNameWithoutExt === nameWithoutExt;
+      });
+      if (assetNoExtMatch) return assetNoExtMatch;
+
+      // Try case-insensitive match
+      const lowerName = nameWithoutExt.toLowerCase();
+      const caseInsensitiveMatch = assets.find((asset) => {
+        const assetNameWithoutExt = asset.name.replace(/\.[^.]+$/, "").toLowerCase();
+        return assetNameWithoutExt === lowerName;
+      });
+
+      return caseInsensitiveMatch ?? null;
+    },
+    [assets],
+  );
+
   return {
     assets,
     isLoading,
@@ -241,5 +279,6 @@ export function useCharacterAssets(characterId?: string) {
     deleteAsset,
     deleteAssetsByCharacter,
     getAssetsByType,
+    findAssetByName,
   };
 }

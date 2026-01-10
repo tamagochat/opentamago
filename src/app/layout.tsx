@@ -43,14 +43,14 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "OpenTamago" }],
   creator: "OpenTamago",
-  metadataBase: new URL("https://opentamago.vercel.app"),
+  metadataBase: new URL("https://open.tamago.chat"),
   alternates: {
-    canonical: "https://opentamago.vercel.app",
+    canonical: "https://open.tamago.chat",
     languages: {
-      en: "https://opentamago.vercel.app",
-      ko: "https://opentamago.vercel.app/ko",
-      ja: "https://opentamago.vercel.app/ja",
-      "x-default": "https://opentamago.vercel.app",
+      en: "https://open.tamago.chat",
+      ko: "https://open.tamago.chat/ko",
+      ja: "https://open.tamago.chat/ja",
+      "x-default": "https://open.tamago.chat",
     },
   },
   openGraph: {

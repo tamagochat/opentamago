@@ -8,7 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Badge } from "~/components/ui/badge";
 import { MessageSquare, Book, Image, Plus, Edit, Trash2 } from "lucide-react";
-import { useChats, useCharacters } from "~/lib/db/hooks";
+import { useChats, useCharacters, useSettings } from "~/lib/db/hooks";
 import { ChatHistoryList } from "./chat-history-list";
 import { LorebookList } from "./lorebook-list";
 import { ImageAssetsList } from "./image-assets-list";
@@ -35,6 +35,7 @@ export function RightPanel({
   const tLeft = useTranslations("chat.leftPanel");
   const { deleteCharacter } = useCharacters();
   const { createChat } = useChats(character?.id);
+  const { settings } = useSettings();
   const [editorOpen, setEditorOpen] = useState(false);
 
   const handleDelete = async () => {
@@ -47,7 +48,11 @@ export function RightPanel({
 
   const handleNewChat = async () => {
     if (!character) return;
-    const chat = await createChat(character.id, `Chat with ${character.name}`);
+    const chat = await createChat(
+      character.id,
+      `Chat with ${character.name}`,
+      settings.defaultPersonaId
+    );
     if (chat) {
       onSelectChat(chat);
     }

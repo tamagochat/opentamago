@@ -11,8 +11,8 @@ import { Card } from "~/components/ui/card";
 import { toast } from "sonner";
 import type { CharacterData } from "~/lib/connect/messages";
 import { CONNECT_CONFIG } from "~/lib/connect";
-import { useSettings } from "~/lib/db/hooks";
-import { generateCharacterFromImage } from "~/lib/ai";
+import { useSettings, useProviderSettings, useGenerationSettings } from "~/lib/db/hooks";
+import { generateCharacterFromImage, type LLMProvider } from "~/lib/ai";
 import { cn } from "~/lib/utils";
 
 interface PhotoUploaderProps {
@@ -22,7 +22,16 @@ interface PhotoUploaderProps {
 
 export function PhotoUploader({ onCharacterGenerated, onOpenSettings }: PhotoUploaderProps) {
   const t = useTranslations("connect");
-  const { settings, isApiReady, effectiveApiKey, isClientMode } = useSettings();
+  const { settings } = useSettings();
+  const { providers, isProviderReady } = useProviderSettings();
+  const { getChatSettings } = useGenerationSettings();
+
+  // Get provider settings for chat (uses same provider as chat generation)
+  const chatGenSettings = getChatSettings();
+  const chatProviderId = (chatGenSettings?.providerId ?? "gemini") as LLMProvider;
+  const chatProviderSettings = providers.get(chatProviderId);
+  const isApiReady = isProviderReady(chatProviderId);
+
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [additionalContext, setAdditionalContext] = useState("");
@@ -92,8 +101,8 @@ export function PhotoUploader({ onCharacterGenerated, onOpenSettings }: PhotoUpl
       const character = await generateCharacterFromImage({
         image: selectedFile,
         context: additionalContext || undefined,
-        apiKey: effectiveApiKey ?? undefined,
-        isClientMode,
+        providerId: chatProviderId,
+        providerSettings: chatProviderSettings!,
       });
 
       // Add the image as avatar
@@ -119,7 +128,7 @@ export function PhotoUploader({ onCharacterGenerated, onOpenSettings }: PhotoUpl
     } finally {
       setIsGenerating(false);
     }
-  }, [selectedFile, selectedImage, additionalContext, t, onCharacterGenerated, isApiReady, effectiveApiKey, isClientMode]);
+  }, [selectedFile, selectedImage, additionalContext, t, onCharacterGenerated, isApiReady, chatProviderId, chatProviderSettings]);
 
   const clearSelection = useCallback(() => {
     setSelectedImage(null);
