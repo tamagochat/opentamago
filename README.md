@@ -6,6 +6,12 @@ View, share, and chat with AI characters. From CharX viewer to P2P-based CharX s
 
 ## Features
 
+| CharX Viewer | P2P CharX Sharing |
+|:---:|:---:|
+| <img src="/public/examples/charx_viewer.png" width="400" alt="CharX Viewer"> | <img src="/public/examples/p2p_share.png" width="400" alt="P2P CharX Sharing"> |
+| **P2P Connect Lobby** | **P2P Connect Chat** |
+| <img src="/public/examples/p2p_connect_lobby.png" width="400" alt="P2P Connect Lobby"> | <img src="/public/examples/p2p_connect_chat.png" width="400" alt="P2P Connect Chat"> |
+
 ### CharX Viewer
 Check out character cards, lorebooks, and assets from CharX files. Everything runs right in your browser.
 

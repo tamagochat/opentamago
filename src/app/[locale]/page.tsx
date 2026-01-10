@@ -23,6 +23,7 @@ import { MainLayout } from "~/components/layout";
 import { CharxViewerDemo } from "./_components/charx-viewer-demo";
 import { P2pSharingDemo } from "./_components/p2p-sharing-demo";
 import { ConnectDemo } from "./_components/connect-demo";
+import { HeroCarousel } from "./_components/hero-carousel";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -165,6 +166,11 @@ export default async function Home({ params }: Props) {
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* Hero Carousel */}
+          <div className="mt-12 sm:mt-16">
+            <HeroCarousel />
           </div>
         </div>
       </section>

@@ -11,7 +11,7 @@ import {
   Upload,
   Eye,
   Book,
-  Image,
+  Image as ImageIcon,
   MessageSquare,
   Bot,
   ArrowRight,
@@ -19,6 +19,7 @@ import {
   Search,
   Sparkles,
 } from "lucide-react";
+import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";
 import { Link } from "~/i18n/routing";
@@ -94,6 +95,7 @@ export default async function HowItWorksPage({ params }: Props) {
       title: t("charx.title"),
       description: t("charx.description"),
       href: "/charx" as const,
+      screenshot: "/examples/charx_viewer.png",
       steps: [
         {
           icon: Upload,
@@ -111,7 +113,7 @@ export default async function HowItWorksPage({ params }: Props) {
           description: t("charx.steps.lorebook.description"),
         },
         {
-          icon: Image,
+          icon: ImageIcon,
           title: t("charx.steps.assets.title"),
           description: t("charx.steps.assets.description"),
         },
@@ -196,6 +198,7 @@ export default async function HowItWorksPage({ params }: Props) {
       title: t("p2pShare.title"),
       description: t("p2pShare.description"),
       href: "/p2p/share" as const,
+      screenshot: "/examples/p2p_share.png",
       steps: [
         {
           icon: Upload,
@@ -230,6 +233,7 @@ export default async function HowItWorksPage({ params }: Props) {
       title: t("p2pConnect.title"),
       description: t("p2pConnect.description"),
       href: "/p2p/connect" as const,
+      screenshots: ["/examples/p2p_connect_lobby.png", "/examples/p2p_connect_chat.png"],
       steps: [
         {
           icon: Users,
@@ -302,6 +306,36 @@ export default async function HowItWorksPage({ params }: Props) {
                     {feature.description}
                   </p>
                 </div>
+
+                {/* Screenshot */}
+                {"screenshot" in feature && feature.screenshot && (
+                  <div className="mb-12 flex justify-center">
+                    <div className="relative rounded-lg overflow-hidden border shadow-lg max-w-3xl">
+                      <Image
+                        src={feature.screenshot}
+                        alt={feature.title}
+                        width={800}
+                        height={500}
+                        className="w-full h-auto"
+                      />
+                    </div>
+                  </div>
+                )}
+                {"screenshots" in feature && feature.screenshots && (
+                  <div className="mb-12 grid gap-4 md:grid-cols-2 max-w-4xl mx-auto">
+                    {feature.screenshots.map((src, idx) => (
+                      <div key={idx} className="relative rounded-lg overflow-hidden border shadow-lg">
+                        <Image
+                          src={src}
+                          alt={`${feature.title} ${idx + 1}`}
+                          width={600}
+                          height={400}
+                          className="w-full h-auto"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
 
                 {/* Steps */}
                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-12">
