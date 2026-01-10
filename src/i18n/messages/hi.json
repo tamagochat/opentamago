@@ -1,0 +1,986 @@
+{
+  "common": {
+    "appName": "OpenTamago",
+    "tagline": "ओपन सोर्स AI कैरेक्टर व्यूअर और शेयरिंग",
+    "loading": "लोड हो रहा है...",
+    "error": "उफ़, कुछ गलत हो गया",
+    "retry": "फिर से कोशिश करें",
+    "comingSoon": "जल्द आ रहा है"
+  },
+  "experimental": {
+    "badge": "प्रयोगात्मक",
+    "charx": "यह फीचर अभी भी विकासाधीन है! यह CharX वर्जन 3 को सपोर्ट करने के लिए डिज़ाइन किया गया है, लेकिन हम इसे अभी भी बेहतर बना रहे हैं।",
+    "p2p": "यह डायरेक्ट P2P कनेक्शन के लिए WebRTC का उपयोग करता है। कृपया QR कोड और लिंक केवल उन लोगों के साथ शेयर करें जिन पर आप भरोसा करते हैं!",
+    "chat": "यह चैट फीचर डिबगिंग के लिए है जहां डेवलपर LLM को लोकली टेस्ट करता है। AI चैट के लिए कृपया अन्य सेवाओं का उपयोग करें।",
+    "feedback": "कोई फीडबैक या बग मिला? हमें <link>GitHub Issues</link> पर बताएं!"
+  },
+  "actions": {
+    "save": "सेव करें",
+    "cancel": "रद्द करें",
+    "delete": "हटाएं",
+    "edit": "संपादित करें",
+    "close": "बंद करें",
+    "submit": "सबमिट करें",
+    "upload": "अपलोड करें",
+    "download": "डाउनलोड करें",
+    "confirmDelete": "हटाने की पुष्टि करें"
+  },
+  "home": {
+    "hero": {
+      "title": "आपका AI कैरेक्टर",
+      "titleHighlight": "दोस्त",
+      "description": "AI कैरेक्टर्स को देखें, शेयर करें और उनसे चैट करें। CharX व्यूअर से लेकर P2P-आधारित CharX शेयरिंग तक, सब कुछ फ्री और ओपन सोर्स है।"
+    },
+    "cta": {
+      "openViewer": "CharX व्यूअर खोलें",
+      "viewGithub": "GitHub पर देखें",
+      "tryViewer": "CharX व्यूअर आज़माएं",
+      "startSharing": "CharX शेयरिंग शुरू करें",
+      "startConnect": "CharX सेशन शुरू करें",
+      "p2pLabel": "P2P फीचर्स"
+    },
+    "features": {
+      "title": "सब कुछ जो आपको चाहिए",
+      "description": "AI कैरेक्टर प्रेमियों के लिए ऑल-इन-वन टूलकिट",
+      "charxViewer": {
+        "title": "CharX व्यूअर",
+        "description": "CharX फाइलों से कैरेक्टर कार्ड्स, लोरबुक्स और एसेट्स देखें। सब कुछ आपके ब्राउज़र में ही चलता है।"
+      },
+      "p2pSharing": {
+        "title": "P2P CharX शेयरिंग",
+        "description": "कैरेक्टर फाइलें सीधे दोस्तों के साथ P2P से शेयर करें। कोई सर्वर अपलोड नहीं, तुरंत ट्रांसफर!"
+      },
+      "connect": {
+        "title": "P2P मल्टी-कैरेक्टर चैट",
+        "description": "कई AI कैरेक्टर्स के साथ चैट सेशन बनाएं। दोस्तों को आमंत्रित करें और देखें कैरेक्टर्स एक-दूसरे से बातचीत करते हुए।"
+      }
+    },
+    "showcase": {
+      "badge": "CharX व्यूअर",
+      "title": "कैरेक्टर फाइलें आसानी से देखें",
+      "dragDrop": {
+        "title": "ड्रैग और ड्रॉप",
+        "description": "बस .charx फाइलें ड्रॉप करें और तुरंत देखें अंदर क्या है"
+      },
+      "cardInfo": {
+        "title": "सभी कैरेक्टर जानकारी एक नज़र में",
+        "description": "कैरेक्टर डिटेल्स, लोरबुक्स, इमेज एसेट्स और बहुत कुछ देखें"
+      },
+      "clientSide": {
+        "title": "100% लोकल प्रोसेसिंग",
+        "description": "आपकी फाइलें कभी ब्राउज़र नहीं छोड़तीं। पूरी प्राइवेसी की गारंटी!"
+      },
+      "dropzone": {
+        "title": ".charx फाइलें यहां ड्रॉप करें",
+        "subtitle": "या ब्राउज़ करने के लिए क्लिक करें"
+      }
+    },
+    "p2pShowcase": {
+      "badge": "P2P CharX शेयरिंग",
+      "title": "कैरेक्टर कार्ड्स तुरंत शेयर करें",
+      "sender": "आप",
+      "receivers": "दोस्त",
+      "directTransfer": "ब्राउज़र-से-ब्राउज़र डायरेक्ट ट्रांसफर",
+      "qrCode": {
+        "title": "QR कोड और शेयर लिंक",
+        "description": "आसान मोबाइल ट्रांसफर के लिए QR कोड और लिंक जनरेट करें"
+      },
+      "webrtc": {
+        "title": "WebRTC डायरेक्ट ट्रांसफर",
+        "description": "फाइलें सीधे ब्राउज़र के बीच जाती हैं। कोई सर्वर स्टोरेज नहीं।"
+      },
+      "password": {
+        "title": "पासवर्ड प्रोटेक्शन",
+        "description": "अगर चाहें तो अपने शेयर को पासवर्ड से सुरक्षित करें"
+      }
+    },
+    "highlights": {
+      "privacy": {
+        "title": "100% लोकल प्रोसेसिंग",
+        "description": "CharX फाइलें सीधे अपने ब्राउज़र में देखें। आपका डेटा कभी आपके डिवाइस को नहीं छोड़ता।"
+      },
+      "fast": {
+        "title": "डायरेक्ट P2P कनेक्शन",
+        "description": "दोस्तों के साथ सीधे फाइलें शेयर करें और चैट करें। बीच में कोई सर्वर नहीं!"
+      },
+      "openSource": {
+        "title": "ओपन सोर्स",
+        "description": "सारा कोड पब्लिक है। योगदान करें, कस्टमाइज़ करें और इसे अपना बनाएं।"
+      }
+    },
+    "ready": {
+      "title": "शुरू करने के लिए तैयार?",
+      "description": "हमारे प्राइवेसी-फर्स्ट व्यूअर के साथ अपनी कैरेक्टर फाइलें एक्सप्लोर करें।"
+    },
+    "demo": {
+      "charx": {
+        "tabs": {
+          "character": "कैरेक्टर",
+          "lorebook": "लोरबुक",
+          "assets": "एसेट्स"
+        },
+        "greetings": "ग्रीटिंग वेरिएशन",
+        "lorebookEntries": "{count} एंट्रीज़",
+        "assetsFound": "{count} एसेट्स",
+        "fileReceived": "फाइल प्राप्त हुई",
+        "processing": "प्रोसेस हो रहा है..."
+      },
+      "p2p": {
+        "selectFile": "फाइल चुनें",
+        "generating": "बना रहा है...",
+        "scanToJoin": "जॉइन करने के लिए स्कैन करें",
+        "waiting": "प्रतीक्षा कर रहे हैं...",
+        "readyToScan": "स्कैन के लिए तैयार",
+        "scanning": "स्कैन हो रहा है...",
+        "connecting": "कनेक्ट हो रहा है...",
+        "complete": "पूरा हुआ!",
+        "waitingConnection": "प्रतीक्षा कर रहे हैं...",
+        "connected": "कनेक्टेड",
+        "transferred": "ट्रांसफर हो गया!"
+      },
+      "connect": {
+        "waitingRoom": "वेटिंग रूम",
+        "participants": "प्रतिभागी",
+        "chat": "चैट",
+        "p2pBadge": "P2P कनेक्टेड",
+        "message1": "हेय! चैट के लिए तैयार?",
+        "message2": "चलो शुरू करते हैं!",
+        "aiReply": "आप सभी से मिलकर खुशी हुई!",
+        "inputPlaceholder": "मैसेज टाइप करें..."
+      }
+    },
+    "connectShowcase": {
+      "badge": "P2P Connect",
+      "poweredBy": "अपने कैरेक्टर के साथ जॉइन करें",
+      "title": "अपनी AI को दूसरों से कनेक्ट करें",
+      "description": "अपने AI कैरेक्टर के साथ चैट रूम बनाएं और दोस्तों को आमंत्रित करें। विभिन्न AI को रियल-टाइम में चैट करते देखें। यह मज़ेदार होगा!",
+      "realtime": {
+        "title": "P2P चैट",
+        "description": "डायरेक्ट ब्राउज़र कनेक्शन। बिना सर्वर के दोस्तों से चैट करें।"
+      },
+      "aiPowered": {
+        "title": "AI ऑटो-रिप्लाई",
+        "description": "हर कैरेक्टर अपनी पर्सनैलिटी के साथ जवाब देता है"
+      },
+      "multiParty": {
+        "title": "8 लोगों तक",
+        "description": "दोस्तों को आमंत्रित करने के लिए QR कोड या लिंक शेयर करें"
+      }
+    }
+  },
+  "charx": {
+    "title": "CharX व्यूअर",
+    "subtitle": "कैरेक्टर कार्ड्स, लोरबुक्स और एसेट्स देखें। आपके ब्राउज़र में ही चलता है!",
+    "description": "CharX कैरेक्टर फाइलें सीधे अपने ब्राउज़र में खोलें। पूरी प्राइवेसी के साथ कैरेक्टर कार्ड्स, लोरबुक्स और एसेट्स देखें।",
+    "upload": {
+      "title": "CharX फाइल अपलोड करें",
+      "description": ".charx फाइल ड्रैग और ड्रॉप करें या ब्राउज़ करने के लिए क्लिक करें",
+      "dropHere": "अपनी फाइल यहां ड्रॉप करें",
+      "invalidFile": "केवल .charx फाइलें सपोर्टेड हैं",
+      "dropFiles": "अपनी .charx फाइलें यहां ड्रॉप करें",
+      "browseMultiple": "या ब्राउज़ करने के लिए क्लिक करें (मल्टीपल फाइलें OK)",
+      "downloadLink": "<link>realm.risuai.net</link> पर कैरेक्टर फाइलें (.charx) प्राप्त करें",
+      "unsupportedFile": "असमर्थित फाइल: {names}। यहां केवल .charx फाइलें काम करती हैं।",
+      "unsupportedFiles": "असमर्थित फाइलें: {names}। यहां केवल .charx फाइलें काम करती हैं।",
+      "andMore": " और {count} और",
+      "or": "या",
+      "realmPlaceholder": "RisuRealm URL या कैरेक्टर ID पेस्ट करें...",
+      "realmDownload": "डाउनलोड",
+      "realmHint": "realm.risuai.net URLs या कैरेक्टर UUIDs के साथ काम करता है",
+      "realmDownloadSuccess": "कैरेक्टर डाउनलोड हो गया!",
+      "realmError": {
+        "INVALID_UUID": "वह RisuRealm ID या URL सही नहीं लग रहा",
+        "INVALID_CHARX": "RisuRealm पर वह कैरेक्टर नहीं मिला। ID चेक करें?",
+        "FILE_TOO_LARGE": "फाइल बहुत बड़ी है ({size})। मैन्युअली डाउनलोड और अपलोड करने का प्रयास करें।",
+        "DOWNLOAD_FAILED": "RisuRealm से डाउनलोड नहीं हो सका। फिर से कोशिश करें?"
+      },
+      "tryDemo": "डेमो कैरेक्टर आज़माएं",
+      "demoHint": "व्यूअर एक्सप्लोर करने के लिए सैंपल कैरेक्टर लोड करें"
+    },
+    "tabs": {
+      "character": "कैरेक्टर",
+      "lorebook": "लोरबुक",
+      "assets": "एसेट्स",
+      "module": "मॉड्यूल"
+    },
+    "empty": {
+      "noCharacterCard": "कोई कैरेक्टर कार्ड नहीं मिला",
+      "noLorebook": "कोई लोरबुक नहीं मिली",
+      "noModule": "कोई मॉड्यूल नहीं मिला",
+      "noAssets": "इस कैटेगरी में कोई एसेट्स नहीं",
+      "noAssetsInFile": "इस फाइल में कोई एसेट्स नहीं",
+      "noModuleContent": "कोई मॉड्यूल कंटेंट नहीं",
+      "noTriggerScripts": "कोई ट्रिगर स्क्रिप्ट्स नहीं",
+      "noRegexScripts": "कोई regex स्क्रिप्ट्स नहीं",
+      "noCommonJSCode": "कोई CommonJS कोड नहीं"
+    },
+    "files": {
+      "title": "फाइलें",
+      "loaded": "{count} फाइलें लोड हुईं",
+      "parsing": "पार्स हो रहा है...",
+      "dropMore": "और .charx फाइलें ड्रॉप करें या जोड़ने के लिए क्लिक करें",
+      "queue": "क्यू",
+      "queued": "क्यू में",
+      "delete": "हटाएं"
+    },
+    "assets": {
+      "title": "एसेट्स",
+      "totalExtracted": "कुल {count} एसेट्स",
+      "sort": "सॉर्ट",
+      "group": "ग्रुप",
+      "sortAZ": "A-Z",
+      "sortZA": "Z-A",
+      "sortByFilename": "फाइलनाम से",
+      "groupByFilename": "फाइलनाम से ग्रुप करें",
+      "emotions": "इमोशन्स",
+      "icons": "आइकन्स",
+      "backgrounds": "बैकग्राउंड्स",
+      "other": "अन्य",
+      "cardMetadata": "कार्ड मेटाडेटा ({count} रेफरेंस)",
+      "cardMetadataPlural": "कार्ड मेटाडेटा ({count} रेफरेंसेस)"
+    },
+    "module": {
+      "title": "मॉड्यूल: {name}",
+      "unnamed": "बिना नाम",
+      "noDescription": "कोई विवरण नहीं",
+      "triggers": "ट्रिगर्स",
+      "triggersCount": "{count} ट्रिगर्स",
+      "regex": "Regex",
+      "regexCount": "{count} Regex",
+      "code": "कोड",
+      "cjsCode": "CJS कोड",
+      "lowLevelAccess": "लो लेवल एक्सेस"
+    },
+    "character": {
+      "unnamedCharacter": "बिना नाम कैरेक्टर",
+      "byCreator": "{creator}",
+      "tabs": {
+        "basic": "बेसिक",
+        "messages": "मैसेजेस",
+        "prompts": "प्रॉम्प्ट्स",
+        "others": "अन्य"
+      },
+      "viewMode": {
+        "list": "लिस्ट",
+        "raw": "रॉ",
+        "markdown": "Markdown"
+      },
+      "expandAll": "सब एक्सपैंड करें",
+      "collapseAll": "सब कोलैप्स करें",
+      "saveAsFile": "फाइल के रूप में सेव करें",
+      "copyToClipboard": "क्लिपबोर्ड पर कॉपी करें",
+      "created": "बनाया गया",
+      "modified": "संशोधित",
+      "empty": "खाली",
+      "loreCount": "{count} लोरबुक्स",
+      "assetsCount": "{count} एसेट्स"
+    },
+    "lorebook": {
+      "title": "कैरेक्टर लोरबुक",
+      "entries": "{count} एंट्रीज़",
+      "noEntries": "कोई लोरबुक एंट्रीज़ नहीं",
+      "enabled": "सक्षम",
+      "disabled": "अक्षम",
+      "priority": "प्राथमिकता",
+      "noKeys": "कोई कीज़ नहीं",
+      "moreKeys": "+{count} और",
+      "moreKeysPrefix": "+"
+    },
+    "toast": {
+      "copiedToClipboard": "कॉपी हो गया!",
+      "failedToCopy": "कॉपी फेल हुआ",
+      "fileSaved": "फाइल सेव हो गई",
+      "lorebookCopied": "लोरबुक JSON कॉपी हो गया!",
+      "characterCopied": "कैरेक्टर JSON कॉपी हो गया!",
+      "couldNotCopy": "क्लिपबोर्ड पर कॉपी नहीं हो सका"
+    },
+    "errorBoundary": {
+      "title": "उफ़, कुछ गलत हो गया",
+      "description": "एक अनपेक्षित त्रुटि हुई। कृपया पेज रिफ्रेश करें।",
+      "refreshPage": "रिफ्रेश करें"
+    },
+    "export": {
+      "button": "डेटाबेस में सेव करें",
+      "title": "कैरेक्टर को डेटाबेस में सेव करें",
+      "description": "इस कैरेक्टर और लोरबुक को लोकली सेव करें ताकि आप उन्हें चैट में एक्सेस कर सकें।",
+      "character": {
+        "title": "कैरेक्टर",
+        "unnamed": "बिना नाम",
+        "description": "कैरेक्टर कार्ड डेटा जिसमें नाम, विवरण, पर्सनैलिटी और मैसेजेस शामिल हैं।",
+        "moreTags": "और"
+      },
+      "lorebook": {
+        "title": "लोरबुक",
+        "entries": "एंट्रीज़",
+        "description": "लोरबुक एंट्रीज़ चैट के दौरान कॉन्टेक्स्ट के लिए सेव की जाएंगी।",
+        "noLorebook": "इस कैरेक्टर फाइल में कोई लोरबुक नहीं।"
+      },
+      "info": "सेव करने के बाद, आप P2P शेयरिंग और कनेक्ट के लिए आसानी से कैरेक्टर कार्ड्स इम्पोर्ट कर सकते हैं।",
+      "infoMessages": {
+        "databaseReady": "डेटाबेस तैयार! आप अब सेव कर सकते हैं।"
+      },
+      "save": "सेव करें",
+      "cancel": "रद्द करें",
+      "saving": "सेव हो रहा है...",
+      "loading": "लोड हो रहा है...",
+      "success": {
+        "title": "सेव हो गया!",
+        "description": "{name} आपके डेटाबेस में सेव हो गया।",
+        "goToChat": "चैट पर जाएं"
+      },
+      "error": {
+        "title": "सेव नहीं हो सका",
+        "description": "सेव करते समय कुछ गलत हो गया। फिर से कोशिश करें?",
+        "databaseNotReady": "डेटाबेस अभी तैयार नहीं है। थोड़ा इंतज़ार करें और फिर से कोशिश करें।",
+        "databaseInitFailed": "डेटाबेस शुरू नहीं हो सका। पेज रिफ्रेश करें और फिर से कोशिश करें।"
+      },
+      "initializing": "शुरू हो रहा है..."
+    },
+    "shareP2P": "P2P से शेयर करें",
+    "error": "त्रुटि",
+    "warning": "चेतावनी",
+    "filesExcluded": "साइज़ लिमिट (>50MB) के कारण {count} फाइलें बाहर:"
+  },
+  "errors": {
+    "notFound": {
+      "title": "404",
+      "heading": "पेज नहीं मिला",
+      "description": "जो पेज आप खोज रहे हैं वह मौजूद नहीं है या मूव हो गया है।",
+      "goHome": "होम जाएं",
+      "openCharxViewer": "CharX व्यूअर"
+    },
+    "generic": {
+      "title": "उफ़, कुछ गलत हो गया",
+      "description": "एक अनपेक्षित त्रुटि हुई। फिर से कोशिश करें या होम वापस जाएं।",
+      "retry": "फिर से कोशिश करें",
+      "goHome": "होम जाएं"
+    },
+    "charx": {
+      "title": "CharX व्यूअर त्रुटि",
+      "description": "व्यूअर लोड करते समय कुछ गलत हो गया। फाइल करप्ट हो सकती है या ब्राउज़र कम्पैटिबिलिटी इश्यू है।",
+      "retry": "फिर से कोशिश करें",
+      "goHome": "होम जाएं"
+    },
+    "pokebox": {
+      "title": "CharX PokeBox त्रुटि",
+      "description": "आपके सेव किए गए कैरेक्टर्स लोड करते समय कुछ गलत हो गया। कृपया पेज रिफ्रेश करें।",
+      "retry": "फिर से कोशिश करें",
+      "goHome": "होम जाएं"
+    }
+  },
+  "footer": {
+    "description": "ओपन-सोर्स AI कैरेक्टर प्लेटफॉर्म। AI कैरेक्टर्स को देखें, शेयर करें और उनसे चैट करें।",
+    "product": "प्रोडक्ट",
+    "resources": "रिसोर्सेस",
+    "documentation": "डॉक्स",
+    "legal": "लीगल",
+    "privacy": "प्राइवेसी पॉलिसी",
+    "terms": "सर्विस की शर्तें",
+    "copyright": "OpenTamago. सर्वाधिकार सुरक्षित।"
+  },
+  "nav": {
+    "home": "होम",
+    "charxViewer": "CharX व्यूअर",
+    "charxPokebox": "CharX PokeBox",
+    "p2pShare": "P2P शेयर",
+    "chat": "चैट",
+    "connect": "P2P Connect",
+    "howItWorks": "कैसे काम करता है",
+    "github": "GitHub",
+    "toggleMenu": "मेन्यू टॉगल करें",
+    "navigationMenu": "मेन्यू"
+  },
+  "p2p": {
+    "title": "P2P CharX शेयरिंग",
+    "subtitle": "कैरेक्टर फाइलें सीधे दोस्तों के साथ शेयर करें। P2P का मतलब है बीच में कोई सर्वर नहीं।",
+    "privacyNote": "फाइलें WebRTC के माध्यम से सीधे ब्राउज़र के बीच ट्रांसफर होती हैं। सर्वर पर कुछ भी स्टोर नहीं होता।",
+    "confirmTitle": "शेयर करने के लिए तैयार",
+    "confirmSubtitle": "अपनी फाइल चेक करें और अगर चाहें तो पासवर्ड सेट करें।",
+    "passwordLabel": "पासवर्ड (वैकल्पिक)",
+    "passwordPlaceholder": "पासवर्ड दर्ज करें...",
+    "passwordHint": "बिना पासवर्ड प्रोटेक्शन के शेयर करने के लिए खाली छोड़ें।",
+    "cancel": "रद्द करें",
+    "start": "शेयरिंग शुरू करें",
+    "connecting": "कनेक्ट हो रहा है...",
+    "sharingTitle": "आपकी फाइल शेयर हो रही है",
+    "sharingSubtitle": "इस टैब को खुला रखें। नीचे दिया गया लिंक शेयर करें ताकि दूसरे डाउनलोड कर सकें।",
+    "stopSharing": "शेयरिंग बंद करें",
+    "stopSharingConfirm": "सच में शेयरिंग बंद करें?",
+    "stopSharingDescription": "सभी एक्टिव डाउनलोड कट जाएंगे।",
+    "confirmStop": "हां, बंद करें",
+    "sharingWarning": "अगर आप छोड़ते या रिफ्रेश करते हैं तो शेयरिंग डिस्कनेक्ट हो जाएगी। इस टैब को खुला रखें।",
+    "dropzone": {
+      "dropHere": "अपनी फाइल यहां ड्रॉप करें",
+      "dropToShare": "शेयर करने के लिए .charx फाइल ड्रॉप करें",
+      "orClickToBrowse": "या ब्राउज़ करने के लिए क्लिक करें"
+    },
+    "download": {
+      "title": "CharX फाइल डाउनलोड करें",
+      "connecting": "अपलोडर से कनेक्ट हो रहा है...",
+      "connectionFailed": "अपलोडर से कनेक्ट नहीं हो सका। उन्होंने शायद ब्राउज़र बंद कर दिया।",
+      "notFound": "शेयर लिंक नहीं मिला या एक्सपायर हो गया",
+      "notFoundDescription": "जो फाइल आप खोज रहे हैं वह अब उपलब्ध नहीं है। अपलोडर ने शायद शेयरिंग बंद कर दी।",
+      "passwordRequired": "यह फाइल पासवर्ड प्रोटेक्टेड है",
+      "passwordPlaceholder": "पासवर्ड दर्ज करें...",
+      "passwordError": "गलत पासवर्ड। फिर से कोशिश करें?",
+      "submit": "सबमिट करें",
+      "readyTitle": "डाउनलोड के लिए तैयार",
+      "readyDescription": "डाउनलोड शुरू करने के लिए नीचे क्लिक करें।",
+      "startDownload": "डाउनलोड करें",
+      "downloading": "डाउनलोड हो रहा है...",
+      "complete": "डाउनलोड पूरा!",
+      "completeDescription": "आपकी फाइल सफलतापूर्वक प्राप्त हुई।",
+      "charxDetected": "यह एक कैरेक्टर फाइल है!",
+      "charxDescription": "एक क्लिक में इस कैरेक्टर और लोरबुक को अपने डेटाबेस में सेव करें।",
+      "saveToDatabase": "डेटाबेस में सेव करें",
+      "downloadAnother": "दूसरी फाइल डाउनलोड करें",
+      "goHome": "होम जाएं",
+      "troubleshooting": "बहुत समय लग रहा है? अपलोडर फायरवॉल के पीछे हो सकता है या ब्राउज़र बंद कर दिया।",
+      "sharePrompt": "CharX फाइलें भी शेयर करना चाहते हैं?",
+      "startSharing": "CharX शेयरिंग शुरू करें"
+    }
+  },
+  "theme": {
+    "toggle": "थीम टॉगल करें",
+    "light": "लाइट",
+    "dark": "डार्क",
+    "system": "सिस्टम"
+  },
+  "chat": {
+    "leftPanel": {
+      "create": "बनाएं",
+      "createCharacter": "कैरेक्टर बनाएं",
+      "importCharx": ".charx इम्पोर्ट करें",
+      "createPersona": "पर्सोना बनाएं",
+      "noCharacters": "अभी कोई कैरेक्टर नहीं।",
+      "createOne": "एक बनाएं",
+      "noDescription": "कोई विवरण नहीं",
+      "characters": "कैरेक्टर्स",
+      "chats": "चैट्स",
+      "recentChats": "हाल के चैट्स",
+      "newChat": "नया चैट",
+      "noChats": "अभी कोई चैट नहीं।",
+      "startOne": "एक शुरू करें",
+      "yesterday": "कल",
+      "deleteChat": "यह चैट हटाएं?",
+      "deleteCharacter": "\"{name}\" हटाएं? इससे सभी संबंधित चैट्स भी हट जाएंगे।",
+      "importing": "इम्पोर्ट हो रहा है...",
+      "importSuccess": "कैरेक्टर इम्पोर्ट हो गया",
+      "importError": "इम्पोर्ट फेल हुआ",
+      "chatTitle": "चैट टाइटल",
+      "editChatTitleDescription": "इस चैट बातचीत का टाइटल बदलें।",
+      "chatTitlePlaceholder": "चैट टाइटल दर्ज करें..."
+    },
+    "centerPanel": {
+      "selectCharacter": "शुरू करने के लिए एक कैरेक्टर और चैट चुनें",
+      "createFromLeft": "या बाएं पैनल से नया कैरेक्टर बनाएं",
+      "apiKeyRequired": "API Key आवश्यक",
+      "configureApiKey": "चैटिंग शुरू करने के लिए अपना Gemini API key सेट करें।",
+      "openSettings": "सेटिंग्स खोलें",
+      "clearChat": "चैट क्लियर करें",
+      "thinking": "सोच रहा है...",
+      "messagePlaceholder": "{name} को मैसेज करें...",
+      "clearAllMessages": "इस चैट में सभी मैसेज क्लियर करें?",
+      "selectPersona": "पर्सोना चुनें",
+      "noPersonas": "अभी कोई पर्सोना नहीं।",
+      "createPersona": "पर्सोना बनाएं",
+      "selectPersonaToSend": "मैसेज भेजने के लिए पर्सोना चुनें",
+      "createPersonaAction": "बनाएं",
+      "reasoning": "तर्क",
+      "translate": "अनुवाद करें",
+      "translating": "अनुवाद हो रहा है...",
+      "showOriginal": "मूल दिखाएं",
+      "showTranslation": "अनुवाद दिखाएं",
+      "translated": "अनुवादित",
+      "original": "मूल",
+      "translationError": "अनुवाद विफल",
+      "translationNotConfigured": "अनुवाद कॉन्फ़िगर नहीं है",
+      "generateImage": "इमेज बनाएं",
+      "generatingImage": "बना रहा है...",
+      "imageGenerationError": "इमेज बनाना विफल",
+      "imageGenerationNotConfigured": "इमेज जनरेशन कॉन्फ़िगर नहीं है",
+      "imageGenerated": "इमेज बन गई",
+      "generateVoice": "आवाज़ बनाएं",
+      "generatingVoice": "बना रहा है...",
+      "voiceGenerationError": "आवाज़ बनाना विफल",
+      "voiceGenerationNotConfigured": "आवाज़ जनरेशन कॉन्फ़िगर नहीं है",
+      "voiceGenerated": "आवाज़ बन गई"
+    },
+    "rightPanel": {
+      "selectCharacter": "विवरण देखने के लिए कैरेक्टर चुनें",
+      "characterDetails": "कैरेक्टर विवरण",
+      "personality": "पर्सनैलिटी",
+      "scenario": "सिनेरियो",
+      "firstMessage": "पहला मैसेज",
+      "exampleDialogue": "उदाहरण डायलॉग",
+      "systemPrompt": "सिस्टम प्रॉम्प्ट",
+      "noPersonaDetails": "कोई पर्सोना विवरण सेट नहीं।",
+      "creatorNotes": "क्रिएटर नोट्स",
+      "created": "बनाया गया",
+      "lastUpdated": "अंतिम अपडेट",
+      "persona": "पर्सोना",
+      "info": "जानकारी",
+      "deleteCharacter": "\"{name}\" हटाएं? सभी संबंधित चैट्स भी हट जाएंगे। यह वापस नहीं हो सकता।"
+    },
+    "editor": {
+      "editCharacter": "कैरेक्टर एडिट करें",
+      "createCharacter": "कैरेक्टर बनाएं",
+      "editPersona": "पर्सोना एडिट करें",
+      "createPersona": "पर्सोना बनाएं",
+      "modifyPersona": "अपने पर्सोना विवरण मॉडिफाई करें।",
+      "createPersonaDesc": "चैट्स में खुद को रिप्रेज़ेंट करने के लिए पर्सोना बनाएं।",
+      "modifyCharacter": "अपने कैरेक्टर के विवरण मॉडिफाई करें।",
+      "createCharacterDesc": "चैट करने के लिए नया कैरेक्टर बनाएं।",
+      "uploadAvatar": "अवतार अपलोड करें",
+      "avatarHint": "PNG, JPG 2MB तक",
+      "basic": "बेसिक",
+      "persona": "पर्सोना",
+      "details": "विवरण",
+      "advanced": "एडवांस्ड",
+      "nameLabel": "नाम",
+      "nameRequired": "नाम *",
+      "yourName": "आपका नाम",
+      "characterName": "कैरेक्टर का नाम",
+      "description": "विवरण",
+      "descriptionPersona": "अपने बारे में संक्षिप्त विवरण",
+      "descriptionCharacter": "अपने कैरेक्टर का संक्षिप्त विवरण",
+      "firstMessage": "पहला मैसेज",
+      "firstMessagePlaceholder": "पहला मैसेज जो आपका कैरेक्टर भेजेगा",
+      "personality": "पर्सनैलिटी",
+      "personalityCharacter": "पर्सनैलिटी ट्रेट्स, बिहेवियर, क्वर्क्स का वर्णन करें...",
+      "scenario": "सिनेरियो",
+      "scenarioPlaceholder": "बातचीत के लिए सेटिंग या कॉन्टेक्स्ट",
+      "exampleDialogue": "उदाहरण डायलॉग",
+      "exampleDialoguePlaceholder": "टोन सेट करने के लिए उदाहरण बातचीत...",
+      "systemPrompt": "सिस्टम प्रॉम्प्ट",
+      "systemPromptPlaceholder": "कस्टम सिस्टम प्रॉम्प्ट (डिफ़ॉल्ट को ओवरराइड करता है)",
+      "creatorNotes": "क्रिएटर नोट्स",
+      "privateNotes": "प्राइवेट नोट्स",
+      "notesPlaceholder": "प्राइवेट नोट्स (AI को नहीं भेजे जाते)",
+      "saving": "सेव हो रहा है...",
+      "saveChanges": "बदलाव सेव करें"
+    },
+    "settings": {
+      "title": "सेटिंग्स",
+      "description": "अपनी API सेटिंग्स सेट करें। सब कुछ लोकली स्टोर होता है।",
+      "apiSection": "API",
+      "apiKeySection": "API Key",
+      "apiKeyDescription": "अपना API कनेक्शन और मॉडल सेटिंग्स कॉन्फ़िगर करें।",
+      "chatUISection": "चैट UI",
+      "chatUIDescription": "चैट मैसेज कैसे दिखें इसे कस्टमाइज़ करें।",
+      "databaseSection": "डेटाबेस",
+      "safety": "सेफ्टी",
+      "apiMode": "API मोड",
+      "apiModeServer": "सर्वर API",
+      "apiModeServerDesc": "सर्वर की API key उपयोग करें",
+      "apiModeClient": "आपकी API Key",
+      "apiModeClientDesc": "ज़्यादा प्राइवेट",
+      "geminiApiKey": "Gemini API Key",
+      "enterApiKey": "अपना Gemini API key दर्ज करें",
+      "getApiKey": "अपना API key यहां से प्राप्त करें",
+      "googleAiStudio": "Google AI Studio",
+      "defaultModel": "डिफ़ॉल्ट मॉडल",
+      "selectModel": "मॉडल चुनें",
+      "temperature": "टेम्परेचर",
+      "maxTokens": "Max Tokens",
+      "bubbleTheme": "चैट बबल थीम",
+      "themeRoleplay": "रोलप्ले",
+      "themeRoleplayDesc": "कोट्स और एक्शन के साथ स्टाइल्ड टेक्स्ट",
+      "themeMessenger": "मैसेंजर",
+      "themeMessengerDesc": "प्लेन टेक्स्ट, कोई फॉर्मेटिंग नहीं",
+      "database": {
+        "title": "डेटाबेस मैनेजमेंट",
+        "description": "डेटाबेस स्टैटिस्टिक्स देखें और अपना लोकल डेटा मैनेज करें।",
+        "storageUsage": "स्टोरेज उपयोग",
+        "collections": "कलेक्शन्स",
+        "actions": "एक्शन्स",
+        "exportData": "डेटा एक्सपोर्ट करें",
+        "dangerZone": "डेंजर ज़ोन",
+        "resetWarning": "यह आपका सारा डेटा परमानेंटली डिलीट कर देगा जिसमें कैरेक्टर्स, चैट्स, मैसेजेस और सेटिंग्स शामिल हैं। माइग्रेशन इश्यूज़ होने पर इसका उपयोग करें।",
+        "resetDatabase": "डेटाबेस रीसेट करें",
+        "resetting": "रीसेट हो रहा है..."
+      },
+      "safetyDescription": "कंटेंट सेफ्टी फ़िल्टर सेट करें। डिफ़ॉल्ट रूप से, अनरिस्ट्रिक्टेड रोलप्ले के लिए सभी फ़िल्टर बंद हैं।",
+      "hateSpeech": "हेट स्पीच",
+      "harassment": "हैरेसमेंट",
+      "sexuallyExplicit": "सेक्सुअली एक्सप्लिसिट",
+      "dangerousContent": "डेंजरस कंटेंट",
+      "blockNone": "कुछ भी ब्लॉक न करें",
+      "blockLow": "Low+ ब्लॉक करें",
+      "blockMedium": "Medium+ ब्लॉक करें",
+      "blockHigh": "केवल High ब्लॉक करें",
+      "saving": "सेव हो रहा है...",
+      "saved": "सेटिंग्स सहेजी गईं"
+    }
+  },
+  "connect": {
+    "meta": {
+      "title": "P2P मल्टी-कैरेक्टर चैट",
+      "description": "एक सेशन बनाएं जहां AI कैरेक्टर्स एक-दूसरे से चैट कर सकते हैं"
+    },
+    "title": "P2P मल्टी-कैरेक्टर चैट",
+    "subtitle": "कई AI कैरेक्टर्स के साथ मिलकर चैट करें। P2P का मतलब है बीच में कोई सर्वर नहीं।",
+    "tabs": {
+      "existing": "मेरे कैरेक्टर्स",
+      "upload": ".charx अपलोड करें",
+      "photo": "फोटो से"
+    },
+    "noCharacters": "कोई कैरेक्टर नहीं मिला।",
+    "createInChat": "चैट में एक बनाएं",
+    "upload": {
+      "title": "CharX फाइल अपलोड करें",
+      "description": ".charx फाइल ड्रॉप करें या चुनने के लिए क्लिक करें",
+      "formats": "केवल .charx फाइलें सपोर्टेड हैं",
+      "error": "इम्पोर्ट फेल हुआ",
+      "confirm": "कन्फर्म करें और इस कैरेक्टर का उपयोग करें"
+    },
+    "photo": {
+      "dropTitle": "फोटो अपलोड करें",
+      "dropDescription": "इमेज ड्रॉप करें या चुनने के लिए क्लिक करें। AI इससे कैरेक्टर जनरेट करेगा।",
+      "selectFile": "इमेज चुनें",
+      "invalidType": "कृपया इमेज फाइल चुनें (PNG, JPG, WebP, या GIF)",
+      "tooLarge": "इमेज बहुत बड़ी है। Max 10MB।",
+      "contextLabel": "हिंट्स (वैकल्पिक)",
+      "contextPlaceholder": "जैसे 'फैंटेसी वॉरियर' या 'उन्हें फ्रेंडली बनाएं'",
+      "contextHint": "कैरेक्टर जनरेशन को गाइड करने के लिए हिंट्स जोड़ें",
+      "generating": "कैरेक्टर जनरेट हो रहा है...",
+      "generate": "कैरेक्टर जनरेट करें",
+      "generated": "{name} तैयार है!",
+      "generateError": "कैरेक्टर जनरेट नहीं हो सका। फिर से कोशिश करें?",
+      "noApiKey": "कृपया पहले सेटिंग्स में अपना Gemini API key सेट करें।",
+      "apiKeyRequired": "API Key आवश्यक",
+      "apiKeyDescription": "फोटो से कैरेक्टर जनरेट करने के लिए, सेटिंग्स में अपना Gemini API key सेट करें।",
+      "goToSettings": "सेटिंग्स पर जाएं"
+    },
+    "creating": "सेशन बना रहा है...",
+    "joining": "सेशन में जॉइन हो रहा है...",
+    "confirm": {
+      "subtitle": "अपना कैरेक्टर चेक करें और अगर चाहें तो पासवर्ड सेट करें।",
+      "passwordHint": "आपके सेशन में जॉइन करने के लिए दूसरों को इस पासवर्ड की ज़रूरत होगी।",
+      "start": "सेशन बनाएं"
+    },
+    "lobby": {
+      "title": "वेटिंग रूम",
+      "hostDescription": "दूसरों को आमंत्रित करने के लिए नीचे दिया गया लिंक शेयर करें",
+      "guestDescription": "होस्ट के शुरू करने का इंतज़ार कर रहे हैं",
+      "shortUrl": "शॉर्ट URL",
+      "longUrl": "लॉन्ग URL",
+      "copied": "लिंक कॉपी हो गया!",
+      "copyFailed": "लिंक कॉपी नहीं हो सका",
+      "participants": "प्रतिभागी",
+      "you": "आप",
+      "host": "होस्ट",
+      "connecting": "कनेक्ट हो रहा है...",
+      "selectingCharacter": "कैरेक्टर चुन रहा है...",
+      "waitingForOthers": "दूसरों का इंतज़ार कर रहे हैं...",
+      "leave": "छोड़ें",
+      "startChat": "चैट शुरू करें",
+      "needMoreParticipants": "शुरू करने के लिए कम से कम 2 लोग चाहिए"
+    },
+    "chat": {
+      "title": "चैट",
+      "participants": "प्रतिभागी",
+      "active": "एक्टिव",
+      "pending": "पेंडिंग",
+      "autoReply": "ऑटो रिप्लाई",
+      "noMessages": "अभी कोई मैसेज नहीं। कुछ कहें!",
+      "unknown": "अज्ञात",
+      "generating": "सोच रहा है...",
+      "thinking": "{name} सोच रहा है...",
+      "placeholder": "{name} के रूप में मैसेज करें...",
+      "userJoined": "{name} जॉइन हुआ",
+      "userLeft": "{name} चला गया"
+    },
+    "leaveConfirm": {
+      "title": "सेशन छोड़ें?",
+      "description": "आप सभी प्रतिभागियों से डिस्कनेक्ट हो जाएंगे और चैट छोड़ देंगे।",
+      "confirm": "छोड़ें"
+    },
+    "join": {
+      "meta": {
+        "title": "सेशन में जॉइन करें",
+        "description": "मल्टी-कैरेक्टर चैट सेशन में जॉइन करें"
+      },
+      "title": "सेशन में जॉइन करें",
+      "subtitle": "जॉइन करने के लिए कैरेक्टर चुनें",
+      "currentParticipants": "{count} लोग पहले से सेशन में हैं",
+      "passwordProtected": "इस सेशन के लिए पासवर्ड आवश्यक है",
+      "enterPassword": "पासवर्ड",
+      "passwordHintJoin": "होस्ट द्वारा शेयर किया गया पासवर्ड दर्ज करें।",
+      "passwordRequired": "जॉइन करने के लिए पासवर्ड आवश्यक है",
+      "passwordError": "गलत पासवर्ड। फिर से कोशिश करें?",
+      "joinButton": "सेशन में जॉइन करें"
+    },
+    "notifications": {
+      "joined": "{name} जॉइन हुआ",
+      "left": "{name} चला गया"
+    },
+    "status": {
+      "connecting": "कनेक्ट हो रहा है...",
+      "connected": "कनेक्टेड",
+      "connectedInfo": "आप P2P सेशन कनेक्ट करने के लिए तैयार हैं",
+      "disconnected": "डिस्कनेक्टेड"
+    },
+    "errors": {
+      "noPeer": "नेटवर्क कनेक्शन फेल हुआ। पेज रिफ्रेश करें और फिर से कोशिश करें।",
+      "hostLeft": "होस्ट ने सेशन समाप्त कर दिया",
+      "sessionFull": "सेशन फुल है",
+      "sessionFullDescription": "इस सेशन में अधिकतम लोग हो गए हैं।",
+      "createOwn": "अपना सेशन बनाएं",
+      "connectionFailed": "कनेक्शन फेल हुआ",
+      "connectionFailedDescription": "सेशन से कनेक्ट नहीं हो सका। होस्ट चला गया हो सकता है या नेटवर्क इश्यू है।",
+      "tryAgain": "फिर से कोशिश करें",
+      "apiNotReady": "API Key आवश्यक",
+      "apiNotReadyDescription": "AI फीचर्स उपयोग करने के लिए कृपया सेटिंग्स में API key सेट करें।",
+      "openSettings": "सेटिंग्स खोलें"
+    }
+  },
+  "howItWorks": {
+    "meta": {
+      "title": "कैसे काम करता है | OpenTamago",
+      "description": "CharX व्यूअर, P2P शेयर और P2P मल्टी-कैरेक्टर चैट का उपयोग कैसे करें सीखें"
+    },
+    "hero": {
+      "title": "कैसे काम करता है",
+      "description": "OpenTamago का उपयोग करके AI कैरेक्टर्स को देखना, शेयर करना और चैट करना सीखें"
+    },
+    "tryNow": "अभी आज़माएं",
+    "charx": {
+      "title": "CharX व्यूअर",
+      "description": "CharX कैरेक्टर फाइलें सीधे अपने ब्राउज़र में खोलें। पूरी प्राइवेसी के लिए सब कुछ लोकली प्रोसेस होता है।",
+      "steps": {
+        "upload": {
+          "title": "फाइल अपलोड करें",
+          "description": ".charx फाइलें ड्रैग और ड्रॉप करें या ब्राउज़ करने के लिए क्लिक करें"
+        },
+        "view": {
+          "title": "कैरेक्टर देखें",
+          "description": "कैरेक्टर डिटेल्स, पर्सनैलिटी और ग्रीटिंग्स देखें"
+        },
+        "lorebook": {
+          "title": "लोरबुक एक्सप्लोर करें",
+          "description": "कीवर्ड ट्रिगर्स के साथ लोरबुक एंट्रीज़ ब्राउज़ करें"
+        },
+        "assets": {
+          "title": "एसेट्स देखें",
+          "description": "एम्बेडेड इमेजेस जैसे इमोशन्स और अवतार देखें"
+        }
+      },
+      "highlights": {
+        "privacy": "100% लोकल प्रोसेसिंग",
+        "formats": ".charx और .json फाइलें सपोर्ट करता है",
+        "export": "कैरेक्टर्स को लोकल डेटाबेस में सेव करें"
+      }
+    },
+    "p2pShare": {
+      "title": "P2P शेयर",
+      "description": "P2P का उपयोग करके दोस्तों के साथ सीधे फाइलें शेयर करें। सर्वर पर कुछ भी स्टोर नहीं होता।",
+      "steps": {
+        "select": {
+          "title": "फाइल चुनें",
+          "description": "शेयर करने के लिए फाइल चुनें"
+        },
+        "generate": {
+          "title": "लिंक जनरेट करें",
+          "description": "QR कोड और शेयरेबल लिंक प्राप्त करें"
+        },
+        "transfer": {
+          "title": "डायरेक्ट ट्रांसफर",
+          "description": "फाइलें WebRTC के माध्यम से सीधे ट्रांसफर होती हैं"
+        },
+        "receive": {
+          "title": "डाउनलोड",
+          "description": "रिसीवर्स सीधे आपसे डाउनलोड करते हैं"
+        }
+      },
+      "highlights": {
+        "noServer": "कोई सर्वर स्टोरेज नहीं",
+        "password": "वैकल्पिक पासवर्ड प्रोटेक्शन",
+        "qrCode": "मोबाइल शेयरिंग के लिए QR कोड"
+      }
+    },
+    "p2pConnect": {
+      "title": "P2P मल्टी-कैरेक्टर चैट",
+      "description": "मल्टी-कैरेक्टर चैट सेशन बनाएं। दोस्तों को आमंत्रित करें और AI कैरेक्टर्स को एक-दूसरे से चैट करते देखें।",
+      "steps": {
+        "select": {
+          "title": "कैरेक्टर चुनें",
+          "description": "अपनी लाइब्रेरी से चुनें या एक बनाएं"
+        },
+        "invite": {
+          "title": "दोस्तों को आमंत्रित करें",
+          "description": "आमंत्रित करने के लिए लिंक या QR कोड शेयर करें"
+        },
+        "chat": {
+          "title": "चैटिंग शुरू करें",
+          "description": "अपने कैरेक्टर के रूप में मैसेज भेजें"
+        },
+        "ai": {
+          "title": "AI रिप्लाई",
+          "description": "AI रेस्पॉन्सेस के लिए ऑटो-रिप्लाई ऑन करें"
+        }
+      },
+      "highlights": {
+        "realtime": "रियल-टाइम P2P मैसेजिंग",
+        "multiParty": "प्रति सेशन 8 कैरेक्टर्स तक",
+        "autoReply": "AI-पावर्ड ऑटो-रिप्लाई"
+      }
+    },
+    "privacy": {
+      "title": "प्राइवेसी फर्स्ट",
+      "description": "सभी OpenTamago फीचर्स प्राइवेसी को ध्यान में रखकर बनाए गए हैं। आपका डेटा आपके डिवाइस पर रहता है।",
+      "noServer": {
+        "title": "कोई सर्वर स्टोरेज नहीं",
+        "description": "फाइलें कभी हमारे सर्वर पर अपलोड नहीं होतीं। सब कुछ आपके ब्राउज़र में होता है।"
+      },
+      "encrypted": {
+        "title": "एन्क्रिप्टेड ट्रांसफर",
+        "description": "P2P कनेक्शन बिल्ट-इन एन्क्रिप्शन के साथ WebRTC का उपयोग करते हैं।"
+      },
+      "openSource": {
+        "title": "ओपन सोर्स",
+        "description": "सारा कोड पब्लिक है और GitHub पर उपलब्ध है।"
+      }
+    }
+  },
+  "localeDetector": {
+    "title": "स्वागत है!",
+    "description": "हमने पाया कि आपके ब्राउज़र की भाषा वर्तमान पेज से अलग हो सकती है। क्या आप स्विच करना चाहेंगे?",
+    "selectLanguage": "अपनी भाषा चुनें",
+    "dontShowAgain": "फिर से न दिखाएं",
+    "continue": "भाषा बदलें",
+    "stayHere": "यहीं रहें"
+  },
+  "settings": {
+    "pageTitle": "सेटिंग्स",
+    "pageDescription": "अपने पर्सोना, API keys, मॉडल्स और डेटाबेस सेटिंग्स मैनेज करें।",
+    "backToChat": "चैट पर वापस जाएं",
+    "tabs": {
+      "personas": "पर्सोनास",
+      "apiKeys": "API Keys",
+      "models": "मॉडल्स",
+      "database": "डेटाबेस",
+      "contact": "संपर्क"
+    },
+    "leftPanel": {
+      "defaultPersona": "डिफ़ॉल्ट पर्सोना",
+      "noDefaultPersona": "कोई डिफ़ॉल्ट पर्सोना नहीं",
+      "editPersona": "एडिट करें",
+      "stats": "डेटाबेस स्टैट्स",
+      "shortcuts": "कीबोर्ड शॉर्टकट्स"
+    },
+    "personas": {
+      "title": "आपके पर्सोनास",
+      "description": "अपने चैट पर्सोनास मैनेज करें",
+      "create": "पर्सोना बनाएं",
+      "empty": "अभी कोई पर्सोना नहीं। शुरू करने के लिए एक बनाएं!",
+      "setAsDefault": "डिफ़ॉल्ट सेट करें",
+      "isDefault": "डिफ़ॉल्ट",
+      "deleteConfirmation": "क्या आप वाकई \"{name}\" को हटाना चाहते हैं? यह वापस नहीं हो सकता।"
+    },
+    "contact": {
+      "title": "हम मदद के लिए यहां हैं!",
+      "featureIdea": "कोई कूल फीचर आइडिया है?",
+      "featureDesc": "आने वाले फीचर्स पर वोट करें या अपना सुझाव दें",
+      "bugReport": "कोई नॉन-क्रिटिकल बग मिला?",
+      "bugDesc": "UI ग्लिच या फॉर्मेटिंग इश्यूज? यहां रिपोर्ट करें :)",
+      "community": "कम्युनिटी में शामिल होना चाहते हैं?",
+      "communityDesc": "हमारे Discord में आएं! टीम और अन्य यूज़र्स से चैट करें"
+    }
+  },
+  "pokebox": {
+    "meta": {
+      "title": "CharX PokeBox - आपकी AI कैरेक्टर लाइब्रेरी | OpenTamago",
+      "description": "अपने सेव किए गए AI कैरेक्टर कार्ड्स, लोरबुक्स और एसेट्स ब्राउज़ करें, मैनेज करें और ऑर्गनाइज़ करें। पूरी प्राइवेसी के लिए लोकल-फर्स्ट स्टोरेज। फ्री और ओपन सोर्स।"
+    },
+    "title": "CharX PokeBox",
+    "subtitle": "अपने स्टोर किए गए कैरेक्टर कार्ड्स, लोरबुक्स और एसेट्स देखें।",
+    "description": "अपने सेव किए गए AI कैरेक्टर्स को एक जगह ब्राउज़ और मैनेज करें।",
+    "selectCharacter": "विवरण देखने के लिए कैरेक्टर चुनें",
+    "moduleNotStored": "मॉड्यूल डेटाबेस में स्टोर नहीं होते।",
+    "back": "वापस",
+    "tabs": {
+      "character": "कैरेक्टर",
+      "lorebook": "लोरबुक",
+      "assets": "एसेट्स",
+      "module": "मॉड्यूल"
+    },
+    "characterList": {
+      "title": "मेरे कैरेक्टर्स",
+      "search": "कैरेक्टर्स खोजें...",
+      "empty": "अभी कोई कैरेक्टर सेव नहीं।",
+      "noResults": "आपकी खोज से कोई कैरेक्टर मैच नहीं करता।",
+      "importFromCharx": "CharX से इम्पोर्ट करें"
+    },
+    "deleteConfirm": {
+      "title": "कैरेक्टर हटाएं?",
+      "description": "यह \"{name}\" और सभी संबंधित डेटा जैसे लोरबुक एंट्रीज़ और एसेट्स हटा देगा। यह वापस नहीं हो सकता।",
+      "cancel": "रद्द करें",
+      "confirm": "हटाएं"
+    },
+    "byCreator": "{creator}",
+    "unnamedCharacter": "बिना नाम कैरेक्टर",
+    "created": "बनाया गया",
+    "modified": "संशोधित",
+    "empty": "खाली",
+    "expandAll": "सब एक्सपैंड करें",
+    "collapseAll": "सब कोलैप्स करें",
+    "greetingIndex": "ग्रीटिंग {index}",
+    "viewMode": {
+      "list": "लिस्ट",
+      "raw": "रॉ",
+      "markdown": "Markdown"
+    },
+    "characterTabs": {
+      "basic": "बेसिक",
+      "messages": "मैसेजेस",
+      "prompts": "प्रॉम्प्ट्स",
+      "others": "अन्य"
+    },
+    "fields": {
+      "description": "विवरण",
+      "personality": "पर्सनैलिटी",
+      "scenario": "सिनेरियो",
+      "firstMessage": "पहला मैसेज",
+      "exampleDialogue": "उदाहरण डायलॉग",
+      "alternateGreetings": "वैकल्पिक ग्रीटिंग्स",
+      "groupOnlyGreetings": "केवल ग्रुप ग्रीटिंग्स",
+      "systemPrompt": "सिस्टम प्रॉम्प्ट",
+      "postHistoryInstructions": "पोस्ट हिस्ट्री इंस्ट्रक्शन्स",
+      "creatorInfo": "क्रिएटर जानकारी",
+      "creator": "क्रिएटर",
+      "characterVersion": "वर्जन",
+      "dates": "तारीखें",
+      "creatorNotes": "क्रिएटर नोट्स"
+    },
+    "lorebook": {
+      "title": "लोरबुक एंट्रीज़",
+      "entries": "{count} एंट्रीज़",
+      "noEntries": "इस कैरेक्टर के लिए कोई लोरबुक एंट्रीज़ नहीं।",
+      "enabled": "सक्षम",
+      "disabled": "अक्षम",
+      "priority": "प्राथमिकता",
+      "noKeys": "कोई कीज़ नहीं",
+      "moreKeys": "+{count} और"
+    },
+    "assets": {
+      "title": "कैरेक्टर एसेट्स",
+      "totalExtracted": "कुल {count} एसेट्स",
+      "noAssets": "इस कैटेगरी में कोई एसेट्स नहीं",
+      "sort": "सॉर्ट",
+      "group": "ग्रुप",
+      "sortAZ": "A-Z",
+      "sortZA": "Z-A",
+      "sortByFilename": "फाइलनाम से",
+      "groupByFilename": "फाइलनाम से ग्रुप करें",
+      "emotions": "इमोशन्स",
+      "icons": "आइकन्स",
+      "backgrounds": "बैकग्राउंड्स",
+      "other": "अन्य"
+    },
+    "toast": {
+      "copiedToClipboard": "कॉपी हो गया!",
+      "failedToCopy": "कॉपी फेल हुआ"
+    }
+  }
+}

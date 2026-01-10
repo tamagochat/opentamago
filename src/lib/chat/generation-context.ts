@@ -2,7 +2,6 @@ import type { CharacterDocument, PersonaDocument, LorebookEntryDocument, Message
 import type { CharacterData, ChatMessageType } from "~/lib/connect/messages";
 import type { ChatBubbleTheme } from "~/lib/db/schemas/settings";
 import { generateSystemPrompt } from "./system-prompt";
-import { matchLorebooks, formatLorebooksForPrompt, type LorebookMatch } from "./lorebook-matcher";
 import { filterMessages, convertMessagesToApiFormat, convertChatMessagesToApiFormat } from "./message-filters";
 
 /**
@@ -22,13 +21,14 @@ export interface GenerationContext {
   isGroupChat?: boolean;
   participantNames?: string[];
 
-  // Lorebook (future)
+  // Legacy lorebook (deprecated - use memory instead)
   lorebookEntries?: LorebookEntryDocument[];
   enableLorebook?: boolean;
 
-  // Memory (future)
-  enableMemory?: boolean;
-  memoryContext?: string;
+  // LRU Memory-based context (recommended)
+  // Pre-fetch with getMemoryContent() from lru-memory.ts
+  // This is a single string of concatenated memory content
+  memoryContent?: string;
 
   // P2P specific
   myPeerId?: string | null;
@@ -41,7 +41,6 @@ export interface BuildGenerationPayloadOptions {
   context: GenerationContext;
   newUserMessage?: string;
   maxHistoryMessages?: number;
-  lorebookLimit?: number;
 }
 
 /**
@@ -50,8 +49,6 @@ export interface BuildGenerationPayloadOptions {
 export interface GenerationPayload {
   messages: Array<{ role: "user" | "assistant" | "system"; content: string }>;
   systemPrompt: string;
-  matchedLorebooks?: LorebookMatch[];
-  memoryContext?: string;
 }
 
 /**
@@ -75,11 +72,15 @@ Be authentic to how this character would actually text or message.`,
 
 /**
  * Builds complete generation payload from context
+ *
  * This is the main orchestrator that combines:
  * - System prompt (character + persona + theme)
- * - Lorebook entries (if enabled)
- * - Memory context (if enabled)
+ * - LRU Memory content (pre-fetched via getMemoryContent())
  * - Message history
+ *
+ * Note: Lorebook matching should be done separately via updateMemoryFromLorebook()
+ * before calling this function. The matched content is stored in LRU memory and
+ * passed in via context.memoryContent.
  */
 export function buildGenerationPayload(
   options: BuildGenerationPayloadOptions
@@ -88,7 +89,6 @@ export function buildGenerationPayload(
     context,
     newUserMessage,
     maxHistoryMessages = 50,
-    lorebookLimit = 3,
   } = options;
 
   const {
@@ -97,10 +97,7 @@ export function buildGenerationPayload(
     theme,
     isGroupChat = false,
     participantNames = [],
-    lorebookEntries = [],
-    enableLorebook = false,
-    enableMemory = false,
-    memoryContext,
+    memoryContent,
     myPeerId,
     messages,
   } = context;
@@ -114,35 +111,20 @@ export function buildGenerationPayload(
     includePersona: !isGroupChat,
   });
 
-  // 2. Match lorebooks if enabled
-  let matchedLorebooks: LorebookMatch[] = [];
-  let lorebookBeforeChar = "";
-  let lorebookAfterChar = "";
-
-  if (enableLorebook && lorebookEntries.length > 0 && newUserMessage) {
-    matchedLorebooks = matchLorebooks(newUserMessage, lorebookEntries, {
-      limit: lorebookLimit,
-      includeConstant: true,
-    });
-
-    lorebookBeforeChar = formatLorebooksForPrompt(matchedLorebooks, "before_char");
-    lorebookAfterChar = formatLorebooksForPrompt(matchedLorebooks, "after_char");
-  }
-
-  // 3. Add theme-specific modifier
+  // 2. Add theme-specific modifier
   const themeModifier = THEME_MODIFIERS[theme];
 
-  // 4. Combine into final system prompt
+  // 3. Combine into final system prompt
+  // Memory content (from LRU) is placed after character definition
   const systemPromptParts = [
-    lorebookBeforeChar,
     baseSystemPrompt,
-    lorebookAfterChar,
+    memoryContent ? `## Relevant Context\n${memoryContent}` : null,
     themeModifier,
   ].filter(Boolean);
 
   const finalSystemPrompt = systemPromptParts.join("\n\n");
 
-  // 5. Prepare message history
+  // 4. Prepare message history
   let historyMessages: Array<{ role: "user" | "assistant" | "system"; content: string }>;
 
   const firstMessage = messages.length > 0 ? messages[0] : null;
@@ -159,7 +141,7 @@ export function buildGenerationPayload(
     historyMessages = convertMessagesToApiFormat(filtered);
   }
 
-  // 6. Assemble final messages array
+  // 5. Assemble final messages array
   const finalMessages: Array<{ role: "user" | "assistant" | "system"; content: string }> = [
     { role: "system", content: finalSystemPrompt },
     ...historyMessages,
@@ -173,23 +155,24 @@ export function buildGenerationPayload(
   return {
     messages: finalMessages,
     systemPrompt: finalSystemPrompt,
-    matchedLorebooks: matchedLorebooks.length > 0 ? matchedLorebooks : undefined,
-    memoryContext: enableMemory ? memoryContext : undefined,
   };
 }
 
 /**
  * Helper to create generation context from single chat
+ *
+ * @param params - Context parameters
+ * @param params.memoryContent - Pre-fetched memory content from getMemoryContent()
  */
 export function createSingleChatContext(params: {
   character: CharacterDocument;
   persona?: PersonaDocument | null;
   messages: MessageDocument[];
   theme: ChatBubbleTheme;
+  memoryContent?: string;
+  // Legacy params (deprecated)
   lorebookEntries?: LorebookEntryDocument[];
   enableLorebook?: boolean;
-  memoryContext?: string;
-  enableMemory?: boolean;
 }): GenerationContext {
   return {
     character: params.character,
@@ -197,10 +180,10 @@ export function createSingleChatContext(params: {
     messages: params.messages,
     theme: params.theme,
     isGroupChat: false,
+    memoryContent: params.memoryContent,
+    // Legacy fields for backwards compatibility
     lorebookEntries: params.lorebookEntries,
     enableLorebook: params.enableLorebook,
-    memoryContext: params.memoryContext,
-    enableMemory: params.enableMemory,
   };
 }
 
@@ -213,6 +196,7 @@ export function createGroupChatContext(params: {
   participantNames: string[];
   theme: ChatBubbleTheme;
   myPeerId: string | null;
+  memoryContent?: string;
 }): GenerationContext {
   return {
     character: params.character,
@@ -221,6 +205,6 @@ export function createGroupChatContext(params: {
     isGroupChat: true,
     participantNames: params.participantNames,
     myPeerId: params.myPeerId,
-    enableLorebook: false, // Not supported in P2P yet
+    memoryContent: params.memoryContent,
   };
 }

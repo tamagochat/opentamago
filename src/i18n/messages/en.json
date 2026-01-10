@@ -22,7 +22,8 @@
     "close": "Close",
     "submit": "Submit",
     "upload": "Upload",
-    "download": "Download"
+    "download": "Download",
+    "confirmDelete": "Confirm Delete"
   },
   "home": {
     "hero": {
@@ -484,7 +485,26 @@
       "noPersonas": "No personas yet.",
       "createPersona": "Create persona",
       "selectPersonaToSend": "Select a persona to send messages",
-      "createPersonaAction": "Create"
+      "createPersonaAction": "Create",
+      "reasoning": "Reasoning",
+      "translate": "Translate",
+      "translating": "Translating...",
+      "showOriginal": "Show original",
+      "showTranslation": "Show translation",
+      "translated": "Translated",
+      "original": "Original",
+      "translationError": "Translation failed",
+      "translationNotConfigured": "Translation not configured",
+      "generateImage": "Generate Image",
+      "generatingImage": "Generating...",
+      "imageGenerationError": "Image generation failed",
+      "imageGenerationNotConfigured": "Image generation not configured",
+      "imageGenerated": "Image generated",
+      "generateVoice": "Generate Voice",
+      "generatingVoice": "Generating...",
+      "voiceGenerationError": "Voice generation failed",
+      "voiceGenerationNotConfigured": "Voice generation not configured",
+      "voiceGenerated": "Voice generated"
     },
     "rightPanel": {
       "selectCharacter": "Select a character to see details",
@@ -589,7 +609,8 @@
       "blockLow": "Block Low+",
       "blockMedium": "Block Medium+",
       "blockHigh": "Block High Only",
-      "saving": "Saving..."
+      "saving": "Saving...",
+      "saved": "Settings saved"
     }
   },
   "connect": {
@@ -829,6 +850,43 @@
     "dontShowAgain": "Don't show this again",
     "continue": "Switch Language",
     "stayHere": "Stay Here"
+  },
+  "settings": {
+    "pageTitle": "Settings",
+    "pageDescription": "Manage your personas, API keys, models, and database settings.",
+    "backToChat": "Back to Chat",
+    "tabs": {
+      "personas": "Personas",
+      "apiKeys": "API Keys",
+      "models": "Models",
+      "database": "Database",
+      "contact": "Contact"
+    },
+    "leftPanel": {
+      "defaultPersona": "Default Persona",
+      "noDefaultPersona": "No default persona",
+      "editPersona": "Edit",
+      "stats": "Database Stats",
+      "shortcuts": "Keyboard Shortcuts"
+    },
+    "personas": {
+      "title": "Your Personas",
+      "description": "Manage your chat personas",
+      "create": "Create Persona",
+      "empty": "No personas yet. Create one to get started!",
+      "setAsDefault": "Set as Default",
+      "isDefault": "Default",
+      "deleteConfirmation": "Are you sure you want to delete \"{name}\"? This action cannot be undone."
+    },
+    "contact": {
+      "title": "We're here to help!",
+      "featureIdea": "Have a cool feature idea?",
+      "featureDesc": "Vote on upcoming features or suggest your own",
+      "bugReport": "Found a non-critical bug?",
+      "bugDesc": "UI glitches or formatting issues? Report them here :)",
+      "community": "Want to join the community?",
+      "communityDesc": "Come hang out in our Discord! Chat with the team and other users"
+    }
   },
   "pokebox": {
     "meta": {

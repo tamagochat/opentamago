@@ -22,7 +22,8 @@
     "close": "Kapat",
     "submit": "Gönder",
     "upload": "Yükle",
-    "download": "İndir"
+    "download": "İndir",
+    "confirmDelete": "Silmeyi onayla"
   },
   "home": {
     "hero": {
@@ -484,7 +485,26 @@
       "noPersonas": "Henüz persona yok.",
       "createPersona": "Persona oluştur",
       "selectPersonaToSend": "Mesaj göndermek için bir persona seç",
-      "createPersonaAction": "Oluştur"
+      "createPersonaAction": "Oluştur",
+      "reasoning": "Akıl yürütme",
+      "translate": "Çevir",
+      "translating": "Çevriliyor...",
+      "showOriginal": "Orijinali göster",
+      "showTranslation": "Çeviriyi göster",
+      "translated": "Çevrildi",
+      "original": "Orijinal",
+      "translationError": "Çeviri başarısız",
+      "translationNotConfigured": "Çeviri yapılandırılmamış",
+      "generateImage": "Görsel oluştur",
+      "generatingImage": "Oluşturuluyor...",
+      "imageGenerationError": "Görsel oluşturma başarısız",
+      "imageGenerationNotConfigured": "Görsel oluşturma yapılandırılmamış",
+      "imageGenerated": "Görsel oluşturuldu",
+      "generateVoice": "Ses Oluştur",
+      "generatingVoice": "Oluşturuluyor...",
+      "voiceGenerationError": "Ses oluşturma başarısız",
+      "voiceGenerationNotConfigured": "Ses oluşturma yapılandırılmamış",
+      "voiceGenerated": "Ses oluşturuldu"
     },
     "rightPanel": {
       "selectCharacter": "Detayları görmek için bir karakter seçin",
@@ -589,7 +609,8 @@
       "blockLow": "Düşük+ Engelle",
       "blockMedium": "Orta+ Engelle",
       "blockHigh": "Yalnızca Yüksek Engelle",
-      "saving": "Kaydediliyor..."
+      "saving": "Kaydediliyor...",
+      "saved": "Ayarlar kaydedildi"
     }
   },
   "connect": {
@@ -829,6 +850,43 @@
     "dontShowAgain": "Bir daha gösterme",
     "continue": "Dili Değiştir",
     "stayHere": "Burada Kal"
+  },
+  "settings": {
+    "pageTitle": "Ayarlar",
+    "pageDescription": "Personalarını, API Keys, modelleri ve veritabanı ayarlarını yönet.",
+    "backToChat": "Sohbete Dön",
+    "tabs": {
+      "personas": "Personalar",
+      "apiKeys": "API Keys",
+      "models": "Modeller",
+      "database": "Veritabanı",
+      "contact": "İletişim"
+    },
+    "leftPanel": {
+      "defaultPersona": "Varsayılan Persona",
+      "noDefaultPersona": "Varsayılan persona yok",
+      "editPersona": "Düzenle",
+      "stats": "Veritabanı İstatistikleri",
+      "shortcuts": "Klavye Kısayolları"
+    },
+    "personas": {
+      "title": "Personaların",
+      "description": "Sohbet personalarını yönet",
+      "create": "Persona Oluştur",
+      "empty": "Henüz persona yok. Başlamak için bir tane oluştur!",
+      "setAsDefault": "Varsayılan Olarak Ayarla",
+      "isDefault": "Varsayılan",
+      "deleteConfirmation": "\"{name}\" adlı personayı silmek istediğinden emin misin? Bu işlem geri alınamaz."
+    },
+    "contact": {
+      "title": "Yardım etmek için buradayız!",
+      "featureIdea": "Harika bir fikrin mi var?",
+      "featureDesc": "Gelecek özellikler için oy ver veya kendi fikirlerini öner",
+      "bugReport": "Küçük bir hata mı buldun?",
+      "bugDesc": "Arayüz sorunları veya biçimlendirme hataları mı? Buradan bildir :)",
+      "community": "Topluluğa katılmak ister misin?",
+      "communityDesc": "Discord'umuza gel! Ekip ve diğer kullanıcılarla sohbet et"
+    }
   },
   "pokebox": {
     "meta": {

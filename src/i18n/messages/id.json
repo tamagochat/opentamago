@@ -22,7 +22,8 @@
     "close": "Tutup",
     "submit": "Kirim",
     "upload": "Unggah",
-    "download": "Unduh"
+    "download": "Unduh",
+    "confirmDelete": "Konfirmasi Hapus"
   },
   "home": {
     "hero": {
@@ -484,7 +485,26 @@
       "noPersonas": "Belum ada persona nih~",
       "createPersona": "Buat persona",
       "selectPersonaToSend": "Pilih persona dulu buat kirim pesan",
-      "createPersonaAction": "Buat"
+      "createPersonaAction": "Buat",
+      "reasoning": "Penalaran",
+      "translate": "Terjemahkan",
+      "translating": "Menerjemahkan...",
+      "showOriginal": "Tampilkan asli",
+      "showTranslation": "Tampilkan terjemahan",
+      "translated": "Diterjemahkan",
+      "original": "Asli",
+      "translationError": "Terjemahan gagal",
+      "translationNotConfigured": "Terjemahan belum dikonfigurasi",
+      "generateImage": "Buat gambar",
+      "generatingImage": "Membuat...",
+      "imageGenerationError": "Gagal membuat gambar",
+      "imageGenerationNotConfigured": "Pembuatan gambar belum dikonfigurasi",
+      "imageGenerated": "Gambar berhasil dibuat",
+      "generateVoice": "Buat Suara",
+      "generatingVoice": "Membuat...",
+      "voiceGenerationError": "Gagal membuat suara",
+      "voiceGenerationNotConfigured": "Pembuatan suara belum dikonfigurasi",
+      "voiceGenerated": "Suara berhasil dibuat"
     },
     "rightPanel": {
       "selectCharacter": "Pilih karakter buat lihat detail",
@@ -589,7 +609,8 @@
       "blockLow": "Blokir Rendah+",
       "blockMedium": "Blokir Sedang+",
       "blockHigh": "Blokir Tinggi Saja",
-      "saving": "Menyimpan..."
+      "saving": "Menyimpan...",
+      "saved": "Pengaturan disimpan"
     }
   },
   "connect": {
@@ -924,5 +945,42 @@
     "dontShowAgain": "Jangan tampilkan lagi",
     "continue": "Ganti Bahasa",
     "stayHere": "Tetap Di Sini"
+  },
+  "settings": {
+    "pageTitle": "Pengaturan",
+    "pageDescription": "Kelola persona, API Keys, model, dan pengaturan database kamu.",
+    "backToChat": "Kembali ke Chat",
+    "tabs": {
+      "personas": "Persona",
+      "apiKeys": "API Keys",
+      "models": "Model",
+      "database": "Database",
+      "contact": "Kontak"
+    },
+    "leftPanel": {
+      "defaultPersona": "Persona Default",
+      "noDefaultPersona": "Tidak ada persona default",
+      "editPersona": "Edit",
+      "stats": "Statistik Database",
+      "shortcuts": "Pintasan Keyboard"
+    },
+    "personas": {
+      "title": "Persona Kamu",
+      "description": "Kelola persona chat kamu",
+      "create": "Buat Persona",
+      "empty": "Belum ada persona. Buat satu untuk memulai!",
+      "setAsDefault": "Jadikan Default",
+      "isDefault": "Default",
+      "deleteConfirmation": "Yakin ingin menghapus \"{name}\"? Tindakan ini tidak bisa dibatalkan."
+    },
+    "contact": {
+      "title": "Kami siap membantu!",
+      "featureIdea": "Punya ide keren?",
+      "featureDesc": "Vote fitur yang akan datang atau usulkan idemu sendiri",
+      "bugReport": "Menemukan bug kecil?",
+      "bugDesc": "Masalah tampilan atau format? Laporkan di sini :)",
+      "community": "Mau gabung komunitas?",
+      "communityDesc": "Yuk gabung Discord kami! Ngobrol sama tim dan pengguna lain"
+    }
   }
 }

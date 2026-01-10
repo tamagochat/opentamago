@@ -57,24 +57,107 @@ export const HARM_CATEGORY_LABELS: Record<HarmCategory, string> = {
 
 // Client-side hooks
 export {
-  useChat,
   useGenerateCharacter,
-  type ChatMessage,
-  type UseChatOptions,
-  type StreamingState,
   type GeneratedCharacter,
   type UseGenerateCharacterOptions,
   type GenerateCharacterState,
 } from "./hooks";
 
-// Client-side API functions (for direct Gemini calls in client mode)
+// Client-side API functions
 export {
   streamChatResponse,
   generateChatResponse,
+  generateMessengerResponse,
   generateCharacterFromImage,
+  translateText,
+  generateImage,
+  generateSpeech,
+  DEFAULT_ELEVENLABS_VOICE_ID,
+  type AnthropicEffort,
+  type ChatMessage,
   type ChatOptions,
+  type ChatResponseWithReasoning,
+  type MessengerOptions,
   type GenerateCharacterOptions,
+  type TranslateTextOptions,
+  type GenerateImageOptions,
+  type GeneratedImage,
+  type GenerateImageResult,
+  type GenerateSpeechOptions,
+  type GeneratedSpeech,
 } from "./client";
+
+// Image parameter mapping utilities
+export {
+  calculateDimensions,
+  getImageParams,
+  buildZImageTurboParams,
+  buildNanoBananaParams,
+  buildNanoBananaProParams,
+  buildGenericImageParams,
+} from "./image-params";
 
 // Proxy AI provider (routes through server, no client API key needed)
 export { createProxyAI, getProxyAI } from "./proxy";
+
+// Provider configuration and factory
+export {
+  // Provider arrays
+  ALL_PROVIDERS,
+  TEXT_PROVIDERS,
+  IMAGE_PROVIDERS,
+  VOICE_PROVIDERS,
+  TEXT_SCENARIOS,
+  // Image generation settings
+  ASPECT_RATIOS,
+  RESOLUTIONS,
+  // Gemini TTS settings
+  GEMINI_TTS_VOICES,
+  GEMINI_TTS_LANGUAGES,
+  DEFAULT_GEMINI_VOICE,
+  DEFAULT_TTS_LANGUAGE,
+  // Provider configs
+  PROVIDER_CONFIGS,
+  TEXT_MODEL_CONFIGS,
+  IMAGE_MODEL_CONFIGS,
+  VOICE_MODEL_CONFIGS,
+  // Default providers
+  DEFAULT_TEXT_PROVIDER,
+  DEFAULT_IMAGE_PROVIDER,
+  DEFAULT_VOICE_PROVIDER,
+  // Helper functions
+  getProviderConfig,
+  getTextModels,
+  getImageModels,
+  getVoiceModels,
+  isTextProvider,
+  isImageProvider,
+  isVoiceProvider,
+  isValidProvider,
+  getProvidersForModality,
+  modelSupportsReasoning,
+  // Types
+  type Provider,
+  type TextProvider,
+  type ImageProvider,
+  type VoiceProvider,
+  type TextScenario,
+  type Modality,
+  type ProviderConfig,
+  type ProviderModel,
+  type SDKPackage,
+  type AspectRatio,
+  type Resolution,
+  type GeminiVoice,
+  type TtsLanguage,
+  // Legacy exports
+  LLM_PROVIDERS,
+  type LLMProvider,
+} from "./providers";
+
+export {
+  createAIProvider,
+  getModelFromProvider,
+  type AIProviderInstance,
+  type ProviderOptions,
+} from "./provider-factory";

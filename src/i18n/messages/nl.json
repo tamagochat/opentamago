@@ -1,0 +1,986 @@
+{
+  "common": {
+    "appName": "OpenTamago",
+    "tagline": "Open Source AI Karakter Viewer & Delen",
+    "loading": "Laden...",
+    "error": "Oeps, er ging iets mis",
+    "retry": "Probeer opnieuw",
+    "comingSoon": "Binnenkort beschikbaar"
+  },
+  "experimental": {
+    "badge": "Experimenteel",
+    "charx": "Deze functie is nog in ontwikkeling! Het is ontworpen om CharX versie 3 te ondersteunen, maar we zijn nog bezig met verbeteringen.",
+    "p2p": "Dit gebruikt WebRTC voor directe P2P-verbindingen. Deel QR-codes en links alleen met mensen die je vertrouwt!",
+    "chat": "Deze chatfunctie is voor debugging doeleinden waar een ontwikkelaar LLM lokaal test. Gebruik andere diensten voor AI-chat.",
+    "feedback": "Feedback of een bug gevonden? Laat het ons weten op <link>GitHub Issues</link>!"
+  },
+  "actions": {
+    "save": "Opslaan",
+    "cancel": "Annuleren",
+    "delete": "Verwijderen",
+    "edit": "Bewerken",
+    "close": "Sluiten",
+    "submit": "Verzenden",
+    "upload": "Uploaden",
+    "download": "Downloaden",
+    "confirmDelete": "Bevestig verwijdering"
+  },
+  "home": {
+    "hero": {
+      "title": "Jouw AI Karakter",
+      "titleHighlight": "Vriend",
+      "description": "Bekijk, deel en chat met AI-karakters. Van CharX viewer tot P2P-gebaseerd CharX delen, alles is gratis en open source."
+    },
+    "cta": {
+      "openViewer": "Open CharX Viewer",
+      "viewGithub": "Bekijk op GitHub",
+      "tryViewer": "Probeer CharX Viewer",
+      "startSharing": "Start CharX Delen",
+      "startConnect": "Start CharX Sessie",
+      "p2pLabel": "P2P Functies"
+    },
+    "features": {
+      "title": "Alles wat je nodig hebt",
+      "description": "Een alles-in-één toolkit voor AI-karakter liefhebbers",
+      "charxViewer": {
+        "title": "CharX Viewer",
+        "description": "Bekijk karakterkaarten, lorebooks en assets van CharX-bestanden. Alles draait direct in je browser."
+      },
+      "p2pSharing": {
+        "title": "P2P CharX Delen",
+        "description": "Deel karakterbestanden direct met vrienden via P2P. Geen server uploads, directe overdrachten!"
+      },
+      "connect": {
+        "title": "P2P Multi-Karakter Chat",
+        "description": "Zet chatsessies op met meerdere AI-karakters. Nodig vrienden uit en kijk hoe karakters met elkaar praten."
+      }
+    },
+    "showcase": {
+      "badge": "CharX Viewer",
+      "title": "Bekijk karakterbestanden eenvoudig",
+      "dragDrop": {
+        "title": "Slepen & Neerzetten",
+        "description": "Sleep je .charx-bestanden om direct te zien wat erin zit"
+      },
+      "cardInfo": {
+        "title": "Alle karakterinfo in één oogopslag",
+        "description": "Bekijk karakterdetails, lorebooks, afbeeldingen en meer"
+      },
+      "clientSide": {
+        "title": "100% Lokale Verwerking",
+        "description": "Je bestanden verlaten nooit je browser. Totale privacy gegarandeerd!"
+      },
+      "dropzone": {
+        "title": "Sleep .charx-bestanden hier",
+        "subtitle": "of klik om te bladeren"
+      }
+    },
+    "p2pShowcase": {
+      "badge": "P2P CharX Delen",
+      "title": "Deel karakterkaarten direct",
+      "sender": "Jij",
+      "receivers": "Vrienden",
+      "directTransfer": "Directe browser-naar-browser overdracht",
+      "qrCode": {
+        "title": "QR-code & Deellinks",
+        "description": "Genereer QR-codes en links voor eenvoudige mobiele overdrachten"
+      },
+      "webrtc": {
+        "title": "WebRTC Directe Overdracht",
+        "description": "Bestanden gaan rechtstreeks tussen browsers. Geen serveropslag."
+      },
+      "password": {
+        "title": "Wachtwoordbeveiliging",
+        "description": "Beveilig je delingen met een wachtwoord als je wilt"
+      }
+    },
+    "highlights": {
+      "privacy": {
+        "title": "100% Lokale Verwerking",
+        "description": "Bekijk CharX-bestanden direct in je browser. Je gegevens verlaten nooit je apparaat."
+      },
+      "fast": {
+        "title": "Directe P2P-Verbinding",
+        "description": "Deel bestanden en chat met vrienden direct. Geen servers ertussen!"
+      },
+      "openSource": {
+        "title": "Open Source",
+        "description": "Alle code is openbaar. Draag bij, pas aan en maak het je eigen."
+      }
+    },
+    "ready": {
+      "title": "Klaar om te beginnen?",
+      "description": "Verken je karakterbestanden met onze privacy-first viewer."
+    },
+    "demo": {
+      "charx": {
+        "tabs": {
+          "character": "Karakter",
+          "lorebook": "Lorebook",
+          "assets": "Assets"
+        },
+        "greetings": "begroetingsvariaties",
+        "lorebookEntries": "{count} items",
+        "assetsFound": "{count} assets",
+        "fileReceived": "Bestand ontvangen",
+        "processing": "Verwerken..."
+      },
+      "p2p": {
+        "selectFile": "Selecteer bestand",
+        "generating": "Aanmaken...",
+        "scanToJoin": "Scan om deel te nemen",
+        "waiting": "Wachten...",
+        "readyToScan": "Klaar om te scannen",
+        "scanning": "Scannen...",
+        "connecting": "Verbinden...",
+        "complete": "Klaar!",
+        "waitingConnection": "Wachten...",
+        "connected": "Verbonden",
+        "transferred": "Overgedragen!"
+      },
+      "connect": {
+        "waitingRoom": "Wachtkamer",
+        "participants": "Deelnemers",
+        "chat": "Chat",
+        "p2pBadge": "P2P Verbonden",
+        "message1": "Hé! Klaar om te chatten?",
+        "message2": "Laten we gaan!",
+        "aiReply": "Leuk jullie allemaal te ontmoeten!",
+        "inputPlaceholder": "Typ een bericht..."
+      }
+    },
+    "connectShowcase": {
+      "badge": "P2P Connect",
+      "poweredBy": "Doe mee met je karakter",
+      "title": "Verbind je AI met anderen",
+      "description": "Maak een chatroom met je AI-karakter en nodig vrienden uit. Kijk hoe verschillende AI's in realtime chatten. Het wordt leuk!",
+      "realtime": {
+        "title": "P2P Chat",
+        "description": "Directe browserverbinding. Chat met vrienden zonder servers."
+      },
+      "aiPowered": {
+        "title": "AI Auto-Reply",
+        "description": "Elk karakter antwoordt met zijn eigen persoonlijkheid"
+      },
+      "multiParty": {
+        "title": "Tot 8 mensen",
+        "description": "Deel een QR-code of link om vrienden uit te nodigen"
+      }
+    }
+  },
+  "charx": {
+    "title": "CharX Viewer",
+    "subtitle": "Bekijk karakterkaarten, lorebooks en assets. Draait direct in je browser!",
+    "description": "Open CharX-karakterbestanden direct in je browser. Bekijk karakterkaarten, lorebooks en assets met volledige privacy.",
+    "upload": {
+      "title": "Upload CharX-bestand",
+      "description": "Sleep een .charx-bestand of klik om te bladeren",
+      "dropHere": "Zet je bestand hier neer",
+      "invalidFile": "Alleen .charx-bestanden worden ondersteund",
+      "dropFiles": "Zet je .charx-bestanden hier neer",
+      "browseMultiple": "of klik om te bladeren (meerdere bestanden OK)",
+      "downloadLink": "Haal karakterbestanden (.charx) op bij <link>realm.risuai.net</link>",
+      "unsupportedFile": "Niet-ondersteund bestand: {names}. Alleen .charx-bestanden werken hier.",
+      "unsupportedFiles": "Niet-ondersteunde bestanden: {names}. Alleen .charx-bestanden werken hier.",
+      "andMore": " en nog {count}",
+      "or": "of",
+      "realmPlaceholder": "Plak RisuRealm URL of karakter-ID...",
+      "realmDownload": "Downloaden",
+      "realmHint": "Werkt met realm.risuai.net URLs of karakter UUIDs",
+      "realmDownloadSuccess": "Karakter gedownload!",
+      "realmError": {
+        "INVALID_UUID": "Die RisuRealm ID of URL ziet er niet goed uit",
+        "INVALID_CHARX": "Kon dat karakter niet vinden op RisuRealm. Controleer de ID?",
+        "FILE_TOO_LARGE": "Bestand is te groot ({size}). Probeer handmatig te downloaden en uploaden.",
+        "DOWNLOAD_FAILED": "Kon niet downloaden van RisuRealm. Opnieuw proberen?"
+      },
+      "tryDemo": "Probeer een demo-karakter",
+      "demoHint": "Laad een voorbeeldkarakter om de viewer te verkennen"
+    },
+    "tabs": {
+      "character": "Karakter",
+      "lorebook": "Lorebook",
+      "assets": "Assets",
+      "module": "Module"
+    },
+    "empty": {
+      "noCharacterCard": "Geen karakterkaart gevonden",
+      "noLorebook": "Geen lorebook gevonden",
+      "noModule": "Geen module gevonden",
+      "noAssets": "Geen assets in deze categorie",
+      "noAssetsInFile": "Geen assets in dit bestand",
+      "noModuleContent": "Geen module-inhoud",
+      "noTriggerScripts": "Geen trigger scripts",
+      "noRegexScripts": "Geen regex scripts",
+      "noCommonJSCode": "Geen CommonJS-code"
+    },
+    "files": {
+      "title": "Bestanden",
+      "loaded": "{count} bestanden geladen",
+      "parsing": "Parseren...",
+      "dropMore": "Sleep meer .charx-bestanden of klik om toe te voegen",
+      "queue": "Wachtrij",
+      "queued": "In wachtrij",
+      "delete": "Verwijderen"
+    },
+    "assets": {
+      "title": "Assets",
+      "totalExtracted": "{count} assets totaal",
+      "sort": "Sorteren",
+      "group": "Groeperen",
+      "sortAZ": "A-Z",
+      "sortZA": "Z-A",
+      "sortByFilename": "Op bestandsnaam",
+      "groupByFilename": "Groeperen op bestandsnaam",
+      "emotions": "Emoties",
+      "icons": "Iconen",
+      "backgrounds": "Achtergronden",
+      "other": "Overig",
+      "cardMetadata": "Kaart Metadata ({count} referentie)",
+      "cardMetadataPlural": "Kaart Metadata ({count} referenties)"
+    },
+    "module": {
+      "title": "Module: {name}",
+      "unnamed": "Naamloos",
+      "noDescription": "Geen beschrijving",
+      "triggers": "Triggers",
+      "triggersCount": "{count} Triggers",
+      "regex": "Regex",
+      "regexCount": "{count} Regex",
+      "code": "Code",
+      "cjsCode": "CJS Code",
+      "lowLevelAccess": "Low Level Toegang"
+    },
+    "character": {
+      "unnamedCharacter": "Naamloos karakter",
+      "byCreator": "{creator}",
+      "tabs": {
+        "basic": "Basis",
+        "messages": "Berichten",
+        "prompts": "Prompts",
+        "others": "Overig"
+      },
+      "viewMode": {
+        "list": "Lijst",
+        "raw": "Raw",
+        "markdown": "Markdown"
+      },
+      "expandAll": "Alles uitvouwen",
+      "collapseAll": "Alles invouwen",
+      "saveAsFile": "Opslaan als bestand",
+      "copyToClipboard": "Kopiëren naar klembord",
+      "created": "Aangemaakt",
+      "modified": "Gewijzigd",
+      "empty": "Leeg",
+      "loreCount": "{count} lorebooks",
+      "assetsCount": "{count} assets"
+    },
+    "lorebook": {
+      "title": "Karakter Lorebook",
+      "entries": "{count} items",
+      "noEntries": "Geen lorebook-items",
+      "enabled": "Ingeschakeld",
+      "disabled": "Uitgeschakeld",
+      "priority": "Prioriteit",
+      "noKeys": "Geen sleutels",
+      "moreKeys": "+{count} meer",
+      "moreKeysPrefix": "+"
+    },
+    "toast": {
+      "copiedToClipboard": "Gekopieerd!",
+      "failedToCopy": "Kopiëren mislukt",
+      "fileSaved": "Bestand opgeslagen",
+      "lorebookCopied": "Lorebook JSON gekopieerd!",
+      "characterCopied": "Karakter JSON gekopieerd!",
+      "couldNotCopy": "Kon niet naar klembord kopiëren"
+    },
+    "errorBoundary": {
+      "title": "Oeps, er ging iets mis",
+      "description": "Er is een onverwachte fout opgetreden. Ververs de pagina.",
+      "refreshPage": "Verversen"
+    },
+    "export": {
+      "button": "Opslaan in database",
+      "title": "Karakter opslaan in database",
+      "description": "Sla dit karakter en lorebook lokaal op zodat je ze in chat kunt gebruiken.",
+      "character": {
+        "title": "Karakter",
+        "unnamed": "Naamloos",
+        "description": "Karakterkaartgegevens inclusief naam, beschrijving, persoonlijkheid en berichten.",
+        "moreTags": "meer"
+      },
+      "lorebook": {
+        "title": "Lorebook",
+        "entries": "items",
+        "description": "Lorebook-items worden opgeslagen voor context tijdens chats.",
+        "noLorebook": "Geen lorebook in dit karakterbestand."
+      },
+      "info": "Na opslaan kun je karakterkaarten eenvoudig importeren voor P2P-delen en verbinden.",
+      "infoMessages": {
+        "databaseReady": "Database gereed! Je kunt nu opslaan."
+      },
+      "save": "Opslaan",
+      "cancel": "Annuleren",
+      "saving": "Opslaan...",
+      "loading": "Laden...",
+      "success": {
+        "title": "Opgeslagen!",
+        "description": "{name} is opgeslagen in je database.",
+        "goToChat": "Ga naar Chat"
+      },
+      "error": {
+        "title": "Kon niet opslaan",
+        "description": "Er ging iets mis bij het opslaan. Opnieuw proberen?",
+        "databaseNotReady": "Database is nog niet klaar. Wacht even en probeer opnieuw.",
+        "databaseInitFailed": "Kon de database niet starten. Ververs de pagina en probeer opnieuw."
+      },
+      "initializing": "Opstarten..."
+    },
+    "shareP2P": "Delen via P2P",
+    "error": "Fout",
+    "warning": "Waarschuwing",
+    "filesExcluded": "{count} bestanden uitgesloten vanwege groottelimiet (>50MB):"
+  },
+  "errors": {
+    "notFound": {
+      "title": "404",
+      "heading": "Pagina niet gevonden",
+      "description": "De pagina die je zoekt bestaat niet of is verplaatst.",
+      "goHome": "Naar Home",
+      "openCharxViewer": "CharX Viewer"
+    },
+    "generic": {
+      "title": "Oeps, er ging iets mis",
+      "description": "Er is een onverwachte fout opgetreden. Probeer opnieuw of ga terug naar home.",
+      "retry": "Opnieuw proberen",
+      "goHome": "Naar Home"
+    },
+    "charx": {
+      "title": "CharX Viewer Fout",
+      "description": "Er ging iets mis bij het laden van de viewer. Het bestand kan beschadigd zijn of er is een browsercompatibiliteitsprobleem.",
+      "retry": "Opnieuw proberen",
+      "goHome": "Naar Home"
+    },
+    "pokebox": {
+      "title": "CharX PokeBox Fout",
+      "description": "Er ging iets mis bij het laden van je opgeslagen karakters. Probeer de pagina te verversen.",
+      "retry": "Opnieuw proberen",
+      "goHome": "Naar Home"
+    }
+  },
+  "footer": {
+    "description": "Open-source AI-karakterplatform. Bekijk, deel en chat met AI-karakters.",
+    "product": "Product",
+    "resources": "Bronnen",
+    "documentation": "Documentatie",
+    "legal": "Juridisch",
+    "privacy": "Privacybeleid",
+    "terms": "Servicevoorwaarden",
+    "copyright": "OpenTamago. Alle rechten voorbehouden."
+  },
+  "nav": {
+    "home": "Home",
+    "charxViewer": "CharX Viewer",
+    "charxPokebox": "CharX PokeBox",
+    "p2pShare": "P2P Delen",
+    "chat": "Chat",
+    "connect": "P2P Connect",
+    "howItWorks": "Hoe het werkt",
+    "github": "GitHub",
+    "toggleMenu": "Menu schakelen",
+    "navigationMenu": "Menu"
+  },
+  "p2p": {
+    "title": "P2P CharX Delen",
+    "subtitle": "Deel karakterbestanden direct met vrienden. P2P betekent geen server ertussen.",
+    "privacyNote": "Bestanden worden direct overgedragen tussen browsers via WebRTC. Niets wordt opgeslagen op servers.",
+    "confirmTitle": "Klaar om te delen",
+    "confirmSubtitle": "Controleer je bestand en stel een wachtwoord in als je wilt.",
+    "passwordLabel": "Wachtwoord (optioneel)",
+    "passwordPlaceholder": "Voer een wachtwoord in...",
+    "passwordHint": "Laat leeg om te delen zonder wachtwoordbeveiliging.",
+    "cancel": "Annuleren",
+    "start": "Start delen",
+    "connecting": "Verbinden...",
+    "sharingTitle": "Je bestand delen",
+    "sharingSubtitle": "Houd dit tabblad open. Deel de link hieronder zodat anderen kunnen downloaden.",
+    "stopSharing": "Stop delen",
+    "stopSharingConfirm": "Echt stoppen met delen?",
+    "stopSharingDescription": "Alle actieve downloads worden afgebroken.",
+    "confirmStop": "Ja, stoppen",
+    "sharingWarning": "Delen wordt verbroken als je weggaat of ververst. Houd dit tabblad open.",
+    "dropzone": {
+      "dropHere": "Zet je bestand hier neer",
+      "dropToShare": "Zet een .charx-bestand neer om te delen",
+      "orClickToBrowse": "of klik om te bladeren"
+    },
+    "download": {
+      "title": "Download CharX-bestand",
+      "connecting": "Verbinden met uploader...",
+      "connectionFailed": "Kon geen verbinding maken met de uploader. Ze hebben misschien hun browser gesloten.",
+      "notFound": "Deellink niet gevonden of verlopen",
+      "notFoundDescription": "Het bestand dat je zoekt is niet meer beschikbaar. De uploader is misschien gestopt met delen.",
+      "passwordRequired": "Dit bestand is beveiligd met een wachtwoord",
+      "passwordPlaceholder": "Voer wachtwoord in...",
+      "passwordError": "Verkeerd wachtwoord. Opnieuw proberen?",
+      "submit": "Verzenden",
+      "readyTitle": "Klaar om te downloaden",
+      "readyDescription": "Klik hieronder om te beginnen met downloaden.",
+      "startDownload": "Downloaden",
+      "downloading": "Downloaden...",
+      "complete": "Download voltooid!",
+      "completeDescription": "Je bestand is succesvol ontvangen.",
+      "charxDetected": "Het is een karakterbestand!",
+      "charxDescription": "Sla dit karakter en lorebook op in je database met één klik.",
+      "saveToDatabase": "Opslaan in database",
+      "downloadAnother": "Nog een bestand downloaden",
+      "goHome": "Naar Home",
+      "troubleshooting": "Duurt het te lang? De uploader zit misschien achter een firewall of heeft zijn browser gesloten.",
+      "sharePrompt": "Wil je ook CharX-bestanden delen?",
+      "startSharing": "Start CharX Delen"
+    }
+  },
+  "theme": {
+    "toggle": "Thema wisselen",
+    "light": "Licht",
+    "dark": "Donker",
+    "system": "Systeem"
+  },
+  "chat": {
+    "leftPanel": {
+      "create": "Aanmaken",
+      "createCharacter": "Karakter aanmaken",
+      "importCharx": "Importeer .charx",
+      "createPersona": "Persona aanmaken",
+      "noCharacters": "Nog geen karakters.",
+      "createOne": "Maak er een",
+      "noDescription": "Geen beschrijving",
+      "characters": "Karakters",
+      "chats": "Chats",
+      "recentChats": "Recente chats",
+      "newChat": "Nieuwe chat",
+      "noChats": "Nog geen chats.",
+      "startOne": "Start er een",
+      "yesterday": "Gisteren",
+      "deleteChat": "Deze chat verwijderen?",
+      "deleteCharacter": "\"{name}\" verwijderen? Dit verwijdert ook alle gerelateerde chats.",
+      "importing": "Importeren...",
+      "importSuccess": "Karakter geïmporteerd",
+      "importError": "Importeren mislukt",
+      "chatTitle": "Chat titel",
+      "editChatTitleDescription": "Wijzig de titel van dit chatgesprek.",
+      "chatTitlePlaceholder": "Voer chat titel in..."
+    },
+    "centerPanel": {
+      "selectCharacter": "Kies een karakter en chat om te beginnen",
+      "createFromLeft": "Of maak een nieuw karakter vanuit het linkerpaneel",
+      "apiKeyRequired": "API-sleutel nodig",
+      "configureApiKey": "Stel je Gemini API-sleutel in om te beginnen met chatten.",
+      "openSettings": "Open instellingen",
+      "clearChat": "Chat wissen",
+      "thinking": "Aan het denken...",
+      "messagePlaceholder": "Bericht naar {name}...",
+      "clearAllMessages": "Alle berichten in deze chat wissen?",
+      "selectPersona": "Selecteer persona",
+      "noPersonas": "Nog geen persona's.",
+      "createPersona": "Persona aanmaken",
+      "selectPersonaToSend": "Selecteer een persona om berichten te versturen",
+      "createPersonaAction": "Aanmaken",
+      "reasoning": "Redenering",
+      "translate": "Vertalen",
+      "translating": "Vertalen...",
+      "showOriginal": "Toon origineel",
+      "showTranslation": "Toon vertaling",
+      "translated": "Vertaald",
+      "original": "Origineel",
+      "translationError": "Vertaling mislukt",
+      "translationNotConfigured": "Vertaling niet geconfigureerd",
+      "generateImage": "Afbeelding genereren",
+      "generatingImage": "Genereren...",
+      "imageGenerationError": "Afbeelding genereren mislukt",
+      "imageGenerationNotConfigured": "Afbeelding generatie is niet geconfigureerd",
+      "imageGenerated": "Afbeelding gegenereerd",
+      "generateVoice": "Stem genereren",
+      "generatingVoice": "Genereren...",
+      "voiceGenerationError": "Stem genereren mislukt",
+      "voiceGenerationNotConfigured": "Stemgeneratie niet geconfigureerd",
+      "voiceGenerated": "Stem gegenereerd"
+    },
+    "rightPanel": {
+      "selectCharacter": "Selecteer een karakter om details te bekijken",
+      "characterDetails": "Karakterdetails",
+      "personality": "Persoonlijkheid",
+      "scenario": "Scenario",
+      "firstMessage": "Eerste bericht",
+      "exampleDialogue": "Voorbeelddialoog",
+      "systemPrompt": "Systeemprompt",
+      "noPersonaDetails": "Geen persona-details ingesteld.",
+      "creatorNotes": "Makersnotities",
+      "created": "Aangemaakt",
+      "lastUpdated": "Laatst bijgewerkt",
+      "persona": "Persona",
+      "info": "Info",
+      "deleteCharacter": "\"{name}\" verwijderen? Alle gerelateerde chats worden ook verwijderd. Dit kan niet ongedaan worden gemaakt."
+    },
+    "editor": {
+      "editCharacter": "Karakter bewerken",
+      "createCharacter": "Karakter aanmaken",
+      "editPersona": "Persona bewerken",
+      "createPersona": "Persona aanmaken",
+      "modifyPersona": "Wijzig je persona-details.",
+      "createPersonaDesc": "Maak een persona om jezelf te vertegenwoordigen in chats.",
+      "modifyCharacter": "Wijzig je karakterdetails.",
+      "createCharacterDesc": "Maak een nieuw karakter om mee te chatten.",
+      "uploadAvatar": "Upload avatar",
+      "avatarHint": "PNG, JPG tot 2MB",
+      "basic": "Basis",
+      "persona": "Persona",
+      "details": "Details",
+      "advanced": "Geavanceerd",
+      "nameLabel": "Naam",
+      "nameRequired": "Naam *",
+      "yourName": "Jouw naam",
+      "characterName": "Karakternaam",
+      "description": "Beschrijving",
+      "descriptionPersona": "Een korte beschrijving over jezelf",
+      "descriptionCharacter": "Een korte beschrijving van je karakter",
+      "firstMessage": "Eerste bericht",
+      "firstMessagePlaceholder": "Het eerste bericht dat je karakter stuurt",
+      "personality": "Persoonlijkheid",
+      "personalityCharacter": "Beschrijf persoonlijkheidskenmerken, gedragingen, eigenaardigheden...",
+      "scenario": "Scenario",
+      "scenarioPlaceholder": "De setting of context voor gesprekken",
+      "exampleDialogue": "Voorbeelddialoog",
+      "exampleDialoguePlaceholder": "Voorbeeldgesprekken om de toon te zetten...",
+      "systemPrompt": "Systeemprompt",
+      "systemPromptPlaceholder": "Aangepaste systeemprompt (overschrijft standaard)",
+      "creatorNotes": "Makersnotities",
+      "privateNotes": "Privénotities",
+      "notesPlaceholder": "Privénotities (niet verzonden naar AI)",
+      "saving": "Opslaan...",
+      "saveChanges": "Wijzigingen opslaan"
+    },
+    "settings": {
+      "title": "Instellingen",
+      "description": "Stel je API-instellingen in. Alles wordt lokaal opgeslagen.",
+      "apiSection": "API",
+      "apiKeySection": "API-sleutel",
+      "apiKeyDescription": "Configureer je API-verbinding en modelinstellingen.",
+      "chatUISection": "Chat UI",
+      "chatUIDescription": "Pas aan hoe chatberichten worden weergegeven.",
+      "databaseSection": "Database",
+      "safety": "Veiligheid",
+      "apiMode": "API-modus",
+      "apiModeServer": "Server API",
+      "apiModeServerDesc": "Gebruik de API-sleutel van de server",
+      "apiModeClient": "Jouw API-sleutel",
+      "apiModeClientDesc": "Meer privé",
+      "geminiApiKey": "Gemini API-sleutel",
+      "enterApiKey": "Voer je Gemini API-sleutel in",
+      "getApiKey": "Haal je API-sleutel op bij",
+      "googleAiStudio": "Google AI Studio",
+      "defaultModel": "Standaardmodel",
+      "selectModel": "Selecteer een model",
+      "temperature": "Temperatuur",
+      "maxTokens": "Max Tokens",
+      "bubbleTheme": "Chat Bubble Thema",
+      "themeRoleplay": "Roleplay",
+      "themeRoleplayDesc": "Gestileerde tekst met aanhalingstekens en acties",
+      "themeMessenger": "Messenger",
+      "themeMessengerDesc": "Platte tekst, geen opmaak",
+      "database": {
+        "title": "Databasebeheer",
+        "description": "Bekijk databasestatistieken en beheer je lokale gegevens.",
+        "storageUsage": "Opslaggebruik",
+        "collections": "Collecties",
+        "actions": "Acties",
+        "exportData": "Gegevens exporteren",
+        "dangerZone": "Gevarenzone",
+        "resetWarning": "Dit verwijdert permanent AL je gegevens inclusief karakters, chats, berichten en instellingen. Gebruik dit als je migratieproblemen ondervindt.",
+        "resetDatabase": "Database resetten",
+        "resetting": "Resetten..."
+      },
+      "safetyDescription": "Stel inhoudsveiligheidsfilters in. Standaard staan alle filters uit voor onbeperkte roleplay.",
+      "hateSpeech": "Haatspraak",
+      "harassment": "Intimidatie",
+      "sexuallyExplicit": "Seksueel expliciet",
+      "dangerousContent": "Gevaarlijke inhoud",
+      "blockNone": "Geen blokkeren",
+      "blockLow": "Blokkeer Laag+",
+      "blockMedium": "Blokkeer Medium+",
+      "blockHigh": "Alleen Hoog blokkeren",
+      "saving": "Opslaan...",
+      "saved": "Instellingen opgeslagen"
+    }
+  },
+  "connect": {
+    "meta": {
+      "title": "P2P Multi-Karakter Chat",
+      "description": "Maak een sessie waar AI-karakters met elkaar kunnen chatten"
+    },
+    "title": "P2P Multi-Karakter Chat",
+    "subtitle": "Chat samen met meerdere AI-karakters. P2P betekent geen servers ertussen.",
+    "tabs": {
+      "existing": "Mijn karakters",
+      "upload": "Upload .charx",
+      "photo": "Van foto"
+    },
+    "noCharacters": "Geen karakters gevonden.",
+    "createInChat": "Maak er een in Chat",
+    "upload": {
+      "title": "Upload CharX-bestand",
+      "description": "Sleep een .charx-bestand of klik om te selecteren",
+      "formats": "Alleen .charx-bestanden worden ondersteund",
+      "error": "Importeren mislukt",
+      "confirm": "Bevestigen & dit karakter gebruiken"
+    },
+    "photo": {
+      "dropTitle": "Upload een foto",
+      "dropDescription": "Sleep een afbeelding of klik om te selecteren. AI genereert een karakter ervan.",
+      "selectFile": "Selecteer afbeelding",
+      "invalidType": "Selecteer een afbeeldingsbestand (PNG, JPG, WebP of GIF)",
+      "tooLarge": "Afbeelding is te groot. Max 10MB.",
+      "contextLabel": "Hints (optioneel)",
+      "contextPlaceholder": "bijv. 'Fantasy krijger' of 'Maak ze vriendelijk'",
+      "contextHint": "Voeg hints toe om karaktergeneratie te begeleiden",
+      "generating": "Karakter genereren...",
+      "generate": "Genereer karakter",
+      "generated": "{name} is klaar!",
+      "generateError": "Kon karakter niet genereren. Opnieuw proberen?",
+      "noApiKey": "Stel eerst je Gemini API-sleutel in bij Instellingen.",
+      "apiKeyRequired": "API-sleutel nodig",
+      "apiKeyDescription": "Om karakters van foto's te genereren, stel je Gemini API-sleutel in bij Instellingen.",
+      "goToSettings": "Ga naar Instellingen"
+    },
+    "creating": "Sessie aanmaken...",
+    "joining": "Deelnemen aan sessie...",
+    "confirm": {
+      "subtitle": "Controleer je karakter en stel een wachtwoord in als je wilt.",
+      "passwordHint": "Anderen hebben dit wachtwoord nodig om deel te nemen aan je sessie.",
+      "start": "Sessie aanmaken"
+    },
+    "lobby": {
+      "title": "Wachtkamer",
+      "hostDescription": "Deel de link hieronder om anderen uit te nodigen",
+      "guestDescription": "Wachten tot de host begint",
+      "shortUrl": "Korte URL",
+      "longUrl": "Lange URL",
+      "copied": "Link gekopieerd!",
+      "copyFailed": "Kon link niet kopiëren",
+      "participants": "Deelnemers",
+      "you": "Jij",
+      "host": "Host",
+      "connecting": "Verbinden...",
+      "selectingCharacter": "Karakter selecteren...",
+      "waitingForOthers": "Wachten op anderen...",
+      "leave": "Verlaten",
+      "startChat": "Start chat",
+      "needMoreParticipants": "Minimaal 2 mensen nodig om te starten"
+    },
+    "chat": {
+      "title": "Chat",
+      "participants": "deelnemers",
+      "active": "Actief",
+      "pending": "In afwachting",
+      "autoReply": "Auto Reply",
+      "noMessages": "Nog geen berichten. Zeg iets!",
+      "unknown": "Onbekend",
+      "generating": "Aan het denken...",
+      "thinking": "{name} is aan het denken...",
+      "placeholder": "Bericht als {name}...",
+      "userJoined": "{name} is erbij gekomen",
+      "userLeft": "{name} is vertrokken"
+    },
+    "leaveConfirm": {
+      "title": "Sessie verlaten?",
+      "description": "Je wordt losgekoppeld van alle deelnemers en verlaat de chat.",
+      "confirm": "Verlaten"
+    },
+    "join": {
+      "meta": {
+        "title": "Deelnemen aan sessie",
+        "description": "Neem deel aan een multi-karakter chatsessie"
+      },
+      "title": "Deelnemen aan sessie",
+      "subtitle": "Kies een karakter om mee deel te nemen",
+      "currentParticipants": "{count} mensen al in de sessie",
+      "passwordProtected": "Deze sessie vereist een wachtwoord",
+      "enterPassword": "Wachtwoord",
+      "passwordHintJoin": "Voer het wachtwoord in dat de host heeft gedeeld.",
+      "passwordRequired": "Wachtwoord is vereist om deel te nemen",
+      "passwordError": "Verkeerd wachtwoord. Opnieuw proberen?",
+      "joinButton": "Deelnemen aan sessie"
+    },
+    "notifications": {
+      "joined": "{name} is erbij gekomen",
+      "left": "{name} is vertrokken"
+    },
+    "status": {
+      "connecting": "Verbinden...",
+      "connected": "Verbonden",
+      "connectedInfo": "Je bent klaar om P2P-sessies te verbinden",
+      "disconnected": "Verbinding verbroken"
+    },
+    "errors": {
+      "noPeer": "Netwerkverbinding mislukt. Ververs de pagina en probeer opnieuw.",
+      "hostLeft": "De host heeft de sessie beëindigd",
+      "sessionFull": "Sessie is vol",
+      "sessionFullDescription": "Deze sessie heeft het maximale aantal mensen bereikt.",
+      "createOwn": "Maak je eigen sessie",
+      "connectionFailed": "Verbinding mislukt",
+      "connectionFailedDescription": "Kon geen verbinding maken met de sessie. De host is misschien vertrokken of er is een netwerkprobleem.",
+      "tryAgain": "Opnieuw proberen",
+      "apiNotReady": "API-sleutel vereist",
+      "apiNotReadyDescription": "Stel je API-sleutel in bij Instellingen om AI-functies te gebruiken.",
+      "openSettings": "Open instellingen"
+    }
+  },
+  "howItWorks": {
+    "meta": {
+      "title": "Hoe het werkt | OpenTamago",
+      "description": "Leer hoe je CharX Viewer, P2P Delen en P2P Multi-Karakter Chat gebruikt"
+    },
+    "hero": {
+      "title": "Hoe het werkt",
+      "description": "Leer hoe je AI-karakters bekijkt, deelt en ermee chat met OpenTamago"
+    },
+    "tryNow": "Probeer nu",
+    "charx": {
+      "title": "CharX Viewer",
+      "description": "Open CharX-karakterbestanden direct in je browser. Alles wordt lokaal verwerkt voor volledige privacy.",
+      "steps": {
+        "upload": {
+          "title": "Upload bestand",
+          "description": "Sleep .charx-bestanden of klik om te bladeren"
+        },
+        "view": {
+          "title": "Bekijk karakter",
+          "description": "Zie karakterdetails, persoonlijkheid en begroetingen"
+        },
+        "lorebook": {
+          "title": "Verken Lorebook",
+          "description": "Blader door lorebook-items met trefwoordtriggers"
+        },
+        "assets": {
+          "title": "Bekijk assets",
+          "description": "Bekijk ingebedde afbeeldingen zoals emoties en avatars"
+        }
+      },
+      "highlights": {
+        "privacy": "100% lokale verwerking",
+        "formats": "Ondersteunt .charx en .json bestanden",
+        "export": "Sla karakters op in lokale database"
+      }
+    },
+    "p2pShare": {
+      "title": "P2P Delen",
+      "description": "Deel bestanden direct met vrienden via P2P. Niets wordt opgeslagen op servers.",
+      "steps": {
+        "select": {
+          "title": "Selecteer bestand",
+          "description": "Kies een bestand om te delen"
+        },
+        "generate": {
+          "title": "Genereer link",
+          "description": "Krijg een QR-code en deelbare link"
+        },
+        "transfer": {
+          "title": "Directe overdracht",
+          "description": "Bestanden worden direct overgedragen via WebRTC"
+        },
+        "receive": {
+          "title": "Downloaden",
+          "description": "Ontvangers downloaden direct van jou"
+        }
+      },
+      "highlights": {
+        "noServer": "Geen serveropslag",
+        "password": "Optionele wachtwoordbeveiliging",
+        "qrCode": "QR-code voor mobiel delen"
+      }
+    },
+    "p2pConnect": {
+      "title": "P2P Multi-Karakter Chat",
+      "description": "Maak multi-karakter chatsessies. Nodig vrienden uit en laat AI-karakters met elkaar chatten.",
+      "steps": {
+        "select": {
+          "title": "Selecteer karakter",
+          "description": "Kies uit je bibliotheek of maak er een"
+        },
+        "invite": {
+          "title": "Nodig vrienden uit",
+          "description": "Deel een link of QR-code om uit te nodigen"
+        },
+        "chat": {
+          "title": "Start met chatten",
+          "description": "Stuur berichten als je karakter"
+        },
+        "ai": {
+          "title": "AI antwoordt",
+          "description": "Zet auto-reply aan voor AI-reacties"
+        }
+      },
+      "highlights": {
+        "realtime": "Realtime P2P-berichten",
+        "multiParty": "Tot 8 karakters per sessie",
+        "autoReply": "AI-aangedreven auto-reply"
+      }
+    },
+    "privacy": {
+      "title": "Privacy eerst",
+      "description": "Alle OpenTamago-functies zijn gebouwd met privacy in gedachten. Je gegevens blijven op je apparaat.",
+      "noServer": {
+        "title": "Geen serveropslag",
+        "description": "Bestanden worden nooit geüpload naar onze servers. Alles gebeurt in je browser."
+      },
+      "encrypted": {
+        "title": "Versleutelde overdrachten",
+        "description": "P2P-verbindingen gebruiken WebRTC met ingebouwde versleuteling."
+      },
+      "openSource": {
+        "title": "Open Source",
+        "description": "Alle code is openbaar en beschikbaar op GitHub."
+      }
+    }
+  },
+  "localeDetector": {
+    "title": "Welkom!",
+    "description": "We hebben gedetecteerd dat je browsertaal mogelijk anders is dan de huidige pagina. Wil je wisselen?",
+    "selectLanguage": "Selecteer je taal",
+    "dontShowAgain": "Niet meer tonen",
+    "continue": "Taal wisselen",
+    "stayHere": "Hier blijven"
+  },
+  "settings": {
+    "pageTitle": "Instellingen",
+    "pageDescription": "Beheer je persona's, API-sleutels, modellen en database-instellingen.",
+    "backToChat": "Terug naar Chat",
+    "tabs": {
+      "personas": "Persona's",
+      "apiKeys": "API-sleutels",
+      "models": "Modellen",
+      "database": "Database",
+      "contact": "Contact"
+    },
+    "leftPanel": {
+      "defaultPersona": "Standaard persona",
+      "noDefaultPersona": "Geen standaard persona",
+      "editPersona": "Bewerken",
+      "stats": "Database statistieken",
+      "shortcuts": "Sneltoetsen"
+    },
+    "personas": {
+      "title": "Je persona's",
+      "description": "Beheer je chat persona's",
+      "create": "Persona aanmaken",
+      "empty": "Nog geen persona's. Maak er een om te beginnen!",
+      "setAsDefault": "Instellen als standaard",
+      "isDefault": "Standaard",
+      "deleteConfirmation": "Weet je zeker dat je \"{name}\" wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt."
+    },
+    "contact": {
+      "title": "We zijn er om te helpen!",
+      "featureIdea": "Heb je een gaaf feature-idee?",
+      "featureDesc": "Stem op aankomende features of stel je eigen voor",
+      "bugReport": "Een niet-kritieke bug gevonden?",
+      "bugDesc": "UI-glitches of opmaakproblemen? Meld ze hier :)",
+      "community": "Wil je lid worden van de community?",
+      "communityDesc": "Kom gezellig hangen in onze Discord! Chat met het team en andere gebruikers"
+    }
+  },
+  "pokebox": {
+    "meta": {
+      "title": "CharX PokeBox - Je AI Karakter Bibliotheek | OpenTamago",
+      "description": "Blader, beheer en organiseer je opgeslagen AI-karakterkaarten, lorebooks en assets. Lokaal-eerst opslag voor volledige privacy. Gratis en open source."
+    },
+    "title": "CharX PokeBox",
+    "subtitle": "Bekijk je opgeslagen karakterkaarten, lorebooks en assets.",
+    "description": "Blader en beheer je opgeslagen AI-karakters op één plek.",
+    "selectCharacter": "Selecteer een karakter om details te bekijken",
+    "moduleNotStored": "Modules worden niet opgeslagen in de database.",
+    "back": "Terug",
+    "tabs": {
+      "character": "Karakter",
+      "lorebook": "Lorebook",
+      "assets": "Assets",
+      "module": "Module"
+    },
+    "characterList": {
+      "title": "Mijn karakters",
+      "search": "Zoek karakters...",
+      "empty": "Nog geen karakters opgeslagen.",
+      "noResults": "Geen karakters komen overeen met je zoekopdracht.",
+      "importFromCharx": "Importeren van CharX"
+    },
+    "deleteConfirm": {
+      "title": "Karakter verwijderen?",
+      "description": "Dit verwijdert \"{name}\" en alle bijbehorende gegevens inclusief lorebook-items en assets. Dit kan niet ongedaan worden gemaakt.",
+      "cancel": "Annuleren",
+      "confirm": "Verwijderen"
+    },
+    "byCreator": "{creator}",
+    "unnamedCharacter": "Naamloos karakter",
+    "created": "Aangemaakt",
+    "modified": "Gewijzigd",
+    "empty": "Leeg",
+    "expandAll": "Alles uitvouwen",
+    "collapseAll": "Alles invouwen",
+    "greetingIndex": "Begroeting {index}",
+    "viewMode": {
+      "list": "Lijst",
+      "raw": "Raw",
+      "markdown": "Markdown"
+    },
+    "characterTabs": {
+      "basic": "Basis",
+      "messages": "Berichten",
+      "prompts": "Prompts",
+      "others": "Overig"
+    },
+    "fields": {
+      "description": "Beschrijving",
+      "personality": "Persoonlijkheid",
+      "scenario": "Scenario",
+      "firstMessage": "Eerste bericht",
+      "exampleDialogue": "Voorbeelddialoog",
+      "alternateGreetings": "Alternatieve begroetingen",
+      "groupOnlyGreetings": "Alleen groepsbegroetingen",
+      "systemPrompt": "Systeemprompt",
+      "postHistoryInstructions": "Post-geschiedenis instructies",
+      "creatorInfo": "Maker info",
+      "creator": "Maker",
+      "characterVersion": "Versie",
+      "dates": "Datums",
+      "creatorNotes": "Makersnotities"
+    },
+    "lorebook": {
+      "title": "Lorebook-items",
+      "entries": "{count} items",
+      "noEntries": "Geen lorebook-items voor dit karakter.",
+      "enabled": "Ingeschakeld",
+      "disabled": "Uitgeschakeld",
+      "priority": "Prioriteit",
+      "noKeys": "Geen sleutels",
+      "moreKeys": "+{count} meer"
+    },
+    "assets": {
+      "title": "Karakter assets",
+      "totalExtracted": "{count} assets totaal",
+      "noAssets": "Geen assets in deze categorie",
+      "sort": "Sorteren",
+      "group": "Groeperen",
+      "sortAZ": "A-Z",
+      "sortZA": "Z-A",
+      "sortByFilename": "Op bestandsnaam",
+      "groupByFilename": "Groeperen op bestandsnaam",
+      "emotions": "Emoties",
+      "icons": "Iconen",
+      "backgrounds": "Achtergronden",
+      "other": "Overig"
+    },
+    "toast": {
+      "copiedToClipboard": "Gekopieerd!",
+      "failedToCopy": "Kopiëren mislukt"
+    }
+  }
+}

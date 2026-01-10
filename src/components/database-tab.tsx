@@ -46,6 +46,8 @@ export function DatabaseTab() {
         const messagesCount = await db.messages.count().exec();
         const memoriesCount = await db.memories.count().exec();
         const settingsCount = await db.settings.count().exec();
+        const providerSettingsCount = await db.providerSettings.count().exec();
+        const generationSettingsCount = await db.generationSettings.count().exec();
         const lorebookCount = await db.lorebookEntries.count().exec();
         const assetsCount = await db.characterAssets.count().exec();
 
@@ -56,6 +58,8 @@ export function DatabaseTab() {
           { name: "Messages", count: messagesCount },
           { name: "Memories", count: memoriesCount },
           { name: "Settings", count: settingsCount },
+          { name: "Provider Settings", count: providerSettingsCount },
+          { name: "Generation Settings", count: generationSettingsCount },
           { name: "Lorebook Entries", count: lorebookCount },
           { name: "Character Assets", count: assetsCount }
         );

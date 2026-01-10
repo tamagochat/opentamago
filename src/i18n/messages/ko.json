@@ -22,7 +22,8 @@
     "close": "닫기",
     "submit": "확인",
     "upload": "업로드",
-    "download": "다운로드"
+    "download": "다운로드",
+    "confirmDelete": "삭제 확인"
   },
   "home": {
     "hero": {
@@ -484,7 +485,26 @@
       "noPersonas": "아직 페르소나가 없어요.",
       "createPersona": "페르소나 만들기",
       "selectPersonaToSend": "메시지를 보내려면 페르소나를 선택하세요",
-      "createPersonaAction": "만들기"
+      "createPersonaAction": "만들기",
+      "reasoning": "추론",
+      "translate": "번역",
+      "translating": "번역 중...",
+      "showOriginal": "원본 보기",
+      "showTranslation": "번역 보기",
+      "translated": "번역됨",
+      "original": "원본",
+      "translationError": "번역 실패",
+      "translationNotConfigured": "번역이 설정되지 않음",
+      "generateImage": "이미지 생성",
+      "generatingImage": "생성 중...",
+      "imageGenerationError": "이미지 생성 실패",
+      "imageGenerationNotConfigured": "이미지 생성이 설정되지 않았습니다",
+      "imageGenerated": "이미지가 생성되었습니다",
+      "generateVoice": "음성 생성",
+      "generatingVoice": "생성 중...",
+      "voiceGenerationError": "음성 생성 실패",
+      "voiceGenerationNotConfigured": "음성 생성이 설정되지 않았습니다",
+      "voiceGenerated": "음성이 생성되었습니다"
     },
     "rightPanel": {
       "selectCharacter": "캐릭터를 선택해서 정보 보기",
@@ -589,7 +609,8 @@
       "blockLow": "낮음 이상 차단",
       "blockMedium": "중간 이상 차단",
       "blockHigh": "높음만 차단",
-      "saving": "저장 중..."
+      "saving": "저장 중...",
+      "saved": "설정 저장됨"
     }
   },
   "connect": {
@@ -829,6 +850,43 @@
     "dontShowAgain": "다시 표시하지 않기",
     "continue": "언어 변경",
     "stayHere": "현재 언어 유지"
+  },
+  "settings": {
+    "pageTitle": "설정",
+    "pageDescription": "페르소나, API 키, 모델, 데이터베이스 설정을 관리하세요.",
+    "backToChat": "채팅으로 돌아가기",
+    "tabs": {
+      "personas": "페르소나",
+      "apiKeys": "API 키",
+      "models": "모델",
+      "database": "데이터베이스",
+      "contact": "문의"
+    },
+    "leftPanel": {
+      "defaultPersona": "기본 페르소나",
+      "noDefaultPersona": "기본 페르소나 없음",
+      "editPersona": "편집",
+      "stats": "데이터베이스 통계",
+      "shortcuts": "키보드 단축키"
+    },
+    "personas": {
+      "title": "내 페르소나",
+      "description": "채팅 페르소나를 관리하세요",
+      "create": "페르소나 만들기",
+      "empty": "페르소나가 없어요. 하나 만들어 보세요!",
+      "setAsDefault": "기본값으로 설정",
+      "isDefault": "기본값",
+      "deleteConfirmation": "\"{name}\"을(를) 삭제하시겠습니까? 이 작업은 취소할 수 없어요."
+    },
+    "contact": {
+      "title": "도움이 필요하신가요?",
+      "featureIdea": "멋진 기능 아이디어가 있나요?",
+      "featureDesc": "새로운 기능을 제안하거나 투표하세요",
+      "bugReport": "버그를 발견하셨나요?",
+      "bugDesc": "UI 문제나 오류가 있으면 여기서 알려주세요 :)",
+      "community": "커뮤니티에 참여하고 싶나요?",
+      "communityDesc": "디스코드에서 팀과 다른 사용자들과 대화하세요"
+    }
   },
   "pokebox": {
     "meta": {

@@ -4,180 +4,20 @@ import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import { useTranslations } from "next-intl";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { Button } from "~/components/ui/button";
-import { Textarea } from "~/components/ui/textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
-import { Loader2, User, Trash2, Pencil, PanelRight, Box, Plus } from "lucide-react";
+import { Loader2, PanelRight, Box } from "lucide-react";
 import { Sheet, SheetTrigger } from "~/components/ui/sheet";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "~/components/ui/dialog";
-import { useMessages, useSettings, usePersonas, useMemories, useCreateMemory, useDeleteMemory, useDatabase } from "~/lib/db/hooks";
-import type { CharacterDocument, ChatDocument, PersonaDocument, ChatBubbleTheme } from "~/lib/db/schemas";
+import { useMessages, useSettings, usePersonas, useMemories, useLRUMemory, useDeleteMemory, useDatabase, formatMemoriesForPrompt, useCharacterAssets, useProviderSettings, useGenerationSettings } from "~/lib/db/hooks";
+import type { CharacterDocument, ChatDocument, PersonaDocument } from "~/lib/db/schemas";
 import { cn } from "~/lib/utils";
-import { PersonaEditor } from "./persona-editor";
 import { ChatInput } from "./chat-input";
-import { EditMessageDialog } from "./edit-message-dialog";
-import { MemoryDialog } from "./memory-dialog";
 import { ExperimentalDisclaimer } from "~/components/experimental-disclaimer";
 import { toast } from "sonner";
 import { createSingleChatContext, generateStreamingResponse, generateMessengerChatResponse } from "~/lib/chat";
-
-// Recursive markdown-style parser for roleplay text
-type FormatNode =
-  | { type: "text"; content: string }
-  | { type: "bold"; children: FormatNode[] }
-  | { type: "italic"; children: FormatNode[] }
-  | { type: "quote"; children: FormatNode[] };
-
-function parseRoleplayText(text: string): FormatNode[] {
-  const nodes: FormatNode[] = [];
-  let i = 0;
-
-  while (i < text.length) {
-    // Check for bold-italic (***text***)
-    if (text.slice(i, i + 3) === "***") {
-      const closeIndex = text.indexOf("***", i + 3);
-      if (closeIndex !== -1) {
-        const innerText = text.slice(i + 3, closeIndex);
-        nodes.push({
-          type: "bold",
-          children: [{ type: "italic", children: parseRoleplayText(innerText) }],
-        });
-        i = closeIndex + 3;
-        continue;
-      }
-    }
-
-    // Check for bold (**text**)
-    if (text.slice(i, i + 2) === "**") {
-      const closeIndex = text.indexOf("**", i + 2);
-      if (closeIndex !== -1) {
-        const innerText = text.slice(i + 2, closeIndex);
-        nodes.push({
-          type: "bold",
-          children: parseRoleplayText(innerText),
-        });
-        i = closeIndex + 2;
-        continue;
-      }
-    }
-
-    // Check for quotes ("text")
-    if (text[i] === '"') {
-      const closeIndex = text.indexOf('"', i + 1);
-      if (closeIndex !== -1) {
-        const innerText = text.slice(i + 1, closeIndex);
-        nodes.push({
-          type: "quote",
-          children: parseRoleplayText(innerText),
-        });
-        i = closeIndex + 1;
-        continue;
-      }
-    }
-
-    // Check for italic/action (*text*)
-    if (text[i] === "*") {
-      const closeIndex = text.indexOf("*", i + 1);
-      if (closeIndex !== -1) {
-        const innerText = text.slice(i + 1, closeIndex);
-        nodes.push({
-          type: "italic",
-          children: parseRoleplayText(innerText),
-        });
-        i = closeIndex + 1;
-        continue;
-      }
-    }
-
-    // Regular text - collect until next special character
-    let textContent = "";
-    while (i < text.length && text[i] !== "*" && text[i] !== '"') {
-      textContent += text[i];
-      i++;
-    }
-    if (textContent) {
-      nodes.push({ type: "text", content: textContent });
-    }
-  }
-
-  return nodes;
-}
-
-function renderFormatNodes(nodes: FormatNode[], keyPrefix = ""): React.ReactNode {
-  return nodes.map((node, i) => {
-    const key = `${keyPrefix}-${i}`;
-
-    if (node.type === "text") {
-      return <span key={key}>{node.content}</span>;
-    }
-
-    if (node.type === "bold") {
-      return (
-        <span key={key} className="font-bold">
-          {renderFormatNodes(node.children, key)}
-        </span>
-      );
-    }
-
-    if (node.type === "italic") {
-      return (
-        <span key={key} className="text-muted-foreground italic">
-          {renderFormatNodes(node.children, key)}
-        </span>
-      );
-    }
-
-    if (node.type === "quote") {
-      return (
-        <span key={key} className="text-primary font-semibold">
-          "{renderFormatNodes(node.children, key)}"
-        </span>
-      );
-    }
-
-    return null;
-  });
-}
-
-// Roleplay text renderer that highlights quotes and formats actions
-function RoleplayText({ content }: { content: string }) {
-  const parsedContent = useMemo(() => parseRoleplayText(content), [content]);
-
-  return (
-    <div className="whitespace-pre-wrap break-words">
-      {renderFormatNodes(parsedContent)}
-    </div>
-  );
-}
-
-// Message content renderer based on theme
-// Skip expensive parsing during streaming to keep UI responsive
-function MessageContent({ content, theme, isStreaming = false }: { content: string; theme: ChatBubbleTheme; isStreaming?: boolean }) {
-  if (theme === "messenger") {
-    // Plain text - just whitespace preserved
-    return <div className="whitespace-pre-wrap break-words">{content}</div>;
-  }
-
-  // During streaming, show raw text to avoid expensive O(n) parsing on every update
-  if (isStreaming) {
-    return <div className="whitespace-pre-wrap break-words">{content}</div>;
-  }
-
-  // Roleplay theme - styled quotes and actions (only for complete messages)
-  return <RoleplayText content={content} />;
-}
-
-interface DisplayMessage {
-  id: string;
-  role: "user" | "assistant" | "system";
-  content: string;
-}
+import { translateText, generateImagePrompt, generateImage, generateSpeech } from "~/lib/ai/client";
+import type { ImageProvider, VoiceProvider } from "~/lib/ai/providers";
+import { MessageBubble, type DisplayMessage, type AssetContext } from "./message-bubble";
+import { ChatDialogsProvider, useChatDialogs } from "./chat-dialogs";
 
 interface CenterPanelProps {
   character: CharacterDocument | null;
@@ -187,23 +27,70 @@ interface CenterPanelProps {
   onRightPanelOpenChange?: (open: boolean) => void;
 }
 
-export function CenterPanel({ character, chat, className, rightPanelOpen, onRightPanelOpenChange }: CenterPanelProps) {
+// Inner component that uses the dialog context
+function CenterPanelInner({ character, chat, className, rightPanelOpen, onRightPanelOpenChange }: CenterPanelProps) {
   const t = useTranslations("chat.centerPanel");
-  const { settings, isApiReady, effectiveApiKey, isClientMode } = useSettings();
+  const { settings } = useSettings();
   const chatBubbleTheme = settings.chatBubbleTheme ?? "roleplay";
   const { personas } = usePersonas();
-  const { messages: storedMessages, addMessage, updateMessage, deleteMessage, clearMessages, isLoading: messagesLoading } = useMessages(chat?.id ?? "");
-  const { memories, isLoading: memoriesLoading } = useMemories(chat?.id ?? "", 50);
-  const { createMemory } = useCreateMemory();
-  const { deleteMemory } = useDeleteMemory();
-  const { db } = useDatabase();
+  const { messages: storedMessages, addMessage, updateMessage, deleteMessage, setTranslation, addAttachment, getAttachmentDataUrl, getAttachmentBlob, isLoading: messagesLoading } = useMessages(chat?.id ?? "");
+  const { memories } = useMemories(chat?.id ?? "", 50);
+  const lruMemory = useLRUMemory(chat?.id ?? "", character?.id ?? "");
+  const { providers } = useProviderSettings();
+  const { getChatSettings, getSettings } = useGenerationSettings();
+
+  // Get chat dialogs from context
+  const { openEditDialog, openMemoryDialog, openPersonaEditor } = useChatDialogs();
+
+  // Get chat generation settings and check if provider is ready
+  const chatGenSettings = getChatSettings();
+  const chatProviderId = (chatGenSettings?.providerId ?? "gemini") as "gemini" | "openrouter" | "anthropic" | "grok" | "openai" | "nanogpt";
+  const chatProviderSettings = providers.get(chatProviderId);
+  const { isProviderReady } = useProviderSettings();
+  const isApiReady = isProviderReady(chatProviderId);
+
+  // Translation state - only tracks loading state, view state is in MessageBubble
+  const [isTranslating, setIsTranslating] = useState<Record<string, boolean>>({});
+
+  // Image generation state - tracks which message is currently generating an image
+  const [isGeneratingImage, setIsGeneratingImage] = useState<Record<string, boolean>>({});
+
+  // Voice generation state - tracks which message is currently generating voice
+  const [isGeneratingVoice, setIsGeneratingVoice] = useState<Record<string, boolean>>({});
+
+  // Character assets for image rendering in roleplay messages
+  const { assets, findAssetByName, getAssetDataUrl } = useCharacterAssets(character?.id);
+  const [assetUrls, setAssetUrls] = useState<Record<string, string>>({});
+
+  // Load asset data URLs when assets change
+  useEffect(() => {
+    const loadAssetUrls = async () => {
+      const urls: Record<string, string> = {};
+      for (const asset of assets) {
+        const url = await getAssetDataUrl(asset.id);
+        if (url) {
+          urls[asset.id] = url;
+        }
+      }
+      setAssetUrls(urls);
+    };
+
+    if (assets.length > 0) {
+      void loadAssetUrls();
+    } else {
+      setAssetUrls({});
+    }
+  }, [assets, getAssetDataUrl]);
+
+  // Memoize asset context to avoid unnecessary re-renders
+  const assetContext = useMemo<AssetContext | undefined>(() => {
+    if (assets.length === 0) return undefined;
+    return { findAssetByName, assetUrls };
+  }, [assets.length, findAssetByName, assetUrls]);
+
   const [displayMessages, setDisplayMessages] = useState<DisplayMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedPersona, setSelectedPersona] = useState<PersonaDocument | null>(null);
-  const [personaEditorOpen, setPersonaEditorOpen] = useState(false);
-  const [editingMessageId, setEditingMessageId] = useState<string | null>(null);
-  const [editingMessageContent, setEditingMessageContent] = useState("");
-  const [memoryDialogOpen, setMemoryDialogOpen] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   // Streaming state - separate from displayMessages to avoid frequent re-renders
@@ -217,6 +104,10 @@ export function CenterPanel({ character, chat, className, rightPanelOpen, onRigh
       id: m.id,
       role: m.role,
       content: m.content,
+      reasoning: m.reasoning,
+      displayedContent: m.displayedContent,
+      displayedContentLanguage: m.displayedContentLanguage,
+      attachmentsMeta: m.attachmentsMeta,
     }));
     setDisplayMessages(msgs);
   }, [storedMessages]);
@@ -232,6 +123,18 @@ export function CenterPanel({ character, chat, className, rightPanelOpen, onRigh
       rafIdRef.current = null;
     }
   }, [chat?.id]);
+
+  // Initialize selectedPersona from chat's personaId when chat changes
+  useEffect(() => {
+    if (chat?.personaId) {
+      const persona = personas.find((p) => p.id === chat.personaId);
+      if (persona) {
+        setSelectedPersona(persona as PersonaDocument);
+      }
+    } else {
+      setSelectedPersona(null);
+    }
+  }, [chat?.id, chat?.personaId, personas]);
 
   // Cleanup RAF on unmount
   useEffect(() => {
@@ -284,7 +187,7 @@ export function CenterPanel({ character, chat, className, rightPanelOpen, onRigh
       toast.error(t("selectPersonaToSend"), {
         action: {
           label: t("createPersonaAction"),
-          onClick: () => setPersonaEditorOpen(true),
+          onClick: () => openPersonaEditor({ onSave: setSelectedPersona }),
         },
       });
       return;
@@ -298,9 +201,9 @@ export function CenterPanel({ character, chat, className, rightPanelOpen, onRigh
       // Save user message first (inside try/catch to handle errors)
       await addMessage("user", userMessage);
 
-      // Format memories for context
-      const memoryContext = memories.length > 0
-        ? memories.map(m => m.content).join('\n')
+      // Format memories for context (LRU ordered)
+      const memoryContent = memories.length > 0
+        ? formatMemoriesForPrompt(memories)
         : undefined;
 
       const context = createSingleChatContext({
@@ -308,36 +211,44 @@ export function CenterPanel({ character, chat, className, rightPanelOpen, onRigh
         persona: selectedPersona,
         messages: storedMessages,
         theme: chatBubbleTheme,
+        memoryContent,
         enableLorebook: false, // TODO: Enable when lorebook UI is ready
-        enableMemory: chatBubbleTheme === "messenger" && memories.length > 0,
-        memoryContext,
       });
 
       // Check if messenger mode is active
       const isMessengerMode = chatBubbleTheme === "messenger";
+
+      // Get generation settings from chat scenario (with fallbacks to legacy settings)
+      const genModel = chatGenSettings?.model ?? settings.defaultModel;
+      const genTemperature = chatGenSettings?.temperature ?? settings.temperature;
+      const genMaxTokens = chatGenSettings?.maxTokens ?? settings.maxTokens;
+      const genThinking = chatGenSettings?.thinking ?? false;
 
       if (isMessengerMode) {
         // Messenger mode: Generate structured JSON response
         const messengerResponse = await generateMessengerChatResponse({
           context,
           userMessage,
-          apiKey: effectiveApiKey,
-          model: settings.defaultModel,
-          temperature: settings.temperature,
-          maxTokens: settings.maxTokens,
-          safetySettings: settings.safetySettings,
-          isClientMode,
+          providerId: chatProviderId,
+          providerSettings: chatProviderSettings!,
+          model: genModel,
+          temperature: genTemperature,
+          maxTokens: genMaxTokens,
+          thinking: genThinking,
         });
 
         // Save each message to database (ignoring delays)
-        for (const msg of messengerResponse.messages) {
-          await addMessage("assistant", msg.content);
+        // Attach reasoning to the first message only
+        for (let i = 0; i < messengerResponse.messages.length; i++) {
+          const msg = messengerResponse.messages[i]!;
+          const reasoning = i === 0 ? messengerResponse.reasoning : undefined;
+          await addMessage("assistant", msg.content, { reasoning });
         }
 
         // Save memory if provided
         if (messengerResponse.memory) {
-          // TODO: Save to memories collection
-          console.log("Memory:", messengerResponse.memory);
+          await lruMemory.addContent(messengerResponse.memory, "system");
+          console.log("[Messenger] Memory saved:", messengerResponse.memory);
         }
       } else {
         // Roleplay mode: Stream response with throttled UI updates
@@ -351,12 +262,12 @@ export function CenterPanel({ character, chat, className, rightPanelOpen, onRigh
         const stream = generateStreamingResponse({
           context,
           userMessage,
-          apiKey: effectiveApiKey,
-          model: settings.defaultModel,
-          temperature: settings.temperature,
-          maxTokens: settings.maxTokens,
-          safetySettings: settings.safetySettings,
-          isClientMode,
+          providerId: chatProviderId,
+          providerSettings: chatProviderSettings!,
+          model: genModel,
+          temperature: genTemperature,
+          maxTokens: genMaxTokens,
+          thinking: genThinking,
         });
         console.log("[Roleplay] Stream generator created, starting iteration...");
 
@@ -365,7 +276,10 @@ export function CenterPanel({ character, chat, className, rightPanelOpen, onRigh
         let chunkCount = 0;
         const UPDATE_INTERVAL = 50; // ms - update UI at most every 50ms
 
-        for await (const chunk of stream) {
+        // Use manual iteration to capture the generator's return value (contains reasoning)
+        let iterResult = await stream.next();
+        while (!iterResult.done) {
+          const chunk = iterResult.value;
           chunkCount++;
           if (chunkCount === 1) {
             console.log("[Roleplay] Received first chunk");
@@ -383,9 +297,14 @@ export function CenterPanel({ character, chat, className, rightPanelOpen, onRigh
             // preventing any UI interactions (clicks, scrolls) from being processed.
             await new Promise(resolve => setTimeout(resolve, 0));
           }
+          iterResult = await stream.next();
         }
 
-        console.log(`[Roleplay] Stream complete. Total chunks: ${chunkCount}`);
+        // Capture reasoning from the generator's return value
+        const generatorResult = iterResult.value;
+        const reasoning = generatorResult?.reasoning;
+
+        console.log(`[Roleplay] Stream complete. Total chunks: ${chunkCount}, hasReasoning: ${!!reasoning}`);
 
         // Final update to ensure all content is displayed
         setStreamingContent(streamingContentRef.current);
@@ -397,7 +316,7 @@ export function CenterPanel({ character, chat, className, rightPanelOpen, onRigh
 
         console.log("[Roleplay] Saving assistant message...");
         if (fullContent) {
-          await addMessage("assistant", fullContent);
+          await addMessage("assistant", fullContent, { reasoning });
         }
         console.log("[Roleplay] Done!");
       }
@@ -414,38 +333,214 @@ export function CenterPanel({ character, chat, className, rightPanelOpen, onRigh
       }
       setIsLoading(false);
     }
-  }, [isApiReady, isLoading, selectedPersona, character, t, addMessage, memories, storedMessages, chatBubbleTheme, effectiveApiKey, settings, isClientMode]);
+  }, [isApiReady, isLoading, selectedPersona, character, t, addMessage, memories, storedMessages, chatBubbleTheme, chatProviderId, chatProviderSettings, settings, chatGenSettings, openPersonaEditor, lruMemory]);
 
-  const handleDeleteMessage = useCallback(
-    async (messageId: string) => {
-      // Don't delete streaming messages
-      if (messageId.startsWith("streaming-")) {
-        return;
-      }
+  // Stable callback refs to prevent MessageBubble re-renders
+  const handleDeleteRef = useRef(deleteMessage);
+  handleDeleteRef.current = deleteMessage;
 
-      await deleteMessage(messageId);
-      // Note: No need to manually update displayMessages
-      // The RxDB subscription in useMessages will automatically update storedMessages,
-      // which will trigger the useEffect that syncs to displayMessages
-    },
-    [deleteMessage]
-  );
-
-  const handleStartEdit = useCallback((messageId: string, currentContent: string) => {
-    setEditingMessageId(messageId);
-    setEditingMessageContent(currentContent);
+  const handleDeleteMessage = useCallback(async (messageId: string) => {
+    // Don't delete streaming messages
+    if (messageId.startsWith("streaming")) {
+      return;
+    }
+    await handleDeleteRef.current(messageId);
   }, []);
 
-  const handleSaveEdit = useCallback(async (newContent: string) => {
-    if (!editingMessageId) return;
+  // Stable edit handler using dialog context
+  const handleEditMessage = useCallback((messageId: string, content: string) => {
+    openEditDialog(messageId, content);
+  }, [openEditDialog]);
 
-    await updateMessage(editingMessageId, newContent);
-    // Note: No need to manually update displayMessages
-    // The RxDB subscription will automatically sync the updated message
+  // Translation handler
+  const handleTranslate = useCallback(async (messageId: string, content: string) => {
+    // Get translation-specific settings
+    const translationSettings = getSettings("text_translation");
+    const providerId = (translationSettings?.providerId ?? "gemini") as "gemini" | "openrouter" | "anthropic" | "grok" | "openai" | "nanogpt";
+    const providerSettings = providers.get(providerId);
 
-    setEditingMessageId(null);
-    setEditingMessageContent("");
-  }, [editingMessageId, updateMessage]);
+    if (!providerSettings?.apiKey) {
+      toast.error(t("translationNotConfigured"));
+      return;
+    }
+
+    // Get target language from translation settings, fallback to browser locale
+    const targetLanguage = (translationSettings?.metadata?.targetLanguage as string)
+      ?? navigator.language.split("-")[0]
+      ?? "en";
+
+    setIsTranslating(prev => ({ ...prev, [messageId]: true }));
+
+    try {
+      const translatedText = await translateText({
+        text: content,
+        targetLanguage,
+        providerId: providerId as any,
+        providerSettings,
+      });
+
+      await setTranslation(messageId, translatedText, targetLanguage);
+      toast.success(t("translated"));
+    } catch (error) {
+      console.error("Translation error:", error);
+      toast.error(t("translationError"));
+    } finally {
+      setIsTranslating(prev => ({ ...prev, [messageId]: false }));
+    }
+  }, [getSettings, providers, t, setTranslation]);
+
+  // Image generation handler
+  const handleGenerateImage = useCallback(async (messageId: string, content: string) => {
+    if (!character) return;
+
+    // Get text generation settings for prompt generation (use aibot scenario)
+    const aibotSettings = getSettings("text_aibot");
+    const textProviderId = (aibotSettings?.providerId ?? chatProviderId) as "gemini" | "openrouter" | "anthropic" | "grok" | "openai" | "nanogpt";
+    const textProviderSettings = providers.get(textProviderId);
+
+    // Get image generation settings
+    const imageSettings = getSettings("image");
+    const imageProviderId = (imageSettings?.providerId ?? "falai") as ImageProvider;
+    const imageProviderSettings = providers.get(imageProviderId);
+
+    // Check if text provider is configured (for prompt generation)
+    if (!textProviderSettings?.apiKey) {
+      toast.error(t("imageGenerationNotConfigured"));
+      return;
+    }
+
+    // Check if image provider is configured
+    if (!imageProviderSettings?.apiKey) {
+      toast.error(t("imageGenerationNotConfigured"));
+      return;
+    }
+
+    setIsGeneratingImage(prev => ({ ...prev, [messageId]: true }));
+
+    try {
+      console.log("[ImageGen] Starting image generation for message:", messageId);
+
+      // Step 1: Generate image prompt from message content
+      console.log("[ImageGen] Generating image prompt...");
+      const imagePrompt = await generateImagePrompt({
+        messageContent: content,
+        characterDescription: character.description,
+        characterScenario: character.scenario,
+        characterName: character.name,
+        providerId: textProviderId,
+        providerSettings: textProviderSettings,
+        model: aibotSettings?.model,
+      });
+      console.log("[ImageGen] Generated prompt:", imagePrompt);
+
+      // Step 2: Generate the image
+      console.log("[ImageGen] Generating image with fal.ai...");
+      const imageResult = await generateImage({
+        prompt: imagePrompt,
+        providerId: imageProviderId,
+        providerSettings: imageProviderSettings,
+        model: imageSettings?.model ?? "fal-ai/z-image/turbo",
+        aspectRatio: (imageSettings?.metadata?.aspectRatio as any) ?? "1:1",
+        resolution: (imageSettings?.metadata?.resolution as any) ?? "1K",
+      });
+
+      if (!imageResult.images || imageResult.images.length === 0) {
+        throw new Error("No images generated");
+      }
+
+      const generatedImage = imageResult.images[0]!;
+      console.log("[ImageGen] Image generated:", generatedImage.url);
+
+      // Step 3: Download the image and convert to Uint8Array
+      console.log("[ImageGen] Downloading image...");
+      const response = await fetch(generatedImage.url);
+      if (!response.ok) {
+        throw new Error("Failed to download generated image");
+      }
+      const imageBuffer = await response.arrayBuffer();
+      const imageData = new Uint8Array(imageBuffer);
+
+      // Step 4: Add as attachment to the message
+      console.log("[ImageGen] Adding attachment to message...");
+      await addAttachment(messageId, {
+        type: "image",
+        mimeType: generatedImage.contentType,
+        data: imageData,
+        prompt: imagePrompt,
+        width: generatedImage.width,
+        height: generatedImage.height,
+      });
+
+      toast.success(t("imageGenerated"));
+      console.log("[ImageGen] Complete!");
+    } catch (error) {
+      console.error("[ImageGen] Error:", error);
+      toast.error(t("imageGenerationError"));
+    } finally {
+      setIsGeneratingImage(prev => ({ ...prev, [messageId]: false }));
+    }
+  }, [character, getSettings, chatProviderId, providers, t, addAttachment]);
+
+  // Voice generation handler
+  const handleGenerateVoice = useCallback(async (messageId: string, content: string) => {
+    // Get voice generation settings
+    const voiceSettings = getSettings("voice");
+    const voiceProviderId = (voiceSettings?.providerId ?? "gemini") as VoiceProvider;
+    const voiceProviderSettings = providers.get(voiceProviderId);
+
+    // Check if voice provider is configured
+    if (!voiceProviderSettings?.apiKey) {
+      toast.error(t("voiceGenerationNotConfigured"));
+      return;
+    }
+
+    // Check if voice provider is supported
+    if (voiceProviderId !== "gemini" && voiceProviderId !== "elevenlabs") {
+      toast.error("Voice generation requires Gemini or ElevenLabs provider");
+      return;
+    }
+
+    setIsGeneratingVoice(prev => ({ ...prev, [messageId]: true }));
+
+    try {
+      console.log("[VoiceGen] Starting voice generation for message:", messageId);
+
+      // Generate speech from message content
+      // Model defaults are handled by provider-specific functions in client.ts
+      const speechResult = await generateSpeech({
+        text: content,
+        providerId: voiceProviderId,
+        providerSettings: voiceProviderSettings,
+        model: voiceSettings?.model,
+        voiceName: voiceSettings?.voiceName,
+        language: voiceSettings?.voiceLanguage,
+      });
+
+      console.log("[VoiceGen] Speech generated, adding attachment...");
+
+      // Convert base64 to Uint8Array
+      const binaryString = atob(speechResult.audioData);
+      const audioData = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        audioData[i] = binaryString.charCodeAt(i);
+      }
+
+      // Add as attachment to the message
+      await addAttachment(messageId, {
+        type: "audio",
+        mimeType: speechResult.mimeType,
+        data: audioData,
+      });
+
+      toast.success(t("voiceGenerated"));
+      console.log("[VoiceGen] Complete!");
+    } catch (error) {
+      console.error("[VoiceGen] Error:", error);
+      toast.error(t("voiceGenerationError"));
+    } finally {
+      setIsGeneratingVoice(prev => ({ ...prev, [messageId]: false }));
+    }
+  }, [getSettings, providers, t, addAttachment]);
 
   if (!character || !chat) {
     return (
@@ -491,7 +586,7 @@ export function CenterPanel({ character, chat, className, rightPanelOpen, onRigh
           </div>
         </div>
         <div className="flex shrink-0 items-center gap-2">
-          <Button variant="ghost" size="icon" onClick={() => setMemoryDialogOpen(true)} title="Chat Memory">
+          <Button variant="ghost" size="icon" onClick={openMemoryDialog} title="Chat Memory">
             <Box className="h-4 w-4" />
           </Button>
           {/* Right Panel Toggle for Tablet/Desktop (md to lg) */}
@@ -517,90 +612,27 @@ export function CenterPanel({ character, chat, className, rightPanelOpen, onRigh
                 const nextMessage = filteredMessages[index + 1];
                 const isFirstInGroup = !prevMessage || prevMessage.role !== message.role;
                 const isLastInGroup = !nextMessage || nextMessage.role !== message.role;
-                const isSingleMessage = isFirstInGroup && isLastInGroup;
 
                 return (
-                  <div
+                  <MessageBubble
                     key={message.id}
-                    className={cn(
-                      "flex gap-2 group items-center",
-                      message.role === "user" ? "flex-row-reverse" : "flex-row",
-                      !isLastInGroup && "mb-0.5" // Reduced spacing between grouped messages
-                    )}
-                  >
-                    {/* Avatar - only show for last message in group */}
-                    {isLastInGroup ? (
-                      <Avatar className="h-8 w-8 shrink-0">
-                        {message.role === "user" ? (
-                          <AvatarFallback>
-                            <User className="h-4 w-4" />
-                          </AvatarFallback>
-                        ) : (
-                          <>
-                            <AvatarImage src={character.avatarData} />
-                            <AvatarFallback>{character.name.slice(0, 2).toUpperCase()}</AvatarFallback>
-                          </>
-                        )}
-                      </Avatar>
-                    ) : (
-                      <div className="h-8 w-8 shrink-0" />
-                    )}
-
-                    <div className="flex flex-col gap-1 max-w-[480px] min-w-0">
-                      <div
-                        className={cn(
-                          "px-4 py-2",
-                          message.role === "user"
-                            ? "bg-white dark:bg-primary text-foreground dark:text-primary-foreground border border-border dark:border-transparent"
-                            : "bg-muted",
-                          // Border radius based on position in group
-                          message.role === "user"
-                            ? cn(
-                                isSingleMessage && "rounded-2xl",
-                                isFirstInGroup && !isSingleMessage && "rounded-2xl rounded-br-md",
-                                !isFirstInGroup && !isLastInGroup && "rounded-2xl rounded-r-md",
-                                isLastInGroup && !isSingleMessage && "rounded-2xl rounded-tr-md"
-                              )
-                            : cn(
-                                isSingleMessage && "rounded-2xl",
-                                isFirstInGroup && !isSingleMessage && "rounded-2xl rounded-bl-md",
-                                !isFirstInGroup && !isLastInGroup && "rounded-2xl rounded-l-md",
-                                isLastInGroup && !isSingleMessage && "rounded-2xl rounded-tl-md"
-                              )
-                        )}
-                      >
-                        <div className="text-sm leading-relaxed">
-                          <MessageContent
-                            content={message.content}
-                            theme={chatBubbleTheme}
-                            isStreaming={message.id === "streaming"}
-                          />
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Edit/Delete buttons - appear on the left for user, right for assistant */}
-                    {!message.id.startsWith("streaming-") && (
-                      <div className="flex shrink-0 gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-7 w-7 text-muted-foreground hover:text-foreground"
-                          onClick={() => handleStartEdit(message.id, message.content)}
-                        >
-                          <Pencil className="h-3.5 w-3.5" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-7 w-7 text-muted-foreground hover:text-destructive"
-                          onClick={() => handleDeleteMessage(message.id)}
-                        >
-                          <Trash2 className="h-3.5 w-3.5" />
-                        </Button>
-                      </div>
-                    )}
-                  </div>
+                    message={message}
+                    character={character}
+                    chatBubbleTheme={chatBubbleTheme}
+                    assetContext={assetContext}
+                    isFirstInGroup={isFirstInGroup}
+                    isLastInGroup={isLastInGroup}
+                    onEdit={handleEditMessage}
+                    onDelete={handleDeleteMessage}
+                    onTranslate={handleTranslate}
+                    onGenerateImage={handleGenerateImage}
+                    onGenerateVoice={handleGenerateVoice}
+                    isTranslating={isTranslating[message.id] ?? false}
+                    isGeneratingImage={isGeneratingImage[message.id] ?? false}
+                    isGeneratingVoice={isGeneratingVoice[message.id] ?? false}
+                    getAttachmentDataUrl={getAttachmentDataUrl}
+                    getAttachmentBlob={getAttachmentBlob}
+                  />
                 );
               })}
 
@@ -629,41 +661,48 @@ export function CenterPanel({ character, chat, className, rightPanelOpen, onRigh
         personas={personas}
         selectedPersona={selectedPersona}
         onPersonaSelect={setSelectedPersona}
-        onCreatePersona={() => setPersonaEditorOpen(true)}
+        onCreatePersona={() => openPersonaEditor({ onSave: setSelectedPersona })}
         translations={{
           selectPersona: t("selectPersona"),
           noPersonas: t("noPersonas"),
           createPersona: t("createPersona"),
         }}
       />
-
-      {/* Persona Editor Dialog */}
-      <PersonaEditor
-        open={personaEditorOpen}
-        onOpenChange={setPersonaEditorOpen}
-        onSave={(persona) => setSelectedPersona(persona)}
-      />
-
-      {/* Edit Message Dialog */}
-      <EditMessageDialog
-        open={editingMessageId !== null}
-        onOpenChange={(open) => !open && setEditingMessageId(null)}
-        initialContent={editingMessageContent}
-        onSave={handleSaveEdit}
-      />
-
-      {/* Memory Dialog */}
-      <MemoryDialog
-        open={memoryDialogOpen}
-        onOpenChange={setMemoryDialogOpen}
-        memories={memories}
-        memoriesLoading={memoriesLoading}
-        chatId={chat.id}
-        characterId={character.id}
-        db={db}
-        onCreateMemory={createMemory}
-        onDeleteMemory={deleteMemory}
-      />
     </div>
+  );
+}
+
+// Exported component wrapped with ChatDialogsProvider
+export function CenterPanel(props: CenterPanelProps) {
+  const { character, chat } = props;
+  const { messages: storedMessages, updateMessage } = useMessages(chat?.id ?? "");
+  const { memories, isLoading: memoriesLoading } = useMemories(chat?.id ?? "", 50);
+  const lruMemory = useLRUMemory(chat?.id ?? "", character?.id ?? "");
+  const { deleteMemory } = useDeleteMemory();
+  const { db } = useDatabase();
+
+  // Memory creation handler for MemoryDialog
+  const createMemory = useCallback(async (data: { chatId: string; characterId: string; content: string }) => {
+    return await lruMemory.addContent(data.content, "manual");
+  }, [lruMemory]);
+
+  // Edit save handler for EditMessageDialog
+  const handleSaveEditedMessage = useCallback(async (messageId: string, newContent: string) => {
+    await updateMessage(messageId, newContent);
+  }, [updateMessage]);
+
+  return (
+    <ChatDialogsProvider
+      character={character}
+      chat={chat}
+      memories={memories}
+      memoriesLoading={memoriesLoading}
+      db={db}
+      onSaveEditedMessage={handleSaveEditedMessage}
+      onCreateMemory={createMemory}
+      onDeleteMemory={deleteMemory}
+    >
+      <CenterPanelInner {...props} />
+    </ChatDialogsProvider>
   );
 }

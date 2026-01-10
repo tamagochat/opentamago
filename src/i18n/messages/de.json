@@ -22,7 +22,8 @@
     "close": "Schließen",
     "submit": "Absenden",
     "upload": "Hochladen",
-    "download": "Herunterladen"
+    "download": "Herunterladen",
+    "confirmDelete": "Löschen bestätigen"
   },
   "home": {
     "hero": {
@@ -484,7 +485,26 @@
       "noPersonas": "Noch keine Personas.",
       "createPersona": "Persona erstellen",
       "selectPersonaToSend": "Wähle eine Persona zum Nachrichten senden",
-      "createPersonaAction": "Erstellen"
+      "createPersonaAction": "Erstellen",
+      "reasoning": "Begründung",
+      "translate": "Übersetzen",
+      "translating": "Übersetze...",
+      "showOriginal": "Original zeigen",
+      "showTranslation": "Übersetzung zeigen",
+      "translated": "Übersetzt",
+      "original": "Original",
+      "translationError": "Übersetzung fehlgeschlagen",
+      "translationNotConfigured": "Übersetzung nicht konfiguriert",
+      "generateImage": "Bild generieren",
+      "generatingImage": "Generiere...",
+      "imageGenerationError": "Bildgenerierung fehlgeschlagen",
+      "imageGenerationNotConfigured": "Bildgenerierung nicht konfiguriert",
+      "imageGenerated": "Bild generiert",
+      "generateVoice": "Stimme generieren",
+      "generatingVoice": "Generiere...",
+      "voiceGenerationError": "Stimmgenerierung fehlgeschlagen",
+      "voiceGenerationNotConfigured": "Stimmgenerierung nicht konfiguriert",
+      "voiceGenerated": "Stimme generiert"
     },
     "rightPanel": {
       "selectCharacter": "Wähle einen Charakter, um Details zu sehen",
@@ -589,7 +609,8 @@
       "blockLow": "Niedrig+ blockieren",
       "blockMedium": "Mittel+ blockieren",
       "blockHigh": "Nur Hoch blockieren",
-      "saving": "Wird gespeichert..."
+      "saving": "Wird gespeichert...",
+      "saved": "Einstellungen gespeichert"
     }
   },
   "connect": {
@@ -829,6 +850,43 @@
     "dontShowAgain": "Nicht mehr zeigen",
     "continue": "Sprache wechseln",
     "stayHere": "Hier bleiben"
+  },
+  "settings": {
+    "pageTitle": "Einstellungen",
+    "pageDescription": "Verwalte deine Personas, API Keys, Modelle und Datenbankeinstellungen.",
+    "backToChat": "Zurück zum Chat",
+    "tabs": {
+      "personas": "Personas",
+      "apiKeys": "API Keys",
+      "models": "Modelle",
+      "database": "Datenbank",
+      "contact": "Kontakt"
+    },
+    "leftPanel": {
+      "defaultPersona": "Standard-Persona",
+      "noDefaultPersona": "Keine Standard-Persona",
+      "editPersona": "Bearbeiten",
+      "stats": "Datenbankstatistiken",
+      "shortcuts": "Tastenkürzel"
+    },
+    "personas": {
+      "title": "Deine Personas",
+      "description": "Verwalte deine Chat-Personas",
+      "create": "Persona erstellen",
+      "empty": "Noch keine Personas vorhanden. Erstelle eine, um loszulegen!",
+      "setAsDefault": "Als Standard festlegen",
+      "isDefault": "Standard",
+      "deleteConfirmation": "Bist du sicher, dass du \"{name}\" löschen möchtest? Diese Aktion kann nicht rückgängig gemacht werden."
+    },
+    "contact": {
+      "title": "Wir sind hier, um zu helfen!",
+      "featureIdea": "Hast du eine coole Idee?",
+      "featureDesc": "Stimme für kommende Funktionen ab oder schlage deine eigenen vor",
+      "bugReport": "Einen kleinen Fehler gefunden?",
+      "bugDesc": "Probleme mit der Oberfläche oder Formatierung? Melde sie hier :)",
+      "community": "Möchtest du der Community beitreten?",
+      "communityDesc": "Komm in unseren Discord! Chatte mit dem Team und anderen Nutzern"
+    }
   },
   "pokebox": {
     "meta": {

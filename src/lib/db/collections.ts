@@ -6,6 +6,8 @@ import {
   messageSchema,
   memorySchema,
   settingsSchema,
+  providerSettingsSchema,
+  generationSettingsSchema,
   lorebookEntrySchema,
   characterAssetSchema,
   type CharacterDocument,
@@ -14,6 +16,8 @@ import {
   type MessageDocument,
   type MemoryDocument,
   type SettingsDocument,
+  type ProviderSettingsDocument,
+  type GenerationSettingsDocument,
   type LorebookEntryDocument,
   type CharacterAssetDocument,
 } from "./schemas";
@@ -72,12 +76,37 @@ export function getCollectionConfig() {
 
     messages: {
       schema: messageSchema,
-      // No migration strategies needed for version 0 schemas
+      migrationStrategies: {
+        // v0 to v1: Add reasoning and displayedContent fields
+        1: (oldDoc: any) => ({
+          ...oldDoc,
+          reasoning: undefined,
+          displayedContent: undefined,
+          displayedContentLanguage: undefined,
+        }),
+        // v1 to v2: Enable attachments support for images and audio
+        2: (oldDoc: any) => ({
+          ...oldDoc,
+          attachmentsMeta: undefined, // No attachments initially
+        }),
+      },
     } as RxCollectionCreator<MessageDocument>,
 
     memories: {
       schema: memorySchema,
-      // No migration strategies needed for version 0 schemas
+      migrationStrategies: {
+        1: (oldDoc: any) => {
+          // v0 to v1: Add LRU fields (contentHash, source, updatedAt)
+          const now = Date.now();
+          return {
+            ...oldDoc,
+            contentHash: oldDoc.contentHash ?? "", // Will be empty for old docs
+            source: oldDoc.source ?? "manual",
+            sourceId: oldDoc.sourceId ?? undefined,
+            updatedAt: oldDoc.updatedAt ?? oldDoc.createdAt ?? now,
+          };
+        },
+      },
     } as RxCollectionCreator<MemoryDocument>,
 
     settings: {
@@ -96,8 +125,27 @@ export function getCollectionConfig() {
           localeDialogDismissed: false, // Default: show dialog
           localeDialogShownAt: undefined,
         }),
+        4: (oldDoc: any) => ({
+          ...oldDoc,
+          selectedProvider: "gemini", // Default to Gemini
+        }),
+        5: (oldDoc: any) => ({
+          ...oldDoc,
+          defaultPersonaId: undefined, // No default persona initially
+        }),
       },
     } as RxCollectionCreator<SettingsDocument>,
+
+    providerSettings: {
+      schema: providerSettingsSchema,
+      // Version 0 schema, no migration needed
+    } as RxCollectionCreator<ProviderSettingsDocument>,
+
+    generationSettings: {
+      schema: generationSettingsSchema,
+      // Version 0 schema - aspectRatio and resolution are optional fields
+      // Application code handles defaults when these fields are missing
+    } as RxCollectionCreator<GenerationSettingsDocument>,
 
     lorebookEntries: {
       schema: lorebookEntrySchema,

@@ -22,7 +22,8 @@
     "close": "Fermer",
     "submit": "Envoyer",
     "upload": "Téléverser",
-    "download": "Télécharger"
+    "download": "Télécharger",
+    "confirmDelete": "Confirmer la suppression"
   },
   "home": {
     "hero": {
@@ -484,7 +485,26 @@
       "noPersonas": "Pas encore de personas.",
       "createPersona": "Créer un persona",
       "selectPersonaToSend": "Choisis un persona pour envoyer des messages",
-      "createPersonaAction": "Créer"
+      "createPersonaAction": "Créer",
+      "reasoning": "Raisonnement",
+      "translate": "Traduire",
+      "translating": "Traduction en cours...",
+      "showOriginal": "Afficher l'original",
+      "showTranslation": "Afficher la traduction",
+      "translated": "Traduit",
+      "original": "Original",
+      "translationError": "Échec de la traduction",
+      "translationNotConfigured": "Traduction non configurée",
+      "generateImage": "Générer une image",
+      "generatingImage": "Génération...",
+      "imageGenerationError": "Échec de la génération d'image",
+      "imageGenerationNotConfigured": "Génération d'image non configurée",
+      "imageGenerated": "Image générée",
+      "generateVoice": "Générer la voix",
+      "generatingVoice": "Génération...",
+      "voiceGenerationError": "Échec de la génération vocale",
+      "voiceGenerationNotConfigured": "Génération vocale non configurée",
+      "voiceGenerated": "Voix générée"
     },
     "rightPanel": {
       "selectCharacter": "Sélectionne un personnage pour voir les détails",
@@ -589,7 +609,8 @@
       "blockLow": "Bloquer Bas+",
       "blockMedium": "Bloquer Moyen+",
       "blockHigh": "Bloquer Élevé seulement",
-      "saving": "Enregistrement..."
+      "saving": "Enregistrement...",
+      "saved": "Paramètres enregistrés"
     }
   },
   "connect": {
@@ -829,6 +850,43 @@
     "dontShowAgain": "Ne plus afficher",
     "continue": "Changer de langue",
     "stayHere": "Rester ici"
+  },
+  "settings": {
+    "pageTitle": "Paramètres",
+    "pageDescription": "Gère tes personas, API Keys, modèles et paramètres de base de données.",
+    "backToChat": "Retour au Chat",
+    "tabs": {
+      "personas": "Personas",
+      "apiKeys": "API Keys",
+      "models": "Modèles",
+      "database": "Base de données",
+      "contact": "Contact"
+    },
+    "leftPanel": {
+      "defaultPersona": "Persona par défaut",
+      "noDefaultPersona": "Aucune persona par défaut",
+      "editPersona": "Modifier",
+      "stats": "Statistiques de la base de données",
+      "shortcuts": "Raccourcis clavier"
+    },
+    "personas": {
+      "title": "Tes Personas",
+      "description": "Gère tes personas de chat",
+      "create": "Créer une Persona",
+      "empty": "Pas encore de personas. Crées-en une pour commencer !",
+      "setAsDefault": "Définir par défaut",
+      "isDefault": "Par défaut",
+      "deleteConfirmation": "Es-tu sûr de vouloir supprimer \"{name}\" ? Cette action est irréversible."
+    },
+    "contact": {
+      "title": "On est là pour t'aider !",
+      "featureIdea": "Tu as une super idée ?",
+      "featureDesc": "Vote pour les prochaines fonctionnalités ou propose les tiennes",
+      "bugReport": "Tu as trouvé un petit bug ?",
+      "bugDesc": "Problèmes d'interface ou de mise en forme ? Signale-les ici :)",
+      "community": "Tu veux rejoindre la communauté ?",
+      "communityDesc": "Viens sur notre Discord ! Discute avec l'équipe et les autres utilisateurs"
+    }
   },
   "pokebox": {
     "meta": {

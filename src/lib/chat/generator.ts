@@ -1,5 +1,11 @@
-import type { SafetySettings } from "~/lib/ai";
-import { streamChatResponse, generateChatResponse, generateMessengerResponse } from "~/lib/ai/client";
+import type { LLMProvider } from "~/lib/ai";
+import type { ProviderSettingsDocument } from "~/lib/db/schemas";
+import {
+  streamChatResponse,
+  generateChatResponse,
+  generateMessengerResponse,
+  type ChatResponseWithReasoning,
+} from "~/lib/ai/client";
 import {
   buildGenerationPayload,
   type GenerationContext,
@@ -18,22 +24,26 @@ export interface GenerateOptions {
   // New user message to respond to (optional - if not provided, uses messages from context)
   userMessage?: string;
 
-  // AI model settings
-  apiKey?: string | null;
+  // Provider settings (required)
+  providerId: LLMProvider;
+  providerSettings: ProviderSettingsDocument;
+
+  // Model settings
   model?: string;
   temperature?: number;
   maxTokens?: number;
-  safetySettings?: SafetySettings;
-  isClientMode?: boolean;
 
   // History settings
   maxHistoryMessages?: number;
 
-  // Lorebook settings
-  lorebookLimit?: number;
-
   // Abort signal for cancellation
   signal?: AbortSignal;
+
+  // Reasoning/thinking mode options
+  /** Enable reasoning/thinking mode if model supports it */
+  thinking?: boolean;
+  /** Budget for thinking tokens (Anthropic only, default 10000) */
+  thinkingBudget?: number;
 }
 
 /**
@@ -42,6 +52,8 @@ export interface GenerateOptions {
 export interface GenerateResult {
   content: string;
   payload: GenerationPayload;
+  /** Merged reasoning/thinking content from LLM (if thinking mode was enabled) */
+  reasoning?: string;
 }
 
 /**
@@ -54,38 +66,42 @@ export async function generateResponse(
   const {
     context,
     userMessage,
-    apiKey,
-    model = "gemini-3-flash-preview",
+    providerId,
+    providerSettings,
+    model,
     temperature = 0.9,
     maxTokens = 8192,
-    safetySettings,
-    isClientMode = false,
     maxHistoryMessages = 50,
-    lorebookLimit = 3,
+    thinking = false,
+    thinkingBudget,
   } = options;
+
+  console.log("[Generator] generateResponse started", { thinking });
 
   // Build generation payload
   const payload = buildGenerationPayload({
     context,
     newUserMessage: userMessage,
     maxHistoryMessages,
-    lorebookLimit,
   });
 
-  // Generate response
-  const content = await generateChatResponse({
+  const result = await generateChatResponse({
     messages: payload.messages,
-    apiKey: apiKey ?? undefined,
+    providerId,
+    providerSettings,
     model,
     temperature,
     maxTokens,
-    safetySettings,
-    isClientMode,
+    thinking,
+    thinkingBudget,
   });
 
+  console.log("[Generator] generateResponse complete", { hasReasoning: !!result.reasoning });
+
   return {
-    content,
+    content: result.content,
     payload,
+    reasoning: result.reasoning,
   };
 }
 
@@ -99,55 +115,66 @@ export async function* generateStreamingResponse(
   const {
     context,
     userMessage,
-    apiKey,
-    model = "gemini-3-flash-preview",
+    providerId,
+    providerSettings,
+    model,
     temperature = 0.9,
     maxTokens = 8192,
-    safetySettings,
-    isClientMode = false,
     maxHistoryMessages = 50,
-    lorebookLimit = 3,
     signal,
+    thinking = false,
+    thinkingBudget,
   } = options;
 
-  console.log("[Generator] generateStreamingResponse started");
+  console.log("[Generator] generateStreamingResponse started", { thinking });
 
   // Build generation payload
   const payload = buildGenerationPayload({
     context,
     newUserMessage: userMessage,
     maxHistoryMessages,
-    lorebookLimit,
   });
   console.log("[Generator] Payload built, message count:", payload.messages.length);
 
   // Stream response
   const chunks: string[] = [];
-  console.log("[Generator] Creating streamChatResponse...");
+  let reasoning: string | undefined;
+
   const stream = streamChatResponse({
     messages: payload.messages,
-    apiKey: apiKey ?? undefined,
+    providerId,
+    providerSettings,
     model,
     temperature,
     maxTokens,
-    safetySettings,
-    isClientMode,
     signal,
+    thinking,
+    thinkingBudget,
   });
+
   console.log("[Generator] streamChatResponse created, starting iteration...");
 
-  for await (const chunk of stream) {
-    chunks.push(chunk);
-    yield chunk;
+  // Iterate manually to capture the generator's return value
+  let iterResult = await stream.next();
+  while (!iterResult.done) {
+    chunks.push(iterResult.value);
+    yield iterResult.value;
+    iterResult = await stream.next();
   }
 
-  console.log("[Generator] Stream iteration complete");
+  // iterResult.value contains the ChatResponseWithReasoning when done
+  if (iterResult.value) {
+    reasoning = (iterResult.value as ChatResponseWithReasoning).reasoning;
+  }
+
+  console.log("[Generator] Stream iteration complete", { hasReasoning: !!reasoning });
 
   const fullContent = chunks.join("");
 
   return {
     content: fullContent,
     payload,
+    reasoning,
   };
 }
 
@@ -161,21 +188,23 @@ export async function generateMessengerChatResponse(
   const {
     context,
     userMessage,
-    apiKey,
-    model = "gemini-3-flash-preview",
+    providerId,
+    providerSettings,
+    model,
     temperature = 0.9,
     maxTokens = 8192,
-    safetySettings,
-    isClientMode = false,
     maxHistoryMessages = 50,
+    thinking = false,
+    thinkingBudget,
   } = options;
+
+  console.log("[Generator] generateMessengerChatResponse started", { thinking });
 
   // Build generation payload first to get messages
   const payload = buildGenerationPayload({
     context,
     newUserMessage: userMessage,
     maxHistoryMessages,
-    lorebookLimit: 0, // Lorebook not needed for messenger mode
   });
 
   // Build messenger-specific system prompt
@@ -190,13 +219,13 @@ export async function generateMessengerChatResponse(
       name: context.persona?.name ?? "User",
       description: context.persona?.description,
     },
-    messages: payload.messages.map(m => ({
+    messages: payload.messages.map((m) => ({
       role: m.role as "user" | "assistant",
       content: m.content,
       timestamp: Date.now(), // Approximate timestamp
     })),
-    memories: context.enableMemory && context.memoryContext
-      ? context.memoryContext.split('\n').filter(Boolean)
+    memories: context.memoryContent
+      ? context.memoryContent.split("\n\n").filter(Boolean)
       : [],
     currentDateTime: new Date().toLocaleString("ko-KR", {
       weekday: "long",
@@ -209,17 +238,19 @@ export async function generateMessengerChatResponse(
     }),
   });
 
-  // Generate structured response
   const response = await generateMessengerResponse({
     messages: payload.messages,
     systemPrompt,
-    apiKey: apiKey ?? undefined,
+    providerId,
+    providerSettings,
     model,
     temperature,
     maxTokens,
-    safetySettings,
-    isClientMode,
+    thinking,
+    thinkingBudget,
   });
+
+  console.log("[Generator] generateMessengerChatResponse complete", { hasReasoning: !!response.reasoning });
 
   return response;
 }

@@ -3,11 +3,31 @@
 import { useEffect, useState, useCallback } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useDatabase } from "./useDatabase";
-import type { MessageDocument } from "../schemas";
+import type { MessageDocument, MessageAttachmentMeta } from "../schemas";
 
 // Helper to convert RxDB's DeepReadonlyObject to mutable
 function toMutable<T>(obj: unknown): T {
   return JSON.parse(JSON.stringify(obj)) as T;
+}
+
+/**
+ * Input for adding an attachment to a message
+ */
+export interface AddAttachmentInput {
+  /** Attachment type */
+  type: "image" | "audio";
+  /** MIME type (e.g., "image/png", "audio/mpeg") */
+  mimeType: string;
+  /** The binary data */
+  data: Uint8Array;
+  /** The prompt used to generate this attachment */
+  prompt?: string;
+  /** Audio duration in seconds */
+  duration?: number;
+  /** Image width in pixels */
+  width?: number;
+  /** Image height in pixels */
+  height?: number;
 }
 
 export function useMessages(chatId: string) {
@@ -30,8 +50,20 @@ export function useMessages(chatId: string) {
     return () => subscription.unsubscribe();
   }, [db, chatId]);
 
+  /**
+   * Options for adding a message
+   */
+  interface AddMessageOptions {
+    /** Reasoning/thinking content from LLM (for assistant messages) */
+    reasoning?: string;
+  }
+
   const addMessage = useCallback(
-    async (role: "user" | "assistant" | "system", content: string) => {
+    async (
+      role: "user" | "assistant" | "system",
+      content: string,
+      options?: AddMessageOptions
+    ) => {
       if (!db || !chatId) return null;
 
       const now = Date.now();
@@ -41,6 +73,7 @@ export function useMessages(chatId: string) {
         role,
         content,
         createdAt: now,
+        reasoning: options?.reasoning,
       };
 
       await db.messages.insert(message);
@@ -93,6 +126,176 @@ export function useMessages(chatId: string) {
     return true;
   }, [db, chatId]);
 
+  /**
+   * Set translated content for a message
+   */
+  const setTranslation = useCallback(
+    async (
+      messageId: string,
+      displayedContent: string,
+      displayedContentLanguage: string
+    ) => {
+      if (!db) return null;
+
+      const doc = await db.messages.findOne(messageId).exec();
+      if (!doc) return null;
+
+      await doc.patch({
+        displayedContent,
+        displayedContentLanguage,
+      });
+
+      return toMutable<MessageDocument>(doc.toJSON());
+    },
+    [db]
+  );
+
+  /**
+   * Clear translation from a message
+   */
+  const clearTranslation = useCallback(
+    async (messageId: string) => {
+      if (!db) return null;
+
+      const doc = await db.messages.findOne(messageId).exec();
+      if (!doc) return null;
+
+      await doc.patch({
+        displayedContent: undefined,
+        displayedContentLanguage: undefined,
+      });
+
+      return toMutable<MessageDocument>(doc.toJSON());
+    },
+    [db]
+  );
+
+  /**
+   * Add an attachment (image or audio) to a message
+   * Stores binary data as RxDB attachment and metadata in attachmentsMeta
+   */
+  const addAttachment = useCallback(
+    async (messageId: string, input: AddAttachmentInput): Promise<MessageAttachmentMeta | null> => {
+      if (!db) return null;
+
+      const doc = await db.messages.findOne(messageId).exec();
+      if (!doc) return null;
+
+      const now = Date.now();
+      const ext = input.mimeType.split("/")[1] ?? (input.type === "image" ? "png" : "mp3");
+      const attachmentId = `${input.type}-${now}.${ext}`;
+
+      // Create metadata
+      const meta: MessageAttachmentMeta = {
+        id: attachmentId,
+        type: input.type,
+        mimeType: input.mimeType,
+        generatedAt: now,
+        prompt: input.prompt,
+        duration: input.duration,
+        width: input.width,
+        height: input.height,
+      };
+
+      // Store binary data as RxDB attachment
+      // Create a new ArrayBuffer from the Uint8Array to avoid SharedArrayBuffer type issues
+      const arrayBuffer = input.data.buffer.slice(input.data.byteOffset, input.data.byteOffset + input.data.byteLength) as ArrayBuffer;
+      const blob = new Blob([arrayBuffer], { type: input.mimeType });
+      await doc.putAttachment({
+        id: attachmentId,
+        data: blob,
+        type: input.mimeType,
+      });
+
+      // Re-fetch the document after putAttachment() because it updates the revision
+      // Without this, the subsequent patch() would fail with a CONFLICT error
+      const updatedDoc = await db.messages.findOne(messageId).exec();
+      if (!updatedDoc) return null;
+
+      // Update attachmentsMeta array
+      const currentMeta = updatedDoc.attachmentsMeta ?? [];
+      await updatedDoc.patch({
+        attachmentsMeta: [...currentMeta, meta],
+      });
+
+      return meta;
+    },
+    [db]
+  );
+
+  /**
+   * Get attachment data as a data URL for display
+   */
+  const getAttachmentDataUrl = useCallback(
+    async (messageId: string, attachmentId: string): Promise<string | null> => {
+      if (!db) return null;
+
+      const doc = await db.messages.findOne(messageId).exec();
+      if (!doc) return null;
+
+      const attachment = doc.getAttachment(attachmentId);
+      if (!attachment) return null;
+
+      const data = await attachment.getData();
+      const blob = new Blob([data], { type: attachment.type });
+
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result as string);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+    },
+    [db]
+  );
+
+  /**
+   * Get attachment data as a Blob (for audio playback)
+   */
+  const getAttachmentBlob = useCallback(
+    async (messageId: string, attachmentId: string): Promise<Blob | null> => {
+      if (!db) return null;
+
+      const doc = await db.messages.findOne(messageId).exec();
+      if (!doc) return null;
+
+      const attachment = doc.getAttachment(attachmentId);
+      if (!attachment) return null;
+
+      const data = await attachment.getData();
+      return new Blob([data], { type: attachment.type });
+    },
+    [db]
+  );
+
+  /**
+   * Remove an attachment from a message
+   */
+  const removeAttachment = useCallback(
+    async (messageId: string, attachmentId: string): Promise<boolean> => {
+      if (!db) return false;
+
+      const doc = await db.messages.findOne(messageId).exec();
+      if (!doc) return false;
+
+      // Remove the RxDB attachment
+      const attachment = doc.getAttachment(attachmentId);
+      if (attachment) {
+        await attachment.remove();
+      }
+
+      // Update attachmentsMeta to remove the entry
+      const currentMeta = doc.attachmentsMeta ?? [];
+      const updatedMeta = currentMeta.filter((m) => m.id !== attachmentId);
+      await doc.patch({
+        attachmentsMeta: updatedMeta.length > 0 ? updatedMeta : undefined,
+      });
+
+      return true;
+    },
+    [db]
+  );
+
   return {
     messages,
     isLoading: dbLoading || isLoading,
@@ -100,5 +303,11 @@ export function useMessages(chatId: string) {
     updateMessage,
     deleteMessage,
     clearMessages,
+    setTranslation,
+    clearTranslation,
+    addAttachment,
+    getAttachmentDataUrl,
+    getAttachmentBlob,
+    removeAttachment,
   };
 }

@@ -14,7 +14,7 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSeparator,
 } from "~/components/ui/dropdown-menu";
-import { useCharacters, useChats } from "~/lib/db/hooks";
+import { useCharacters, useChats, useSettings } from "~/lib/db/hooks";
 import { parseCharXToCharacter } from "~/lib/charx/hooks";
 import { CharacterEditor } from "./character-editor";
 import { PersonaEditor } from "./persona-editor";
@@ -48,6 +48,7 @@ export function LeftPanel({
   const tCommon = useTranslations("common");
   const { characters, saveCharacterWithAssets, deleteCharacter } = useCharacters();
   const { createChat, deleteChat } = useChats(selectedCharacter?.id);
+  const { settings } = useSettings();
   const [characterEditorOpen, setCharacterEditorOpen] = useState(false);
   const [personaEditorOpen, setPersonaEditorOpen] = useState(false);
   const [editingCharacter, setEditingCharacter] = useState<CharacterDocument | null>(null);
@@ -122,7 +123,11 @@ export function LeftPanel({
   const handleStartChat = async (character?: CharacterDocument) => {
     const targetCharacter = character ?? selectedCharacter;
     if (!targetCharacter) return;
-    const chat = await createChat(targetCharacter.id, `Chat with ${targetCharacter.name}`);
+    const chat = await createChat(
+      targetCharacter.id,
+      `Chat with ${targetCharacter.name}`,
+      settings.defaultPersonaId
+    );
     if (chat) {
       onSelectCharacter(targetCharacter);
       onSelectChat(chat);

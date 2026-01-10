@@ -6,6 +6,8 @@ import type {
   MessageDocument,
   MemoryDocument,
   SettingsDocument,
+  ProviderSettingsDocument,
+  GenerationSettingsDocument,
   LorebookEntryDocument,
   CharacterAssetDocument,
 } from "./schemas";
@@ -17,6 +19,8 @@ export interface DatabaseCollections {
   messages: RxCollection<MessageDocument>;
   memories: RxCollection<MemoryDocument>;
   settings: RxCollection<SettingsDocument>;
+  providerSettings: RxCollection<ProviderSettingsDocument>;
+  generationSettings: RxCollection<GenerationSettingsDocument>;
   lorebookEntries: RxCollection<LorebookEntryDocument>;
   characterAssets: RxCollection<CharacterAssetDocument>;
 }

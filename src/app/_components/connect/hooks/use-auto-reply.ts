@@ -1,10 +1,12 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { CharacterData, CharacterInfo, ChatMessageType } from "~/lib/connect/messages";
+import type { CharacterData, ChatMessageType } from "~/lib/connect/messages";
 import { CONNECT_CONFIG } from "~/lib/connect";
 import { createGroupChatContext, generateResponse as generateAIResponse } from "~/lib/chat";
 import type { ChatBubbleTheme } from "~/lib/db/schemas/settings";
+import type { ProviderSettingsDocument } from "~/lib/db/schemas";
+import type { LLMProvider } from "~/lib/ai";
 
 // Debounce window - cancel if other events happen within this time
 const DEBOUNCE_WINDOW_MS = 5000;
@@ -14,12 +16,12 @@ interface UseAutoReplyOptions {
   myCharacter: CharacterData | null;
   enabled: boolean;
   delayMs?: number;
-  apiKey?: string | null; // Optional - only needed in client mode
-  isApiReady?: boolean; // Whether API is ready to use (server mode or client mode with key)
-  isClientMode?: boolean; // Whether to call Gemini directly (client mode) or through server
+  providerId: LLMProvider;
+  providerSettings: ProviderSettingsDocument | undefined;
+  isApiReady?: boolean;
   model?: string;
   temperature?: number;
-  theme?: ChatBubbleTheme; // Chat bubble theme for response formatting
+  theme?: ChatBubbleTheme;
   onResponse?: (content: string) => void;
 }
 
@@ -28,9 +30,9 @@ export function useAutoReply({
   myCharacter,
   enabled,
   delayMs = CONNECT_CONFIG.DEFAULT_AUTO_REPLY_DELAY,
-  apiKey,
+  providerId,
+  providerSettings,
   isApiReady = true,
-  isClientMode = false,
   model = "gemini-3-flash-preview",
   temperature = 0.9,
   theme = "messenger",
@@ -63,7 +65,7 @@ export function useAutoReply({
       chatHistory: ChatMessageType[],
       participantCharacterNames: string[]
     ) => {
-      if (!myCharacter || !isApiReady) return null;
+      if (!myCharacter || !isApiReady || !providerSettings) return null;
 
       setIsGenerating(true);
 
@@ -81,11 +83,11 @@ export function useAutoReply({
         // All messages are already in the context, no need to pass userMessage
         const result = await generateAIResponse({
           context,
-          apiKey: apiKey ?? undefined,
+          providerId,
+          providerSettings,
           model,
           temperature,
           maxTokens: 8192,
-          isClientMode,
         });
 
         // Only return if we have actual content
@@ -106,9 +108,9 @@ export function useAutoReply({
     [
       myPeerId,
       myCharacter,
-      apiKey,
+      providerId,
+      providerSettings,
       isApiReady,
-      isClientMode,
       model,
       temperature,
       theme,

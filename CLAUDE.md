@@ -58,6 +58,20 @@ Uses `next-intl` with a hybrid URL structure:
 - `/` - English (default, no prefix)
 - `/ko/` - Korean
 - `/ja/` - Japanese
+- `/zh-CN/` - Simplified Chinese
+- `/zh-TW/` - Traditional Chinese
+- `/id/` - Indonesian
+- `/vi/` - Vietnamese
+- `/es/` - Spanish
+- `/pt/` - Portuguese
+- `/de/` - German
+- `/fr/` - French
+- `/tr/` - Turkish
+- `/ru/` - Russian
+- `/nl/` - Dutch
+- `/pl/` - Polish
+- `/th/` - Thai
+- `/hi/` - Hindi
 
 ### Directory Structure
 
@@ -65,7 +79,7 @@ Uses `next-intl` with a hybrid URL structure:
   - `config.ts` - Locale definitions and names
   - `routing.ts` - next-intl routing config, exports `Link`, `usePathname`, `useRouter`
   - `request.ts` - Server-side i18n request config
-  - `messages/` - Translation JSON files (`en.json`, `ko.json`, `ja.json`)
+  - `messages/` - Translation JSON files (en, ko, ja, zh-CN, zh-TW, id, vi, es, pt, de, fr, tr, ru, nl, pl, th, hi)
 - `src/app/[locale]/` - All pages under locale route group
 
 ### Key Patterns
@@ -108,6 +122,111 @@ pnpm i18n:validate --locale ja ko  # Validate Japanese and Korean
 - JSON syntax errors
 
 The validation script is at `scripts/validate-i18n.ts` and the hook is configured in `.husky/pre-push`.
+
+### Translation Guidelines by Language
+
+When translating, follow these language-specific characteristics:
+
+**English (en)** - Reference locale
+- Casual, friendly tone for UI text
+- Use contractions (don't, can't, you're) for conversational feel
+- Keep technical terms in English (API, P2P, WebRTC)
+
+**Korean (ko)** - 한국어
+- Use 해요체 (polite informal) for most UI: "~해요", "~세요"
+- Avoid overly formal 합쇼체 except for legal/official text
+- Technical terms can stay in English or use established Korean terms
+- Keep sentences concise; Korean tends to be more compact
+
+**Japanese (ja)** - 日本語
+- Use です/ます form for polite, professional tone
+- Katakana for foreign words: ファイル, ダウンロード, キャラクター
+- Avoid excessive kanji; balance readability
+- Japanese UI text tends to be slightly longer than English
+
+**Simplified Chinese (zh-CN)** - 简体中文
+- Use mainland Chinese terminology and expressions
+- Formal but accessible tone
+- Technical terms: use established Chinese translations when available
+
+**Traditional Chinese (zh-TW)** - 繁體中文
+- Use Taiwan/Hong Kong terminology and expressions
+- Different character variants from zh-CN (檔案 vs 文件, 視訊 vs 视频)
+- Slightly different word choices from mainland Chinese
+
+**Indonesian (id)** - Bahasa Indonesia
+- Formal Indonesian (baku) for UI consistency
+- Avoid slang or regional dialects
+- Technical terms often stay in English with Indonesian grammar
+
+**Vietnamese (vi)** - Tiếng Việt
+- Use standard Vietnamese with appropriate diacritics
+- Polite but not overly formal
+- Some English technical terms may be kept as-is
+
+**Spanish (es)** - Español
+- Use neutral Latin American Spanish (avoid region-specific terms)
+- Informal "tú" form for friendly UI
+- Established Spanish translations for technical terms when available
+
+**Portuguese (pt)** - Português
+- Use Brazilian Portuguese as primary variant
+- Informal "você" form for friendly UI
+- Balance between Portuguese and English technical terms
+
+**German (de)** - Deutsch
+- Use formal "Sie" form for professional tone
+- German compound words for technical concepts when natural
+- Follow German capitalization rules (nouns capitalized)
+
+**French (fr)** - Français
+- Use informal "tu" form for modern, friendly apps
+- French translations for technical terms when established
+- Proper French punctuation (spaces before : ; ! ?)
+
+**Turkish (tr)** - Türkçe
+- Use polite but informal tone
+- Follow vowel harmony rules
+- Turkish translations for technical terms when natural
+
+**Russian (ru)** - Русский
+- Use informal "ты" form for friendly apps, "вы" for formal
+- Cyrillic for all text except brand names and technical terms
+- Russian technical terms when established (файл, скачать)
+- Proper Russian cases and declensions
+
+**Dutch (nl)** - Nederlands
+- Use informal "je/jij" form for app UI (common in digital products)
+- Maintain compound word structure (e.g., "gebruikersinstellingen")
+- Keep English tech terms where natural (AI, chat, etc.)
+- Approximately 90% of Dutch speakers understand English, but native Dutch preferred
+
+**Polish (pl)** - Polski
+- Use neutral or informal constructions for UI
+- Handle 7 grammatical cases appropriately
+- Technical terms often kept in English
+- Proper Polish diacritics (ą, ć, ę, ł, ń, ó, ś, ź, ż)
+
+**Thai (th)** - ไทย
+- Use standard Thai script throughout
+- No spaces between Thai words (standard Thai writing)
+- Include politeness particles (ครับ/ค่ะ) where contextually appropriate
+- English transliterations acceptable for technical terms
+- Formal register for UI text
+
+**Hindi (hi)** - हिन्दी
+- Use Devanagari script throughout
+- Formal register (आप) for user-facing text
+- English loanwords common for technical terms (AI, chat, settings)
+- Left-to-right script (same direction as English)
+- India's standard Hindi; avoid regional dialects
+
+**General Guidelines:**
+- Keep placeholder variables intact: `{name}`, `{count}`, etc.
+- Maintain HTML tags: `<link>`, `<br>`, etc.
+- Preserve technical terms that are universally understood (API, QR, P2P)
+- Match the tone and length of the original English when possible
+- Test UI to ensure translations fit within design constraints
 
 ## SEO Requirements
 

@@ -16,6 +16,11 @@ import ptMessages from "./messages/pt.json";
 import deMessages from "./messages/de.json";
 import frMessages from "./messages/fr.json";
 import trMessages from "./messages/tr.json";
+import ruMessages from "./messages/ru.json";
+import nlMessages from "./messages/nl.json";
+import plMessages from "./messages/pl.json";
+import thMessages from "./messages/th.json";
+import hiMessages from "./messages/hi.json";
 
 const messages: Record<Locale, typeof enMessages> = {
   en: enMessages,
@@ -30,6 +35,11 @@ const messages: Record<Locale, typeof enMessages> = {
   de: deMessages,
   fr: frMessages,
   tr: trMessages,
+  ru: ruMessages,
+  nl: nlMessages,
+  pl: plMessages,
+  th: thMessages,
+  hi: hiMessages,
 };
 
 export default getRequestConfig(async ({ requestLocale }) => {

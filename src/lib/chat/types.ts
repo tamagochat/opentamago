@@ -21,6 +21,8 @@ export interface ChatBubbleResponse {
   messages: ChatBubbleMessage[];
   /** Optional memory to store (only for significant events) */
   memory?: string;
+  /** Reasoning/thinking content from LLM (if thinking mode was enabled) */
+  reasoning?: string;
 }
 
 /**

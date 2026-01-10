@@ -19,6 +19,11 @@ import ptMessages from "~/i18n/messages/pt.json";
 import deMessages from "~/i18n/messages/de.json";
 import frMessages from "~/i18n/messages/fr.json";
 import trMessages from "~/i18n/messages/tr.json";
+import ruMessages from "~/i18n/messages/ru.json";
+import nlMessages from "~/i18n/messages/nl.json";
+import plMessages from "~/i18n/messages/pl.json";
+import thMessages from "~/i18n/messages/th.json";
+import hiMessages from "~/i18n/messages/hi.json";
 
 const messages: Record<Locale, typeof enMessages> = {
   en: enMessages,
@@ -33,6 +38,11 @@ const messages: Record<Locale, typeof enMessages> = {
   de: deMessages,
   fr: frMessages,
   tr: trMessages,
+  ru: ruMessages,
+  nl: nlMessages,
+  pl: plMessages,
+  th: thMessages,
+  hi: hiMessages,
 };
 
 type Props = {
