@@ -31,7 +31,6 @@
     "@ai-sdk/openai": "^3.0.7",
     "@ai-sdk/xai": "^3.0.13",
     "@auth/drizzle-adapter": "^1.7.2",
-    "@elevenlabs/elevenlabs-js": "^2.30.0",
     "@fal-ai/client": "^1.8.3",
     "@google/genai": "^1.35.0",
     "@radix-ui/react-alert-dialog": "^1.1.15",

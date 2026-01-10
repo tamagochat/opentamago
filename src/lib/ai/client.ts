@@ -2,7 +2,6 @@
 
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { GoogleGenAI } from "@google/genai";
-import { ElevenLabsClient } from "@elevenlabs/elevenlabs-js";
 import { fal } from "@fal-ai/client";
 import { streamText, generateText, generateObject } from "ai";
 import { z } from "zod";
@@ -1278,7 +1277,8 @@ async function generateGeminiSpeech(
 }
 
 /**
- * Generate speech from text using ElevenLabs TTS
+ * Generate speech from text using ElevenLabs TTS REST API
+ * Uses fetch() instead of SDK to avoid Node.js module dependencies
  */
 async function generateElevenLabsSpeech(
   options: GenerateSpeechOptions
@@ -1304,36 +1304,30 @@ async function generateElevenLabsSpeech(
     textLength: text.length,
   });
 
-  // Create ElevenLabs client
-  const elevenlabs = new ElevenLabsClient({ apiKey });
-
-  // Generate speech using ElevenLabs TTS with PCM format at 24kHz
-  const audioStream = await elevenlabs.textToSpeech.convert(voiceName, {
-    text,
-    modelId,
-    outputFormat: "pcm_24000",
-  });
-
-  // Collect all chunks from the stream into a single buffer
-  const chunks: Uint8Array[] = [];
-  const reader = audioStream.getReader();
-
-  while (true) {
-    const { done, value } = await reader.read();
-    if (done) break;
-    if (value) {
-      chunks.push(value);
+  // Call ElevenLabs REST API directly with PCM format at 24kHz
+  const response = await fetch(
+    `https://api.elevenlabs.io/v1/text-to-speech/${voiceName}?output_format=pcm_24000`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "xi-api-key": apiKey,
+      },
+      body: JSON.stringify({
+        text,
+        model_id: modelId,
+      }),
     }
+  );
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`ElevenLabs API error: ${response.status} - ${errorText}`);
   }
 
-  // Combine all chunks into a single Uint8Array
-  const totalLength = chunks.reduce((acc, chunk) => acc + chunk.length, 0);
-  const pcmData = new Uint8Array(totalLength);
-  let offset = 0;
-  for (const chunk of chunks) {
-    pcmData.set(chunk, offset);
-    offset += chunk.length;
-  }
+  // Get the audio data as ArrayBuffer
+  const audioBuffer = await response.arrayBuffer();
+  const pcmData = new Uint8Array(audioBuffer);
 
   // Create WAV header for the PCM data (24kHz, mono, 16-bit)
   const wavHeader = createWavHeader(pcmData.length, 24000, 1, 16);
