@@ -514,7 +514,13 @@
       "aiEnhanceOff": "AI एन्हांसमेंट बंद",
       "scrollForMore": "पुराने संदेश देखने के लिए ऊपर स्क्रॉल करें",
       "chatWith": "{name} से चैट करें",
-      "recentChats": "हाल की चैट"
+      "recentChats": "हाल की चैट",
+      "showUsage": "उपयोग देखें",
+      "tokenUsage": "टोकन उपयोग",
+      "inputTokens": "इनपुट टोकन",
+      "outputTokens": "आउटपुट टोकन",
+      "totalTokens": "कुल टोकन",
+      "reasoningTokens": "रीजनिंग टोकन"
     },
     "rightPanel": {
       "selectCharacter": "विवरण देखने के लिए कैरेक्टर चुनें",

@@ -514,7 +514,13 @@
       "aiEnhanceOff": "AI增強已關閉",
       "scrollForMore": "向上滾動查看更早的訊息",
       "chatWith": "與{name}聊天",
-      "recentChats": "最近聊天"
+      "recentChats": "最近聊天",
+      "showUsage": "查看用量",
+      "tokenUsage": "令牌用量",
+      "inputTokens": "輸入令牌",
+      "outputTokens": "輸出令牌",
+      "totalTokens": "總令牌",
+      "reasoningTokens": "推理令牌"
     },
     "rightPanel": {
       "selectCharacter": "選個角色看看詳情",

@@ -514,7 +514,13 @@
       "aiEnhanceOff": "AI 향상 꺼짐",
       "scrollForMore": "이전 메시지를 보려면 위로 스크롤하세요",
       "chatWith": "{name}와(과) 대화하기",
-      "recentChats": "최근 대화"
+      "recentChats": "최근 대화",
+      "showUsage": "사용량 보기",
+      "tokenUsage": "토큰 사용량",
+      "inputTokens": "입력 토큰",
+      "outputTokens": "출력 토큰",
+      "totalTokens": "전체 토큰",
+      "reasoningTokens": "추론 토큰"
     },
     "rightPanel": {
       "selectCharacter": "캐릭터를 선택해서 정보 보기",

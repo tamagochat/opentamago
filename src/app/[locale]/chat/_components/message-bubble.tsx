@@ -4,15 +4,20 @@ import { memo, useState, useCallback } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "~/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
-import { User, Trash2, Pencil, Image, Volume2, Languages, MoreHorizontal, MoreVertical, ArrowRightLeft, Loader2 } from "lucide-react";
+import { User, Trash2, Pencil, Image, Volume2, Languages, MoreHorizontal, MoreVertical, ArrowRightLeft, Loader2, Activity } from "lucide-react";
 import { ImageZoomDialog } from "~/components/image-zoom-dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuSubContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
 } from "~/components/ui/dropdown-menu";
-import type { CharacterDocument, ChatBubbleTheme, MessageAttachmentMeta } from "~/lib/db/schemas";
+import type { CharacterDocument, ChatBubbleTheme, MessageAttachmentMeta, MessageTokenUsage } from "~/lib/db/schemas";
 import { cn } from "~/lib/utils";
 import { ReasoningCollapsible } from "./reasoning-collapsible";
 import { MessageAttachments } from "./message-attachment";
@@ -31,6 +36,7 @@ interface DisplayMessage {
   displayedContent?: string;
   displayedContentLanguage?: string;
   attachmentsMeta?: MessageAttachmentMeta[];
+  tokenUsage?: MessageTokenUsage;
 }
 
 // Recursive markdown-style parser for roleplay text
@@ -404,6 +410,27 @@ export const MessageBubble = memo(function MessageBubble({
               {isTranslating ? t("translating") : t("translate")}
             </DropdownMenuItem>
           )}
+          {/* Show token usage (only for assistant messages with usage data) */}
+          {message.role === "assistant" && message.tokenUsage && (
+            <DropdownMenuSub>
+              <DropdownMenuSubTrigger>
+                <Activity className="h-4 w-4" />
+                {t("showUsage")}
+              </DropdownMenuSubTrigger>
+              <DropdownMenuSubContent className="min-w-[160px]">
+                <DropdownMenuLabel>{t("tokenUsage")}</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <div className="px-2 py-1.5 text-xs text-muted-foreground space-y-0.5">
+                  <p>{t("inputTokens")}: {message.tokenUsage.inputTokens.toLocaleString()}</p>
+                  <p>{t("outputTokens")}: {message.tokenUsage.outputTokens.toLocaleString()}</p>
+                  <p className="font-medium text-foreground">{t("totalTokens")}: {message.tokenUsage.totalTokens.toLocaleString()}</p>
+                  {message.tokenUsage.reasoningTokens != null && message.tokenUsage.reasoningTokens > 0 && (
+                    <p>{t("reasoningTokens")}: {message.tokenUsage.reasoningTokens.toLocaleString()}</p>
+                  )}
+                </div>
+              </DropdownMenuSubContent>
+            </DropdownMenuSub>
+          )}
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
@@ -457,6 +484,27 @@ export const MessageBubble = memo(function MessageBubble({
               <Languages className="h-4 w-4" />
               {isTranslating ? t("translating") : t("translate")}
             </DropdownMenuItem>
+          )}
+          {/* Show token usage (only for assistant messages with usage data) */}
+          {message.role === "assistant" && message.tokenUsage && (
+            <DropdownMenuSub>
+              <DropdownMenuSubTrigger>
+                <Activity className="h-4 w-4" />
+                {t("showUsage")}
+              </DropdownMenuSubTrigger>
+              <DropdownMenuSubContent className="min-w-[160px]">
+                <DropdownMenuLabel>{t("tokenUsage")}</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <div className="px-2 py-1.5 text-xs text-muted-foreground space-y-0.5">
+                  <p>{t("inputTokens")}: {message.tokenUsage.inputTokens.toLocaleString()}</p>
+                  <p>{t("outputTokens")}: {message.tokenUsage.outputTokens.toLocaleString()}</p>
+                  <p className="font-medium text-foreground">{t("totalTokens")}: {message.tokenUsage.totalTokens.toLocaleString()}</p>
+                  {message.tokenUsage.reasoningTokens != null && message.tokenUsage.reasoningTokens > 0 && (
+                    <p>{t("reasoningTokens")}: {message.tokenUsage.reasoningTokens.toLocaleString()}</p>
+                  )}
+                </div>
+              </DropdownMenuSubContent>
+            </DropdownMenuSub>
           )}
         </DropdownMenuContent>
       </DropdownMenu>

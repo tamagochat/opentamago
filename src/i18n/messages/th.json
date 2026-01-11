@@ -514,7 +514,13 @@
       "aiEnhanceOff": "ปิดการปรับปรุง AI",
       "scrollForMore": "เลื่อนขึ้นเพื่อดูข้อความเก่า",
       "chatWith": "แชทกับ {name}",
-      "recentChats": "แชทล่าสุด"
+      "recentChats": "แชทล่าสุด",
+      "showUsage": "ดูการใช้งาน",
+      "tokenUsage": "การใช้งานโทเค็น",
+      "inputTokens": "โทเค็นอินพุต",
+      "outputTokens": "โทเค็นเอาต์พุต",
+      "totalTokens": "โทเค็นทั้งหมด",
+      "reasoningTokens": "โทเค็นการคิด"
     },
     "rightPanel": {
       "selectCharacter": "เลือกตัวละครเพื่อดูรายละเอียด",

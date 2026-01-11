@@ -514,7 +514,13 @@
       "aiEnhanceOff": "Ulepszanie AI wyłączone",
       "scrollForMore": "Przewiń w górę, aby zobaczyć starsze wiadomości",
       "chatWith": "Czat z {name}",
-      "recentChats": "Ostatnie czaty"
+      "recentChats": "Ostatnie czaty",
+      "showUsage": "Pokaż użycie",
+      "tokenUsage": "Użycie tokenów",
+      "inputTokens": "Tokeny wejściowe",
+      "outputTokens": "Tokeny wyjściowe",
+      "totalTokens": "Łącznie tokenów",
+      "reasoningTokens": "Tokeny rozumowania"
     },
     "rightPanel": {
       "selectCharacter": "Wybierz postać, aby zobaczyć szczegóły",

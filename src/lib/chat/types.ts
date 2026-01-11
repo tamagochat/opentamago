@@ -14,6 +14,16 @@ export interface ChatBubbleMessage {
 }
 
 /**
+ * Token usage information
+ */
+export interface TokenUsageInfo {
+  inputTokens: number;
+  outputTokens: number;
+  totalTokens: number;
+  reasoningTokens?: number;
+}
+
+/**
  * LLM response structure for generating realistic chat bubbles
  */
 export interface ChatBubbleResponse {
@@ -23,6 +33,8 @@ export interface ChatBubbleResponse {
   memory?: string;
   /** Reasoning/thinking content from LLM (if thinking mode was enabled) */
   reasoning?: string;
+  /** Token usage statistics from AI response */
+  usage?: TokenUsageInfo;
 }
 
 /**

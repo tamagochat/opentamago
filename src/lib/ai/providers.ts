@@ -15,6 +15,7 @@ export const ALL_PROVIDERS = [
   "grok",
   "openai",
   "nanogpt",
+  "zhipu",
   "falai",
   "elevenlabs",
 ] as const;
@@ -29,6 +30,7 @@ export const TEXT_PROVIDERS = [
   "grok",
   "openai",
   "nanogpt",
+  "zhipu",
 ] as const;
 
 export type TextProvider = (typeof TEXT_PROVIDERS)[number];
@@ -180,6 +182,20 @@ export const PROVIDER_CONFIGS: Record<Provider, ProviderConfig> = {
     apiKeyPlaceholder: "nano-...",
     apiKeyUrl: "https://nano-gpt.com/api",
     modalities: ["text"],
+    supportsReasoning: true,
+  },
+  zhipu: {
+    id: "zhipu",
+    name: "Zhipu AI",
+    sdkPackage: "openai", // Zhipu API is OpenAI-compatible
+    baseUrl: "https://open.bigmodel.cn/api/paas/v4",
+    requiresApiKey: true,
+    apiKeyPlaceholder: "your-zhipu-api-key",
+    apiKeyUrl: "https://bigmodel.cn/usercenter/apikeys",
+    modalities: ["text"],
+    supportsReasoning: true,
+    // GLM-4.7 and GLM-4 Plus support thinking mode
+    reasoningModels: ["glm-4.7", "glm-4-plus"],
   },
   falai: {
     id: "falai",
@@ -260,13 +276,22 @@ export const TEXT_MODEL_CONFIGS: Record<TextProvider, TextModelConfig> = {
     ],
   },
   nanogpt: {
-    defaultModel: "chatgpt-4o-latest",
+    defaultModel: "openai/chatgpt-4o-latest",
     models: [
-      { id: "chatgpt-4o-latest", name: "ChatGPT-4o Latest" },
-      { id: "claude-3-5-sonnet", name: "Claude 3.5 Sonnet" },
-      { id: "grok-2-1212", name: "Grok 2" },
-      { id: "gemini-2.0-flash-exp", name: "Gemini 2.0 Flash" },
-      { id: "deepseek-chat", name: "DeepSeek Chat" },
+      { id: "openai/chatgpt-4o-latest", name: "ChatGPT-4o Latest" },
+      { id: "claude-opus-4-5-20251101", name: "Claude Opus 4.5" },
+      { id: "claude-sonnet-4-5-20250929", name: "Claude Sonnet 4.5" },
+      { id: "deepseek/deepseek-v3.2", name: "DeepSeek V3.2" },
+    ],
+  },
+  zhipu: {
+    defaultModel: "glm-4.7",
+    models: [
+      { id: "glm-4.7", name: "GLM-4.7" },
+      { id: "glm-4-plus", name: "GLM-4 Plus" },
+      { id: "glm-4-air", name: "GLM-4 Air" },
+      { id: "glm-4-flash", name: "GLM-4 Flash" },
+      { id: "glm-4-flashx", name: "GLM-4 FlashX" },
     ],
   },
 };

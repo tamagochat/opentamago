@@ -1,7 +1,7 @@
 export { characterSchema, type CharacterDocument } from "./character";
 export { personaSchema, type PersonaDocument } from "./persona";
 export { chatSchema, type ChatDocument } from "./chat";
-export { messageSchema, type MessageDocument, type MessageAttachmentMeta } from "./message";
+export { messageSchema, type MessageDocument, type MessageAttachmentMeta, type MessageTokenUsage } from "./message";
 export { memorySchema, type MemoryDocument, type MemorySource } from "./memory";
 export { settingsSchema, type SettingsDocument, type ApiMode, type ChatBubbleTheme } from "./settings";
 export { providerSettingsSchema, type ProviderSettingsDocument } from "./provider-settings";

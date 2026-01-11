@@ -110,6 +110,7 @@ function CenterPanelInner({ character, chat, onSelectChat, className, rightPanel
       displayedContent: m.displayedContent,
       displayedContentLanguage: m.displayedContentLanguage,
       attachmentsMeta: m.attachmentsMeta,
+      tokenUsage: m.tokenUsage,
     }));
     setDisplayMessages(msgs);
   }, [storedMessages]);
@@ -126,16 +127,43 @@ function CenterPanelInner({ character, chat, onSelectChat, className, rightPanel
     }
   }, [chat?.id]);
 
-  // Initialize selectedPersona from chat's personaId when chat changes
+  // Initialize selectedPersona when chat changes
+  // Priority: 1) chat's personaId, 2) localStorage, 3) auto-select if only one persona
   useEffect(() => {
-    if (chat?.personaId) {
+    if (!chat?.id || personas.length === 0) {
+      setSelectedPersona(null);
+      return;
+    }
+
+    // 1. Try chat's stored personaId first
+    if (chat.personaId) {
       const persona = personas.find((p) => p.id === chat.personaId);
       if (persona) {
         setSelectedPersona(persona as PersonaDocument);
+        return;
       }
-    } else {
-      setSelectedPersona(null);
     }
+
+    // 2. Try localStorage for previously used persona
+    const storageKey = `chat-persona-${chat.id}`;
+    const savedPersonaId = localStorage.getItem(storageKey);
+    if (savedPersonaId) {
+      const persona = personas.find((p) => p.id === savedPersonaId);
+      if (persona) {
+        setSelectedPersona(persona as PersonaDocument);
+        return;
+      }
+    }
+
+    // 3. Auto-select if only one persona exists
+    if (personas.length === 1) {
+      setSelectedPersona(personas[0] as PersonaDocument);
+      localStorage.setItem(storageKey, personas[0]!.id);
+      return;
+    }
+
+    // No persona selected
+    setSelectedPersona(null);
   }, [chat?.id, chat?.personaId, personas]);
 
   // Cleanup RAF on unmount
@@ -219,6 +247,14 @@ function CenterPanelInner({ character, chat, onSelectChat, className, rightPanel
     }
   }, [handleScroll]);
 
+  // Persona selection handler - saves to localStorage
+  const handlePersonaSelect = useCallback((persona: PersonaDocument | null) => {
+    setSelectedPersona(persona);
+    if (chat?.id && persona) {
+      localStorage.setItem(`chat-persona-${chat.id}`, persona.id);
+    }
+  }, [chat?.id]);
+
   const handleSubmit = useCallback(async (userMessage: string) => {
     if (!isApiReady || isLoading) return;
 
@@ -226,7 +262,7 @@ function CenterPanelInner({ character, chat, onSelectChat, className, rightPanel
       toast.error(t("selectPersonaToSend"), {
         action: {
           label: t("createPersonaAction"),
-          onClick: () => openPersonaEditor({ onSave: setSelectedPersona }),
+          onClick: () => openPersonaEditor({ onSave: handlePersonaSelect }),
         },
       });
       return;
@@ -277,11 +313,14 @@ function CenterPanelInner({ character, chat, onSelectChat, className, rightPanel
         });
 
         // Save each message to database (ignoring delays)
-        // Attach reasoning to the first message only
+        // Attach reasoning to the first message only, tokenUsage to the last message only
         for (let i = 0; i < messengerResponse.messages.length; i++) {
           const msg = messengerResponse.messages[i]!;
-          const reasoning = i === 0 ? messengerResponse.reasoning : undefined;
-          await addMessage("assistant", msg.content, { reasoning });
+          const isFirst = i === 0;
+          const isLast = i === messengerResponse.messages.length - 1;
+          const reasoning = isFirst ? messengerResponse.reasoning : undefined;
+          const tokenUsage = isLast ? messengerResponse.usage : undefined;
+          await addMessage("assistant", msg.content, { reasoning, tokenUsage });
         }
 
         // Save memory if provided
@@ -355,7 +394,7 @@ function CenterPanelInner({ character, chat, onSelectChat, className, rightPanel
 
         console.log("[Roleplay] Saving assistant message...");
         if (fullContent) {
-          await addMessage("assistant", fullContent, { reasoning });
+          await addMessage("assistant", fullContent, { reasoning, tokenUsage: generatorResult?.usage });
         }
         console.log("[Roleplay] Done!");
       }
@@ -779,14 +818,15 @@ function CenterPanelInner({ character, chat, onSelectChat, className, rightPanel
         placeholder={t("messagePlaceholder", { name: character.name })}
         personas={personas}
         selectedPersona={selectedPersona}
-        onPersonaSelect={setSelectedPersona}
-        onCreatePersona={() => openPersonaEditor({ onSave: setSelectedPersona })}
+        onPersonaSelect={handlePersonaSelect}
+        onCreatePersona={() => openPersonaEditor({ onSave: handlePersonaSelect })}
         translations={{
           selectPersona: t("selectPersona"),
           noPersonas: t("noPersonas"),
           createPersona: t("createPersona"),
         }}
       />
+
     </div>
   );
 }

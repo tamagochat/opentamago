@@ -47,6 +47,16 @@ export interface GenerateOptions {
 }
 
 /**
+ * Token usage information
+ */
+export interface GenerateUsage {
+  inputTokens: number;
+  outputTokens: number;
+  totalTokens: number;
+  reasoningTokens?: number;
+}
+
+/**
  * Result from generation
  */
 export interface GenerateResult {
@@ -54,6 +64,8 @@ export interface GenerateResult {
   payload: GenerationPayload;
   /** Merged reasoning/thinking content from LLM (if thinking mode was enabled) */
   reasoning?: string;
+  /** Token usage statistics */
+  usage?: GenerateUsage;
 }
 
 /**
@@ -96,12 +108,16 @@ export async function generateResponse(
     thinkingBudget,
   });
 
-  console.log("[Generator] generateResponse complete", { hasReasoning: !!result.reasoning });
+  console.log("[Generator] generateResponse complete", {
+    hasReasoning: !!result.reasoning,
+    hasUsage: !!result.usage,
+  });
 
   return {
     content: result.content,
     payload,
     reasoning: result.reasoning,
+    usage: result.usage,
   };
 }
 
@@ -163,11 +179,17 @@ export async function* generateStreamingResponse(
   }
 
   // iterResult.value contains the ChatResponseWithReasoning when done
+  let usage: GenerateUsage | undefined;
   if (iterResult.value) {
-    reasoning = (iterResult.value as ChatResponseWithReasoning).reasoning;
+    const resultValue = iterResult.value as ChatResponseWithReasoning;
+    reasoning = resultValue.reasoning;
+    usage = resultValue.usage;
   }
 
-  console.log("[Generator] Stream iteration complete", { hasReasoning: !!reasoning });
+  console.log("[Generator] Stream iteration complete", {
+    hasReasoning: !!reasoning,
+    hasUsage: !!usage,
+  });
 
   const fullContent = chunks.join("");
 
@@ -175,6 +197,7 @@ export async function* generateStreamingResponse(
     content: fullContent,
     payload,
     reasoning,
+    usage,
   };
 }
 

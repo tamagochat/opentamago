@@ -3,7 +3,7 @@
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { GoogleGenAI } from "@google/genai";
 import { fal } from "@fal-ai/client";
-import { streamText, generateText, generateObject } from "ai";
+import { streamText, generateText, Output } from "ai";
 import { z } from "zod";
 import {
   DEFAULT_SAFETY_SETTINGS_ARRAY,
@@ -65,12 +65,24 @@ export interface ChatOptions {
 }
 
 /**
+ * Token usage information from AI SDK
+ */
+export interface TokenUsage {
+  inputTokens: number;
+  outputTokens: number;
+  totalTokens: number;
+  reasoningTokens?: number;
+}
+
+/**
  * Response from chat operations with optional reasoning
  */
 export interface ChatResponseWithReasoning {
   content: string;
   /** Merged reasoning/thinking content from LLM */
   reasoning?: string;
+  /** Token usage statistics */
+  usage?: TokenUsage;
 }
 
 export interface GenerateCharacterOptions {
@@ -259,6 +271,24 @@ function buildReasoningOptions(
           },
         },
       };
+    case "zhipu":
+      // Zhipu GLM models support thinking mode with type: "enabled"/"disabled"
+      // clear_thinking: false keeps thinking content in response
+      return {
+        zhipu: {
+          thinking: {
+            type: "enabled",
+            clear_thinking: false,
+          },
+        },
+      };
+    case "nanogpt":
+      // NanoGPT supports reasoning_effort for reasoning models
+      return {
+        nanogpt: {
+          reasoning_effort: "high",
+        },
+      };
     default:
       return undefined;
   }
@@ -311,7 +341,10 @@ function extractReasoning(
 
     // AI SDK 6.x: Check for reasoningText property first (most convenient)
     // This is available for Anthropic, OpenAI, and other providers
-    if (resultObj?.reasoningText && typeof resultObj.reasoningText === "string") {
+    if (
+      resultObj?.reasoningText &&
+      typeof resultObj.reasoningText === "string"
+    ) {
       return resultObj.reasoningText;
     }
 
@@ -337,9 +370,10 @@ function extractReasoning(
     }
 
     // Fallback: Check provider metadata
-    const metadata = (
-      resultObj?.providerMetadata ?? resultObj?.experimental_providerMetadata
-    ) as Record<string, unknown> | undefined;
+    const metadata = (resultObj?.providerMetadata ??
+      resultObj?.experimental_providerMetadata) as
+      | Record<string, unknown>
+      | undefined;
 
     // Anthropic extended thinking via metadata
     if (providerId === "anthropic" && metadata?.anthropic) {
@@ -391,8 +425,14 @@ function extractReasoning(
           return normalizeReasoning(openrouterMeta.reasoning);
         }
         // Check reasoning_details array
-        if (openrouterMeta?.reasoning_details && Array.isArray(openrouterMeta.reasoning_details)) {
-          const details = openrouterMeta.reasoning_details as Record<string, unknown>[];
+        if (
+          openrouterMeta?.reasoning_details &&
+          Array.isArray(openrouterMeta.reasoning_details)
+        ) {
+          const details = openrouterMeta.reasoning_details as Record<
+            string,
+            unknown
+          >[];
           const texts = details
             .filter((d) => d?.type === "reasoning.text" && d?.text)
             .map((d) => String(d.text));
@@ -402,22 +442,93 @@ function extractReasoning(
         }
       }
       // Check direct response structure (OpenRouter returns reasoning in message)
-      const response = resultObj?.response as Record<string, unknown> | undefined;
-      const choices = (response?.choices ?? resultObj?.choices) as Record<string, unknown>[] | undefined;
+      const response = resultObj?.response as
+        | Record<string, unknown>
+        | undefined;
+      const choices = (response?.choices ?? resultObj?.choices) as
+        | Record<string, unknown>[]
+        | undefined;
       if (choices?.[0]) {
-        const message = choices[0].message as Record<string, unknown> | undefined;
+        const message = choices[0].message as
+          | Record<string, unknown>
+          | undefined;
         if (message?.reasoning && typeof message.reasoning === "string") {
           return message.reasoning;
         }
         // Check reasoning_details in message
-        if (message?.reasoning_details && Array.isArray(message.reasoning_details)) {
-          const details = message.reasoning_details as Record<string, unknown>[];
+        if (
+          message?.reasoning_details &&
+          Array.isArray(message.reasoning_details)
+        ) {
+          const details = message.reasoning_details as Record<
+            string,
+            unknown
+          >[];
           const texts = details
             .filter((d) => d?.type === "reasoning.text" && d?.text)
             .map((d) => String(d.text));
           if (texts.length > 0) {
             return texts.join("\n\n");
           }
+        }
+      }
+    }
+
+    // NanoGPT reasoning via metadata or direct response
+    if (providerId === "nanogpt") {
+      // Check metadata first
+      if (metadata?.nanogpt) {
+        const nanogptMeta = metadata.nanogpt as Record<string, unknown>;
+        if (nanogptMeta?.reasoning && typeof nanogptMeta.reasoning === "string") {
+          return nanogptMeta.reasoning;
+        }
+        if (nanogptMeta?.reasoning_content && typeof nanogptMeta.reasoning_content === "string") {
+          return nanogptMeta.reasoning_content;
+        }
+      }
+      // Check direct response structure
+      const response = resultObj?.response as
+        | Record<string, unknown>
+        | undefined;
+      const choices = (response?.choices ?? resultObj?.choices) as
+        | Record<string, unknown>[]
+        | undefined;
+      if (choices?.[0]) {
+        const message = choices[0].message as
+          | Record<string, unknown>
+          | undefined;
+        if (message?.reasoning && typeof message.reasoning === "string") {
+          return message.reasoning;
+        }
+        if (message?.reasoning_content && typeof message.reasoning_content === "string") {
+          return message.reasoning_content;
+        }
+      }
+    }
+
+    // Zhipu reasoning via metadata or direct response
+    if (providerId === "zhipu") {
+      // Check metadata first
+      if (metadata?.zhipu) {
+        const zhipuMeta = metadata.zhipu as Record<string, unknown>;
+        if (zhipuMeta?.reasoning_content && typeof zhipuMeta.reasoning_content === "string") {
+          return zhipuMeta.reasoning_content;
+        }
+      }
+      // Check direct response structure (Zhipu returns reasoning_content in message)
+      const response = resultObj?.response as
+        | Record<string, unknown>
+        | undefined;
+      const choices = (response?.choices ?? resultObj?.choices) as
+        | Record<string, unknown>[]
+        | undefined;
+      if (choices?.[0]) {
+        const message = choices[0].message as
+          | Record<string, unknown>
+          | undefined;
+        // Zhipu returns reasoning_content in the message
+        if (message?.reasoning_content && typeof message.reasoning_content === "string") {
+          return message.reasoning_content;
         }
       }
     }
@@ -432,6 +543,40 @@ function extractReasoning(
     console.warn("[AI/Client] Failed to extract reasoning:", e);
   }
   return undefined;
+}
+
+/**
+ * Extract token usage from AI SDK response
+ * If prev is provided, accumulates usage with previous values
+ * @internal
+ */
+function extractUsage(usage: unknown, prev?: TokenUsage): TokenUsage | undefined {
+  if (!usage) return prev;
+  const u = usage as Record<string, unknown>;
+  const inputTokens = (u.inputTokens as number) ?? 0;
+  const outputTokens = (u.outputTokens as number) ?? 0;
+  const totalTokens = (u.totalTokens as number) ?? 0;
+  const reasoningTokens = (u.outputTokenDetails as Record<string, unknown>)
+    ?.reasoningTokens as number | undefined;
+
+  if (prev) {
+    return {
+      inputTokens: prev.inputTokens + inputTokens,
+      outputTokens: prev.outputTokens + outputTokens,
+      totalTokens: prev.totalTokens + totalTokens,
+      reasoningTokens:
+        prev.reasoningTokens !== undefined || reasoningTokens !== undefined
+          ? (prev.reasoningTokens ?? 0) + (reasoningTokens ?? 0)
+          : undefined,
+    };
+  }
+
+  return {
+    inputTokens,
+    outputTokens,
+    totalTokens,
+    reasoningTokens,
+  };
 }
 
 /**
@@ -522,13 +667,19 @@ export async function* streamChatResponse(
 
   console.log(`[AI/Client] Stream complete. Total chunks: ${chunkIndex}`);
 
-  // Extract reasoning after stream is complete
+  // Extract reasoning and usage after stream is complete
   // For streaming responses, we need to await the response object
   let reasoning: string | undefined;
-  if (effectiveThinking) {
-    try {
-      // AI SDK 4.2+: streamText result has async properties we need to await
-      const response = await result.response;
+  let usage: TokenUsage | undefined;
+
+  try {
+    // AI SDK 4.2+: streamText result has async properties we need to await
+    const response = await result.response;
+
+    // Extract usage from the response
+    usage = extractUsage(await result.usage);
+
+    if (effectiveThinking) {
       reasoning = extractReasoning(response, providerId);
 
       // Also check if result has reasoning property directly (AI SDK may vary by version)
@@ -539,15 +690,28 @@ export async function* streamChatResponse(
         }
       }
 
-      console.log(`[AI/Client] Reasoning extracted: ${reasoning ? reasoning.substring(0, 100) + "..." : "none"}`);
-    } catch (e) {
-      console.error("[AI/Client] Failed to extract reasoning:", e);
+      console.log(
+        `[AI/Client] Reasoning extracted: ${
+          reasoning ? reasoning.substring(0, 100) + "..." : "none"
+        }`
+      );
     }
+  } catch (e) {
+    console.error("[AI/Client] Failed to extract reasoning/usage:", e);
   }
+
+  console.log(
+    `[AI/Client] Stream usage: ${
+      usage
+        ? `in=${usage.inputTokens}, out=${usage.outputTokens}, total=${usage.totalTokens}`
+        : "none"
+    }`
+  );
 
   return {
     content: chunks.join(""),
     reasoning,
+    usage,
   };
 }
 
@@ -608,6 +772,9 @@ export async function generateChatResponse(
 
   const result = await generateText(generateOptions);
 
+  // Extract usage
+  const usage = extractUsage(result.usage);
+
   // Extract reasoning if thinking was enabled
   let reasoning: string | undefined;
   if (effectiveThinking) {
@@ -618,12 +785,25 @@ export async function generateChatResponse(
       reasoning = normalizeReasoning((result as any).reasoning);
     }
 
-    console.log(`[AI/Client] generateChatResponse reasoning: ${reasoning ? reasoning.substring(0, 100) + "..." : "none"}`);
+    console.log(
+      `[AI/Client] generateChatResponse reasoning: ${
+        reasoning ? reasoning.substring(0, 100) + "..." : "none"
+      }`
+    );
   }
+
+  console.log(
+    `[AI/Client] generateChatResponse usage: ${
+      usage
+        ? `in=${usage.inputTokens}, out=${usage.outputTokens}, total=${usage.totalTokens}`
+        : "none"
+    }`
+  );
 
   return {
     content: result.text,
     reasoning,
+    usage,
   };
 }
 
@@ -681,12 +861,12 @@ export async function generateMessengerResponse(
     ...messages,
   ];
 
-  const generateOptions: Parameters<typeof generateObject>[0] = {
+  const generateOptions: Parameters<typeof generateText>[0] = {
     model: provider(modelId),
-    schema: messengerBubbleSchema,
     messages: allMessages,
     temperature,
     maxOutputTokens: maxTokens,
+    output: Output.object({ schema: messengerBubbleSchema }),
   };
 
   if (providerOptions) {
@@ -694,9 +874,13 @@ export async function generateMessengerResponse(
   }
 
   let reasoning: string | undefined;
+  let usage: TokenUsage | undefined;
 
   try {
-    const result = await generateObject(generateOptions);
+    const result = await generateText(generateOptions);
+
+    // Extract usage
+    usage = extractUsage(result.usage);
 
     // Extract reasoning if thinking was enabled
     if (effectiveThinking) {
@@ -707,17 +891,55 @@ export async function generateMessengerResponse(
         reasoning = normalizeReasoning((result as any).reasoning);
       }
 
-      console.log(`[AI/Client] generateMessengerResponse reasoning: ${reasoning ? reasoning.substring(0, 100) + "..." : "none"}`);
+      console.log(
+        `[AI/Client] generateMessengerResponse reasoning: ${
+          reasoning ? reasoning.substring(0, 100) + "..." : "none"
+        }`
+      );
     }
 
-    return {
-      ...(result.object as ChatBubbleResponse),
-      reasoning,
-    };
+    console.log(
+      `[AI/Client] generateMessengerResponse usage: ${
+        usage
+          ? `in=${usage.inputTokens}, out=${usage.outputTokens}, total=${usage.totalTokens}`
+          : "none"
+      }`
+    );
+
+    // Access structured output via result.output (AI SDK 6.x with Output.object())
+    if (result.output) {
+      return {
+        ...(result.output as ChatBubbleResponse),
+        reasoning,
+        usage,
+      };
+    }
+
+    // Fallback: try to parse text as JSON if object is not available
+    if (result.text) {
+      try {
+        const parsed = JSON.parse(result.text);
+        if (parsed.messages && Array.isArray(parsed.messages)) {
+          return {
+            messages: parsed.messages,
+            memory: parsed.memory,
+            reasoning,
+            usage,
+          };
+        }
+      } catch {
+        // Not valid JSON, reconstruct from text
+      }
+      return reconstructMessagesFromText(result.text, reasoning, usage);
+    }
+
+    throw new Error("No object or text in response");
   } catch (error) {
-    // If generateObject fails (e.g., model returns plain text instead of JSON),
-    // try to extract content from the error before falling back to generateText
-    console.warn("[AI/Client] generateObject failed:", error);
+    // If generateText with output fails, try to extract content from error
+    console.warn(
+      "[AI/Client] generateText with structured output failed:",
+      error
+    );
 
     const errorObj = error as Record<string, unknown>;
     let responseText: string | undefined;
@@ -725,17 +947,28 @@ export async function generateMessengerResponse(
     // AI SDK AI_NoObjectGeneratedError contains the raw text in error.text
     if (errorObj?.text && typeof errorObj.text === "string") {
       responseText = errorObj.text.trim();
-      console.log("[AI/Client] Extracted text from error:", responseText.substring(0, 100) + "...");
+      console.log(
+        "[AI/Client] Extracted text from error:",
+        responseText.substring(0, 100) + "..."
+      );
 
-      // Try to extract reasoning from error response if available
-      if (effectiveThinking && errorObj?.response) {
-        reasoning = extractReasoning(errorObj.response, providerId);
+      // Try to extract reasoning and usage from error response if available
+      if (errorObj?.response) {
+        if (effectiveThinking) {
+          reasoning = extractReasoning(errorObj.response, providerId);
+        }
+      }
+      // Try to get usage from the error response (accumulate with any existing usage)
+      if (errorObj.usage) {
+        usage = extractUsage(errorObj.usage, usage);
       }
     }
 
-    // If we couldn't get text from error, fall back to generateText
+    // If we couldn't get text from error, fall back to plain generateText
     if (!responseText) {
-      console.log("[AI/Client] No text in error, falling back to generateText");
+      console.log(
+        "[AI/Client] No text in error, falling back to plain generateText"
+      );
 
       const textResult = await generateText({
         model: provider(modelId),
@@ -745,6 +978,9 @@ export async function generateMessengerResponse(
       });
 
       responseText = textResult.text.trim();
+
+      // Accumulate usage from fallback result with any existing usage
+      usage = extractUsage(textResult.usage, usage);
 
       // Extract reasoning if thinking was enabled
       if (effectiveThinking) {
@@ -761,34 +997,47 @@ export async function generateMessengerResponse(
           messages: parsed.messages,
           memory: parsed.memory,
           reasoning,
+          usage,
         };
       }
     } catch {
       // Not valid JSON, continue to plain text reconstruction
     }
 
-    // Reconstruct messages from plain text
-    console.log("[AI/Client] Reconstructing messages from plain text response");
+    return reconstructMessagesFromText(responseText, reasoning, usage);
+  }
+}
 
-    // Split by newlines and filter empty lines
-    const lines = responseText
-      .split(/\n+/)
-      .map((line) => line.trim())
-      .filter((line) => line.length > 0);
+/**
+ * Helper to reconstruct messenger messages from plain text
+ */
+function reconstructMessagesFromText(
+  text: string,
+  reasoning?: string,
+  usage?: TokenUsage
+): ChatBubbleResponse {
+  console.log("[AI/Client] Reconstructing messages from plain text response");
 
-    // Create messages from lines (or single message if no newlines)
-    const reconstructedMessages = lines.length > 0
+  // Split by newlines and filter empty lines
+  const lines = text
+    .split(/\n+/)
+    .map((line) => line.trim())
+    .filter((line) => line.length > 0);
+
+  // Create messages from lines (or single message if no newlines)
+  const messages =
+    lines.length > 0
       ? lines.map((content, index) => ({
           delay: index === 0 ? 1500 : 1000 + Math.random() * 1000,
           content,
         }))
-      : [{ delay: 1500, content: responseText || "..." }];
+      : [{ delay: 1500, content: text || "..." }];
 
-    return {
-      messages: reconstructedMessages,
-      reasoning,
-    };
-  }
+  return {
+    messages,
+    reasoning,
+    usage,
+  };
 }
 
 // ============================================================================
@@ -804,9 +1053,10 @@ export async function generateCharacterFromImage(
   const { image, context, providerId, providerSettings } = options;
 
   // Use Gemini for vision tasks
-  const google = providerId === "gemini"
-    ? getGeminiProvider(providerSettings)
-    : getGeminiProvider(providerSettings); // Fallback to Gemini for vision
+  const google =
+    providerId === "gemini"
+      ? getGeminiProvider(providerSettings)
+      : getGeminiProvider(providerSettings); // Fallback to Gemini for vision
 
   // Convert image to base64
   const imageBuffer = await image.arrayBuffer();
@@ -830,9 +1080,9 @@ For the example dialogue, use this format:
 
 For the system prompt, write clear instructions that would help an AI roleplay as this character convincingly. IMPORTANT: The system prompt MUST include the following instruction: "This character is good at foreign languages so they can respond to any languages that other participants speak. Please use the same language with others."`;
 
-  const result = await generateObject({
+  const result = await generateText({
     model: google("gemini-3-flash-preview"),
-    schema: characterSchema,
+    output: Output.object({ schema: characterSchema }),
     messages: [
       {
         role: "user",
@@ -850,7 +1100,7 @@ For the system prompt, write clear instructions that would help an AI roleplay a
     ],
   });
 
-  return result.object as GeneratedCharacter;
+  return result.output as GeneratedCharacter;
 }
 
 // ============================================================================
@@ -966,7 +1216,8 @@ async function generateGeminiImage(
   }
 
   const geminiImageConfig = IMAGE_MODEL_CONFIGS["gemini"];
-  const modelId = model ?? geminiImageConfig?.defaultModel ?? "gemini-2.5-flash-image";
+  const modelId =
+    model ?? geminiImageConfig?.defaultModel ?? "gemini-2.5-flash-image";
 
   console.log("[AI/Client] generateGeminiImage called", {
     modelId,
@@ -1023,7 +1274,9 @@ async function generateGeminiImage(
     }
   }
 
-  console.log(`[AI/Client] generateGeminiImage complete. Generated ${images.length} image(s)`);
+  console.log(
+    `[AI/Client] generateGeminiImage complete. Generated ${images.length} image(s)`
+  );
 
   return {
     images,
@@ -1115,7 +1368,9 @@ async function generateFalImage(
     });
   }
 
-  console.log(`[AI/Client] generateFalImage complete. Generated ${images.length} image(s)`);
+  console.log(
+    `[AI/Client] generateFalImage complete. Generated ${images.length} image(s)`
+  );
 
   return {
     images,
@@ -1202,7 +1457,9 @@ export async function generateImagePrompt(
   // Build context about the character
   const characterContext = [
     characterName ? `Character Name: ${characterName}` : null,
-    characterDescription ? `Character Description: ${characterDescription}` : null,
+    characterDescription
+      ? `Character Description: ${characterDescription}`
+      : null,
     characterScenario ? `Scene/Setting: ${characterScenario}` : null,
   ]
     .filter(Boolean)
@@ -1238,7 +1495,10 @@ ${characterContext ? `\nCharacter Context:\n${characterContext}` : ""}`;
     maxOutputTokens: 512,
   });
 
-  console.log("[AI/Client] generateImagePrompt result:", result.text.substring(0, 100) + "...");
+  console.log(
+    "[AI/Client] generateImagePrompt result:",
+    result.text.substring(0, 100) + "..."
+  );
 
   return result.text.trim();
 }
@@ -1251,7 +1511,12 @@ ${characterContext ? `\nCharacter Context:\n${characterContext}` : ""}`;
  * Create WAV file headers for raw PCM audio data
  * Gemini TTS returns raw linear16 PCM at 24kHz mono
  */
-function createWavHeader(pcmDataLength: number, sampleRate = 24000, numChannels = 1, bitsPerSample = 16): Uint8Array {
+function createWavHeader(
+  pcmDataLength: number,
+  sampleRate = 24000,
+  numChannels = 1,
+  bitsPerSample = 16
+): Uint8Array {
   const byteRate = sampleRate * numChannels * (bitsPerSample / 8);
   const blockAlign = numChannels * (bitsPerSample / 8);
   const dataSize = pcmDataLength;
@@ -1340,7 +1605,8 @@ async function generateGeminiSpeech(
   }
 
   const voiceModelConfig = VOICE_MODEL_CONFIGS["gemini"];
-  const modelId = model ?? voiceModelConfig?.defaultModel ?? "gemini-2.5-flash-preview-tts";
+  const modelId =
+    model ?? voiceModelConfig?.defaultModel ?? "gemini-2.5-flash-preview-tts";
 
   console.log("[AI/Client] generateGeminiSpeech called", {
     modelId,
@@ -1366,7 +1632,8 @@ async function generateGeminiSpeech(
   });
 
   // Extract raw PCM audio data from response (base64 encoded)
-  const rawPcmBase64 = response.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
+  const rawPcmBase64 =
+    response.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
 
   if (!rawPcmBase64) {
     throw new Error("No audio data received from Gemini TTS");
@@ -1394,7 +1661,10 @@ async function generateGeminiSpeech(
   }
   const audioData = btoa(wavBase64);
 
-  console.log("[AI/Client] generateGeminiSpeech complete, WAV data length:", audioData.length);
+  console.log(
+    "[AI/Client] generateGeminiSpeech complete, WAV data length:",
+    audioData.length
+  );
 
   return {
     audioData,
@@ -1423,7 +1693,8 @@ async function generateElevenLabsSpeech(
   }
 
   const voiceModelConfig = VOICE_MODEL_CONFIGS["elevenlabs"];
-  const modelId = model ?? voiceModelConfig?.defaultModel ?? "eleven_multilingual_v2";
+  const modelId =
+    model ?? voiceModelConfig?.defaultModel ?? "eleven_multilingual_v2";
 
   console.log("[AI/Client] generateElevenLabsSpeech called", {
     modelId,
@@ -1471,7 +1742,10 @@ async function generateElevenLabsSpeech(
   }
   const audioData = btoa(wavBase64);
 
-  console.log("[AI/Client] generateElevenLabsSpeech complete, WAV data length:", audioData.length);
+  console.log(
+    "[AI/Client] generateElevenLabsSpeech complete, WAV data length:",
+    audioData.length
+  );
 
   return {
     audioData,

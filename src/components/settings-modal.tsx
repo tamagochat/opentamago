@@ -34,6 +34,8 @@ import {
   ALL_PROVIDERS,
   IMAGE_PROVIDERS,
   VOICE_PROVIDERS,
+  TEXT_PROVIDERS,
+  TEXT_MODEL_CONFIGS,
   type Provider,
   type TextProvider,
   type ImageProvider,
@@ -88,6 +90,7 @@ export function SettingsModal({ open, onOpenChange, hideTextScenarios, hideThink
     grok: "",
     openai: "",
     nanogpt: "",
+    zhipu: "",
     falai: "",
     elevenlabs: "",
   });
@@ -147,6 +150,7 @@ export function SettingsModal({ open, onOpenChange, hideTextScenarios, hideThink
         grok: "",
         openai: "",
         nanogpt: "",
+        zhipu: "",
         falai: "",
         elevenlabs: "",
       };
@@ -244,6 +248,21 @@ export function SettingsModal({ open, onOpenChange, hideTextScenarios, hideThink
       const voiceData = voiceTabRef.current?.getSaveData();
       const chatUIData = chatUITabRef.current?.getSaveData();
 
+      // Check if this is the first text provider API key being added
+      const previousTextProvidersWithKeys = TEXT_PROVIDERS.filter(
+        (p) => initialApiKeys[p]?.trim()
+      );
+      const newTextProvidersWithKeys = TEXT_PROVIDERS.filter(
+        (p) => apiKeysData[p]?.trim()
+      );
+
+      // Find the first newly added text provider API key
+      let firstNewTextProvider: TextProvider | null = null;
+      if (previousTextProvidersWithKeys.length === 0 && newTextProvidersWithKeys.length > 0) {
+        // This is the first text provider key - use the first one that was added
+        firstNewTextProvider = newTextProvidersWithKeys[0] ?? null;
+      }
+
       // Save provider settings (API keys only)
       for (const providerId of ALL_PROVIDERS) {
         await updateProviderSettings(providerId, {
@@ -253,6 +272,7 @@ export function SettingsModal({ open, onOpenChange, hideTextScenarios, hideThink
       }
 
       // Save text generation settings for each scenario
+      // If first API key added, override provider in all text scenarios
       if (textData) {
         const textScenarios = [
           { id: "text_chat" as const, settings: textData.chat },
@@ -265,8 +285,15 @@ export function SettingsModal({ open, onOpenChange, hideTextScenarios, hideThink
           // Build metadata object
           const metadata: Record<string, unknown> = {};
 
+          // Determine provider and model to use
+          // If first API key was added, override with that provider
+          const effectiveProvider = firstNewTextProvider ?? scenarioSettings.provider;
+          const effectiveModel = firstNewTextProvider
+            ? TEXT_MODEL_CONFIGS[firstNewTextProvider].defaultModel
+            : scenarioSettings.model;
+
           // Include safety settings when using Gemini
-          if (scenarioSettings.provider === "gemini") {
+          if (effectiveProvider === "gemini") {
             metadata.safetySettings = scenarioSettings.safetySettings;
           }
 
@@ -277,12 +304,24 @@ export function SettingsModal({ open, onOpenChange, hideTextScenarios, hideThink
 
           await updateGenerationSettings(id, {
             enabled: scenarioSettings.enabled,
-            providerId: scenarioSettings.provider,
-            model: scenarioSettings.model,
+            providerId: effectiveProvider,
+            model: effectiveModel,
             temperature: parseFloat(scenarioSettings.temperature) || 0.9,
             maxTokens: parseInt(scenarioSettings.maxTokens, 10) || 4096,
             thinking: scenarioSettings.thinking,
             metadata: Object.keys(metadata).length > 0 ? metadata : undefined,
+          });
+        }
+      } else if (firstNewTextProvider) {
+        // User added first API key but didn't visit text tab - auto-configure all text scenarios
+        const defaultModel = TEXT_MODEL_CONFIGS[firstNewTextProvider].defaultModel;
+        const textScenarioIds = ["text_chat", "text_translation", "text_hitmeup", "text_aibot"] as const;
+
+        for (const id of textScenarioIds) {
+          await updateGenerationSettings(id, {
+            enabled: true,
+            providerId: firstNewTextProvider,
+            model: defaultModel,
           });
         }
       }

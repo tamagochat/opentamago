@@ -89,6 +89,11 @@ export function getCollectionConfig() {
           ...oldDoc,
           attachmentsMeta: undefined, // No attachments initially
         }),
+        // v2 to v3: Add token usage tracking
+        3: (oldDoc: any) => ({
+          ...oldDoc,
+          tokenUsage: undefined, // No usage data for old messages
+        }),
       },
     } as RxCollectionCreator<MessageDocument>,
 

@@ -514,7 +514,13 @@
       "aiEnhanceOff": "Peningkatan AI nonaktif",
       "scrollForMore": "Gulir ke atas untuk melihat pesan lama",
       "chatWith": "Chat dengan {name}",
-      "recentChats": "Chat terbaru"
+      "recentChats": "Chat terbaru",
+      "showUsage": "Lihat penggunaan",
+      "tokenUsage": "Penggunaan Token",
+      "inputTokens": "Token masukan",
+      "outputTokens": "Token keluaran",
+      "totalTokens": "Total token",
+      "reasoningTokens": "Token penalaran"
     },
     "rightPanel": {
       "selectCharacter": "Pilih karakter buat lihat detail",

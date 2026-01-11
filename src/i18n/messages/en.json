@@ -514,7 +514,13 @@
       "aiEnhanceOff": "AI enhancement off",
       "scrollForMore": "Scroll up for older messages",
       "chatWith": "Chat with {name}",
-      "recentChats": "Recent chats"
+      "recentChats": "Recent chats",
+      "showUsage": "Show Usage",
+      "tokenUsage": "Token Usage",
+      "inputTokens": "Input Tokens",
+      "outputTokens": "Output Tokens",
+      "totalTokens": "Total Tokens",
+      "reasoningTokens": "Reasoning Tokens"
     },
     "rightPanel": {
       "selectCharacter": "Select a character to see details",

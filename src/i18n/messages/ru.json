@@ -514,7 +514,13 @@
       "aiEnhanceOff": "ИИ-улучшение выключено",
       "scrollForMore": "Прокрутите вверх для просмотра старых сообщений",
       "chatWith": "Чат с {name}",
-      "recentChats": "Недавние чаты"
+      "recentChats": "Недавние чаты",
+      "showUsage": "Показать использование",
+      "tokenUsage": "Использование токенов",
+      "inputTokens": "Входные токены",
+      "outputTokens": "Выходные токены",
+      "totalTokens": "Всего токенов",
+      "reasoningTokens": "Токены рассуждения"
     },
     "rightPanel": {
       "selectCharacter": "Выберите персонажа для просмотра деталей",

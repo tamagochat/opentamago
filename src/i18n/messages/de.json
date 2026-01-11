@@ -514,7 +514,13 @@
       "aiEnhanceOff": "KI-Verbesserung aus",
       "scrollForMore": "Nach oben scrollen für ältere Nachrichten",
       "chatWith": "Mit {name} chatten",
-      "recentChats": "Letzte Chats"
+      "recentChats": "Letzte Chats",
+      "showUsage": "Nutzung anzeigen",
+      "tokenUsage": "Token-Nutzung",
+      "inputTokens": "Eingabe-Tokens",
+      "outputTokens": "Ausgabe-Tokens",
+      "totalTokens": "Gesamte Tokens",
+      "reasoningTokens": "Reasoning-Tokens"
     },
     "rightPanel": {
       "selectCharacter": "Wähle einen Charakter, um Details zu sehen",

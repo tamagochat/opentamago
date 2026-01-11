@@ -514,7 +514,13 @@
       "aiEnhanceOff": "AI強化オフ",
       "scrollForMore": "上にスクロールすると過去のメッセージが表示されます",
       "chatWith": "{name}とチャット",
-      "recentChats": "最近のチャット"
+      "recentChats": "最近のチャット",
+      "showUsage": "使用量を表示",
+      "tokenUsage": "トークン使用量",
+      "inputTokens": "入力トークン",
+      "outputTokens": "出力トークン",
+      "totalTokens": "合計トークン",
+      "reasoningTokens": "推論トークン"
     },
     "rightPanel": {
       "selectCharacter": "キャラクターを選んで詳細を見よう",

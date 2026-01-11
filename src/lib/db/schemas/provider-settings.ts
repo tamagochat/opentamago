@@ -3,7 +3,7 @@ import type { RxJsonSchema } from "rxdb";
 /**
  * Provider settings document stored in RxDB.
  * Stores API credentials for each provider (shared across all modalities).
- * Each provider (gemini, openrouter, anthropic, grok, openai, nanogpt, falai, elevenlabs) has its own document.
+ * Each provider (gemini, openrouter, anthropic, grok, openai, nanogpt, zhipu, falai, elevenlabs) has its own document.
  */
 export interface ProviderSettingsDocument {
   /** Provider ID (e.g., "gemini", "openrouter") - used as primary key */

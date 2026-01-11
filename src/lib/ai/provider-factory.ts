@@ -5,6 +5,7 @@ import { createAnthropic } from "@ai-sdk/anthropic";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { createXai } from "@ai-sdk/xai";
 import { createOpenRouter } from "@openrouter/ai-sdk-provider";
+import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 import { type LLMProvider, PROVIDER_CONFIGS } from "./providers";
 import type { ProviderSettingsDocument } from "~/lib/db/schemas";
 
@@ -16,7 +17,8 @@ export type AIProviderInstance =
   | ReturnType<typeof createAnthropic>
   | ReturnType<typeof createGoogleGenerativeAI>
   | ReturnType<typeof createXai>
-  | ReturnType<typeof createOpenRouter>;
+  | ReturnType<typeof createOpenRouter>
+  | ReturnType<typeof createOpenAICompatible>;
 
 /**
  * Create an AI provider instance based on provider type and settings
@@ -36,6 +38,27 @@ export function createAIProvider(
   if (providerId === "openrouter") {
     return createOpenRouter({
       apiKey: apiKey ?? "",
+    });
+  }
+
+  // Handle Zhipu separately - OpenAI-compatible with custom baseURL from localStorage
+  if (providerId === "zhipu") {
+    const zhipuBaseUrl = typeof window !== "undefined"
+      ? localStorage.getItem("zhipu-base-url") ?? config.baseUrl
+      : config.baseUrl;
+    return createOpenAICompatible({
+      name: "zhipu",
+      apiKey: apiKey ?? "",
+      baseURL: zhipuBaseUrl ?? "https://open.bigmodel.cn/api/paas/v4",
+    });
+  }
+
+  // Handle NanoGPT separately - OpenAI-compatible
+  if (providerId === "nanogpt") {
+    return createOpenAICompatible({
+      name: "nanogpt",
+      apiKey: apiKey ?? "",
+      baseURL: config.baseUrl ?? "https://nano-gpt.com/api/v1",
     });
   }
 

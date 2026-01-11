@@ -514,7 +514,13 @@
       "aiEnhanceOff": "Amélioration IA désactivée",
       "scrollForMore": "Fais défiler vers le haut pour voir les anciens messages",
       "chatWith": "Discuter avec {name}",
-      "recentChats": "Conversations récentes"
+      "recentChats": "Conversations récentes",
+      "showUsage": "Voir l'utilisation",
+      "tokenUsage": "Utilisation des tokens",
+      "inputTokens": "Tokens d'entrée",
+      "outputTokens": "Tokens de sortie",
+      "totalTokens": "Total des tokens",
+      "reasoningTokens": "Tokens de raisonnement"
     },
     "rightPanel": {
       "selectCharacter": "Sélectionne un personnage pour voir les détails",

@@ -33,10 +33,31 @@ export const ApiKeysTab = forwardRef<ApiKeysTabRef, ApiKeysTabProps>(
   const [isSaving, setIsSaving] = useState(false);
   const [showSaved, setShowSaved] = useState(false);
 
+  // Zhipu baseURL stored in localStorage
+  const [zhipuBaseUrl, setZhipuBaseUrl] = useState("");
+
   // Sync with initial values when they change
   useEffect(() => {
     setProviderApiKeys(initialApiKeys);
   }, [initialApiKeys]);
+
+  // Load Zhipu baseURL from localStorage on mount
+  useEffect(() => {
+    const savedBaseUrl = localStorage.getItem("zhipu-base-url");
+    if (savedBaseUrl) {
+      setZhipuBaseUrl(savedBaseUrl);
+    }
+  }, []);
+
+  // Save Zhipu baseURL to localStorage when it changes
+  const handleZhipuBaseUrlChange = (value: string) => {
+    setZhipuBaseUrl(value);
+    if (value) {
+      localStorage.setItem("zhipu-base-url", value);
+    } else {
+      localStorage.removeItem("zhipu-base-url");
+    }
+  };
 
   // Expose getSaveData for parent components (e.g., settings modal)
   useImperativeHandle(ref, () => ({
@@ -149,6 +170,23 @@ export const ApiKeysTab = forwardRef<ApiKeysTabRef, ApiKeysTabProps>(
             </Button>
           </div>
         </div>
+
+        {/* Zhipu Base URL Input */}
+        {activeProviderTab === "zhipu" && (
+          <div className="grid gap-2">
+            <Label htmlFor="zhipu-base-url">Base URL (Optional)</Label>
+            <Input
+              id="zhipu-base-url"
+              type="text"
+              value={zhipuBaseUrl}
+              onChange={(e) => handleZhipuBaseUrlChange(e.target.value)}
+              placeholder={config.baseUrl}
+            />
+            <p className="text-xs text-muted-foreground">
+              Leave empty to use the default Zhipu API endpoint.
+            </p>
+          </div>
+        )}
       </div>
 
       {/* Save Button */}

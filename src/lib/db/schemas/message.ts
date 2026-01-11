@@ -1,6 +1,16 @@
 import type { RxJsonSchema } from "rxdb";
 
 /**
+ * Token usage information for a message
+ */
+export interface MessageTokenUsage {
+  inputTokens: number;
+  outputTokens: number;
+  totalTokens: number;
+  reasoningTokens?: number;
+}
+
+/**
  * Metadata for a message attachment (image or audio)
  * The actual binary data is stored as RxDB attachments
  */
@@ -38,10 +48,12 @@ export interface MessageDocument {
   displayedContentLanguage?: string;
   /** Metadata for attachments (images, audio) - binary data stored as RxDB attachments */
   attachmentsMeta?: MessageAttachmentMeta[];
+  /** Token usage statistics from AI response */
+  tokenUsage?: MessageTokenUsage;
 }
 
 export const messageSchema: RxJsonSchema<MessageDocument> = {
-  version: 2,
+  version: 3,
   primaryKey: "id",
   type: "object",
   attachments: {
@@ -105,6 +117,35 @@ export const messageSchema: RxJsonSchema<MessageDocument> = {
           height: { type: "number", multipleOf: 1, minimum: 0, maximum: 99999 },
         },
         required: ["id", "type", "mimeType", "generatedAt"],
+      },
+    },
+    tokenUsage: {
+      type: "object",
+      properties: {
+        inputTokens: {
+          type: "number",
+          multipleOf: 1,
+          minimum: 0,
+          maximum: 9999999,
+        },
+        outputTokens: {
+          type: "number",
+          multipleOf: 1,
+          minimum: 0,
+          maximum: 9999999,
+        },
+        totalTokens: {
+          type: "number",
+          multipleOf: 1,
+          minimum: 0,
+          maximum: 9999999,
+        },
+        reasoningTokens: {
+          type: "number",
+          multipleOf: 1,
+          minimum: 0,
+          maximum: 9999999,
+        },
       },
     },
   },

@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useDatabase } from "./useDatabase";
-import type { MessageDocument, MessageAttachmentMeta } from "../schemas";
+import type { MessageDocument, MessageAttachmentMeta, MessageTokenUsage } from "../schemas";
 
 // Helper to convert RxDB's DeepReadonlyObject to mutable
 function toMutable<T>(obj: unknown): T {
@@ -79,6 +79,8 @@ export function useMessages(chatId: string, pageSize = DEFAULT_PAGE_SIZE) {
   interface AddMessageOptions {
     /** Reasoning/thinking content from LLM (for assistant messages) */
     reasoning?: string;
+    /** Token usage statistics from AI response */
+    tokenUsage?: MessageTokenUsage;
   }
 
   const addMessage = useCallback(
@@ -97,6 +99,7 @@ export function useMessages(chatId: string, pageSize = DEFAULT_PAGE_SIZE) {
         content,
         createdAt: now,
         reasoning: options?.reasoning,
+        tokenUsage: options?.tokenUsage,
       };
 
       await db.messages.insert(message);
@@ -347,6 +350,22 @@ export function useMessages(chatId: string, pageSize = DEFAULT_PAGE_SIZE) {
     setIsLoadingMore(false);
   }, [db, chatId, isLoadingMore, hasMore, pageSize]);
 
+  /**
+   * Update token usage for a message
+   */
+  const updateTokenUsage = useCallback(
+    async (id: string, tokenUsage: MessageTokenUsage) => {
+      if (!db) return null;
+
+      const doc = await db.messages.findOne(id).exec();
+      if (!doc) return null;
+
+      await doc.patch({ tokenUsage });
+      return toMutable<MessageDocument>(doc.toJSON());
+    },
+    [db]
+  );
+
   return {
     messages,
     isLoading: dbLoading || isLoading,
@@ -363,5 +382,6 @@ export function useMessages(chatId: string, pageSize = DEFAULT_PAGE_SIZE) {
     getAttachmentDataUrl,
     getAttachmentBlob,
     removeAttachment,
+    updateTokenUsage,
   };
 }

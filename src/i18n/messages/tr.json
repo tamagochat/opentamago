@@ -514,7 +514,13 @@
       "aiEnhanceOff": "AI geliştirmesi kapalı",
       "scrollForMore": "Eski mesajlar için yukarı kaydırın",
       "chatWith": "{name} ile sohbet et",
-      "recentChats": "Son sohbetler"
+      "recentChats": "Son sohbetler",
+      "showUsage": "Kullanımı göster",
+      "tokenUsage": "Token Kullanımı",
+      "inputTokens": "Girdi tokenları",
+      "outputTokens": "Çıktı tokenları",
+      "totalTokens": "Toplam token",
+      "reasoningTokens": "Akıl yürütme tokenları"
     },
     "rightPanel": {
       "selectCharacter": "Detayları görmek için bir karakter seçin",
