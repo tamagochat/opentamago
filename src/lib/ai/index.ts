@@ -1,10 +1,3 @@
-export const SUPPORTED_MODELS = [
-  { id: "gemini-3-flash-preview", name: "Gemini 3 Flash (Preview)", provider: "google" },
-  { id: "gemini-3-pro-preview", name: "Gemini 3 Pro (Preview)", provider: "google" },
-] as const;
-
-export type SupportedModel = (typeof SUPPORTED_MODELS)[number]["id"];
-
 export const DEFAULT_MODEL = "gemini-3-flash-preview";
 
 export const HARM_CATEGORIES = [
@@ -88,14 +81,7 @@ export {
 } from "./client";
 
 // Image parameter mapping utilities
-export {
-  calculateDimensions,
-  getImageParams,
-  buildZImageTurboParams,
-  buildNanoBananaParams,
-  buildNanoBananaProParams,
-  buildGenericImageParams,
-} from "./image-params";
+export { calculateDimensions, getImageParams } from "./image-params";
 
 // Proxy AI provider (routes through server, no client API key needed)
 export { createProxyAI, getProxyAI } from "./proxy";

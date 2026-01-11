@@ -34,7 +34,7 @@ export function setPendingCharacterId(characterId: string | null) {
   emitChange();
 }
 
-export function clearPendingCharacterId() {
+function clearPendingCharacterId() {
   state = { pendingCharacterId: null };
   emitChange();
 }
@@ -70,9 +70,6 @@ export function useP2PConnectStore() {
   };
 }
 
-export function getPendingCharacterId(): string | null {
-  return state.pendingCharacterId;
-}
 
 export function consumePendingCharacterId(): string | null {
   const characterId = state.pendingCharacterId;

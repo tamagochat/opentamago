@@ -107,24 +107,3 @@ export interface ParsedCharX {
   excludedFiles: string[];
 }
 
-export interface CharXSummary {
-  name: string;
-  creator: string;
-  character_version: string;
-  description_length: number;
-  personality_length: number;
-  scenario_length: number;
-  first_message_length: number;
-  alternate_greetings_count: number;
-  tags: string[];
-  assets_count: number;
-  has_character_book: boolean;
-  lorebook_entries_count?: number;
-  has_module: boolean;
-  module_name?: string;
-  module_trigger_count?: number;
-  module_regex_count?: number;
-  extracted_assets_count: number;
-  creation_date?: string;
-  modification_date?: string;
-}

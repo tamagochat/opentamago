@@ -28,17 +28,3 @@ export function generateLongSlug(): string {
   return words.join("-");
 }
 
-export function isShortSlug(slug: string): boolean {
-  if (slug.length !== CONNECT_CONFIG.SHORT_SLUG_LENGTH) return false;
-  return [...slug].every((char) =>
-    CONNECT_CONFIG.SHORT_SLUG_CHARS.includes(char)
-  );
-}
-
-export function isLongSlug(slug: string): boolean {
-  const parts = slug.split("-");
-  if (parts.length !== CONNECT_CONFIG.LONG_SLUG_WORDS) return false;
-  return parts.every((word) =>
-    (CONNECT_SLUG_WORDS as readonly string[]).includes(word)
-  );
-}

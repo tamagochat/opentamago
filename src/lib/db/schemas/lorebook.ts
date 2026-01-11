@@ -18,7 +18,7 @@ export interface LorebookEntryDocument {
   constant: boolean; // Always active
   position: string; // Position in prompt (before_char, after_char, etc.)
   useRegex: boolean; // Whether keys are regex patterns (CCv3 required)
-  extensions: Record<string, any>; // Application-specific data (CCv3)
+  extensions: Record<string, unknown>; // Application-specific data (CCv3)
   name?: string; // Optional entry name for organization
   comment?: string; // Optional comment/note
   createdAt: number; // Unix timestamp in milliseconds

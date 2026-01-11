@@ -15,7 +15,7 @@ import { ExperimentalDisclaimer } from "~/components/experimental-disclaimer";
 import { toast } from "sonner";
 import { createSingleChatContext, generateStreamingResponse, generateMessengerChatResponse } from "~/lib/chat";
 import { translateText, generateImagePrompt, generateImage, generateSpeech } from "~/lib/ai/client";
-import { PROVIDER_CONFIGS, type ImageProvider, type VoiceProvider } from "~/lib/ai/providers";
+import { PROVIDER_CONFIGS, isValidProvider, isTextProvider, type ImageProvider, type VoiceProvider } from "~/lib/ai/providers";
 import { MessageBubble, type DisplayMessage, type AssetContext } from "./message-bubble";
 import { ChatDialogsProvider, useChatDialogs } from "./chat-dialogs";
 
@@ -455,7 +455,7 @@ function CenterPanelInner({ character, chat, onSelectChat, className, rightPanel
     }
 
     // Get target language from translation settings, fallback to browser locale
-    const targetLanguage = (translationSettings?.metadata?.targetLanguage as string)
+    const targetLanguage = translationSettings?.metadata?.targetLanguage
       ?? navigator.language.split("-")[0]
       ?? "en";
 
@@ -465,7 +465,7 @@ function CenterPanelInner({ character, chat, onSelectChat, className, rightPanel
       const translatedText = await translateText({
         text: content,
         targetLanguage,
-        providerId: providerId as any,
+        providerId,
         providerSettings,
       });
 
@@ -866,7 +866,7 @@ function CenterPanelInner({ character, chat, onSelectChat, className, rightPanel
                   {/* Text Chat */}
                   {(() => {
                     const s = allGenSettings.get("text_chat");
-                    const hasApiKey = s?.providerId ? isProviderReady(s.providerId as any) : false;
+                    const hasApiKey = s?.providerId && isValidProvider(s.providerId) ? isProviderReady(s.providerId) : false;
                     const isReady = s?.enabled !== false && hasApiKey;
                     return (
                       <div className="flex items-center justify-between gap-4 text-xs">
@@ -896,7 +896,7 @@ function CenterPanelInner({ character, chat, onSelectChat, className, rightPanel
                   {/* Text Translation */}
                   {(() => {
                     const s = allGenSettings.get("text_translation");
-                    const hasApiKey = s?.providerId ? isProviderReady(s.providerId as any) : false;
+                    const hasApiKey = s?.providerId && isValidProvider(s.providerId) ? isProviderReady(s.providerId) : false;
                     const isReady = s?.enabled !== false && hasApiKey;
                     return (
                       <div className="flex items-center justify-between gap-4 text-xs">
@@ -926,7 +926,7 @@ function CenterPanelInner({ character, chat, onSelectChat, className, rightPanel
                   {/* Text AI Bot */}
                   {(() => {
                     const s = allGenSettings.get("text_aibot");
-                    const hasApiKey = s?.providerId ? isProviderReady(s.providerId as any) : false;
+                    const hasApiKey = s?.providerId && isValidProvider(s.providerId) ? isProviderReady(s.providerId) : false;
                     const isReady = s?.enabled !== false && hasApiKey;
                     return (
                       <div className="flex items-center justify-between gap-4 text-xs">
@@ -956,7 +956,7 @@ function CenterPanelInner({ character, chat, onSelectChat, className, rightPanel
                   {/* Image Generation */}
                   {(() => {
                     const s = allGenSettings.get("image");
-                    const hasApiKey = s?.providerId ? isProviderReady(s.providerId as any) : false;
+                    const hasApiKey = s?.providerId && isValidProvider(s.providerId) ? isProviderReady(s.providerId) : false;
                     const isReady = s?.enabled !== false && hasApiKey;
                     return (
                       <div className="flex items-center justify-between gap-4 text-xs">
@@ -986,7 +986,7 @@ function CenterPanelInner({ character, chat, onSelectChat, className, rightPanel
                   {/* Voice Generation */}
                   {(() => {
                     const s = allGenSettings.get("voice");
-                    const hasApiKey = s?.providerId ? isProviderReady(s.providerId as any) : false;
+                    const hasApiKey = s?.providerId && isValidProvider(s.providerId) ? isProviderReady(s.providerId) : false;
                     const isReady = s?.enabled !== false && hasApiKey;
                     return (
                       <div className="flex items-center justify-between gap-4 text-xs">

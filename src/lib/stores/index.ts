@@ -12,16 +12,12 @@ export {
 export {
   useP2PShareStore,
   setPendingFile,
-  clearPendingFile,
-  getPendingFile,
   consumePendingFile,
 } from "./p2p-share-store";
 
 export {
   useP2PConnectStore,
   setPendingCharacterId,
-  clearPendingCharacterId,
-  getPendingCharacterId,
   consumePendingCharacterId,
 } from "./p2p-connect-store";
 

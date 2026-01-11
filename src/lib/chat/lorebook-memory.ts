@@ -1,7 +1,5 @@
 import type { LorebookEntryDocument } from "~/lib/db/schemas";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type AnyDatabase = any;
+import type { Database } from "~/lib/db/types";
 import {
   matchLorebooksSimple,
   interpolateLorebookContent,
@@ -82,7 +80,7 @@ export interface LorebookMemoryUpdateResult {
  * @returns Result of the update operation
  */
 export async function updateMemoryFromLorebook(
-  db: AnyDatabase,
+  db: Database,
   options: UpdateMemoryFromLorebookOptions
 ): Promise<LorebookMemoryUpdateResult> {
   const {
@@ -176,7 +174,7 @@ export async function updateMemoryFromLorebook(
  * @returns Combined result
  */
 export async function updateMemoryFromMessages(
-  db: AnyDatabase,
+  db: Database,
   options: Omit<UpdateMemoryFromLorebookOptions, "message">,
   userMessage?: string,
   assistantMessage?: string

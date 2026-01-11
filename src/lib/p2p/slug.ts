@@ -28,15 +28,3 @@ export function generateLongSlug(): string {
   return words.join("/");
 }
 
-export function isShortSlug(slug: string): boolean {
-  if (slug.length !== P2P_CONFIG.SHORT_SLUG_LENGTH) return false;
-  return [...slug].every((char) => P2P_CONFIG.SHORT_SLUG_CHARS.includes(char));
-}
-
-export function isLongSlug(slug: string): boolean {
-  const parts = slug.split("/");
-  if (parts.length !== P2P_CONFIG.LONG_SLUG_WORDS) return false;
-  return parts.every((word) =>
-    (LONG_SLUG_WORDS as readonly string[]).includes(word)
-  );
-}
