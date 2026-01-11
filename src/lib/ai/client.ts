@@ -248,7 +248,17 @@ function buildReasoningOptions(
           reasoningSummary: "auto",
         },
       };
-    // OpenRouter reasoning is model-based, no special provider options needed
+    case "openrouter":
+      // OpenRouter supports reasoning with effort (OpenAI-style) or max_tokens (Anthropic-style)
+      // effort: "xhigh" | "high" | "medium" | "low" | "minimal" | "none"
+      return {
+        openrouter: {
+          reasoning: {
+            effort: effort ?? "medium",
+            exclude: false, // Include reasoning tokens in response
+          },
+        },
+      };
     default:
       return undefined;
   }
@@ -369,6 +379,14 @@ function extractReasoning(
       const xaiMeta = metadata.xai as Record<string, unknown>;
       if (xaiMeta?.reasoning) {
         return normalizeReasoning(xaiMeta.reasoning);
+      }
+    }
+
+    // OpenRouter reasoning via metadata
+    if (providerId === "openrouter" && metadata?.openrouter) {
+      const openrouterMeta = metadata.openrouter as Record<string, unknown>;
+      if (openrouterMeta?.reasoning) {
+        return normalizeReasoning(openrouterMeta.reasoning);
       }
     }
 
