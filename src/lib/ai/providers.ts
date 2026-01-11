@@ -219,17 +219,13 @@ export const TEXT_MODEL_CONFIGS: Record<TextProvider, TextModelConfig> = {
     ],
   },
   openrouter: {
-    defaultModel: "deepseek/deepseek-v3.2",
+    defaultModel: "xiaomi/mimo-v2-flash:free",
     models: [
-      { id: "deepseek/deepseek-v3.2", name: "DeepSeek V3.2" },
-      { id: "tngtech/deepseek-r1t2-chimera", name: "DeepSeek R1T2 Chimera" },
-      { id: "deepseek/deepseek-chat-v3-0324", name: "DeepSeek V3 0324" },
-      { id: "google/gemini-2.5-flash", name: "Gemini 2.5 Flash" },
-      { id: "xiaomi/mimo-v2-flash", name: "Mimo V2 Flash" },
-      { id: "x-ai/grok-4.1-fast", name: "Grok 4.1 Fast" },
-      { id: "nex-agi/deepseek-v3.1-nex-n1", name: "DeepSeek V3.1 Nex N1" },
-      { id: "deepseek/deepseek-chat-v3.1", name: "DeepSeek V3.1" },
-      { id: "google/gemini-2.0-flash", name: "Gemini 2.0 Flash" },
+      { id: "xiaomi/mimo-v2-flash:free", name: "Mimo V2 Flash (Free)" },
+      { id: "tngtech/deepseek-r1t2-chimera:free", name: "DeepSeek R1T2 Chimera (Free)" },
+      { id: "tngtech/deepseek-r1t-chimera:free", name: "DeepSeek R1T Chimera (Free)" },
+      { id: "z-ai/glm-4.5-air:free", name: "GLM 4.5 Air (Free)" },
+      { id: "nvidia/nemotron-3-nano-30b-a3b:free", name: "Nemotron 3 Nano 30B (Free)" },
     ],
   },
   anthropic: {

@@ -4,6 +4,7 @@ import { createOpenAI } from "@ai-sdk/openai";
 import { createAnthropic } from "@ai-sdk/anthropic";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { createXai } from "@ai-sdk/xai";
+import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 import { type LLMProvider, PROVIDER_CONFIGS } from "./providers";
 import type { ProviderSettingsDocument } from "~/lib/db/schemas";
 
@@ -14,7 +15,8 @@ export type AIProviderInstance =
   | ReturnType<typeof createOpenAI>
   | ReturnType<typeof createAnthropic>
   | ReturnType<typeof createGoogleGenerativeAI>
-  | ReturnType<typeof createXai>;
+  | ReturnType<typeof createXai>
+  | ReturnType<typeof createOpenRouter>;
 
 /**
  * Create an AI provider instance based on provider type and settings
@@ -30,6 +32,13 @@ export function createAIProvider(
     throw new Error(`API key required for ${config.name}`);
   }
 
+  // Handle OpenRouter separately with its dedicated SDK
+  if (providerId === "openrouter") {
+    return createOpenRouter({
+      apiKey: apiKey ?? "",
+    });
+  }
+
   switch (config.sdkPackage) {
     case "google":
       return createGoogleGenerativeAI({
@@ -40,14 +49,6 @@ export function createAIProvider(
       return createOpenAI({
         apiKey: apiKey ?? "",
         baseURL: settings.baseUrl ?? config.baseUrl,
-        // OpenRouter requires these headers for attribution
-        ...(providerId === "openrouter" && {
-          headers: {
-            "HTTP-Referer":
-              typeof window !== "undefined" ? window.location.origin : "",
-            "X-Title": "OpenTamago",
-          },
-        }),
       });
 
     case "anthropic":
