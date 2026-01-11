@@ -716,21 +716,40 @@ export async function generateMessengerResponse(
     };
   } catch (error) {
     // If generateObject fails (e.g., model returns plain text instead of JSON),
-    // fall back to generateText and reconstruct the response
-    console.warn("[AI/Client] generateObject failed, falling back to generateText:", error);
+    // try to extract content from the error before falling back to generateText
+    console.warn("[AI/Client] generateObject failed:", error);
 
-    const textResult = await generateText({
-      model: provider(modelId),
-      messages: allMessages,
-      temperature,
-      maxOutputTokens: maxTokens,
-    });
+    const errorObj = error as Record<string, unknown>;
+    let responseText: string | undefined;
 
-    const responseText = textResult.text.trim();
+    // AI SDK AI_NoObjectGeneratedError contains the raw text in error.text
+    if (errorObj?.text && typeof errorObj.text === "string") {
+      responseText = errorObj.text.trim();
+      console.log("[AI/Client] Extracted text from error:", responseText.substring(0, 100) + "...");
 
-    // Extract reasoning if thinking was enabled
-    if (effectiveThinking) {
-      reasoning = extractReasoning(textResult, providerId);
+      // Try to extract reasoning from error response if available
+      if (effectiveThinking && errorObj?.response) {
+        reasoning = extractReasoning(errorObj.response, providerId);
+      }
+    }
+
+    // If we couldn't get text from error, fall back to generateText
+    if (!responseText) {
+      console.log("[AI/Client] No text in error, falling back to generateText");
+
+      const textResult = await generateText({
+        model: provider(modelId),
+        messages: allMessages,
+        temperature,
+        maxOutputTokens: maxTokens,
+      });
+
+      responseText = textResult.text.trim();
+
+      // Extract reasoning if thinking was enabled
+      if (effectiveThinking) {
+        reasoning = extractReasoning(textResult, providerId);
+      }
     }
 
     // Try to parse as JSON first
@@ -758,7 +777,7 @@ export async function generateMessengerResponse(
       .filter((line) => line.length > 0);
 
     // Create messages from lines (or single message if no newlines)
-    const messages = lines.length > 0
+    const reconstructedMessages = lines.length > 0
       ? lines.map((content, index) => ({
           delay: index === 0 ? 1500 : 1000 + Math.random() * 1000,
           content,
@@ -766,7 +785,7 @@ export async function generateMessengerResponse(
       : [{ delay: 1500, content: responseText || "..." }];
 
     return {
-      messages,
+      messages: reconstructedMessages,
       reasoning,
     };
   }
