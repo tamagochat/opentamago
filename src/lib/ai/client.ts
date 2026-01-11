@@ -382,11 +382,43 @@ function extractReasoning(
       }
     }
 
-    // OpenRouter reasoning via metadata
-    if (providerId === "openrouter" && metadata?.openrouter) {
-      const openrouterMeta = metadata.openrouter as Record<string, unknown>;
-      if (openrouterMeta?.reasoning) {
-        return normalizeReasoning(openrouterMeta.reasoning);
+    // OpenRouter reasoning via metadata or direct response
+    if (providerId === "openrouter") {
+      // Check metadata first
+      if (metadata?.openrouter) {
+        const openrouterMeta = metadata.openrouter as Record<string, unknown>;
+        if (openrouterMeta?.reasoning) {
+          return normalizeReasoning(openrouterMeta.reasoning);
+        }
+        // Check reasoning_details array
+        if (openrouterMeta?.reasoning_details && Array.isArray(openrouterMeta.reasoning_details)) {
+          const details = openrouterMeta.reasoning_details as Record<string, unknown>[];
+          const texts = details
+            .filter((d) => d?.type === "reasoning.text" && d?.text)
+            .map((d) => String(d.text));
+          if (texts.length > 0) {
+            return texts.join("\n\n");
+          }
+        }
+      }
+      // Check direct response structure (OpenRouter returns reasoning in message)
+      const response = resultObj?.response as Record<string, unknown> | undefined;
+      const choices = (response?.choices ?? resultObj?.choices) as Record<string, unknown>[] | undefined;
+      if (choices?.[0]) {
+        const message = choices[0].message as Record<string, unknown> | undefined;
+        if (message?.reasoning && typeof message.reasoning === "string") {
+          return message.reasoning;
+        }
+        // Check reasoning_details in message
+        if (message?.reasoning_details && Array.isArray(message.reasoning_details)) {
+          const details = message.reasoning_details as Record<string, unknown>[];
+          const texts = details
+            .filter((d) => d?.type === "reasoning.text" && d?.text)
+            .map((d) => String(d.text));
+          if (texts.length > 0) {
+            return texts.join("\n\n");
+          }
+        }
       }
     }
 
