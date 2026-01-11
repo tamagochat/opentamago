@@ -693,25 +693,83 @@ export async function generateMessengerResponse(
     (generateOptions as any).providerOptions = providerOptions;
   }
 
-  const result = await generateObject(generateOptions);
-
-  // Extract reasoning if thinking was enabled
   let reasoning: string | undefined;
-  if (effectiveThinking) {
-    reasoning = extractReasoning(result, providerId);
 
-    // Also check direct reasoning property
-    if (!reasoning && (result as any).reasoning) {
-      reasoning = normalizeReasoning((result as any).reasoning);
+  try {
+    const result = await generateObject(generateOptions);
+
+    // Extract reasoning if thinking was enabled
+    if (effectiveThinking) {
+      reasoning = extractReasoning(result, providerId);
+
+      // Also check direct reasoning property
+      if (!reasoning && (result as any).reasoning) {
+        reasoning = normalizeReasoning((result as any).reasoning);
+      }
+
+      console.log(`[AI/Client] generateMessengerResponse reasoning: ${reasoning ? reasoning.substring(0, 100) + "..." : "none"}`);
     }
 
-    console.log(`[AI/Client] generateMessengerResponse reasoning: ${reasoning ? reasoning.substring(0, 100) + "..." : "none"}`);
-  }
+    return {
+      ...(result.object as ChatBubbleResponse),
+      reasoning,
+    };
+  } catch (error) {
+    // If generateObject fails (e.g., model returns plain text instead of JSON),
+    // fall back to generateText and reconstruct the response
+    console.warn("[AI/Client] generateObject failed, falling back to generateText:", error);
 
-  return {
-    ...(result.object as ChatBubbleResponse),
-    reasoning,
-  };
+    const textResult = await generateText({
+      model: provider(modelId),
+      messages: allMessages,
+      temperature,
+      maxOutputTokens: maxTokens,
+    });
+
+    const responseText = textResult.text.trim();
+
+    // Extract reasoning if thinking was enabled
+    if (effectiveThinking) {
+      reasoning = extractReasoning(textResult, providerId);
+    }
+
+    // Try to parse as JSON first
+    try {
+      const parsed = JSON.parse(responseText);
+      if (parsed.messages && Array.isArray(parsed.messages)) {
+        console.log("[AI/Client] Successfully parsed JSON from text response");
+        return {
+          messages: parsed.messages,
+          memory: parsed.memory,
+          reasoning,
+        };
+      }
+    } catch {
+      // Not valid JSON, continue to plain text reconstruction
+    }
+
+    // Reconstruct messages from plain text
+    console.log("[AI/Client] Reconstructing messages from plain text response");
+
+    // Split by newlines and filter empty lines
+    const lines = responseText
+      .split(/\n+/)
+      .map((line) => line.trim())
+      .filter((line) => line.length > 0);
+
+    // Create messages from lines (or single message if no newlines)
+    const messages = lines.length > 0
+      ? lines.map((content, index) => ({
+          delay: index === 0 ? 1500 : 1000 + Math.random() * 1000,
+          content,
+        }))
+      : [{ delay: 1500, content: responseText || "..." }];
+
+    return {
+      messages,
+      reasoning,
+    };
+  }
 }
 
 // ============================================================================
