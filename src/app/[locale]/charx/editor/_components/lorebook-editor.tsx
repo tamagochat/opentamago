@@ -1,10 +1,16 @@
 "use client";
 
 import { useCallback, useState, memo } from "react";
-import { Plus, Trash2, ChevronDown, ChevronUp, BookOpen } from "lucide-react";
+import { Plus, Trash2, ChevronDown, ChevronUp, BookOpen, Sparkles, Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "~/components/ui/button";
 import { Badge } from "~/components/ui/badge";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "~/components/ui/tooltip";
 import {
   Collapsible,
   CollapsibleContent,
@@ -16,18 +22,58 @@ import {
   PopoverTrigger,
 } from "~/components/ui/popover";
 import type { LorebookEntryFormData } from "~/lib/editor/assistant-types";
-import { useLorebookContext } from "./editor-context";
+import { useLorebookContext, useFormContext } from "./editor-context";
+import { useAssistantActionsContext, useLoadingContext } from "./assistant-context";
 import { LorebookEntryForm } from "./lorebook-entry-form";
 
 // Container component - connects to context
 export const LorebookEditorContainer = memo(function LorebookEditorContainer() {
   const { entries, addEntry, updateEntry, deleteEntry } = useLorebookContext();
+  const { form } = useFormContext();
+  const { sendMessage } = useAssistantActionsContext();
+  const { isLoading } = useLoadingContext();
+
+  const handleExpandWorld = useCallback(async () => {
+    const name = form.getValues("name");
+    const description = form.getValues("description");
+    const scenario = form.getValues("scenario");
+    const personality = form.getValues("personality");
+
+    const existingKeys = entries.flatMap((e) => e.keys).slice(0, 20);
+
+    const prompt = `Generate 5 new lorebook entries to expand this character's world and lore.
+
+Character Name: ${name || "the character"}
+Description: ${description || "No description provided"}
+Personality: ${personality || "No personality defined"}
+Scenario: ${scenario || "No scenario set"}
+
+Existing lorebook keys: ${existingKeys.length > 0 ? existingKeys.join(", ") : "None yet"}
+
+For each entry, provide:
+1. **Entry Name** - A short title for this lore element
+2. **Trigger Keywords** - Words/phrases that should trigger this lore (comma-separated)
+3. **Content** - Rich contextual content (1-2 paragraphs) that will be injected into the conversation
+
+Format each entry as:
+
+**[Entry Name]**
+Keywords: [keyword1, keyword2, keyword3]
+Content: [Detailed lore content that enriches the roleplay experience. Include relevant details about the character's world, relationships, backstory, locations, or concepts.]
+
+Generate diverse entries covering different aspects like: locations, relationships, backstory elements, important objects, cultural details, or recurring concepts relevant to this character's roleplay scenarios.`;
+
+    await sendMessage(prompt);
+  }, [form, entries, sendMessage]);
+
   return (
     <LorebookEditor
       entries={entries}
       onAdd={addEntry}
       onUpdate={updateEntry}
       onDelete={deleteEntry}
+      onExpandWorld={handleExpandWorld}
+      isExpanding={isLoading}
     />
   );
 });
@@ -38,6 +84,8 @@ interface LorebookEditorProps {
   onAdd: (entry?: Partial<LorebookEntryFormData>) => void;
   onUpdate: (id: string, updates: Partial<LorebookEntryFormData>) => void;
   onDelete: (id: string) => void;
+  onExpandWorld: () => void;
+  isExpanding: boolean;
 }
 
 const LorebookEditor = memo(function LorebookEditor({
@@ -45,6 +93,8 @@ const LorebookEditor = memo(function LorebookEditor({
   onAdd,
   onUpdate,
   onDelete,
+  onExpandWorld,
+  isExpanding,
 }: LorebookEditorProps) {
   const [openEntries, setOpenEntries] = useState<Set<string>>(new Set());
 
@@ -65,12 +115,22 @@ const LorebookEditor = memo(function LorebookEditor({
   }, []);
 
   if (entries.length === 0) {
-    return <EmptyLorebookState onAdd={handleAddEntry} />;
+    return (
+      <EmptyLorebookState
+        onAdd={handleAddEntry}
+        onExpandWorld={onExpandWorld}
+        isExpanding={isExpanding}
+      />
+    );
   }
 
   return (
     <div className="space-y-4">
-      <LorebookHeader onAdd={handleAddEntry} />
+      <LorebookHeader
+        onAdd={handleAddEntry}
+        onExpandWorld={onExpandWorld}
+        isExpanding={isExpanding}
+      />
 
       <div className="space-y-2">
         {entries.map((entry, index) => (
@@ -92,8 +152,12 @@ const LorebookEditor = memo(function LorebookEditor({
 // Empty state component - memoized
 const EmptyLorebookState = memo(function EmptyLorebookState({
   onAdd,
+  onExpandWorld,
+  isExpanding,
 }: {
   onAdd: () => void;
+  onExpandWorld: () => void;
+  isExpanding: boolean;
 }) {
   const t = useTranslations("charxEditor.editor.lorebook");
 
@@ -102,10 +166,33 @@ const EmptyLorebookState = memo(function EmptyLorebookState({
       <BookOpen className="h-12 w-12 text-muted-foreground/50 mb-4" />
       <p className="text-muted-foreground mb-2">{t("empty")}</p>
       <p className="text-sm text-muted-foreground/70 mb-4">{t("emptyHint")}</p>
-      <Button onClick={onAdd}>
-        <Plus className="h-4 w-4 mr-2" />
-        {t("addEntry")}
-      </Button>
+      <div className="flex flex-col items-center gap-3">
+        <Button onClick={onAdd}>
+          <Plus className="h-4 w-4 mr-2" />
+          {t("addEntry")}
+        </Button>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="outline"
+                onClick={onExpandWorld}
+                disabled={isExpanding}
+              >
+                {isExpanding ? (
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                ) : (
+                  <Sparkles className="h-4 w-4 mr-2" />
+                )}
+                {t("expandWorld")}
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>{t("expandWorldHint")}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      </div>
     </div>
   );
 });
@@ -113,18 +200,46 @@ const EmptyLorebookState = memo(function EmptyLorebookState({
 // Header component - memoized
 const LorebookHeader = memo(function LorebookHeader({
   onAdd,
+  onExpandWorld,
+  isExpanding,
 }: {
   onAdd: () => void;
+  onExpandWorld: () => void;
+  isExpanding: boolean;
 }) {
   const t = useTranslations("charxEditor.editor.lorebook");
 
   return (
     <div className="flex items-center justify-between">
       <h3 className="font-medium">{t("title")}</h3>
-      <Button variant="outline" size="sm" onClick={onAdd}>
-        <Plus className="h-4 w-4 mr-2" />
-        {t("addEntry")}
-      </Button>
+      <div className="flex items-center gap-2">
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={onExpandWorld}
+                disabled={isExpanding}
+              >
+                {isExpanding ? (
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                ) : (
+                  <Sparkles className="h-4 w-4 mr-2" />
+                )}
+                {t("expandWorld")}
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>{t("expandWorldHint")}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+        <Button variant="outline" size="sm" onClick={onAdd}>
+          <Plus className="h-4 w-4 mr-2" />
+          {t("addEntry")}
+        </Button>
+      </div>
     </div>
   );
 });

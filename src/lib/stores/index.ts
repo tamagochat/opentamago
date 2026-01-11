@@ -18,6 +18,14 @@ export {
 } from "./p2p-share-store";
 
 export {
+  useP2PConnectStore,
+  setPendingCharacterId,
+  clearPendingCharacterId,
+  getPendingCharacterId,
+  consumePendingCharacterId,
+} from "./p2p-connect-store";
+
+export {
   useConnectStore,
   setSession,
   clearSession,

@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { Button } from "~/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
-import { Loader2, PanelRight, Box, ChevronRight } from "lucide-react";
+import { Loader2, PanelRight, Box, ChevronRight, Sparkles, MessageSquare, ChevronUp, ChevronDown, Image, Volume2, Languages, Bot, MessageCircle, Check, X } from "lucide-react";
 import { Sheet, SheetTrigger } from "~/components/ui/sheet";
 import { useMessages, useSettings, usePersonas, useMemories, useLRUMemory, useDeleteMemory, useDatabase, formatMemoriesForPrompt, useCharacterAssets, useProviderSettings, useGenerationSettings, useChats } from "~/lib/db/hooks";
 import type { CharacterDocument, ChatDocument, PersonaDocument } from "~/lib/db/schemas";
@@ -15,7 +15,7 @@ import { ExperimentalDisclaimer } from "~/components/experimental-disclaimer";
 import { toast } from "sonner";
 import { createSingleChatContext, generateStreamingResponse, generateMessengerChatResponse } from "~/lib/chat";
 import { translateText, generateImagePrompt, generateImage, generateSpeech } from "~/lib/ai/client";
-import type { ImageProvider, VoiceProvider } from "~/lib/ai/providers";
+import { PROVIDER_CONFIGS, type ImageProvider, type VoiceProvider } from "~/lib/ai/providers";
 import { MessageBubble, type DisplayMessage, type AssetContext } from "./message-bubble";
 import { ChatDialogsProvider, useChatDialogs } from "./chat-dialogs";
 
@@ -100,6 +100,13 @@ function CenterPanelInner({ character, chat, onSelectChat, className, rightPanel
   const streamingContentRef = useRef<string>(""); // Accumulate chunks without re-renders
   const rafIdRef = useRef<number | null>(null); // Track requestAnimationFrame ID
 
+  // Model info overlay - shows until user sends first message
+  const [showModelOverlay, setShowModelOverlay] = useState(true);
+  const [overlayExpanded, setOverlayExpanded] = useState(false);
+
+  // Get all generation settings for expanded view
+  const { settings: allGenSettings } = useGenerationSettings();
+
   // Sync stored messages to display
   useEffect(() => {
     const msgs: DisplayMessage[] = storedMessages.map((m) => ({
@@ -125,6 +132,9 @@ function CenterPanelInner({ character, chat, onSelectChat, className, rightPanel
       cancelAnimationFrame(rafIdRef.current);
       rafIdRef.current = null;
     }
+    // Show model overlay for new chat (collapsed by default)
+    setShowModelOverlay(true);
+    setOverlayExpanded(false);
   }, [chat?.id]);
 
   // Initialize selectedPersona when chat changes
@@ -271,6 +281,8 @@ function CenterPanelInner({ character, chat, onSelectChat, className, rightPanel
     if (!character) return;
 
     setIsLoading(true);
+    // Hide model overlay when user sends first message
+    setShowModelOverlay(false);
 
     try {
       // Save user message first (inside try/catch to handle errors)
@@ -745,7 +757,7 @@ function CenterPanelInner({ character, chat, onSelectChat, className, rightPanel
       </div>
 
       {/* Messages - Scrollable Area */}
-      <div className="flex-1 min-h-0 overflow-hidden">
+      <div className="flex-1 min-h-0 overflow-hidden relative">
         <ScrollArea className="h-full p-4" ref={scrollRef}>
           <div className="space-y-4">
             {/* Loading indicator for older messages */}
@@ -809,6 +821,202 @@ function CenterPanelInner({ character, chat, onSelectChat, className, rightPanel
             )}
           </div>
         </ScrollArea>
+
+        {/* Model Info Overlay - shows until user sends first message */}
+        {showModelOverlay && (
+          <div className="absolute inset-x-0 bottom-0 flex justify-center pb-4">
+            <div className="bg-background/80 backdrop-blur-sm border rounded-lg shadow-sm overflow-hidden">
+              {/* Collapsed View */}
+              <div className="flex items-center gap-2 px-3 py-2">
+                <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                  <div className="flex items-center gap-1.5">
+                    {chatBubbleTheme === "messenger" ? (
+                      <MessageSquare className="h-3.5 w-3.5" />
+                    ) : (
+                      <Sparkles className="h-3.5 w-3.5" />
+                    )}
+                    <span className="capitalize">{chatBubbleTheme}</span>
+                  </div>
+                  <span className="text-muted-foreground/50">•</span>
+                  <div className="flex items-center gap-1.5">
+                    <span>{PROVIDER_CONFIGS[chatProviderId]?.name ?? chatProviderId}</span>
+                    {chatGenSettings?.model && (
+                      <>
+                        <span className="text-muted-foreground/50">/</span>
+                        <span className="font-mono text-xs">{chatGenSettings.model}</span>
+                      </>
+                    )}
+                  </div>
+                </div>
+                <button
+                  onClick={() => setOverlayExpanded(!overlayExpanded)}
+                  className="ml-1 p-1 rounded hover:bg-muted/50 transition-colors"
+                >
+                  {overlayExpanded ? (
+                    <ChevronDown className="h-3.5 w-3.5 text-muted-foreground" />
+                  ) : (
+                    <ChevronUp className="h-3.5 w-3.5 text-muted-foreground" />
+                  )}
+                </button>
+              </div>
+
+              {/* Expanded View - All Scenarios */}
+              {overlayExpanded && (
+                <div className="border-t px-3 py-2 space-y-1.5">
+                  {/* Text Chat */}
+                  {(() => {
+                    const s = allGenSettings.get("text_chat");
+                    const hasApiKey = s?.providerId ? isProviderReady(s.providerId as any) : false;
+                    const isReady = s?.enabled !== false && hasApiKey;
+                    return (
+                      <div className="flex items-center justify-between gap-4 text-xs">
+                        <div className="flex items-center gap-1.5 text-muted-foreground">
+                          <MessageCircle className="h-3 w-3" />
+                          <span>Chat</span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          {isReady ? (
+                            <>
+                              <Check className="h-3 w-3 text-green-500" />
+                              <span className="text-muted-foreground font-mono">
+                                {PROVIDER_CONFIGS[s?.providerId as keyof typeof PROVIDER_CONFIGS]?.name ?? s?.providerId}
+                              </span>
+                            </>
+                          ) : (
+                            <>
+                              <X className="h-3 w-3 text-muted-foreground/50" />
+                              <span className="text-muted-foreground/50">{s?.enabled === false ? "Disabled" : "No API Key"}</span>
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })()}
+
+                  {/* Text Translation */}
+                  {(() => {
+                    const s = allGenSettings.get("text_translation");
+                    const hasApiKey = s?.providerId ? isProviderReady(s.providerId as any) : false;
+                    const isReady = s?.enabled !== false && hasApiKey;
+                    return (
+                      <div className="flex items-center justify-between gap-4 text-xs">
+                        <div className="flex items-center gap-1.5 text-muted-foreground">
+                          <Languages className="h-3 w-3" />
+                          <span>Translation</span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          {isReady ? (
+                            <>
+                              <Check className="h-3 w-3 text-green-500" />
+                              <span className="text-muted-foreground font-mono">
+                                {PROVIDER_CONFIGS[s?.providerId as keyof typeof PROVIDER_CONFIGS]?.name ?? s?.providerId}
+                              </span>
+                            </>
+                          ) : (
+                            <>
+                              <X className="h-3 w-3 text-muted-foreground/50" />
+                              <span className="text-muted-foreground/50">{s?.enabled === false ? "Disabled" : "No API Key"}</span>
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })()}
+
+                  {/* Text AI Bot */}
+                  {(() => {
+                    const s = allGenSettings.get("text_aibot");
+                    const hasApiKey = s?.providerId ? isProviderReady(s.providerId as any) : false;
+                    const isReady = s?.enabled !== false && hasApiKey;
+                    return (
+                      <div className="flex items-center justify-between gap-4 text-xs">
+                        <div className="flex items-center gap-1.5 text-muted-foreground">
+                          <Bot className="h-3 w-3" />
+                          <span>AI Bot</span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          {isReady ? (
+                            <>
+                              <Check className="h-3 w-3 text-green-500" />
+                              <span className="text-muted-foreground font-mono">
+                                {PROVIDER_CONFIGS[s?.providerId as keyof typeof PROVIDER_CONFIGS]?.name ?? s?.providerId}
+                              </span>
+                            </>
+                          ) : (
+                            <>
+                              <X className="h-3 w-3 text-muted-foreground/50" />
+                              <span className="text-muted-foreground/50">{s?.enabled === false ? "Disabled" : "No API Key"}</span>
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })()}
+
+                  {/* Image Generation */}
+                  {(() => {
+                    const s = allGenSettings.get("image");
+                    const hasApiKey = s?.providerId ? isProviderReady(s.providerId as any) : false;
+                    const isReady = s?.enabled !== false && hasApiKey;
+                    return (
+                      <div className="flex items-center justify-between gap-4 text-xs">
+                        <div className="flex items-center gap-1.5 text-muted-foreground">
+                          <Image className="h-3 w-3" />
+                          <span>Image</span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          {isReady ? (
+                            <>
+                              <Check className="h-3 w-3 text-green-500" />
+                              <span className="text-muted-foreground font-mono">
+                                {PROVIDER_CONFIGS[s?.providerId as keyof typeof PROVIDER_CONFIGS]?.name ?? s?.providerId}
+                              </span>
+                            </>
+                          ) : (
+                            <>
+                              <X className="h-3 w-3 text-muted-foreground/50" />
+                              <span className="text-muted-foreground/50">{s?.enabled === false ? "Disabled" : "No API Key"}</span>
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })()}
+
+                  {/* Voice Generation */}
+                  {(() => {
+                    const s = allGenSettings.get("voice");
+                    const hasApiKey = s?.providerId ? isProviderReady(s.providerId as any) : false;
+                    const isReady = s?.enabled !== false && hasApiKey;
+                    return (
+                      <div className="flex items-center justify-between gap-4 text-xs">
+                        <div className="flex items-center gap-1.5 text-muted-foreground">
+                          <Volume2 className="h-3 w-3" />
+                          <span>Voice</span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          {isReady ? (
+                            <>
+                              <Check className="h-3 w-3 text-green-500" />
+                              <span className="text-muted-foreground font-mono">
+                                {PROVIDER_CONFIGS[s?.providerId as keyof typeof PROVIDER_CONFIGS]?.name ?? s?.providerId}
+                              </span>
+                            </>
+                          ) : (
+                            <>
+                              <X className="h-3 w-3 text-muted-foreground/50" />
+                              <span className="text-muted-foreground/50">{s?.enabled === false ? "Disabled" : "No API Key"}</span>
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })()}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Input - Fixed at Bottom */}

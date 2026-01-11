@@ -52,15 +52,16 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-14 items-center justify-between sm:h-16">
-        <div className="flex items-center gap-4 sm:gap-6">
-          <Link href="/" className="flex items-center gap-2">
-            <Egg className="h-5 w-5 text-primary sm:h-6 sm:w-6" />
-            <span className="text-lg font-bold sm:text-xl">OpenTamago</span>
-          </Link>
+      <div className="container flex h-14 items-center sm:h-16">
+        {/* Left: Logo */}
+        <Link href="/" className="flex items-center gap-2">
+          <Egg className="h-5 w-5 text-primary sm:h-6 sm:w-6" />
+          <span className="text-lg font-bold sm:text-xl">OpenTamago</span>
+        </Link>
 
-          {/* Desktop Navigation with Shadcn Navigation Menu */}
-          <NavigationMenu className="hidden sm:flex">
+        {/* Center: Desktop Navigation */}
+        <div className="hidden flex-1 justify-center sm:flex">
+          <NavigationMenu>
             <NavigationMenuList>
               {/* CharX Dropdown */}
               <NavigationMenuItem>
@@ -124,6 +125,7 @@ export function SiteHeader() {
           </NavigationMenu>
         </div>
 
+        {/* Right: Controls */}
         <div className="flex items-center gap-2">
           <LocaleSwitcher />
           {mounted ? (

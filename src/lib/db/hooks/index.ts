@@ -13,3 +13,4 @@ export { useConnectSession } from "./useConnectSession";
 export { useConnectMessages } from "./useConnectMessages";
 export { useLorebookEntries } from "./useLorebookEntries";
 export { useCharacterAssets } from "./useCharacterAssets";
+export { useCollections, COLLECTION_COLORS, COLLECTION_ICONS } from "./useCollections";
