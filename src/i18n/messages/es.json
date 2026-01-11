@@ -37,7 +37,9 @@
       "tryViewer": "Probar Visor CharX",
       "startSharing": "Empezar a Compartir CharX",
       "startConnect": "Iniciar Sesión CharX",
-      "p2pLabel": "Funciones P2P"
+      "p2pLabel": "Funciones P2P",
+      "openEditor": "Open Editor",
+      "openPokebox": "Open PokeBox"
     },
     "features": {
       "title": "Todo lo que Necesitas",
@@ -147,6 +149,41 @@
         "message2": "¡Dale, vamos!",
         "aiReply": "¡Hola a todos! ¡Qué gusto conocerlos~!",
         "inputPlaceholder": "Escribe un mensaje..."
+      },
+      "editor": {
+        "tabs": {
+          "basic": "Basic",
+          "lorebook": "Lorebook",
+          "assets": "Assets"
+        },
+        "nameLabel": "Name",
+        "personalityLabel": "Personality",
+        "save": "Save",
+        "saved": "Saved!",
+        "assistant": "AI Assistant",
+        "assistantHint": "Ask me to help write your character...",
+        "userMessage": "Help me write a personality",
+        "aiResponse": "She's curious and adventurous, loves exploring ancient ruins...",
+        "inputPlaceholder": "Ask AI...",
+        "lorebookTitle": "Lorebook",
+        "aiHelping": "AI Helping..."
+      },
+      "pokebox": {
+        "title": "My Characters",
+        "search": "Search...",
+        "selectHint": "Select a character",
+        "tabs": {
+          "character": "Character",
+          "lorebook": "Lorebook",
+          "assets": "Assets"
+        },
+        "description": "Description",
+        "descriptionText": "A mysterious mage with ancient knowledge...",
+        "personality": "Personality",
+        "personalityText": "Curious, adventurous, warm-hearted",
+        "lorebookEntry": "Entry",
+        "enabled": "Enabled",
+        "chatButton": "Start Chat"
       }
     },
     "connectShowcase": {
@@ -165,6 +202,38 @@
       "multiParty": {
         "title": "Hasta 8 Personas",
         "description": "Comparte un código QR o enlace para invitar amigos"
+      }
+    },
+    "editorShowcase": {
+      "badge": "CharX Editor",
+      "title": "Create Characters with AI Help",
+      "aiAssistant": {
+        "title": "AI Writing Assistant",
+        "description": "Get help writing descriptions, personalities, and dialogues"
+      },
+      "lorebook": {
+        "title": "Build Lorebooks",
+        "description": "Create world info entries with keyword triggers"
+      },
+      "export": {
+        "title": "Export Anywhere",
+        "description": "Save to PokeBox or export as .charx files"
+      }
+    },
+    "pokeboxShowcase": {
+      "badge": "CharX PokeBox",
+      "title": "Your Personal Character Library",
+      "organize": {
+        "title": "Organize Characters",
+        "description": "Browse your collection with search and filters"
+      },
+      "preview": {
+        "title": "Preview Everything",
+        "description": "View character details, lorebook, and assets"
+      },
+      "quickActions": {
+        "title": "Quick Actions",
+        "description": "Start chatting or share via P2P with one click"
       }
     }
   },
@@ -452,7 +521,8 @@
     "leftPanel": {
       "create": "Crear",
       "createCharacter": "Crear Personaje",
-      "importCharx": "Importar .charx",
+      "importCharx": "Importar CharX",
+      "importJson": "Importar Personaje (.json)",
       "createPersona": "Crear Persona",
       "noCharacters": "Aún no hay personajes.",
       "createOne": "Crea uno",
@@ -1051,6 +1121,34 @@
     "toast": {
       "copiedToClipboard": "¡Copiado!",
       "failedToCopy": "Error al copiar"
+    },
+    "actions": {
+      "chat": "Chat",
+      "p2pShare": "Compartir P2P",
+      "p2pConnect": "Conectar P2P",
+      "shareError": "Error al crear archivo para compartir"
+    },
+    "collections": {
+      "title": "Collections",
+      "all": "All Characters",
+      "uncategorized": "Uncategorized",
+      "create": "New Collection",
+      "edit": "Edit Collection",
+      "delete": "Delete Collection",
+      "deleteConfirm": "Delete this collection? Characters will be moved to Uncategorized.",
+      "name": "Collection Name",
+      "namePlaceholder": "My Collection",
+      "description": "Description",
+      "descriptionPlaceholder": "Optional description...",
+      "color": "Color",
+      "icon": "Icon",
+      "moveToCollection": "Move to Collection",
+      "removeFromCollection": "Remove from Collection",
+      "characterCount": "{count} characters",
+      "emptyCollection": "No characters in this collection",
+      "manageCollections": "Manage Collections",
+      "save": "Save",
+      "cancel": "Cancel"
     }
   },
   "charxEditor": {
@@ -1063,6 +1161,20 @@
     "createNew": "Create New",
     "editExisting": "Edit from PokeBox",
     "back": "Back",
+    "import": {
+      "title": "Importar",
+      "fromPokebox": "Desde PokeBox",
+      "charx": "Archivo CharX (.charx)",
+      "json": "Tarjeta de Personaje (.json)",
+      "success": "Personaje importado",
+      "error": "Error al importar",
+      "selectTitle": "Seleccionar personaje a editar",
+      "description": "Elige un personaje de tu PokeBox para editar",
+      "search": "Buscar personajes...",
+      "empty": "No se encontraron personajes",
+      "emptyHint": "Primero importa personajes desde el visor CharX",
+      "select": "Seleccionar"
+    },
     "assistant": {
       "title": "AI Assistant",
       "placeholder": "Ask me to help with your character...",
@@ -1106,7 +1218,7 @@
         "background": "Fondo",
         "other": "Otros"
       },
-      "apiKeyRequired": "API key required for {provider}",
+      "apiKeyRequired": "Se requiere clave API para el asistente de IA",
       "openSettings": "Settings",
       "chatHistoryDisclaimer": "Esta conversación es temporal y se borrará al actualizar la página. Copia el contenido que quieras guardar a los campos del personaje."
     },
@@ -1182,7 +1294,9 @@
         "entryName": "Entry Name",
         "entryNamePlaceholder": "Optional name for organization",
         "comment": "Comment",
-        "commentPlaceholder": "Private notes about this entry"
+        "commentPlaceholder": "Private notes about this entry",
+        "expandWorld": "Expand World",
+        "expandWorldHint": "AI will suggest new lorebook entries based on your character"
       },
       "assets": {
         "title": "Character Assets",
@@ -1201,7 +1315,9 @@
         "deleteConfirm": "Delete this asset?",
         "preview": "Preview",
         "cancel": "Cancelar",
-        "delete": "Eliminar"
+        "delete": "Eliminar",
+        "generateEmotions": "Generate Emotions",
+        "generateEmotionsHint": "AI will suggest emotion expressions for your character"
       }
     },
     "export": {
@@ -1218,14 +1334,6 @@
       "cancel": "Cancel",
       "download": "Download",
       "noAvatar": "No avatar set. Please upload an avatar first for PNG export."
-    },
-    "import": {
-      "title": "Select Character to Edit",
-      "description": "Choose a character from your PokeBox to edit",
-      "search": "Search characters...",
-      "empty": "No characters found",
-      "emptyHint": "Import characters from CharX Viewer first",
-      "select": "Select"
     },
     "toast": {
       "saved": "Character saved!",

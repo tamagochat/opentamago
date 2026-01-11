@@ -16,3 +16,4 @@ export {
 } from "./generation-settings";
 export { lorebookEntrySchema, type LorebookEntryDocument } from "./lorebook";
 export { characterAssetSchema, type CharacterAssetDocument } from "./character-asset";
+export { collectionSchema, type CollectionDocument } from "./collection";

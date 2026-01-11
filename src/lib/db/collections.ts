@@ -10,6 +10,7 @@ import {
   generationSettingsSchema,
   lorebookEntrySchema,
   characterAssetSchema,
+  collectionSchema,
   type CharacterDocument,
   type PersonaDocument,
   type ChatDocument,
@@ -20,6 +21,7 @@ import {
   type GenerationSettingsDocument,
   type LorebookEntryDocument,
   type CharacterAssetDocument,
+  type CollectionDocument,
 } from "./schemas";
 
 export function getCollectionConfig() {
@@ -54,6 +56,13 @@ export function getCollectionConfig() {
             creatorNotesMultilingual:
               oldDoc.creatorNotesMultilingual ?? undefined,
             source: oldDoc.source ?? undefined,
+          };
+        },
+        5: (oldDoc: any) => {
+          // v4 to v5: Add collection support
+          return {
+            ...oldDoc,
+            collectionId: oldDoc.collectionId ?? undefined,
           };
         },
       },
@@ -168,5 +177,10 @@ export function getCollectionConfig() {
       schema: characterAssetSchema,
       // Version 0 schema, no migration needed
     } as RxCollectionCreator<CharacterAssetDocument>,
+
+    characterCollections: {
+      schema: collectionSchema,
+      // Version 0 schema, no migration needed
+    } as RxCollectionCreator<CollectionDocument>,
   };
 }

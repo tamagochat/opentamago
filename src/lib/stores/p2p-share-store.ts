@@ -34,7 +34,7 @@ export function setPendingFile(file: File | null) {
   emitChange();
 }
 
-export function clearPendingFile() {
+function clearPendingFile() {
   state = { pendingFile: null };
   emitChange();
 }
@@ -70,9 +70,6 @@ export function useP2PShareStore() {
   };
 }
 
-export function getPendingFile(): File | null {
-  return state.pendingFile;
-}
 
 export function consumePendingFile(): File | null {
   const file = state.pendingFile;

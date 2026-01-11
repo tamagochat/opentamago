@@ -4,12 +4,14 @@ import { useState, useEffect, useCallback, useImperativeHandle, forwardRef } fro
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Button } from "~/components/ui/button";
-import { Eye, EyeOff, Check, ExternalLink, Loader2 } from "lucide-react";
+import { Eye, EyeOff, Check, ExternalLink, Loader2, MessageSquare, Image, Volume2, Settings } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { Link } from "~/i18n/routing";
 import {
   ALL_PROVIDERS,
   PROVIDER_CONFIGS,
   type Provider,
+  type Modality,
 } from "~/lib/ai";
 import { cn } from "~/lib/utils";
 
@@ -84,6 +86,18 @@ export const ApiKeysTab = forwardRef<ApiKeysTabRef, ApiKeysTabProps>(
   };
 
   const config = PROVIDER_CONFIGS[activeProviderTab];
+
+  const modalityIcons: Record<Modality, React.ReactNode> = {
+    text: <MessageSquare className="h-3 w-3" />,
+    image: <Image className="h-3 w-3" />,
+    voice: <Volume2 className="h-3 w-3" />,
+  };
+
+  const modalityLabels: Record<Modality, string> = {
+    text: "Text",
+    image: "Image",
+    voice: "Voice",
+  };
 
   return (
     <div className="p-4 space-y-4">
@@ -187,6 +201,36 @@ export const ApiKeysTab = forwardRef<ApiKeysTabRef, ApiKeysTabProps>(
             </p>
           </div>
         )}
+
+        {/* Modality badges */}
+        <div className="flex items-center gap-2">
+          <span className="text-xs text-muted-foreground">Supports:</span>
+          <div className="flex flex-wrap gap-1.5">
+            {config.modalities.map((modality) => (
+              <span
+                key={modality}
+                className="inline-flex items-center gap-1 px-2 py-0.5 text-xs rounded-full bg-primary/10 text-primary"
+              >
+                {modalityIcons[modality]}
+                {modalityLabels[modality]}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Guide text for detailed settings */}
+      <div className="flex items-center gap-2 p-3 border rounded-lg bg-muted/20">
+        <Settings className="h-4 w-4 text-muted-foreground shrink-0" />
+        <p className="text-xs text-muted-foreground">
+          For detailed model settings (temperature, model selection, etc.), visit{" "}
+          <Link
+            href="/settings/models"
+            className="text-primary hover:underline font-medium"
+          >
+            Settings → Models
+          </Link>
+        </p>
       </div>
 
       {/* Save Button */}

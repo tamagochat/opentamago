@@ -188,10 +188,10 @@ export const PROVIDER_CONFIGS: Record<Provider, ProviderConfig> = {
     id: "zhipu",
     name: "Zhipu AI",
     sdkPackage: "openai", // Zhipu API is OpenAI-compatible
-    baseUrl: "https://open.bigmodel.cn/api/paas/v4",
+    baseUrl: "https://api.z.ai/api/paas/v4",
     requiresApiKey: true,
     apiKeyPlaceholder: "your-zhipu-api-key",
-    apiKeyUrl: "https://bigmodel.cn/usercenter/apikeys",
+    apiKeyUrl: "https://z.ai/model-api",
     modalities: ["text"],
     supportsReasoning: true,
     // GLM-4.7 and GLM-4 Plus support thinking mode

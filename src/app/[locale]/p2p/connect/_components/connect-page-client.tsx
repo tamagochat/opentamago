@@ -20,12 +20,13 @@ import {
   useAutoReply,
 } from "~/app/_components/connect";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
-import { useSettings, useProviderSettings, useGenerationSettings } from "~/lib/db/hooks";
+import { useSettings, useProviderSettings, useGenerationSettings, useCharacters } from "~/lib/db/hooks";
 import type { LLMProvider } from "~/lib/ai";
 import { SettingsModal } from "~/components/settings-modal";
 import type { CharacterData } from "~/lib/connect/messages";
 import { ExperimentalDisclaimer } from "~/components/experimental-disclaimer";
 import { ConnectRejoinBanner } from "~/components/connect-rejoin-banner";
+import { consumePendingCharacterId } from "~/lib/stores";
 
 type ConnectState =
   | "selecting" // Choosing character
@@ -53,6 +54,36 @@ function ConnectPageContent() {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [sessionError, setSessionError] = useState<string | null>(null);
   const passwordInputRef = useRef<PasswordInputRef>(null);
+  const pendingCharacterConsumedRef = useRef(false);
+
+  // Load characters for pending character lookup
+  const { characters, isLoading: charactersLoading } = useCharacters();
+
+  // Check for pending character ID from pokebox (auto-select)
+  useEffect(() => {
+    if (pendingCharacterConsumedRef.current || charactersLoading || characters.length === 0) return;
+
+    const pendingCharacterId = consumePendingCharacterId();
+    if (pendingCharacterId) {
+      pendingCharacterConsumedRef.current = true;
+      const character = characters.find((c) => c.id === pendingCharacterId);
+      if (character && isApiReady) {
+        const characterData: CharacterData = {
+          id: character.id,
+          name: character.name,
+          description: character.description || "",
+          personality: character.personality || "",
+          scenario: character.scenario || "",
+          firstMessage: character.firstMessage || "",
+          exampleDialogue: character.exampleDialogue || "",
+          systemPrompt: character.systemPrompt || "",
+          avatar: character.avatarData,
+        };
+        setSelectedCharacter(characterData);
+        setState("confirm");
+      }
+    }
+  }, [characters, charactersLoading, isApiReady]);
 
   // Session management
   const {
@@ -285,8 +316,7 @@ function ConnectPageContent() {
           <SettingsModal
             open={settingsOpen}
             onOpenChange={setSettingsOpen}
-            hideTextScenarios={["translation"]}
-            hideThinking={true}
+            hiddenTabs={["chatUI", "database"]}
           />
         </div>
       </div>

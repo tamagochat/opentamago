@@ -304,6 +304,43 @@ export function useCharacters() {
     [db]
   );
 
+  const assignToCollection = useCallback(
+    async (characterId: string, collectionId: string | null) => {
+      if (!db) return false;
+
+      const doc = await db.characters.findOne(characterId).exec();
+      if (!doc) return false;
+
+      await doc.patch({
+        collectionId: collectionId ?? undefined,
+        updatedAt: Date.now(),
+      });
+
+      return true;
+    },
+    [db]
+  );
+
+  const getCharactersByCollection = useCallback(
+    async (collectionId: string | null) => {
+      if (!db) return [];
+
+      if (collectionId === null) {
+        // Get uncategorized characters (no collectionId)
+        const docs = await db.characters.find().exec();
+        return docs
+          .filter((doc) => !doc.collectionId)
+          .map((doc) => toMutable<CharacterDocument>(doc.toJSON()));
+      }
+
+      const docs = await db.characters
+        .find({ selector: { collectionId } })
+        .exec();
+      return docs.map((doc) => toMutable<CharacterDocument>(doc.toJSON()));
+    },
+    [db]
+  );
+
   return {
     characters,
     isLoading: dbLoading || isLoading,
@@ -314,5 +351,7 @@ export function useCharacters() {
     getLorebookEntries,
     getAssets,
     saveCharacterWithAssets,
+    assignToCollection,
+    getCharactersByCollection,
   };
 }

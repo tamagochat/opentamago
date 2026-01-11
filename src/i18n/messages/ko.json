@@ -37,7 +37,9 @@
       "tryViewer": "CharX 뷰어 써보기",
       "startSharing": "CharX 공유 시작하기",
       "startConnect": "CharX 세션 시작하기",
-      "p2pLabel": "P2P 기능"
+      "p2pLabel": "P2P 기능",
+      "openEditor": "Open Editor",
+      "openPokebox": "Open PokeBox"
     },
     "features": {
       "title": "다 모았어요",
@@ -147,6 +149,41 @@
         "message2": "시작해볼까!",
         "aiReply": "반가워요, 여러분!",
         "inputPlaceholder": "메시지를 입력하세요..."
+      },
+      "editor": {
+        "tabs": {
+          "basic": "Basic",
+          "lorebook": "Lorebook",
+          "assets": "Assets"
+        },
+        "nameLabel": "Name",
+        "personalityLabel": "Personality",
+        "save": "Save",
+        "saved": "Saved!",
+        "assistant": "AI Assistant",
+        "assistantHint": "Ask me to help write your character...",
+        "userMessage": "Help me write a personality",
+        "aiResponse": "She's curious and adventurous, loves exploring ancient ruins...",
+        "inputPlaceholder": "Ask AI...",
+        "lorebookTitle": "Lorebook",
+        "aiHelping": "AI Helping..."
+      },
+      "pokebox": {
+        "title": "My Characters",
+        "search": "Search...",
+        "selectHint": "Select a character",
+        "tabs": {
+          "character": "Character",
+          "lorebook": "Lorebook",
+          "assets": "Assets"
+        },
+        "description": "Description",
+        "descriptionText": "A mysterious mage with ancient knowledge...",
+        "personality": "Personality",
+        "personalityText": "Curious, adventurous, warm-hearted",
+        "lorebookEntry": "Entry",
+        "enabled": "Enabled",
+        "chatButton": "Start Chat"
       }
     },
     "connectShowcase": {
@@ -165,6 +202,38 @@
       "multiParty": {
         "title": "최대 8명까지",
         "description": "QR 코드나 링크로 친구들을 초대하세요"
+      }
+    },
+    "editorShowcase": {
+      "badge": "CharX Editor",
+      "title": "Create Characters with AI Help",
+      "aiAssistant": {
+        "title": "AI Writing Assistant",
+        "description": "Get help writing descriptions, personalities, and dialogues"
+      },
+      "lorebook": {
+        "title": "Build Lorebooks",
+        "description": "Create world info entries with keyword triggers"
+      },
+      "export": {
+        "title": "Export Anywhere",
+        "description": "Save to PokeBox or export as .charx files"
+      }
+    },
+    "pokeboxShowcase": {
+      "badge": "CharX PokeBox",
+      "title": "Your Personal Character Library",
+      "organize": {
+        "title": "Organize Characters",
+        "description": "Browse your collection with search and filters"
+      },
+      "preview": {
+        "title": "Preview Everything",
+        "description": "View character details, lorebook, and assets"
+      },
+      "quickActions": {
+        "title": "Quick Actions",
+        "description": "Start chatting or share via P2P with one click"
       }
     }
   },
@@ -452,7 +521,8 @@
     "leftPanel": {
       "create": "만들기",
       "createCharacter": "캐릭터 만들기",
-      "importCharx": ".charx 가져오기",
+      "importCharx": "CharX 가져오기",
+      "importJson": "캐릭터 가져오기 (.json)",
       "createPersona": "페르소나 만들기",
       "noCharacters": "아직 캐릭터가 없어요.",
       "createOne": "만들어 보기",
@@ -1051,6 +1121,34 @@
     "toast": {
       "copiedToClipboard": "복사됨!",
       "failedToCopy": "복사 실패"
+    },
+    "actions": {
+      "chat": "채팅",
+      "p2pShare": "P2P 공유",
+      "p2pConnect": "P2P 연결",
+      "shareError": "공유 파일 생성 실패"
+    },
+    "collections": {
+      "title": "컬렉션",
+      "all": "모든 캐릭터",
+      "uncategorized": "미분류",
+      "create": "새 컬렉션",
+      "edit": "컬렉션 수정",
+      "delete": "컬렉션 삭제",
+      "deleteConfirm": "이 컬렉션을 삭제할까요? 캐릭터들은 미분류로 이동해요.",
+      "name": "컬렉션 이름",
+      "namePlaceholder": "내 컬렉션",
+      "description": "설명",
+      "descriptionPlaceholder": "선택적 설명...",
+      "color": "색상",
+      "icon": "아이콘",
+      "moveToCollection": "컬렉션으로 이동",
+      "removeFromCollection": "컬렉션에서 제거",
+      "characterCount": "{count}개의 캐릭터",
+      "emptyCollection": "이 컬렉션에 캐릭터가 없어요",
+      "manageCollections": "컬렉션 관리",
+      "save": "저장",
+      "cancel": "취소"
     }
   },
   "charxEditor": {
@@ -1063,6 +1161,20 @@
     "createNew": "Create New",
     "editExisting": "Edit from PokeBox",
     "back": "Back",
+    "import": {
+      "title": "가져오기",
+      "fromPokebox": "PokeBox에서",
+      "charx": "CharX 파일 (.charx)",
+      "json": "캐릭터 카드 (.json)",
+      "success": "캐릭터를 가져왔어요",
+      "error": "가져오기 실패",
+      "selectTitle": "편집할 캐릭터 선택",
+      "description": "PokeBox에서 편집할 캐릭터를 선택하세요",
+      "search": "캐릭터 검색...",
+      "empty": "캐릭터를 찾을 수 없어요",
+      "emptyHint": "먼저 CharX 뷰어에서 캐릭터를 가져오세요",
+      "select": "선택"
+    },
     "assistant": {
       "title": "AI Assistant",
       "placeholder": "Ask me to help with your character...",
@@ -1106,7 +1218,7 @@
         "background": "배경",
         "other": "기타"
       },
-      "apiKeyRequired": "API key required for {provider}",
+      "apiKeyRequired": "AI 어시스턴트에 API 키가 필요해요",
       "openSettings": "Settings",
       "chatHistoryDisclaimer": "이 대화는 임시이며 페이지를 새로고침하면 삭제됩니다. 보관하고 싶은 내용은 캐릭터 필드에 복사하세요."
     },
@@ -1164,6 +1276,8 @@
         "emptyHint": "Add entries to provide context about your character's world",
         "addEntry": "Add Entry",
         "deleteEntry": "Delete Entry",
+        "expandWorld": "세계관 확장",
+        "expandWorldHint": "AI가 캐릭터 기반으로 새로운 로어북 항목을 제안해요",
         "keys": "Keys",
         "keysPlaceholder": "trigger, keywords, separated by comma",
         "keysHint": "Comma-separated trigger keywords",
@@ -1189,6 +1303,8 @@
         "empty": "No assets yet",
         "emptyHint": "Upload images or generate with AI",
         "upload": "Upload Asset",
+        "generateEmotions": "표정 생성",
+        "generateEmotionsHint": "AI가 캐릭터에 맞는 표정을 제안해요",
         "generateWithAI": "Generate with AI",
         "selectType": "Select asset type",
         "types": {
@@ -1218,14 +1334,6 @@
       "cancel": "Cancel",
       "download": "Download",
       "noAvatar": "No avatar set. Please upload an avatar first for PNG export."
-    },
-    "import": {
-      "title": "Select Character to Edit",
-      "description": "Choose a character from your PokeBox to edit",
-      "search": "Search characters...",
-      "empty": "No characters found",
-      "emptyHint": "Import characters from CharX Viewer first",
-      "select": "Select"
     },
     "toast": {
       "saved": "Character saved!",

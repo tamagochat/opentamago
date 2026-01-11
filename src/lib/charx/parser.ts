@@ -9,55 +9,8 @@
  * - x_meta/: (Optional) Asset metadata
  */
 
-import type { ParsedCharX, CharXSummary } from "./types";
+import type { ParsedCharX } from "./types";
 import type { WorkerResult } from "./worker";
-
-/**
- * Get a summary of the parsed charx content
- */
-export function getCharXSummary(parsed: ParsedCharX): CharXSummary | null {
-  if (!parsed.card) {
-    return null;
-  }
-
-  const card = parsed.card.data;
-
-  const summary: CharXSummary = {
-    name: card.name,
-    creator: card.creator,
-    character_version: card.character_version,
-    description_length: card.description.length,
-    personality_length: card.personality.length,
-    scenario_length: card.scenario.length,
-    first_message_length: card.first_mes.length,
-    alternate_greetings_count: card.alternate_greetings.length,
-    tags: card.tags,
-    assets_count: card.assets.length,
-    has_character_book: !!card.character_book,
-    has_module: !!parsed.module,
-    extracted_assets_count: parsed.assets.size,
-  };
-
-  if (card.character_book) {
-    summary.lorebook_entries_count = card.character_book.entries.length;
-  }
-
-  if (parsed.module) {
-    summary.module_name = parsed.module.name;
-    summary.module_trigger_count = parsed.module.trigger.length;
-    summary.module_regex_count = parsed.module.regex.length;
-  }
-
-  if (card.creation_date) {
-    summary.creation_date = new Date(card.creation_date).toISOString();
-  }
-
-  if (card.modification_date) {
-    summary.modification_date = new Date(card.modification_date).toISOString();
-  }
-
-  return summary;
-}
 
 /**
  * Convert asset data to a data URL for display

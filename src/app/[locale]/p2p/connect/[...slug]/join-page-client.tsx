@@ -381,8 +381,7 @@ function JoinPageContent({
           <SettingsModal
             open={settingsOpen}
             onOpenChange={setSettingsOpen}
-            hideTextScenarios={["translation"]}
-            hideThinking={true}
+            hiddenTabs={["chatUI", "database"]}
           />
         </div>
         {initialParticipants.length > 0 && state === "selecting" && (

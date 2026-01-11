@@ -14,6 +14,12 @@ import {
   Users,
   MessageSquare,
   Bot,
+  PenLine,
+  FolderHeart,
+  Sparkles,
+  Book,
+  Download,
+  Search,
 } from "lucide-react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "~/i18n/routing";
@@ -24,6 +30,8 @@ import { CharxViewerDemo } from "./_components/charx-viewer-demo";
 import { P2pSharingDemo } from "./_components/p2p-sharing-demo";
 import { ConnectDemo } from "./_components/connect-demo";
 import { HeroCarousel } from "./_components/hero-carousel";
+import { EditorDemo } from "./_components/editor-demo";
+import { PokeboxDemo } from "./_components/pokebox-demo";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -291,6 +299,132 @@ export default async function Home({ params }: Props) {
             </div>
             <div className="relative order-2">
               <CharxViewerDemo />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CharX Editor Showcase Section */}
+      <section className="py-12 sm:py-16 md:py-20 lg:py-28 bg-muted/30">
+        <div className="container">
+          <div className="grid gap-8 sm:gap-12 lg:grid-cols-2 items-center">
+            <div className="order-2 lg:order-1">
+              <EditorDemo />
+            </div>
+            <div className="order-1 lg:order-2">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs sm:text-sm font-medium mb-3 sm:mb-4">
+                <PenLine className="h-3 w-3 sm:h-4 sm:w-4" />
+                {t("editorShowcase.badge")}
+              </div>
+              <h2 className="text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl mb-4 sm:mb-6">
+                {t("editorShowcase.title")}
+              </h2>
+              <ul className="space-y-3 sm:space-y-4">
+                <li className="flex gap-3">
+                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Sparkles className="h-3 w-3 text-primary" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-sm sm:text-base">{t("editorShowcase.aiAssistant.title")}</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground">
+                      {t("editorShowcase.aiAssistant.description")}
+                    </p>
+                  </div>
+                </li>
+                <li className="flex gap-3">
+                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Book className="h-3 w-3 text-primary" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-sm sm:text-base">{t("editorShowcase.lorebook.title")}</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground">
+                      {t("editorShowcase.lorebook.description")}
+                    </p>
+                  </div>
+                </li>
+                <li className="flex gap-3">
+                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Download className="h-3 w-3 text-primary" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-sm sm:text-base">{t("editorShowcase.export.title")}</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground">
+                      {t("editorShowcase.export.description")}
+                    </p>
+                  </div>
+                </li>
+              </ul>
+              <div className="mt-6 sm:mt-8">
+                <Button asChild className="gap-2">
+                  <Link href="/charx/editor">
+                    {t("cta.openEditor")}
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CharX PokeBox Showcase Section */}
+      <section className="py-12 sm:py-16 md:py-20 lg:py-28">
+        <div className="container">
+          <div className="grid gap-8 sm:gap-12 lg:grid-cols-2 items-center">
+            <div className="order-1">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs sm:text-sm font-medium mb-3 sm:mb-4">
+                <FolderHeart className="h-3 w-3 sm:h-4 sm:w-4" />
+                {t("pokeboxShowcase.badge")}
+              </div>
+              <h2 className="text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl mb-4 sm:mb-6">
+                {t("pokeboxShowcase.title")}
+              </h2>
+              <ul className="space-y-3 sm:space-y-4">
+                <li className="flex gap-3">
+                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Search className="h-3 w-3 text-primary" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-sm sm:text-base">{t("pokeboxShowcase.organize.title")}</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground">
+                      {t("pokeboxShowcase.organize.description")}
+                    </p>
+                  </div>
+                </li>
+                <li className="flex gap-3">
+                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Eye className="h-3 w-3 text-primary" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-sm sm:text-base">{t("pokeboxShowcase.preview.title")}</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground">
+                      {t("pokeboxShowcase.preview.description")}
+                    </p>
+                  </div>
+                </li>
+                <li className="flex gap-3">
+                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
+                    <MessageSquare className="h-3 w-3 text-primary" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-sm sm:text-base">{t("pokeboxShowcase.quickActions.title")}</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground">
+                      {t("pokeboxShowcase.quickActions.description")}
+                    </p>
+                  </div>
+                </li>
+              </ul>
+              <div className="mt-6 sm:mt-8">
+                <Button asChild className="gap-2">
+                  <Link href="/pokebox">
+                    {t("cta.openPokebox")}
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
+                </Button>
+              </div>
+            </div>
+            <div className="relative order-2">
+              <PokeboxDemo />
             </div>
           </div>
         </div>

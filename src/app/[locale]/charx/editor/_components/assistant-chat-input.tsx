@@ -145,7 +145,7 @@ export const AssistantChatInput = memo(function AssistantChatInput() {
         <SettingsModal
           open={settingsOpen}
           onOpenChange={setSettingsOpen}
-          hideTextScenarios={["chat", "translation", "hitmeup"]}
+          hiddenTabs={["chatUI", "database"]}
         />
       </div>
 

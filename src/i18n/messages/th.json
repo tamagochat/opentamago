@@ -37,7 +37,9 @@
       "tryViewer": "ลองโปรแกรมดู CharX",
       "startSharing": "เริ่มแชร์ CharX",
       "startConnect": "เริ่มเซสชัน CharX",
-      "p2pLabel": "ฟีเจอร์ P2P"
+      "p2pLabel": "ฟีเจอร์ P2P",
+      "openEditor": "Open Editor",
+      "openPokebox": "Open PokeBox"
     },
     "features": {
       "title": "ทุกสิ่งที่คุณต้องการ",
@@ -147,6 +149,41 @@
         "message2": "ไปเลย!",
         "aiReply": "ยินดีที่ได้พบทุกคน!",
         "inputPlaceholder": "พิมพ์ข้อความ..."
+      },
+      "editor": {
+        "tabs": {
+          "basic": "Basic",
+          "lorebook": "Lorebook",
+          "assets": "Assets"
+        },
+        "nameLabel": "Name",
+        "personalityLabel": "Personality",
+        "save": "Save",
+        "saved": "Saved!",
+        "assistant": "AI Assistant",
+        "assistantHint": "Ask me to help write your character...",
+        "userMessage": "Help me write a personality",
+        "aiResponse": "She's curious and adventurous, loves exploring ancient ruins...",
+        "inputPlaceholder": "Ask AI...",
+        "lorebookTitle": "Lorebook",
+        "aiHelping": "AI Helping..."
+      },
+      "pokebox": {
+        "title": "My Characters",
+        "search": "Search...",
+        "selectHint": "Select a character",
+        "tabs": {
+          "character": "Character",
+          "lorebook": "Lorebook",
+          "assets": "Assets"
+        },
+        "description": "Description",
+        "descriptionText": "A mysterious mage with ancient knowledge...",
+        "personality": "Personality",
+        "personalityText": "Curious, adventurous, warm-hearted",
+        "lorebookEntry": "Entry",
+        "enabled": "Enabled",
+        "chatButton": "Start Chat"
       }
     },
     "connectShowcase": {
@@ -165,6 +202,38 @@
       "multiParty": {
         "title": "สูงสุด 8 คน",
         "description": "แชร์ QR โค้ดหรือลิงก์เพื่อเชิญเพื่อน"
+      }
+    },
+    "editorShowcase": {
+      "badge": "CharX Editor",
+      "title": "Create Characters with AI Help",
+      "aiAssistant": {
+        "title": "AI Writing Assistant",
+        "description": "Get help writing descriptions, personalities, and dialogues"
+      },
+      "lorebook": {
+        "title": "Build Lorebooks",
+        "description": "Create world info entries with keyword triggers"
+      },
+      "export": {
+        "title": "Export Anywhere",
+        "description": "Save to PokeBox or export as .charx files"
+      }
+    },
+    "pokeboxShowcase": {
+      "badge": "CharX PokeBox",
+      "title": "Your Personal Character Library",
+      "organize": {
+        "title": "Organize Characters",
+        "description": "Browse your collection with search and filters"
+      },
+      "preview": {
+        "title": "Preview Everything",
+        "description": "View character details, lorebook, and assets"
+      },
+      "quickActions": {
+        "title": "Quick Actions",
+        "description": "Start chatting or share via P2P with one click"
       }
     }
   },
@@ -452,7 +521,8 @@
     "leftPanel": {
       "create": "สร้าง",
       "createCharacter": "สร้างตัวละคร",
-      "importCharx": "นำเข้า .charx",
+      "importCharx": "นำเข้า CharX",
+      "importJson": "นำเข้าตัวละคร (.json)",
       "createPersona": "สร้างเปอร์โซน่า",
       "noCharacters": "ยังไม่มีตัวละคร",
       "createOne": "สร้างหนึ่งตัว",
@@ -1051,6 +1121,34 @@
     "toast": {
       "copiedToClipboard": "คัดลอกแล้ว!",
       "failedToCopy": "คัดลอกไม่สำเร็จ"
+    },
+    "actions": {
+      "chat": "แชท",
+      "p2pShare": "แชร์ P2P",
+      "p2pConnect": "เชื่อมต่อ P2P",
+      "shareError": "สร้างไฟล์แชร์ไม่สำเร็จ"
+    },
+    "collections": {
+      "title": "Collections",
+      "all": "All Characters",
+      "uncategorized": "Uncategorized",
+      "create": "New Collection",
+      "edit": "Edit Collection",
+      "delete": "Delete Collection",
+      "deleteConfirm": "Delete this collection? Characters will be moved to Uncategorized.",
+      "name": "Collection Name",
+      "namePlaceholder": "My Collection",
+      "description": "Description",
+      "descriptionPlaceholder": "Optional description...",
+      "color": "Color",
+      "icon": "Icon",
+      "moveToCollection": "Move to Collection",
+      "removeFromCollection": "Remove from Collection",
+      "characterCount": "{count} characters",
+      "emptyCollection": "No characters in this collection",
+      "manageCollections": "Manage Collections",
+      "save": "Save",
+      "cancel": "Cancel"
     }
   },
   "charxEditor": {
@@ -1106,7 +1204,7 @@
         "background": "พื้นหลัง",
         "other": "อื่นๆ"
       },
-      "apiKeyRequired": "API key required for {provider}",
+      "apiKeyRequired": "ต้องการ API Key สำหรับผู้ช่วย AI",
       "openSettings": "Settings",
       "chatHistoryDisclaimer": "การสนทนานี้เป็นการชั่วคราวและจะถูกล้างเมื่อคุณรีเฟรชหน้า คัดลอกเนื้อหาที่คุณต้องการเก็บไว้ไปยังช่องตัวละคร"
     },
@@ -1182,7 +1280,9 @@
         "entryName": "Entry Name",
         "entryNamePlaceholder": "Optional name for organization",
         "comment": "Comment",
-        "commentPlaceholder": "Private notes about this entry"
+        "commentPlaceholder": "Private notes about this entry",
+        "expandWorld": "Expand World",
+        "expandWorldHint": "AI will suggest new lorebook entries based on your character"
       },
       "assets": {
         "title": "Character Assets",
@@ -1201,7 +1301,9 @@
         "deleteConfirm": "Delete this asset?",
         "preview": "Preview",
         "cancel": "ยกเลิก",
-        "delete": "ลบ"
+        "delete": "ลบ",
+        "generateEmotions": "Generate Emotions",
+        "generateEmotionsHint": "AI will suggest emotion expressions for your character"
       }
     },
     "export": {
@@ -1220,12 +1322,18 @@
       "noAvatar": "No avatar set. Please upload an avatar first for PNG export."
     },
     "import": {
-      "title": "Select Character to Edit",
-      "description": "Choose a character from your PokeBox to edit",
-      "search": "Search characters...",
-      "empty": "No characters found",
-      "emptyHint": "Import characters from CharX Viewer first",
-      "select": "Select"
+      "title": "นำเข้า",
+      "fromPokebox": "จาก PokeBox",
+      "charx": "ไฟล์ CharX (.charx)",
+      "json": "การ์ดตัวละคร (.json)",
+      "success": "นำเข้าตัวละครแล้ว",
+      "error": "นำเข้าไม่สำเร็จ",
+      "selectTitle": "เลือกตัวละครเพื่อแก้ไข",
+      "description": "เลือกตัวละครจาก PokeBox เพื่อแก้ไข",
+      "search": "ค้นหาตัวละคร...",
+      "empty": "ไม่พบตัวละคร",
+      "emptyHint": "นำเข้าตัวละครจาก CharX Viewer ก่อน",
+      "select": "เลือก"
     },
     "toast": {
       "saved": "Character saved!",

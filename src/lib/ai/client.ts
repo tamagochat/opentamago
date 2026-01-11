@@ -5,11 +5,6 @@ import { GoogleGenAI } from "@google/genai";
 import { fal } from "@fal-ai/client";
 import { streamText, generateText, Output } from "ai";
 import { z } from "zod";
-import {
-  DEFAULT_SAFETY_SETTINGS_ARRAY,
-  toGeminiSafetySettings,
-  type SafetySettings,
-} from "./index";
 import { createProxyAI } from "./proxy";
 import { createAIProvider } from "./provider-factory";
 import {
@@ -292,6 +287,34 @@ function buildReasoningOptions(
     default:
       return undefined;
   }
+}
+
+// ============================================================================
+// Type Guards
+// ============================================================================
+
+/**
+ * Type guard to check if an object has a reasoning property
+ */
+function hasReasoning(obj: unknown): obj is { reasoning: unknown } {
+  return typeof obj === 'object' && obj !== null && 'reasoning' in obj;
+}
+
+/**
+ * Type for Gemini response parts with inline data
+ */
+interface GeminiInlineDataPart {
+  inlineData?: {
+    data: string;
+    mimeType: string;
+  };
+}
+
+/**
+ * Type guard to check if a Gemini response part has inlineData
+ */
+function hasInlineData(part: unknown): part is GeminiInlineDataPart {
+  return typeof part === 'object' && part !== null && 'inlineData' in part;
 }
 
 /**
@@ -640,7 +663,7 @@ export async function* streamChatResponse(
     effort
   );
 
-  const streamOptions: Parameters<typeof streamText>[0] = {
+  const baseOptions = {
     model: provider(modelId),
     messages,
     temperature,
@@ -648,11 +671,12 @@ export async function* streamChatResponse(
     abortSignal: signal,
   };
 
-  if (providerOptions) {
-    (streamOptions as any).providerOptions = providerOptions;
-  }
+  // Provider options need to be passed with a type assertion due to SDK type complexity
+  const streamOptions = providerOptions
+    ? { ...baseOptions, providerOptions }
+    : baseOptions;
 
-  const result = streamText(streamOptions);
+  const result = streamText(streamOptions as Parameters<typeof streamText>[0]);
 
   const chunks: string[] = [];
   let chunkIndex = 0;
@@ -683,8 +707,8 @@ export async function* streamChatResponse(
       reasoning = extractReasoning(response, providerId);
 
       // Also check if result has reasoning property directly (AI SDK may vary by version)
-      if (!reasoning && (result as any).reasoning) {
-        const directReasoning = await (result as any).reasoning;
+      if (!reasoning && hasReasoning(result)) {
+        const directReasoning = await result.reasoning;
         if (directReasoning) {
           reasoning = normalizeReasoning(directReasoning);
         }
@@ -759,18 +783,19 @@ export async function generateChatResponse(
     effort
   );
 
-  const generateOptions: Parameters<typeof generateText>[0] = {
+  const baseOptions = {
     model: provider(modelId),
     messages,
     temperature,
     maxOutputTokens: maxTokens,
   };
 
-  if (providerOptions) {
-    (generateOptions as any).providerOptions = providerOptions;
-  }
+  // Provider options need to be passed with a type assertion due to SDK type complexity
+  const generateOptions = providerOptions
+    ? { ...baseOptions, providerOptions }
+    : baseOptions;
 
-  const result = await generateText(generateOptions);
+  const result = await generateText(generateOptions as Parameters<typeof generateText>[0]);
 
   // Extract usage
   const usage = extractUsage(result.usage);
@@ -781,8 +806,8 @@ export async function generateChatResponse(
     reasoning = extractReasoning(result, providerId);
 
     // Also check direct reasoning property
-    if (!reasoning && (result as any).reasoning) {
-      reasoning = normalizeReasoning((result as any).reasoning);
+    if (!reasoning && hasReasoning(result)) {
+      reasoning = normalizeReasoning(result.reasoning);
     }
 
     console.log(
@@ -861,7 +886,7 @@ export async function generateMessengerResponse(
     ...messages,
   ];
 
-  const generateOptions: Parameters<typeof generateText>[0] = {
+  const baseOptions = {
     model: provider(modelId),
     messages: allMessages,
     temperature,
@@ -869,15 +894,16 @@ export async function generateMessengerResponse(
     output: Output.object({ schema: messengerBubbleSchema }),
   };
 
-  if (providerOptions) {
-    (generateOptions as any).providerOptions = providerOptions;
-  }
+  // Provider options need to be passed with a type assertion due to SDK type complexity
+  const generateOptions = providerOptions
+    ? { ...baseOptions, providerOptions }
+    : baseOptions;
 
   let reasoning: string | undefined;
   let usage: TokenUsage | undefined;
 
   try {
-    const result = await generateText(generateOptions);
+    const result = await generateText(generateOptions as Parameters<typeof generateText>[0]);
 
     // Extract usage
     usage = extractUsage(result.usage);
@@ -887,8 +913,8 @@ export async function generateMessengerResponse(
       reasoning = extractReasoning(result, providerId);
 
       // Also check direct reasoning property
-      if (!reasoning && (result as any).reasoning) {
-        reasoning = normalizeReasoning((result as any).reasoning);
+      if (!reasoning && hasReasoning(result)) {
+        reasoning = normalizeReasoning(result.reasoning);
       }
 
       console.log(
@@ -1253,9 +1279,9 @@ async function generateGeminiImage(
   const parts = response.candidates?.[0]?.content?.parts ?? [];
 
   for (const part of parts) {
-    // Check for inline image data
-    const inlineData = (part as any).inlineData;
-    if (inlineData?.data && inlineData?.mimeType) {
+    // Check for inline image data using type guard
+    if (hasInlineData(part) && part.inlineData?.data && part.inlineData?.mimeType) {
+      const inlineData = part.inlineData;
       // Calculate dimensions based on aspect ratio and resolution
       const dims = calculateDimensions(aspectRatio, resolution);
 

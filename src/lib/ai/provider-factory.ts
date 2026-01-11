@@ -49,7 +49,7 @@ export function createAIProvider(
     return createOpenAICompatible({
       name: "zhipu",
       apiKey: apiKey ?? "",
-      baseURL: zhipuBaseUrl ?? "https://open.bigmodel.cn/api/paas/v4",
+      baseURL: zhipuBaseUrl ?? "https://api.z.ai/api/paas/v4",
     });
   }
 
