@@ -11,7 +11,7 @@
     "badge": "Novidade",
     "charx": "Essa função ainda está em desenvolvimento! Suporta CharX v3, mas ainda estamos melhorando~",
     "p2p": "Usa WebRTC para conexões P2P diretas. Só compartilhe QR e links com pessoas de confiança!",
-    "chat": "Esse chat é para devs testarem LLMs. Para chat com IA no dia a dia, use outros serviços~",
+    "chat": "Este recurso está em desenvolvimento ativo.",
     "feedback": "Encontrou um bug ou tem sugestões? Conta pra gente no <link>GitHub Issues</link>!"
   },
   "actions": {
@@ -590,7 +590,33 @@
       "inputTokens": "Tokens de entrada",
       "outputTokens": "Tokens de saída",
       "totalTokens": "Total de tokens",
-      "reasoningTokens": "Tokens de raciocínio"
+      "reasoningTokens": "Tokens de raciocínio",
+      "availableCharacters": "Seus personagens",
+      "chatUI": "Interface de chat",
+      "models": "Modelos"
+    },
+    "setupChecklist": {
+      "title": "Começar",
+      "description": "Complete estes passos para começar a conversar com personagens de IA.",
+      "progress": "{completed} de {total} completos",
+      "steps": {
+        "apiKey": {
+          "title": "Configurar API Key",
+          "description": "Traga sua própria chave. Nenhum dado é armazenado no servidor. Completamente local."
+        },
+        "models": {
+          "title": "Escolher modelos",
+          "description": "Escolha os modelos que quiser. Temos alguns modelos gratuitos."
+        },
+        "character": {
+          "title": "Criar personagem",
+          "description": "Você pode importar formato .charx facilmente."
+        },
+        "persona": {
+          "title": "Criar persona",
+          "description": "Crie uma persona que você queira interpretar."
+        }
+      }
     },
     "rightPanel": {
       "selectCharacter": "Selecione um personagem para ver detalhes",
@@ -1026,6 +1052,12 @@
       "bugDesc": "Problemas de interface ou formatação? Reporte aqui :)",
       "community": "Quer fazer parte da comunidade?",
       "communityDesc": "Venha para nosso Discord! Converse com a equipe e outros usuários"
+    },
+    "apiKeysSaved": {
+      "title": "API Key atualizada",
+      "description": "Gostaria de escolher modelos para os recursos de chat interativo? Você pode configurar quais modelos usar para geração de texto, imagem e voz.",
+      "configureModels": "Configurar modelos",
+      "later": "Talvez depois"
     }
   },
   "pokebox": {

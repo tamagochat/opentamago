@@ -69,7 +69,7 @@ function getStorage(): RxStorage<any, any> {
 }
 
 // Delete all IndexedDB databases for this app
-async function deleteAllDatabases() {
+export async function deleteAllDatabases() {
   if (isDev) console.log("[RxDB] Deleting all databases...");
 
   if (typeof window === "undefined" || !window.indexedDB) {

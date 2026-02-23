@@ -11,7 +11,7 @@
     "badge": "Yeni",
     "charx": "Bu özellik hâlâ geliştirme aşamasında! CharX v3'ü destekliyor, iyileştirmeye devam ediyoruz~",
     "p2p": "WebRTC ile doğrudan P2P bağlantı kuruyor. QR kodu ve linkleri sadece güvendiğin kişilerle paylaş!",
-    "chat": "Bu sohbet özelliği LLM test etmek için. Günlük AI sohbeti için başka servisler kullan~",
+    "chat": "Bu özellik aktif olarak geliştirilmektedir.",
     "feedback": "Hata buldun veya önerin mi var? <link>GitHub Issues</link>'da bize bildir!"
   },
   "actions": {
@@ -590,7 +590,33 @@
       "inputTokens": "Girdi tokenları",
       "outputTokens": "Çıktı tokenları",
       "totalTokens": "Toplam token",
-      "reasoningTokens": "Akıl yürütme tokenları"
+      "reasoningTokens": "Akıl yürütme tokenları",
+      "availableCharacters": "Karakterlerin",
+      "chatUI": "Sohbet Arayüzü",
+      "models": "Modeller"
+    },
+    "setupChecklist": {
+      "title": "Başlayın",
+      "description": "AI karakterleriyle sohbet etmeye başlamak için bu adımları tamamlayın.",
+      "progress": "{completed}/{total} tamamlandı",
+      "steps": {
+        "apiKey": {
+          "title": "API Anahtarı Ayarla",
+          "description": "Kendi anahtarınızı kullanın. Sunucuda veri saklanmaz. Tamamen yerel."
+        },
+        "models": {
+          "title": "Model Seçin",
+          "description": "İstediğiniz modelleri seçin. Bazı ücretsiz modellerimiz var."
+        },
+        "character": {
+          "title": "Karakter Oluştur",
+          "description": ".charx formatını kolayca içe aktarabilirsiniz."
+        },
+        "persona": {
+          "title": "Persona Oluştur",
+          "description": "Oynamak istediğiniz bir persona oluşturun."
+        }
+      }
     },
     "rightPanel": {
       "selectCharacter": "Detayları görmek için bir karakter seçin",
@@ -1026,6 +1052,12 @@
       "bugDesc": "Arayüz sorunları veya biçimlendirme hataları mı? Buradan bildir :)",
       "community": "Topluluğa katılmak ister misin?",
       "communityDesc": "Discord'umuza gel! Ekip ve diğer kullanıcılarla sohbet et"
+    },
+    "apiKeysSaved": {
+      "title": "API Anahtarı Güncellendi",
+      "description": "Etkileşimli sohbet özellikleri için model seçmek ister misiniz? Metin, görüntü ve ses üretimi için kullanılacak modelleri yapılandırabilirsiniz.",
+      "configureModels": "Modelleri Yapılandır",
+      "later": "Daha Sonra"
     }
   },
   "pokebox": {

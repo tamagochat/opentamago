@@ -11,6 +11,7 @@ import {
   AlertTitle,
 } from "~/components/ui/alert";
 import { useDatabase } from "~/lib/db/hooks";
+import { deleteAllDatabases } from "~/lib/db";
 import { toast } from "sonner";
 
 interface CollectionStats {
@@ -94,8 +95,6 @@ export function DatabaseTab() {
   };
 
   const handleResetDatabase = async () => {
-    if (!db) return;
-
     const confirmed = confirm(
       "Are you sure you want to reset the database? This will delete ALL data including characters, chats, messages, and settings. This action cannot be undone."
     );
@@ -111,10 +110,19 @@ export function DatabaseTab() {
 
     setIsResetting(true);
     try {
-      // Close the database first
-      await db.remove();
+      // Try closing the database gracefully first
+      if (db) {
+        try {
+          await db.remove();
+        } catch {
+          // If db.remove() fails, fall through to force delete
+        }
+      }
 
-      toast.success("Database reset successfully. Please refresh the page.");
+      // Force delete all IndexedDB databases (works even without db instance)
+      await deleteAllDatabases();
+
+      toast.success("Database reset successfully. Refreshing...");
 
       // Reload the page after a short delay
       setTimeout(() => {
@@ -135,16 +143,6 @@ export function DatabaseTab() {
     // TODO: Implement data export functionality
   };
 
-  if (isLoading) {
-    return (
-      <div className="p-4 space-y-4">
-        <div className="flex items-center justify-center py-8">
-          <p className="text-muted-foreground">Loading database statistics...</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="p-4 space-y-4">
       <div>
@@ -155,79 +153,90 @@ export function DatabaseTab() {
         <p className="text-muted-foreground text-xs">{t("description")}</p>
       </div>
 
-      {/* Storage Usage */}
-      {storageEstimate && (
-        <Card className="p-4">
-          <div className="flex items-center gap-3 mb-2">
-            <HardDrive className="h-5 w-5 text-muted-foreground" />
-            <div className="flex-1">
-              <h4 className="font-medium text-sm">{t("storageUsage")}</h4>
-              <p className="text-xs text-muted-foreground">
-                {formatBytes(storageEstimate.usage)} / {formatBytes(storageEstimate.quota)}
-              </p>
-            </div>
+      {isLoading ? (
+        <div className="flex items-center justify-center py-8">
+          <p className="text-muted-foreground">Loading database statistics...</p>
+        </div>
+      ) : (
+        <>
+          {/* Storage Usage */}
+          {storageEstimate && (
+            <Card className="p-4">
+              <div className="flex items-center gap-3 mb-2">
+                <HardDrive className="h-5 w-5 text-muted-foreground" />
+                <div className="flex-1">
+                  <h4 className="font-medium text-sm">{t("storageUsage")}</h4>
+                  <p className="text-xs text-muted-foreground">
+                    {formatBytes(storageEstimate.usage)} / {formatBytes(storageEstimate.quota)}
+                  </p>
+                </div>
+              </div>
+              <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
+                <div
+                  className="bg-primary h-full transition-all"
+                  style={{
+                    width: `${Math.min((storageEstimate.usage / storageEstimate.quota) * 100, 100)}%`,
+                  }}
+                />
+              </div>
+            </Card>
+          )}
+
+          {/* Collection Statistics */}
+          {stats.length > 0 && (
+            <Card className="p-4">
+              <h4 className="font-medium text-sm mb-3">{t("collections")}</h4>
+              <div className="space-y-2">
+                {stats.map((collection) => (
+                  <div
+                    key={collection.name}
+                    className="flex items-center justify-between py-2 border-b last:border-0"
+                  >
+                    <span className="text-sm">{collection.name}</span>
+                    <span className="text-sm font-mono text-muted-foreground">
+                      {collection.count.toLocaleString()}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </Card>
+          )}
+
+          {/* Actions */}
+          <div className="space-y-3">
+            <h4 className="font-medium text-sm">{t("actions")}</h4>
+
+            {/* Export Data */}
+            <Button
+              variant="outline"
+              className="w-full justify-start"
+              onClick={handleExportData}
+              disabled={!db}
+            >
+              <Download className="h-4 w-4 mr-2" />
+              {t("exportData")}
+            </Button>
           </div>
-          <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
-            <div
-              className="bg-primary h-full transition-all"
-              style={{
-                width: `${Math.min((storageEstimate.usage / storageEstimate.quota) * 100, 100)}%`,
-              }}
-            />
-          </div>
-        </Card>
+        </>
       )}
 
-      {/* Collection Statistics */}
-      <Card className="p-4">
-        <h4 className="font-medium text-sm mb-3">{t("collections")}</h4>
-        <div className="space-y-2">
-          {stats.map((collection) => (
-            <div
-              key={collection.name}
-              className="flex items-center justify-between py-2 border-b last:border-0"
-            >
-              <span className="text-sm">{collection.name}</span>
-              <span className="text-sm font-mono text-muted-foreground">
-                {collection.count.toLocaleString()}
-              </span>
-            </div>
-          ))}
-        </div>
-      </Card>
-
-      {/* Actions */}
-      <div className="space-y-3">
-        <h4 className="font-medium text-sm">{t("actions")}</h4>
-
-        {/* Export Data */}
-        <Button
-          variant="outline"
-          className="w-full justify-start"
-          onClick={handleExportData}
-        >
-          <Download className="h-4 w-4 mr-2" />
-          {t("exportData")}
-        </Button>
-
-        {/* Reset Database */}
-        <Alert variant="destructive" className="border-destructive/50">
-          <AlertTriangle className="h-4 w-4" />
-          <AlertTitle>{t("dangerZone")}</AlertTitle>
-          <AlertDescription className="space-y-3">
-            <p className="text-sm">{t("resetWarning")}</p>
-            <Button
-              variant="destructive"
-              size="sm"
-              onClick={handleResetDatabase}
-              disabled={isResetting}
-            >
-              <Trash2 className="h-4 w-4 mr-2" />
-              {isResetting ? t("resetting") : t("resetDatabase")}
-            </Button>
-          </AlertDescription>
-        </Alert>
-      </div>
+      {/* Reset Database - Always visible, works even without db instance */}
+      <Alert variant="destructive" className="border-destructive/50">
+        <AlertTriangle className="h-4 w-4" />
+        <AlertTitle>{t("dangerZone")}</AlertTitle>
+        <AlertDescription className="space-y-3">
+          <p className="text-sm">{t("resetWarning")}</p>
+          <Button
+            variant="destructive"
+            size="sm"
+            onClick={handleResetDatabase}
+            disabled={isResetting}
+          >
+            <Trash2 className="h-4 w-4 mr-2" />
+            {isResetting ? t("resetting") : t("resetDatabase")}
+          </Button>
+        </AlertDescription>
+      </Alert>
     </div>
   );
 }

@@ -11,7 +11,7 @@
     "badge": "Experimental",
     "charx": "This feature is still a work in progress! It's designed to support CharX version 3, but we're still improving it.",
     "p2p": "This uses WebRTC for direct P2P connections. Please only share QR codes and links with people you trust!",
-    "chat": "This chat feature is for debugging purposes where a developer tests LLM locally. Please use other services for AI chat.",
+    "chat": "This feature is actively being developed.",
     "feedback": "Got feedback or found a bug? Let us know on <link>GitHub Issues</link>!"
   },
   "actions": {
@@ -590,7 +590,33 @@
       "inputTokens": "Input Tokens",
       "outputTokens": "Output Tokens",
       "totalTokens": "Total Tokens",
-      "reasoningTokens": "Reasoning Tokens"
+      "reasoningTokens": "Reasoning Tokens",
+      "availableCharacters": "Your Characters",
+      "chatUI": "Chat UI",
+      "models": "Models"
+    },
+    "setupChecklist": {
+      "title": "Get Started",
+      "description": "Complete these steps to start chatting with AI characters.",
+      "progress": "{completed} of {total} complete",
+      "steps": {
+        "apiKey": {
+          "title": "Set up API Key",
+          "description": "Bring your own key. No data is stored on server. Completely local."
+        },
+        "models": {
+          "title": "Choose Models",
+          "description": "Choose any models you want. We have a few free models."
+        },
+        "character": {
+          "title": "Create Character",
+          "description": "You can import .charx format with ease."
+        },
+        "persona": {
+          "title": "Create Persona",
+          "description": "Create a persona you want to play."
+        }
+      }
     },
     "rightPanel": {
       "selectCharacter": "Select a character to see details",
@@ -1026,6 +1052,12 @@
       "bugDesc": "UI glitches or formatting issues? Report them here :)",
       "community": "Want to join the community?",
       "communityDesc": "Come hang out in our Discord! Chat with the team and other users"
+    },
+    "apiKeysSaved": {
+      "title": "API Key Updated",
+      "description": "Would you like to choose models for interactive chat features? You can configure which models to use for text, image, and voice generation.",
+      "configureModels": "Configure Models",
+      "later": "Maybe Later"
     }
   },
   "pokebox": {

@@ -11,7 +11,7 @@
     "badge": "Tính năng mới",
     "charx": "Tính năng này đang được phát triển! Đang hỗ trợ CharX v3, sẽ cải thiện tiếp~",
     "p2p": "Dùng WebRTC để kết nối P2P trực tiếp. Nhớ chỉ chia sẻ QR và link với người mình tin tưởng nhé!",
-    "chat": "Tính năng chat này dành cho developer test LLM. Để chat AI hàng ngày thì dùng dịch vụ khác nha~",
+    "chat": "Tính năng này đang được phát triển.",
     "feedback": "Có góp ý hoặc tìm thấy bug? Báo cho tụi mình trên <link>GitHub Issues</link>!"
   },
   "actions": {
@@ -590,7 +590,33 @@
       "inputTokens": "Token đầu vào",
       "outputTokens": "Token đầu ra",
       "totalTokens": "Tổng token",
-      "reasoningTokens": "Token suy luận"
+      "reasoningTokens": "Token suy luận",
+      "availableCharacters": "Nhân vật của bạn",
+      "chatUI": "Giao diện chat",
+      "models": "Mô hình"
+    },
+    "setupChecklist": {
+      "title": "Bắt đầu",
+      "description": "Hoàn thành các bước sau để bắt đầu trò chuyện với nhân vật AI.",
+      "progress": "{completed}/{total} hoàn thành",
+      "steps": {
+        "apiKey": {
+          "title": "Thiết lập API Key",
+          "description": "Sử dụng khóa của riêng bạn. Không có dữ liệu nào được lưu trên máy chủ. Hoàn toàn cục bộ."
+        },
+        "models": {
+          "title": "Chọn mô hình",
+          "description": "Chọn bất kỳ mô hình nào bạn muốn. Chúng tôi có một số mô hình miễn phí."
+        },
+        "character": {
+          "title": "Tạo nhân vật",
+          "description": "Bạn có thể nhập định dạng .charx dễ dàng."
+        },
+        "persona": {
+          "title": "Tạo persona",
+          "description": "Tạo một persona mà bạn muốn nhập vai."
+        }
+      }
     },
     "rightPanel": {
       "selectCharacter": "Chọn nhân vật để xem chi tiết",
@@ -1149,6 +1175,12 @@
       "bugDesc": "Vấn đề giao diện hoặc định dạng? Báo cáo tại đây :)",
       "community": "Muốn tham gia cộng đồng?",
       "communityDesc": "Ghé Discord của chúng tôi! Trò chuyện với đội ngũ và người dùng khác"
+    },
+    "apiKeysSaved": {
+      "title": "API Key đã được cập nhật",
+      "description": "Bạn có muốn chọn model cho các tính năng chat tương tác không? Bạn có thể cấu hình model sử dụng cho tạo văn bản, hình ảnh và giọng nói.",
+      "configureModels": "Cấu hình Model",
+      "later": "Để sau"
     }
   },
   "charxEditor": {

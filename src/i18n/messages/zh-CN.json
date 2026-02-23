@@ -11,7 +11,7 @@
     "badge": "测试功能",
     "charx": "这个功能还在打磨中！我们正在支持 CharX v3，会越做越好的~",
     "p2p": "WebRTC 点对点直连。二维码和链接只分享给信任的人哦！",
-    "chat": "这个聊天功能是给开发者测试 LLM 用的。日常聊天请用其他平台~",
+    "chat": "此功能正在积极开发中。",
     "feedback": "有想法或发现 bug？来 <link>GitHub Issues</link> 告诉我们！"
   },
   "actions": {
@@ -590,7 +590,33 @@
       "inputTokens": "输入令牌",
       "outputTokens": "输出令牌",
       "totalTokens": "总令牌",
-      "reasoningTokens": "推理令牌"
+      "reasoningTokens": "推理令牌",
+      "availableCharacters": "你的角色",
+      "chatUI": "聊天界面",
+      "models": "模型"
+    },
+    "setupChecklist": {
+      "title": "开始使用",
+      "description": "完成以下步骤，即可开始与 AI 角色聊天。",
+      "progress": "{completed}/{total} 已完成",
+      "steps": {
+        "apiKey": {
+          "title": "设置 API 密钥",
+          "description": "自带密钥。数据不会存储在服务器上。完全本地化。"
+        },
+        "models": {
+          "title": "选择模型",
+          "description": "选择您想要的模型。我们提供一些免费模型。"
+        },
+        "character": {
+          "title": "创建角色",
+          "description": "支持轻松导入 .charx 格式。"
+        },
+        "persona": {
+          "title": "创建人设",
+          "description": "创建您想扮演的人设。"
+        }
+      }
     },
     "rightPanel": {
       "selectCharacter": "选个角色看看详情",
@@ -1149,6 +1175,12 @@
       "bugDesc": "界面问题或格式错误？在这里反馈 :)",
       "community": "想加入社区？",
       "communityDesc": "来我们的 Discord 聊聊！和团队及其他用户交流"
+    },
+    "apiKeysSaved": {
+      "title": "API 密钥已更新",
+      "description": "是否要为互动聊天功能选择模型？您可以配置文本、图像和语音生成使用的模型。",
+      "configureModels": "配置模型",
+      "later": "稍后再说"
     }
   },
   "charxEditor": {
