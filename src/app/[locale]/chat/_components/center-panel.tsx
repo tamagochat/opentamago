@@ -5,9 +5,9 @@ import { useTranslations } from "next-intl";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { Button } from "~/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
-import { Loader2, PanelRight, Box, ChevronRight, Sparkles, MessageSquare, ChevronUp, ChevronDown, Image, Volume2, Languages, Bot, MessageCircle, Check, X } from "lucide-react";
+import { Loader2, PanelRight, Box, ChevronRight, Sparkles, MessageSquare, ChevronUp, ChevronDown, Palette, Settings2 } from "lucide-react";
 import { Sheet, SheetTrigger } from "~/components/ui/sheet";
-import { useMessages, useSettings, usePersonas, useMemories, useLRUMemory, useDeleteMemory, useDatabase, formatMemoriesForPrompt, useCharacterAssets, useProviderSettings, useGenerationSettings, useChats } from "~/lib/db/hooks";
+import { useMessages, useSettings, usePersonas, useMemories, useLRUMemory, useDeleteMemory, useDatabase, formatMemoriesForPrompt, useCharacterAssets, useProviderSettings, useGenerationSettings, useChats, useCharacters } from "~/lib/db/hooks";
 import type { CharacterDocument, ChatDocument, PersonaDocument } from "~/lib/db/schemas";
 import { cn } from "~/lib/utils";
 import { ChatInput } from "./chat-input";
@@ -15,21 +15,25 @@ import { ExperimentalDisclaimer } from "~/components/experimental-disclaimer";
 import { toast } from "sonner";
 import { createSingleChatContext, generateStreamingResponse, generateMessengerChatResponse } from "~/lib/chat";
 import { translateText, generateImagePrompt, generateImage, generateSpeech } from "~/lib/ai/client";
-import { PROVIDER_CONFIGS, isValidProvider, isTextProvider, type ImageProvider, type VoiceProvider } from "~/lib/ai/providers";
+import { PROVIDER_CONFIGS, type ImageProvider, type VoiceProvider } from "~/lib/ai/providers";
 import { MessageBubble, type DisplayMessage, type AssetContext } from "./message-bubble";
 import { ChatDialogsProvider, useChatDialogs } from "./chat-dialogs";
+import { SetupChecklist } from "./setup-checklist";
+import { Link } from "~/i18n/routing";
 
 interface CenterPanelProps {
   character: CharacterDocument | null;
   chat: ChatDocument | null;
   onSelectChat?: (chat: ChatDocument) => void;
+  onSelectCharacter?: (character: CharacterDocument) => void;
   className?: string;
   rightPanelOpen?: boolean;
   onRightPanelOpenChange?: (open: boolean) => void;
+  onOpenSettings?: (tab?: "apiKeys" | "chatUI" | "database") => void;
 }
 
 // Inner component that uses the dialog context
-function CenterPanelInner({ character, chat, onSelectChat, className, rightPanelOpen, onRightPanelOpenChange }: CenterPanelProps) {
+function CenterPanelInner({ character, chat, onSelectChat, onSelectCharacter, className, rightPanelOpen, onRightPanelOpenChange, onOpenSettings }: CenterPanelProps) {
   const t = useTranslations("chat.centerPanel");
   const { settings } = useSettings();
   const chatBubbleTheme = settings.chatBubbleTheme ?? "roleplay";
@@ -104,8 +108,6 @@ function CenterPanelInner({ character, chat, onSelectChat, className, rightPanel
   const [showModelOverlay, setShowModelOverlay] = useState(true);
   const [overlayExpanded, setOverlayExpanded] = useState(false);
 
-  // Get all generation settings for expanded view
-  const { settings: allGenSettings } = useGenerationSettings();
 
   // Sync stored messages to display
   useEffect(() => {
@@ -644,16 +646,42 @@ function CenterPanelInner({ character, chat, onSelectChat, className, rightPanel
     }
   }, [character, createChat, onSelectChat]);
 
+  // Get all characters for the empty state grid
+  const { characters: allCharacters } = useCharacters();
+
   // No character selected
   if (!character) {
     return (
-      <div className={cn("flex h-full flex-col", className)}>
-        <div className="flex flex-1 flex-col items-center justify-center gap-4 p-8 max-w-2xl mx-auto">
+      <div className={cn("flex h-full flex-col overflow-y-auto", className)}>
+        <div className="flex min-h-full flex-col items-center justify-center gap-4 p-8 max-w-2xl mx-auto w-full">
           <ExperimentalDisclaimer type="chat" />
+          <SetupChecklist />
           <div className="text-muted-foreground text-center">
             <p className="text-lg font-medium">{t("selectCharacter")}</p>
             <p className="text-sm">{t("createFromLeft")}</p>
           </div>
+
+          {/* Character grid */}
+          {allCharacters.length > 0 && (
+            <div className="w-full mt-2">
+              <p className="text-sm font-medium text-muted-foreground text-center mb-3">{t("availableCharacters")}</p>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                {allCharacters.map((char) => (
+                  <button
+                    key={char.id}
+                    onClick={() => onSelectCharacter?.(char)}
+                    className="flex flex-col items-center gap-2 rounded-lg border border-transparent p-3 transition-colors hover:bg-accent hover:border-border"
+                  >
+                    <Avatar className="h-16 w-16">
+                      <AvatarImage src={char.avatarData} />
+                      <AvatarFallback className="text-lg text-black dark:text-white">{char.name.slice(0, 2).toUpperCase()}</AvatarFallback>
+                    </Avatar>
+                    <span className="text-sm font-medium truncate w-full text-center">{char.name}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     );
@@ -860,158 +888,29 @@ function CenterPanelInner({ character, chat, onSelectChat, className, rightPanel
                 </button>
               </div>
 
-              {/* Expanded View - All Scenarios */}
+              {/* Expanded View - Quick Links */}
               {overlayExpanded && (
-                <div className="border-t px-3 py-2 space-y-1.5">
-                  {/* Text Chat */}
-                  {(() => {
-                    const s = allGenSettings.get("text_chat");
-                    const hasApiKey = s?.providerId && isValidProvider(s.providerId) ? isProviderReady(s.providerId) : false;
-                    const isReady = s?.enabled !== false && hasApiKey;
-                    return (
-                      <div className="flex items-center justify-between gap-4 text-xs">
-                        <div className="flex items-center gap-1.5 text-muted-foreground">
-                          <MessageCircle className="h-3 w-3" />
-                          <span>Chat</span>
-                        </div>
-                        <div className="flex items-center gap-1.5">
-                          {isReady ? (
-                            <>
-                              <Check className="h-3 w-3 text-green-500" />
-                              <span className="text-muted-foreground font-mono">
-                                {PROVIDER_CONFIGS[s?.providerId as keyof typeof PROVIDER_CONFIGS]?.name ?? s?.providerId}
-                              </span>
-                            </>
-                          ) : (
-                            <>
-                              <X className="h-3 w-3 text-muted-foreground/50" />
-                              <span className="text-muted-foreground/50">{s?.enabled === false ? "Disabled" : "No API Key"}</span>
-                            </>
-                          )}
-                        </div>
-                      </div>
-                    );
-                  })()}
-
-                  {/* Text Translation */}
-                  {(() => {
-                    const s = allGenSettings.get("text_translation");
-                    const hasApiKey = s?.providerId && isValidProvider(s.providerId) ? isProviderReady(s.providerId) : false;
-                    const isReady = s?.enabled !== false && hasApiKey;
-                    return (
-                      <div className="flex items-center justify-between gap-4 text-xs">
-                        <div className="flex items-center gap-1.5 text-muted-foreground">
-                          <Languages className="h-3 w-3" />
-                          <span>Translation</span>
-                        </div>
-                        <div className="flex items-center gap-1.5">
-                          {isReady ? (
-                            <>
-                              <Check className="h-3 w-3 text-green-500" />
-                              <span className="text-muted-foreground font-mono">
-                                {PROVIDER_CONFIGS[s?.providerId as keyof typeof PROVIDER_CONFIGS]?.name ?? s?.providerId}
-                              </span>
-                            </>
-                          ) : (
-                            <>
-                              <X className="h-3 w-3 text-muted-foreground/50" />
-                              <span className="text-muted-foreground/50">{s?.enabled === false ? "Disabled" : "No API Key"}</span>
-                            </>
-                          )}
-                        </div>
-                      </div>
-                    );
-                  })()}
-
-                  {/* Text AI Bot */}
-                  {(() => {
-                    const s = allGenSettings.get("text_aibot");
-                    const hasApiKey = s?.providerId && isValidProvider(s.providerId) ? isProviderReady(s.providerId) : false;
-                    const isReady = s?.enabled !== false && hasApiKey;
-                    return (
-                      <div className="flex items-center justify-between gap-4 text-xs">
-                        <div className="flex items-center gap-1.5 text-muted-foreground">
-                          <Bot className="h-3 w-3" />
-                          <span>AI Bot</span>
-                        </div>
-                        <div className="flex items-center gap-1.5">
-                          {isReady ? (
-                            <>
-                              <Check className="h-3 w-3 text-green-500" />
-                              <span className="text-muted-foreground font-mono">
-                                {PROVIDER_CONFIGS[s?.providerId as keyof typeof PROVIDER_CONFIGS]?.name ?? s?.providerId}
-                              </span>
-                            </>
-                          ) : (
-                            <>
-                              <X className="h-3 w-3 text-muted-foreground/50" />
-                              <span className="text-muted-foreground/50">{s?.enabled === false ? "Disabled" : "No API Key"}</span>
-                            </>
-                          )}
-                        </div>
-                      </div>
-                    );
-                  })()}
-
-                  {/* Image Generation */}
-                  {(() => {
-                    const s = allGenSettings.get("image");
-                    const hasApiKey = s?.providerId && isValidProvider(s.providerId) ? isProviderReady(s.providerId) : false;
-                    const isReady = s?.enabled !== false && hasApiKey;
-                    return (
-                      <div className="flex items-center justify-between gap-4 text-xs">
-                        <div className="flex items-center gap-1.5 text-muted-foreground">
-                          <Image className="h-3 w-3" />
-                          <span>Image</span>
-                        </div>
-                        <div className="flex items-center gap-1.5">
-                          {isReady ? (
-                            <>
-                              <Check className="h-3 w-3 text-green-500" />
-                              <span className="text-muted-foreground font-mono">
-                                {PROVIDER_CONFIGS[s?.providerId as keyof typeof PROVIDER_CONFIGS]?.name ?? s?.providerId}
-                              </span>
-                            </>
-                          ) : (
-                            <>
-                              <X className="h-3 w-3 text-muted-foreground/50" />
-                              <span className="text-muted-foreground/50">{s?.enabled === false ? "Disabled" : "No API Key"}</span>
-                            </>
-                          )}
-                        </div>
-                      </div>
-                    );
-                  })()}
-
-                  {/* Voice Generation */}
-                  {(() => {
-                    const s = allGenSettings.get("voice");
-                    const hasApiKey = s?.providerId && isValidProvider(s.providerId) ? isProviderReady(s.providerId) : false;
-                    const isReady = s?.enabled !== false && hasApiKey;
-                    return (
-                      <div className="flex items-center justify-between gap-4 text-xs">
-                        <div className="flex items-center gap-1.5 text-muted-foreground">
-                          <Volume2 className="h-3 w-3" />
-                          <span>Voice</span>
-                        </div>
-                        <div className="flex items-center gap-1.5">
-                          {isReady ? (
-                            <>
-                              <Check className="h-3 w-3 text-green-500" />
-                              <span className="text-muted-foreground font-mono">
-                                {PROVIDER_CONFIGS[s?.providerId as keyof typeof PROVIDER_CONFIGS]?.name ?? s?.providerId}
-                              </span>
-                            </>
-                          ) : (
-                            <>
-                              <X className="h-3 w-3 text-muted-foreground/50" />
-                              <span className="text-muted-foreground/50">{s?.enabled === false ? "Disabled" : "No API Key"}</span>
-                            </>
-                          )}
-                        </div>
-                      </div>
-                    );
-                  })()}
+                <div className="border-t px-3 py-2 space-y-1">
+                  <button
+                    onClick={() => onOpenSettings?.("chatUI")}
+                    className="w-full flex items-center justify-between gap-4 text-xs py-1 rounded hover:bg-muted/50 px-1 transition-colors"
+                  >
+                    <div className="flex items-center gap-1.5 text-muted-foreground">
+                      <Palette className="h-3 w-3" />
+                      <span>{t("chatUI")}</span>
+                    </div>
+                    <ChevronRight className="h-3 w-3 text-muted-foreground/50" />
+                  </button>
+                  <Link
+                    href="/settings/models"
+                    className="w-full flex items-center justify-between gap-4 text-xs py-1 rounded hover:bg-muted/50 px-1 transition-colors"
+                  >
+                    <div className="flex items-center gap-1.5 text-muted-foreground">
+                      <Settings2 className="h-3 w-3" />
+                      <span>{t("models")}</span>
+                    </div>
+                    <ChevronRight className="h-3 w-3 text-muted-foreground/50" />
+                  </Link>
                 </div>
               )}
             </div>

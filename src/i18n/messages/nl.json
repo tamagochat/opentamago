@@ -11,7 +11,7 @@
     "badge": "Experimenteel",
     "charx": "Deze functie is nog in ontwikkeling! Het is ontworpen om CharX versie 3 te ondersteunen, maar we zijn nog bezig met verbeteringen.",
     "p2p": "Dit gebruikt WebRTC voor directe P2P-verbindingen. Deel QR-codes en links alleen met mensen die je vertrouwt!",
-    "chat": "Deze chatfunctie is voor debugging doeleinden waar een ontwikkelaar LLM lokaal test. Gebruik andere diensten voor AI-chat.",
+    "chat": "Deze functie wordt actief ontwikkeld.",
     "feedback": "Feedback of een bug gevonden? Laat het ons weten op <link>GitHub Issues</link>!"
   },
   "actions": {
@@ -590,7 +590,33 @@
       "inputTokens": "Invoertokens",
       "outputTokens": "Uitvoertokens",
       "totalTokens": "Totaal tokens",
-      "reasoningTokens": "Redeneertokens"
+      "reasoningTokens": "Redeneertokens",
+      "availableCharacters": "Je personages",
+      "chatUI": "Chat-interface",
+      "models": "Modellen"
+    },
+    "setupChecklist": {
+      "title": "Aan de slag",
+      "description": "Voltooi deze stappen om te beginnen met chatten met AI-personages.",
+      "progress": "{completed} van {total} voltooid",
+      "steps": {
+        "apiKey": {
+          "title": "API-sleutel instellen",
+          "description": "Gebruik je eigen sleutel. Er worden geen gegevens op de server opgeslagen. Volledig lokaal."
+        },
+        "models": {
+          "title": "Modellen kiezen",
+          "description": "Kies de modellen die je wilt. We hebben een paar gratis modellen."
+        },
+        "character": {
+          "title": "Personage aanmaken",
+          "description": "Je kunt eenvoudig het .charx-formaat importeren."
+        },
+        "persona": {
+          "title": "Persona aanmaken",
+          "description": "Maak een persona aan die je wilt spelen."
+        }
+      }
     },
     "rightPanel": {
       "selectCharacter": "Selecteer een karakter om details te bekijken",
@@ -1026,6 +1052,12 @@
       "bugDesc": "UI-glitches of opmaakproblemen? Meld ze hier :)",
       "community": "Wil je lid worden van de community?",
       "communityDesc": "Kom gezellig hangen in onze Discord! Chat met het team en andere gebruikers"
+    },
+    "apiKeysSaved": {
+      "title": "API-sleutel bijgewerkt",
+      "description": "Wil je modellen kiezen voor interactieve chatfuncties? Je kunt instellen welke modellen gebruikt worden voor tekst-, beeld- en spraakgeneratie.",
+      "configureModels": "Modellen instellen",
+      "later": "Misschien later"
     }
   },
   "pokebox": {

@@ -23,9 +23,10 @@ import { SettingsModal } from "~/components/settings-modal";
 interface SettingsDropdownProps {
   settingsOpen?: boolean;
   onSettingsOpenChange?: (open: boolean) => void;
+  settingsInitialTab?: "apiKeys" | "chatUI" | "database";
 }
 
-export function SettingsDropdown({ settingsOpen, onSettingsOpenChange }: SettingsDropdownProps) {
+export function SettingsDropdown({ settingsOpen, onSettingsOpenChange, settingsInitialTab }: SettingsDropdownProps) {
   const { theme, setTheme } = useTheme();
   const locale = useLocale() as Locale;
   const router = useRouter();
@@ -122,7 +123,7 @@ export function SettingsDropdown({ settingsOpen, onSettingsOpenChange }: Setting
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <SettingsModal open={settingsOpen} onOpenChange={onSettingsOpenChange} />
+      <SettingsModal open={settingsOpen} onOpenChange={onSettingsOpenChange} initialTab={settingsInitialTab} />
     </>
   );
 }

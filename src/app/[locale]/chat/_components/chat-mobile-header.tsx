@@ -1,21 +1,32 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Egg, Menu, PanelRight, Settings } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { Egg, Menu, PanelRight, Settings, ChevronDown, Plus, MessageSquare } from "lucide-react";
 import { Link } from "~/i18n/routing";
 import { Button } from "~/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { ThemeToggle } from "~/components/theme-toggle";
 import { Skeleton } from "~/components/ui/skeleton";
 import { Sheet, SheetTrigger } from "~/components/ui/sheet";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "~/components/ui/dropdown-menu";
 import type { CharacterDocument, ChatDocument } from "~/lib/db/schemas";
 import { cn } from "~/lib/utils";
 
 interface ChatMobileHeaderProps {
   character: CharacterDocument | null;
   chat: ChatDocument | null;
+  chats?: ChatDocument[];
   onMenuClick: () => void;
   onSettingsClick: () => void;
+  onSelectChat?: (chat: ChatDocument) => void;
+  onNewChat?: () => void;
   rightPanelOpen?: boolean;
   onRightPanelOpenChange?: (open: boolean) => void;
   className?: string;
@@ -24,12 +35,16 @@ interface ChatMobileHeaderProps {
 export function ChatMobileHeader({
   character,
   chat,
+  chats = [],
   onMenuClick,
   onSettingsClick,
+  onSelectChat,
+  onNewChat,
   rightPanelOpen,
   onRightPanelOpenChange,
   className,
 }: ChatMobileHeaderProps) {
+  const t = useTranslations("chat.leftPanel");
   const [mounted, setMounted] = useState(false);
 
   // Three states: no character, character only, character + chat
@@ -54,7 +69,7 @@ export function ChatMobileHeader({
         </Button>
 
         {hasCharacter ? (
-          // Character selected: show character info
+          // Character selected: show character info with chat switcher
           <div className="flex items-center gap-2 min-w-0">
             <Avatar className="h-7 w-7 shrink-0">
               <AvatarImage src={character.avatarData} />
@@ -65,7 +80,36 @@ export function ChatMobileHeader({
             <div className="min-w-0">
               <p className="text-sm font-medium truncate">{character.name}</p>
               {hasChat && (
-                <p className="text-xs text-muted-foreground truncate">{chat.title}</p>
+                <DropdownMenu>
+                  <DropdownMenuTrigger className="flex items-center gap-1 min-w-0 group">
+                    <p className="text-xs text-muted-foreground truncate">{chat.title}</p>
+                    <ChevronDown className="h-3 w-3 shrink-0 text-muted-foreground" />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="start" className="w-56">
+                    {onNewChat && (
+                      <>
+                        <DropdownMenuItem onClick={onNewChat}>
+                          <Plus className="mr-2 h-4 w-4" />
+                          {t("newChat")}
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                      </>
+                    )}
+                    {chats.map((c) => (
+                      <DropdownMenuItem
+                        key={c.id}
+                        onClick={() => onSelectChat?.(c)}
+                        className={cn(
+                          "flex items-center gap-2",
+                          c.id === chat.id && "bg-accent"
+                        )}
+                      >
+                        <MessageSquare className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+                        <span className="truncate">{c.title}</span>
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
               )}
             </div>
           </div>

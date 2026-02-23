@@ -32,6 +32,7 @@ interface LeftPanelProps {
   onSelectChat: (chat: ChatDocument | null) => void;
   settingsOpen?: boolean;
   onSettingsOpenChange?: (open: boolean) => void;
+  settingsInitialTab?: "apiKeys" | "chatUI" | "database";
   className?: string;
 }
 
@@ -42,6 +43,7 @@ export function LeftPanel({
   onSelectChat,
   settingsOpen,
   onSettingsOpenChange,
+  settingsInitialTab,
   className,
 }: LeftPanelProps) {
   const t = useTranslations("chat.leftPanel");
@@ -200,7 +202,7 @@ export function LeftPanel({
           <h1 className="text-lg font-semibold truncate">{tCommon("appName")}</h1>
         </Link>
         <div className="shrink-0">
-          <SettingsDropdown settingsOpen={settingsOpen} onSettingsOpenChange={onSettingsOpenChange} />
+          <SettingsDropdown settingsOpen={settingsOpen} onSettingsOpenChange={onSettingsOpenChange} settingsInitialTab={settingsInitialTab} />
         </div>
       </div>
 

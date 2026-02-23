@@ -36,9 +36,11 @@ interface SettingsModalProps {
   onOpenChange?: (open: boolean) => void;
   /** Tabs to hide from the settings modal */
   hiddenTabs?: SettingsSection[];
+  /** Initial tab to show when the modal opens */
+  initialTab?: SettingsSection;
 }
 
-export function SettingsModal({ open, onOpenChange, hiddenTabs = [] }: SettingsModalProps) {
+export function SettingsModal({ open, onOpenChange, hiddenTabs = [], initialTab }: SettingsModalProps) {
   const t = useTranslations("chat.settings");
   const tActions = useTranslations("actions");
   const { settings, updateSettings, isLoading } = useSettings();
@@ -55,6 +57,13 @@ export function SettingsModal({ open, onOpenChange, hiddenTabs = [] }: SettingsM
   };
   const [activeSection, setActiveSection] = useState<SettingsSection>(getDefaultSection);
   const isDesktop = useMediaQuery("(min-width: 768px)");
+
+  // Switch to initialTab when the modal opens
+  useEffect(() => {
+    if (open && initialTab && !hiddenTabs.includes(initialTab)) {
+      setActiveSection(initialTab);
+    }
+  }, [open, initialTab, hiddenTabs]);
 
   // Refs to tab components
   const apiKeysTabRef = useRef<ApiKeysTabRef>(null);

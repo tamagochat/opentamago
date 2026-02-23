@@ -11,7 +11,7 @@
     "badge": "Fitur Baru",
     "charx": "Fitur ini masih dikembangkan! Sedang support CharX v3, dan terus diperbaiki ya~",
     "p2p": "Pakai WebRTC untuk koneksi P2P langsung. Bagikan QR dan link hanya ke orang yang kamu percaya ya!",
-    "chat": "Fitur chat ini buat developer testing LLM. Untuk chat AI sehari-hari, pakai layanan lain ya~",
+    "chat": "Fitur ini sedang dalam pengembangan aktif.",
     "feedback": "Ada masukan atau nemuin bug? Kasih tau di <link>GitHub Issues</link>!"
   },
   "actions": {
@@ -590,7 +590,33 @@
       "inputTokens": "Token masukan",
       "outputTokens": "Token keluaran",
       "totalTokens": "Total token",
-      "reasoningTokens": "Token penalaran"
+      "reasoningTokens": "Token penalaran",
+      "availableCharacters": "Karakter Anda",
+      "chatUI": "UI Obrolan",
+      "models": "Model"
+    },
+    "setupChecklist": {
+      "title": "Mulai",
+      "description": "Selesaikan langkah-langkah ini untuk mulai mengobrol dengan karakter AI.",
+      "progress": "{completed} dari {total} selesai",
+      "steps": {
+        "apiKey": {
+          "title": "Atur API Key",
+          "description": "Gunakan kunci Anda sendiri. Tidak ada data yang disimpan di server. Sepenuhnya lokal."
+        },
+        "models": {
+          "title": "Pilih Model",
+          "description": "Pilih model yang Anda inginkan. Kami memiliki beberapa model gratis."
+        },
+        "character": {
+          "title": "Buat Karakter",
+          "description": "Anda dapat mengimpor format .charx dengan mudah."
+        },
+        "persona": {
+          "title": "Buat Persona",
+          "description": "Buat persona yang ingin Anda mainkan."
+        }
+      }
     },
     "rightPanel": {
       "selectCharacter": "Pilih karakter buat lihat detail",
@@ -1149,6 +1175,12 @@
       "bugDesc": "Masalah tampilan atau format? Laporkan di sini :)",
       "community": "Mau gabung komunitas?",
       "communityDesc": "Yuk gabung Discord kami! Ngobrol sama tim dan pengguna lain"
+    },
+    "apiKeysSaved": {
+      "title": "API Key Diperbarui",
+      "description": "Apakah Anda ingin memilih model untuk fitur chat interaktif? Anda dapat mengatur model yang digunakan untuk pembuatan teks, gambar, dan suara.",
+      "configureModels": "Atur Model",
+      "later": "Nanti Saja"
     }
   },
   "charxEditor": {

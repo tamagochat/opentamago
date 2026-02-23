@@ -11,7 +11,7 @@
     "badge": "実験的機能",
     "charx": "まだ開発中の機能だよ！CharXバージョン3をサポートするように作ってるけど、どんどん改善していくね。",
     "p2p": "WebRTCでダイレクトにP2P接続してるよ。QRコードやリンクは信頼できる人だけに共有してね！",
-    "chat": "このチャット機能は開発者がローカルでLLMをテストするためのデバッグ目的です。AIチャットは他のサービスをご利用ください。",
+    "chat": "この機能は現在開発中です。",
     "feedback": "フィードバックやバグを見つけた？<link>GitHub Issues</link>で教えてね！"
   },
   "actions": {
@@ -590,7 +590,33 @@
       "inputTokens": "入力トークン",
       "outputTokens": "出力トークン",
       "totalTokens": "合計トークン",
-      "reasoningTokens": "推論トークン"
+      "reasoningTokens": "推論トークン",
+      "availableCharacters": "キャラクター一覧",
+      "chatUI": "チャットUI",
+      "models": "モデル"
+    },
+    "setupChecklist": {
+      "title": "はじめに",
+      "description": "AIキャラクターとのチャットを始めるために、以下の手順を完了してください。",
+      "progress": "{completed}/{total} 完了",
+      "steps": {
+        "apiKey": {
+          "title": "APIキーを設定",
+          "description": "ご自身のキーをお持ちください。サーバーにデータは保存されません。完全にローカルです。"
+        },
+        "models": {
+          "title": "モデルを選択",
+          "description": "お好みのモデルを選んでください。無料モデルもあります。"
+        },
+        "character": {
+          "title": "キャラクターを作成",
+          "description": ".charx形式を簡単にインポートできます。"
+        },
+        "persona": {
+          "title": "ペルソナを作成",
+          "description": "演じたいペルソナを作成してください。"
+        }
+      }
     },
     "rightPanel": {
       "selectCharacter": "キャラクターを選んで詳細を見よう",
@@ -1026,6 +1052,12 @@
       "bugDesc": "UIの不具合やフォーマットの問題をここで報告してください :)",
       "community": "コミュニティに参加しませんか？",
       "communityDesc": "Discordでチームや他のユーザーとチャットしましょう"
+    },
+    "apiKeysSaved": {
+      "title": "APIキーが更新されました",
+      "description": "インタラクティブチャット機能で使用するモデルを選択しますか？テキスト、画像、音声生成に使用するモデルを設定できます。",
+      "configureModels": "モデルを設定",
+      "later": "後で"
     }
   },
   "pokebox": {

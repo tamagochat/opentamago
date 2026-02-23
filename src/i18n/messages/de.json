@@ -11,7 +11,7 @@
     "badge": "Neu",
     "charx": "Dieses Feature ist noch in Entwicklung! Unterstützt CharX v3, wird aber noch verbessert~",
     "p2p": "Nutzt WebRTC für direkte P2P-Verbindungen. Teil QR-Codes und Links nur mit Leuten, denen du vertraust!",
-    "chat": "Dieser Chat ist zum Testen von LLMs gedacht. Für tägliche KI-Chats nutze bitte andere Dienste~",
+    "chat": "Diese Funktion wird aktiv weiterentwickelt.",
     "feedback": "Bug gefunden oder Ideen? Schreib uns auf <link>GitHub Issues</link>!"
   },
   "actions": {
@@ -590,7 +590,33 @@
       "inputTokens": "Eingabe-Tokens",
       "outputTokens": "Ausgabe-Tokens",
       "totalTokens": "Gesamte Tokens",
-      "reasoningTokens": "Reasoning-Tokens"
+      "reasoningTokens": "Reasoning-Tokens",
+      "availableCharacters": "Ihre Charaktere",
+      "chatUI": "Chat-Oberfläche",
+      "models": "Modelle"
+    },
+    "setupChecklist": {
+      "title": "Erste Schritte",
+      "description": "Führen Sie diese Schritte aus, um mit KI-Charakteren zu chatten.",
+      "progress": "{completed} von {total} abgeschlossen",
+      "steps": {
+        "apiKey": {
+          "title": "API-Schlüssel einrichten",
+          "description": "Verwenden Sie Ihren eigenen Schlüssel. Keine Daten werden auf dem Server gespeichert. Vollständig lokal."
+        },
+        "models": {
+          "title": "Modelle auswählen",
+          "description": "Wählen Sie beliebige Modelle. Wir haben einige kostenlose Modelle."
+        },
+        "character": {
+          "title": "Charakter erstellen",
+          "description": "Sie können das .charx-Format einfach importieren."
+        },
+        "persona": {
+          "title": "Persona erstellen",
+          "description": "Erstellen Sie eine Persona, die Sie spielen möchten."
+        }
+      }
     },
     "rightPanel": {
       "selectCharacter": "Wähle einen Charakter, um Details zu sehen",
@@ -1026,6 +1052,12 @@
       "bugDesc": "Probleme mit der Oberfläche oder Formatierung? Melde sie hier :)",
       "community": "Möchtest du der Community beitreten?",
       "communityDesc": "Komm in unseren Discord! Chatte mit dem Team und anderen Nutzern"
+    },
+    "apiKeysSaved": {
+      "title": "API-Schlüssel aktualisiert",
+      "description": "Möchten Sie Modelle für interaktive Chat-Funktionen auswählen? Sie können konfigurieren, welche Modelle für Text-, Bild- und Sprachgenerierung verwendet werden.",
+      "configureModels": "Modelle konfigurieren",
+      "later": "Vielleicht später"
     }
   },
   "pokebox": {
