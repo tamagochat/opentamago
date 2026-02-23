@@ -1,17 +1,18 @@
 "use client";
 
-import { memo } from "react";
+import { memo, useState } from "react";
 import { AlertCircle, Settings } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { Link } from "~/i18n/routing";
 import { Button } from "~/components/ui/button";
 import { Alert, AlertDescription } from "~/components/ui/alert";
+import { SettingsModal } from "~/components/settings-modal";
 import { useApiKeyContext, useErrorContext } from "./assistant-context";
 
 // API Key Warning - subscribes only to missingApiKey
 export const AssistantApiKeyWarning = memo(function AssistantApiKeyWarning() {
   const t = useTranslations("charxEditor.assistant");
   const { missingApiKey } = useApiKeyContext();
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   if (!missingApiKey) return null;
 
@@ -21,16 +22,15 @@ export const AssistantApiKeyWarning = memo(function AssistantApiKeyWarning() {
         <AlertCircle className="h-4 w-4" />
         <AlertDescription className="text-sm flex items-center justify-between gap-2">
           <span>
-            {t("apiKeyRequired", { provider: missingApiKey.providerName })}
+            {t("apiKeyRequired")}
           </span>
-          <Button variant="outline" size="sm" asChild>
-            <Link href="/settings/api-keys">
-              <Settings className="h-4 w-4 mr-1" />
-              {t("openSettings")}
-            </Link>
+          <Button variant="outline" size="sm" onClick={() => setSettingsOpen(true)}>
+            <Settings className="h-4 w-4 mr-1" />
+            {t("openSettings")}
           </Button>
         </AlertDescription>
       </Alert>
+      <SettingsModal open={settingsOpen} onOpenChange={setSettingsOpen} hiddenTabs={["chatUI", "database"]} />
     </div>
   );
 });

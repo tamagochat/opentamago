@@ -1,12 +1,22 @@
 "use client";
 
-import { useState, memo } from "react";
+import { useState, memo, useRef } from "react";
 import { useSearchParams } from "next/navigation";
-import { Wand2, ArrowLeft, Save, Download, FolderInput } from "lucide-react";
+import { Wand2, ArrowLeft, Save, Download, FolderInput, FileUp, FileJson, Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { toast } from "sonner";
 import { Button } from "~/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuSeparator,
+} from "~/components/ui/dropdown-menu";
 import { cn } from "~/lib/utils";
 import { useCharacters } from "~/lib/db/hooks/useCharacters";
+import { parseCharXToCharacter, parseJsonToCharacter } from "~/lib/charx/hooks";
+import type { LorebookEntryFormData } from "~/lib/editor/assistant-types";
 import {
   EditorProvider,
   useFormContext,
@@ -14,6 +24,7 @@ import {
   useAssetsContext,
   useActionsContext,
 } from "./_components/editor-context";
+import { AssistantProvider } from "./_components/assistant-context";
 import { AssistantPanelContainer } from "./_components/assistant-panel";
 import { EditorPanelContainer } from "./_components/editor-panel";
 import { ImportPokeboxDialog } from "./_components/import-pokebox-dialog";
@@ -60,25 +71,27 @@ const EditorLayout = memo(function EditorLayout() {
         </div>
       )}
 
-      {/* Two Panel Layout */}
-      <div className="flex gap-6 h-[calc(100vh-180px)] md:h-[calc(100vh-200px)] min-h-[400px] md:min-h-[600px]">
-        {/* Left Panel - AI Assistant */}
-        <div
-          className={cn(
-            "w-full md:w-96 flex-shrink-0 overflow-hidden flex flex-col",
-            !showMobileAssistant && "hidden md:flex"
-          )}
-        >
-          <AssistantPanelContainer />
-        </div>
+      {/* Two Panel Layout - Wrapped in AssistantProvider so editor tabs can trigger assistant */}
+      <AssistantProvider>
+        <div className="flex gap-6 h-[calc(100vh-180px)] md:h-[calc(100vh-200px)] min-h-[400px] md:min-h-[600px]">
+          {/* Left Panel - AI Assistant */}
+          <div
+            className={cn(
+              "w-full md:w-96 flex-shrink-0 overflow-hidden flex flex-col",
+              !showMobileAssistant && "hidden md:flex"
+            )}
+          >
+            <AssistantPanelContainer />
+          </div>
 
-        {/* Right Panel - Editor */}
-        <div
-          className={cn("flex-1 overflow-hidden", showMobileAssistant && "hidden md:block")}
-        >
-          <EditorPanelContainer onShowAssistant={() => setShowMobileAssistant(true)} />
+          {/* Right Panel - Editor */}
+          <div
+            className={cn("flex-1 overflow-hidden", showMobileAssistant && "hidden md:block")}
+          >
+            <EditorPanelContainer onShowAssistant={() => setShowMobileAssistant(true)} />
+          </div>
         </div>
-      </div>
+      </AssistantProvider>
     </div>
   );
 });
@@ -94,12 +107,16 @@ const EditorHeader = memo(function EditorHeader({
   const t = useTranslations("charxEditor");
   const { form } = useFormContext();
   const { save, isSaving, isDirty } = useActionsContext();
-  const { entries: lorebookEntries } = useLorebookContext();
-  const { assets } = useAssetsContext();
-  const { characters, isLoading: charactersLoading, getCharacter } = useCharacters();
+  const { entries: lorebookEntries, setEntries: setLorebookEntries } = useLorebookContext();
+  const { assets, setAssets } = useAssetsContext();
+  const { characters, isLoading: charactersLoading, getCharacter, getLorebookEntries } = useCharacters();
 
   const [showImportDialog, setShowImportDialog] = useState(false);
   const [showExportDialog, setShowExportDialog] = useState(false);
+  const [isImporting, setIsImporting] = useState(false);
+
+  const charxInputRef = useRef<HTMLInputElement>(null);
+  const jsonInputRef = useRef<HTMLInputElement>(null);
 
   const handleImportFromPokebox = async (characterId: string) => {
     const character = await getCharacter(characterId);
@@ -122,12 +139,207 @@ const EditorHeader = memo(function EditorHeader({
         nickname: character.nickname,
         avatarData: character.avatarData,
       });
+
+      // Also load lorebook entries for this character
+      const entries = await getLorebookEntries(characterId);
+      if (entries.length > 0) {
+        const formEntries: LorebookEntryFormData[] = entries.map((entry) => ({
+          id: crypto.randomUUID(), // Generate new IDs for the form
+          keys: entry.keys,
+          content: entry.content,
+          enabled: entry.enabled,
+          priority: entry.priority,
+          position: entry.position,
+          insertionOrder: entry.insertionOrder,
+          caseSensitive: entry.caseSensitive,
+          selective: entry.selective,
+          secondaryKeys: entry.secondaryKeys,
+          constant: entry.constant,
+          useRegex: entry.useRegex,
+          name: entry.name,
+          comment: entry.comment,
+        }));
+        setLorebookEntries(formEntries);
+      } else {
+        setLorebookEntries([]);
+      }
+
       setShowImportDialog(false);
+    }
+  };
+
+  const handleImportCharx = () => {
+    charxInputRef.current?.click();
+  };
+
+  const handleImportJson = () => {
+    jsonInputRef.current?.click();
+  };
+
+  const handleCharxFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (charxInputRef.current) {
+      charxInputRef.current.value = "";
+    }
+
+    setIsImporting(true);
+    try {
+      const data = await parseCharXToCharacter(file);
+
+      // Update form with character data
+      form.reset({
+        name: data.character.name,
+        description: data.character.description,
+        personality: data.character.personality,
+        scenario: data.character.scenario,
+        firstMessage: data.character.firstMessage,
+        exampleDialogue: data.character.exampleDialogue,
+        systemPrompt: data.character.systemPrompt,
+        postHistoryInstructions: data.character.postHistoryInstructions,
+        alternateGreetings: data.character.alternateGreetings,
+        groupOnlyGreetings: data.character.groupOnlyGreetings,
+        creatorNotes: data.character.creatorNotes,
+        tags: data.character.tags,
+        creator: data.character.creator,
+        characterVersion: data.character.characterVersion,
+        nickname: data.character.nickname,
+        avatarData: data.character.avatarData,
+      });
+
+      // Update lorebook entries
+      if (data.lorebookEntries.length > 0) {
+        const formEntries: LorebookEntryFormData[] = data.lorebookEntries.map((entry) => ({
+          id: crypto.randomUUID(),
+          keys: entry.keys,
+          content: entry.content,
+          enabled: entry.enabled,
+          priority: entry.priority,
+          position: entry.position,
+          insertionOrder: entry.insertionOrder,
+          caseSensitive: entry.caseSensitive,
+          selective: entry.selective,
+          secondaryKeys: entry.secondaryKeys,
+          constant: entry.constant,
+          useRegex: entry.useRegex,
+          name: entry.name,
+          comment: entry.comment,
+        }));
+        setLorebookEntries(formEntries);
+      } else {
+        setLorebookEntries([]);
+      }
+
+      // Update assets
+      if (data.assets.length > 0) {
+        setAssets(data.assets.map((asset, index) => ({
+          id: `imported-${index}`,
+          data: asset.data,
+          ...asset.metadata,
+        })));
+      } else {
+        setAssets([]);
+      }
+
+      toast.success(t("import.success"), { description: data.character.name });
+    } catch (error) {
+      console.error("Failed to import CharX:", error);
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      toast.error(t("import.error"), { description: errorMessage });
+    } finally {
+      setIsImporting(false);
+    }
+  };
+
+  const handleJsonFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (jsonInputRef.current) {
+      jsonInputRef.current.value = "";
+    }
+
+    setIsImporting(true);
+    try {
+      const data = await parseJsonToCharacter(file);
+
+      // Update form with character data
+      form.reset({
+        name: data.character.name,
+        description: data.character.description,
+        personality: data.character.personality,
+        scenario: data.character.scenario,
+        firstMessage: data.character.firstMessage,
+        exampleDialogue: data.character.exampleDialogue,
+        systemPrompt: data.character.systemPrompt,
+        postHistoryInstructions: data.character.postHistoryInstructions,
+        alternateGreetings: data.character.alternateGreetings,
+        groupOnlyGreetings: data.character.groupOnlyGreetings,
+        creatorNotes: data.character.creatorNotes,
+        tags: data.character.tags,
+        creator: data.character.creator,
+        characterVersion: data.character.characterVersion,
+        nickname: data.character.nickname,
+        avatarData: data.character.avatarData,
+      });
+
+      // Update lorebook entries
+      if (data.lorebookEntries.length > 0) {
+        const formEntries: LorebookEntryFormData[] = data.lorebookEntries.map((entry) => ({
+          id: crypto.randomUUID(),
+          keys: entry.keys,
+          content: entry.content,
+          enabled: entry.enabled,
+          priority: entry.priority,
+          position: entry.position,
+          insertionOrder: entry.insertionOrder,
+          caseSensitive: entry.caseSensitive,
+          selective: entry.selective,
+          secondaryKeys: entry.secondaryKeys,
+          constant: entry.constant,
+          useRegex: entry.useRegex,
+          name: entry.name,
+          comment: entry.comment,
+        }));
+        setLorebookEntries(formEntries);
+      } else {
+        setLorebookEntries([]);
+      }
+
+      // JSON doesn't have assets, clear them
+      setAssets([]);
+
+      toast.success(t("import.success"), { description: data.character.name });
+    } catch (error) {
+      console.error("Failed to import JSON:", error);
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      toast.error(t("import.error"), { description: errorMessage });
+    } finally {
+      setIsImporting(false);
     }
   };
 
   return (
     <>
+      {/* Hidden file inputs */}
+      <input
+        ref={charxInputRef}
+        type="file"
+        accept=".charx"
+        onChange={handleCharxFileChange}
+        className="hidden"
+        disabled={isImporting}
+      />
+      <input
+        ref={jsonInputRef}
+        type="file"
+        accept=".json"
+        onChange={handleJsonFileChange}
+        className="hidden"
+        disabled={isImporting}
+      />
+
       <div className={cn("mb-4 md:mb-8", showMobileAssistant && "hidden md:block")}>
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
@@ -140,15 +352,39 @@ const EditorHeader = memo(function EditorHeader({
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setShowImportDialog(true)}
-              className="hidden sm:flex"
-            >
-              <FolderInput className="h-4 w-4 mr-2" />
-              {t("editExisting")}
-            </Button>
+            {/* Import Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="hidden sm:flex"
+                  disabled={isImporting}
+                >
+                  {isImporting ? (
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  ) : (
+                    <FolderInput className="h-4 w-4 mr-2" />
+                  )}
+                  {t("import.title")}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={() => setShowImportDialog(true)}>
+                  <FolderInput className="mr-2 h-4 w-4" />
+                  {t("import.fromPokebox")}
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={handleImportCharx}>
+                  <FileUp className="mr-2 h-4 w-4" />
+                  {t("import.charx")}
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={handleImportJson}>
+                  <FileJson className="mr-2 h-4 w-4" />
+                  {t("import.json")}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
             <Button
               variant="outline"
               size="sm"

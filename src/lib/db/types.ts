@@ -10,6 +10,7 @@ import type {
   GenerationSettingsDocument,
   LorebookEntryDocument,
   CharacterAssetDocument,
+  CollectionDocument,
 } from "./schemas";
 
 export interface DatabaseCollections {
@@ -23,6 +24,7 @@ export interface DatabaseCollections {
   generationSettings: RxCollection<GenerationSettingsDocument>;
   lorebookEntries: RxCollection<LorebookEntryDocument>;
   characterAssets: RxCollection<CharacterAssetDocument>;
+  characterCollections: RxCollection<CollectionDocument>;
 }
 
 export type Database = RxDatabase<DatabaseCollections>;

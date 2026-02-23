@@ -1,11 +1,17 @@
 "use client";
 
 import { useCallback, useRef, useState, memo } from "react";
-import { Upload, Trash2, Image as ImageIcon, ChevronDown, ChevronRight } from "lucide-react";
+import { Upload, Trash2, Image as ImageIcon, ChevronDown, ChevronRight, Sparkles, Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { nanoid } from "nanoid";
 import { Button } from "~/components/ui/button";
 import { Badge } from "~/components/ui/badge";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "~/components/ui/tooltip";
 import {
   Select,
   SelectContent,
@@ -30,7 +36,8 @@ import {
   CollapsibleTrigger,
 } from "~/components/ui/collapsible";
 import type { AssetFormData, AssetType } from "~/lib/editor/assistant-types";
-import { useAssetsContext } from "./editor-context";
+import { useAssetsContext, useFormContext } from "./editor-context";
+import { useAssistantActionsContext, useLoadingContext } from "./assistant-context";
 
 const ASSET_TYPE_COLORS: Record<AssetType, string> = {
   icon: "bg-blue-500/10 text-blue-500",
@@ -42,11 +49,42 @@ const ASSET_TYPE_COLORS: Record<AssetType, string> = {
 // Container component - connects to context
 export const AssetsEditorContainer = memo(function AssetsEditorContainer() {
   const { assets, addAsset, deleteAsset } = useAssetsContext();
+  const { form } = useFormContext();
+  const { sendMessage } = useAssistantActionsContext();
+  const { isLoading } = useLoadingContext();
+
+  const handleGenerateEmotions = useCallback(async () => {
+    const name = form.getValues("name");
+    const description = form.getValues("description");
+    const personality = form.getValues("personality");
+
+    const prompt = `Generate a set of 6 distinct emotion expressions for this character that would be useful for roleplay conversations.
+
+Character Name: ${name || "the character"}
+Description: ${description || "No description provided"}
+Personality: ${personality || "No personality defined"}
+
+For each emotion, provide:
+1. **Emotion Name** (e.g., Happy, Sad, Angry, Surprised, Thinking, Embarrassed)
+2. A detailed visual description suitable for AI image generation
+
+Format each emotion as:
+
+**[Emotion Name]**
+[Detailed visual description focusing on: facial expression, eye details (shape, direction, sparkle), eyebrows position, mouth shape, skin tone/blush, any character-specific features. Keep the same art style and character appearance across all emotions.]
+
+Make sure to include a variety of emotions that cover different moods and reactions the character might have during conversations.`;
+
+    await sendMessage(prompt);
+  }, [form, sendMessage]);
+
   return (
     <AssetsEditor
       assets={assets}
       onAdd={addAsset}
       onDelete={deleteAsset}
+      onGenerateEmotions={handleGenerateEmotions}
+      isGenerating={isLoading}
     />
   );
 });
@@ -56,12 +94,16 @@ interface AssetsEditorProps {
   assets: AssetFormData[];
   onAdd: (asset: AssetFormData) => void;
   onDelete: (id: string) => void;
+  onGenerateEmotions: () => void;
+  isGenerating: boolean;
 }
 
 const AssetsEditor = memo(function AssetsEditor({
   assets,
   onAdd,
   onDelete,
+  onGenerateEmotions,
+  isGenerating,
 }: AssetsEditorProps) {
   const t = useTranslations("charxEditor.editor.assets");
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -130,6 +172,8 @@ const AssetsEditor = memo(function AssetsEditor({
         selectedType={selectedType}
         onTypeChange={setSelectedType}
         onUpload={() => fileInputRef.current?.click()}
+        onGenerateEmotions={onGenerateEmotions}
+        isGenerating={isGenerating}
         fileInputRef={fileInputRef}
         onFileChange={handleFileUpload}
       />
@@ -143,6 +187,8 @@ const AssetsEditor = memo(function AssetsEditor({
         selectedType={selectedType}
         onTypeChange={setSelectedType}
         onUpload={() => fileInputRef.current?.click()}
+        onGenerateEmotions={onGenerateEmotions}
+        isGenerating={isGenerating}
         fileInputRef={fileInputRef}
         onFileChange={handleFileUpload}
       />
@@ -194,12 +240,16 @@ const EmptyAssetsState = memo(function EmptyAssetsState({
   selectedType,
   onTypeChange,
   onUpload,
+  onGenerateEmotions,
+  isGenerating,
   fileInputRef,
   onFileChange,
 }: {
   selectedType: AssetType;
   onTypeChange: (type: AssetType) => void;
   onUpload: () => void;
+  onGenerateEmotions: () => void;
+  isGenerating: boolean;
   fileInputRef: React.RefObject<HTMLInputElement | null>;
   onFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) {
@@ -210,25 +260,48 @@ const EmptyAssetsState = memo(function EmptyAssetsState({
       <ImageIcon className="h-12 w-12 text-muted-foreground/50 mb-4" />
       <p className="text-muted-foreground mb-2">{t("empty")}</p>
       <p className="text-sm text-muted-foreground/70 mb-4">{t("emptyHint")}</p>
-      <div className="flex items-center gap-2">
-        <Select
-          value={selectedType}
-          onValueChange={(v) => onTypeChange(v as AssetType)}
-        >
-          <SelectTrigger className="w-32">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="icon">{t("types.icon")}</SelectItem>
-            <SelectItem value="emotion">{t("types.emotion")}</SelectItem>
-            <SelectItem value="background">{t("types.background")}</SelectItem>
-            <SelectItem value="other">{t("types.other")}</SelectItem>
-          </SelectContent>
-        </Select>
-        <Button onClick={onUpload}>
-          <Upload className="h-4 w-4 mr-2" />
-          {t("upload")}
-        </Button>
+      <div className="flex flex-col items-center gap-3">
+        <div className="flex items-center gap-2">
+          <Select
+            value={selectedType}
+            onValueChange={(v) => onTypeChange(v as AssetType)}
+          >
+            <SelectTrigger className="w-32">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="icon">{t("types.icon")}</SelectItem>
+              <SelectItem value="emotion">{t("types.emotion")}</SelectItem>
+              <SelectItem value="background">{t("types.background")}</SelectItem>
+              <SelectItem value="other">{t("types.other")}</SelectItem>
+            </SelectContent>
+          </Select>
+          <Button onClick={onUpload}>
+            <Upload className="h-4 w-4 mr-2" />
+            {t("upload")}
+          </Button>
+        </div>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="outline"
+                onClick={onGenerateEmotions}
+                disabled={isGenerating}
+              >
+                {isGenerating ? (
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                ) : (
+                  <Sparkles className="h-4 w-4 mr-2" />
+                )}
+                {t("generateEmotions")}
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>{t("generateEmotionsHint")}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
       <input
         ref={fileInputRef}
@@ -247,12 +320,16 @@ const AssetsHeader = memo(function AssetsHeader({
   selectedType,
   onTypeChange,
   onUpload,
+  onGenerateEmotions,
+  isGenerating,
   fileInputRef,
   onFileChange,
 }: {
   selectedType: AssetType;
   onTypeChange: (type: AssetType) => void;
   onUpload: () => void;
+  onGenerateEmotions: () => void;
+  isGenerating: boolean;
   fileInputRef: React.RefObject<HTMLInputElement | null>;
   onFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) {
@@ -262,6 +339,28 @@ const AssetsHeader = memo(function AssetsHeader({
     <div className="flex items-center justify-between">
       <h3 className="font-medium">{t("title")}</h3>
       <div className="flex items-center gap-2">
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={onGenerateEmotions}
+                disabled={isGenerating}
+              >
+                {isGenerating ? (
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                ) : (
+                  <Sparkles className="h-4 w-4 mr-2" />
+                )}
+                {t("generateEmotions")}
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>{t("generateEmotionsHint")}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
         <Select
           value={selectedType}
           onValueChange={(v) => onTypeChange(v as AssetType)}

@@ -74,8 +74,7 @@ export function useLRUMemory(chatId: string, characterId: string) {
     async (content: string, source: "lorebook" | "manual" | "system" = "manual", sourceId?: string) => {
       if (!db) throw new Error("Database not initialized");
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      return await addToMemory(db as any, {
+      return await addToMemory(db, {
         chatId,
         characterId,
         content,
@@ -92,8 +91,7 @@ export function useLRUMemory(chatId: string, characterId: string) {
   const getContent = useCallback(
     async (limit = DEFAULT_MEMORY_LIMIT): Promise<string> => {
       if (!db) return "";
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      return await getMemoryContent(db as any, chatId, limit);
+      return await getMemoryContent(db, chatId, limit);
     },
     [db, chatId]
   );
@@ -104,8 +102,7 @@ export function useLRUMemory(chatId: string, characterId: string) {
   const getMemories = useCallback(
     async (limit = DEFAULT_MEMORY_LIMIT): Promise<MemoryDocument[]> => {
       if (!db) return [];
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      return await getMemory(db as any, chatId, limit);
+      return await getMemory(db, chatId, limit);
     },
     [db, chatId]
   );
@@ -144,8 +141,7 @@ export function useLRUMemory(chatId: string, characterId: string) {
         recursiveScanning = true,
       } = options ?? {};
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      return await updateMemoryFromLorebook(db as any, {
+      return await updateMemoryFromLorebook(db, {
         message,
         lorebookEntries,
         chatId,
@@ -166,8 +162,7 @@ export function useLRUMemory(chatId: string, characterId: string) {
   const prune = useCallback(
     async (maxSize = DEFAULT_MEMORY_LIMIT): Promise<number> => {
       if (!db) return 0;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      return await pruneMemory(db as any, chatId, maxSize);
+      return await pruneMemory(db, chatId, maxSize);
     },
     [db, chatId]
   );
@@ -177,8 +172,7 @@ export function useLRUMemory(chatId: string, characterId: string) {
    */
   const clear = useCallback(async (): Promise<number> => {
     if (!db) return 0;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return await clearMemory(db as any, chatId);
+    return await clearMemory(db, chatId);
   }, [db, chatId]);
 
   return {

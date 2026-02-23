@@ -183,10 +183,6 @@ export function clearChatHistory() {
   emitChange();
 }
 
-export function getChatHistory(): ChatItemType[] {
-  return [...state.chatHistory];
-}
-
 // Message buffering
 export function bufferMessage(message: ChatItemType) {
   // Limit buffered messages to 100 to prevent memory issues

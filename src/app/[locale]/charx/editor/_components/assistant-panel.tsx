@@ -1,7 +1,6 @@
 "use client";
 
 import { memo } from "react";
-import { AssistantProvider } from "./assistant-context";
 import { AssistantHeader } from "./assistant-header";
 import { AssistantApiKeyWarning, AssistantErrorAlert } from "./assistant-alerts";
 import { AssistantMessagesArea } from "./assistant-messages-area";
@@ -10,10 +9,8 @@ import { AssistantChatInput } from "./assistant-chat-input";
 /**
  * AssistantPanelContainer - Main entry point for the assistant panel.
  *
- * This component wraps everything in the AssistantProvider, which:
- * - Uses selective form watching (only name, description, personality, scenario, tags)
- * - Provides separate contexts for messages, loading, error, apiKey, and actions
- * - Each sub-component subscribes only to the state it needs
+ * Note: AssistantProvider is now wrapped at a higher level (EditorLayout in page.tsx)
+ * to allow the editor tabs (assets-editor, lorebook-editor) to trigger assistant actions.
  *
  * Component hierarchy and their subscriptions:
  * - AssistantHeader: hasMessages, clearMessages
@@ -23,11 +20,7 @@ import { AssistantChatInput } from "./assistant-chat-input";
  * - AssistantChatInput: isLoading, missingApiKey, sendMessage, abortGeneration
  */
 export const AssistantPanelContainer = memo(function AssistantPanelContainer() {
-  return (
-    <AssistantProvider>
-      <AssistantPanelLayout />
-    </AssistantProvider>
-  );
+  return <AssistantPanelLayout />;
 });
 
 // Layout component - just renders the structure, no state subscriptions

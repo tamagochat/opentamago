@@ -10,7 +10,7 @@
  */
 
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from "fs";
-import { join, basename, dirname } from "path";
+import { join, basename } from "path";
 import JSZip from "jszip";
 
 interface LorebookEntry {

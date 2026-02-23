@@ -10,7 +10,7 @@ import { ApiKeysTab } from "~/components/settings";
 import { DatabaseTab } from "~/components/database-tab";
 import { useProviderSettings } from "~/lib/db/hooks";
 import { ModelsTab } from "../_components/models-tab";
-import { ALL_PROVIDERS, type Provider } from "~/lib/ai";
+import { ALL_PROVIDERS, isValidProvider, type Provider } from "~/lib/ai";
 
 const VALID_TABS = ["personas", "api-keys", "models", "database", "contact"] as const;
 type TabType = (typeof VALID_TABS)[number];
@@ -50,9 +50,9 @@ export default function SettingsTabPage({ params }: Props) {
 function TabContent({ tab }: { tab: TabType }) {
   const { providers, isLoading, isProviderReady: checkProviderReady } = useProviderSettings();
 
-  const isProviderReady = (providerId: string) => {
+  const isProviderReady = (providerId: Provider) => {
     if (isLoading) return false;
-    return checkProviderReady(providerId as any);
+    return checkProviderReady(providerId);
   };
 
   switch (tab) {
@@ -76,7 +76,7 @@ function TabContent({ tab }: { tab: TabType }) {
 function ApiKeysTabWrapper({
   isProviderReady,
 }: {
-  isProviderReady: (providerId: string) => boolean;
+  isProviderReady: (providerId: Provider) => boolean;
 }) {
   const { providers, setApiKey } = useProviderSettings();
 
@@ -106,7 +106,7 @@ function ApiKeysTabWrapper({
     <div className="p-6">
       <ApiKeysTab
         initialApiKeys={initialApiKeys}
-        isProviderReady={isProviderReady as any}
+        isProviderReady={isProviderReady}
         onSave={handleSave}
       />
     </div>

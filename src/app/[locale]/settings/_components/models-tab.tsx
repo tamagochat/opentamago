@@ -17,12 +17,12 @@ import {
 } from "~/components/settings";
 import { useGenerationSettings } from "~/lib/db/hooks";
 import { DEFAULT_SAFETY_SETTINGS } from "~/lib/ai";
-import type { TextProvider, ImageProvider, VoiceProvider, AspectRatio, Resolution } from "~/lib/ai/providers";
+import type { TextProvider, ImageProvider, VoiceProvider, AspectRatio, Resolution, Provider } from "~/lib/ai/providers";
 
 type SubTab = "text" | "image" | "voice";
 
 interface ModelsTabProps {
-  isProviderReady: (providerId: string) => boolean;
+  isProviderReady: (providerId: Provider) => boolean;
 }
 
 export function ModelsTab({ isProviderReady }: ModelsTabProps) {
@@ -51,8 +51,8 @@ export function ModelsTab({ isProviderReady }: ModelsTabProps) {
       temperature: String(settings?.temperature ?? 0.9),
       maxTokens: String(settings?.maxTokens ?? 4096),
       thinking: settings?.thinking ?? false,
-      safetySettings: (settings?.metadata as any)?.safetySettings ?? DEFAULT_SAFETY_SETTINGS,
-      targetLanguage: (settings?.metadata as any)?.targetLanguage,
+      safetySettings: settings?.metadata?.safetySettings ?? DEFAULT_SAFETY_SETTINGS,
+      targetLanguage: settings?.metadata?.targetLanguage,
     };
   };
 

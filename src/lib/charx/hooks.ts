@@ -2,11 +2,163 @@
 
 import { useState, useCallback } from "react";
 import { parseCharXAsync } from "./parser";
-import type { ParsedCharX, CharacterCardV3 } from "./types";
+import type { ParsedCharX, CharacterCardV3, CharacterCardV3Data } from "./types";
 import type { CharacterDocument, LorebookEntryDocument, CharacterAssetDocument } from "~/lib/db/schemas";
 import { convertToWebP, uint8ArrayToBlob, detectImageMimeType } from "~/lib/image-utils";
 
 export type CharacterInput = Omit<CharacterDocument, "id" | "createdAt" | "updatedAt">;
+
+/**
+ * Validate and parse a Character Card V3 JSON object
+ * Supports both wrapped format (with spec/data) and raw data format
+ */
+export function parseCharacterCardV3Json(json: unknown): CharacterCardV3 {
+  if (!json || typeof json !== "object") {
+    throw new Error("Invalid JSON: expected an object");
+  }
+
+  const obj = json as Record<string, unknown>;
+
+  // Check if this is a wrapped format (spec + data) or raw data
+  let cardData: CharacterCardV3Data;
+
+  if ("spec" in obj && "data" in obj) {
+    // Wrapped format: { spec: "chara_card_v3", spec_version: "3.0", data: {...} }
+    const spec = obj.spec as string;
+    if (spec !== "chara_card_v3" && !spec.startsWith("chara_card")) {
+      throw new Error(`Unsupported character card spec: ${spec}. Expected "chara_card_v3".`);
+    }
+    cardData = obj.data as CharacterCardV3Data;
+  } else if ("name" in obj) {
+    // Raw data format - the object is the data directly
+    // This also supports legacy V2 format which has similar fields
+    cardData = obj as unknown as CharacterCardV3Data;
+  } else {
+    throw new Error("Invalid character card format: missing required 'name' field");
+  }
+
+  // Validate required fields
+  if (!cardData.name || typeof cardData.name !== "string") {
+    throw new Error("Invalid character card: 'name' is required and must be a string");
+  }
+
+  // Normalize and provide defaults for optional fields
+  const normalizedData: CharacterCardV3Data = {
+    name: cardData.name,
+    description: cardData.description || "",
+    personality: cardData.personality || "",
+    scenario: cardData.scenario || "",
+    first_mes: cardData.first_mes || "",
+    mes_example: cardData.mes_example || "",
+    creator_notes: cardData.creator_notes || "",
+    creator_notes_multilingual: cardData.creator_notes_multilingual,
+    system_prompt: cardData.system_prompt || "",
+    post_history_instructions: cardData.post_history_instructions || "",
+    alternate_greetings: Array.isArray(cardData.alternate_greetings)
+      ? cardData.alternate_greetings
+      : [],
+    tags: Array.isArray(cardData.tags) ? cardData.tags : [],
+    creator: cardData.creator || "",
+    character_version: cardData.character_version || "",
+    group_only_greetings: Array.isArray(cardData.group_only_greetings)
+      ? cardData.group_only_greetings
+      : [],
+    nickname: cardData.nickname || "",
+    source: Array.isArray(cardData.source) ? cardData.source : undefined,
+    creation_date: cardData.creation_date,
+    modification_date: cardData.modification_date,
+    character_book: cardData.character_book,
+    assets: Array.isArray(cardData.assets) ? cardData.assets : [],
+    extensions: cardData.extensions || {},
+  };
+
+  return {
+    spec: "chara_card_v3",
+    spec_version: "3.0",
+    data: normalizedData,
+  };
+}
+
+/**
+ * Parse a Character Card V3 JSON file and convert to CharacterDocument input format
+ * Returns character data and lorebook entries (no assets since JSON doesn't include binary data)
+ */
+export async function parseJsonToCharacter(file: File): Promise<{
+  character: CharacterInput;
+  avatarBlob?: Blob;
+  lorebookEntries: Array<Omit<LorebookEntryDocument, "id" | "characterId" | "createdAt" | "updatedAt">>;
+  assets: Array<{
+    data: Uint8Array;
+    metadata: Omit<CharacterAssetDocument, "id" | "characterId" | "createdAt" | "updatedAt">;
+  }>;
+}> {
+  const text = await file.text();
+
+  let json: unknown;
+  try {
+    json = JSON.parse(text);
+  } catch {
+    throw new Error("Invalid JSON file: failed to parse");
+  }
+
+  const card = parseCharacterCardV3Json(json);
+  const character = convertCardToCharacter(card);
+
+  // Extract lorebook entries
+  const lorebookEntries: Array<Omit<LorebookEntryDocument, "id" | "characterId" | "createdAt" | "updatedAt">> = [];
+  if (card.data.character_book) {
+    const book = card.data.character_book;
+    for (const entry of book.entries) {
+      lorebookEntries.push({
+        keys: entry.keys,
+        content: entry.content,
+        enabled: entry.enabled,
+        insertionOrder: entry.insertion_order,
+        caseSensitive: entry.case_sensitive ?? false,
+        priority: entry.priority ?? 10,
+        selective: entry.selective ?? false,
+        secondaryKeys: entry.secondary_keys ?? [],
+        constant: entry.constant ?? false,
+        position: entry.position || "before_char",
+        useRegex: entry.use_regex ?? false,
+        extensions: entry.extensions || {},
+        name: entry.name,
+        comment: entry.comment,
+      });
+    }
+  }
+
+  // JSON files don't include binary assets, so return empty array
+  return {
+    character,
+    avatarBlob: undefined,
+    lorebookEntries,
+    assets: [],
+  };
+}
+
+/**
+ * Parse either a .charx or .json file and return character data
+ */
+export async function parseCharacterFile(file: File): Promise<{
+  character: CharacterInput;
+  avatarBlob?: Blob;
+  lorebookEntries: Array<Omit<LorebookEntryDocument, "id" | "characterId" | "createdAt" | "updatedAt">>;
+  assets: Array<{
+    data: Uint8Array;
+    metadata: Omit<CharacterAssetDocument, "id" | "characterId" | "createdAt" | "updatedAt">;
+  }>;
+}> {
+  const fileName = file.name.toLowerCase();
+
+  if (fileName.endsWith(".charx")) {
+    return parseCharXToCharacter(file);
+  } else if (fileName.endsWith(".json")) {
+    return parseJsonToCharacter(file);
+  } else {
+    throw new Error("Unsupported file type. Please use .charx or .json files.");
+  }
+}
 
 /**
  * Extract and convert avatar to WebP from parsed charx assets

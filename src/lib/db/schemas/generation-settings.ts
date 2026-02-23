@@ -1,4 +1,5 @@
 import type { RxJsonSchema } from "rxdb";
+import type { SafetySettings } from "~/lib/ai";
 
 /**
  * Modality types for generation
@@ -15,7 +16,9 @@ export type TextScenario = "chat" | "translation" | "hitmeup" | "aibot";
  */
 export interface GenerationMetadata {
   /** Gemini-specific: Safety settings for content generation */
-  safetySettings?: Record<string, string>;
+  safetySettings?: SafetySettings;
+  /** Target language for translation scenario */
+  targetLanguage?: string;
   /** Other generation-specific settings can be added here */
   [key: string]: unknown;
 }

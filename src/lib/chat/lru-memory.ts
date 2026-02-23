@@ -1,7 +1,5 @@
 import type { MemoryDocument, MemorySource } from "~/lib/db/schemas";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type AnyDatabase = any;
+import type { Database } from "~/lib/db/types";
 
 /**
  * Default maximum number of memory entries per chat
@@ -50,7 +48,7 @@ export function generateMemoryId(chatId: string, contentHash: string): string {
  * @returns The created or updated memory document
  */
 export async function addToMemory(
-  db: AnyDatabase,
+  db: Database,
   params: AddToMemoryParams
 ): Promise<MemoryDocument> {
   const { chatId, characterId, content, source, sourceId } = params;
@@ -94,7 +92,7 @@ export async function addToMemory(
  * @returns Array of created/updated memory documents
  */
 export async function addManyToMemory(
-  db: AnyDatabase,
+  db: Database,
   entries: AddToMemoryParams[]
 ): Promise<MemoryDocument[]> {
   const results: MemoryDocument[] = [];
@@ -116,7 +114,7 @@ export async function addManyToMemory(
  * @returns Array of memory documents, most recent first
  */
 export async function getMemory(
-  db: AnyDatabase,
+  db: Database,
   chatId: string,
   limit: number = DEFAULT_MEMORY_LIMIT
 ): Promise<MemoryDocument[]> {
@@ -131,8 +129,7 @@ export async function getMemory(
     })
     .exec();
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return memories.map((m: any) => m.toJSON() as MemoryDocument);
+  return memories.map((m) => m.toJSON() as MemoryDocument);
 }
 
 /**
@@ -146,7 +143,7 @@ export async function getMemory(
  * @returns Concatenated memory content string
  */
 export async function getMemoryContent(
-  db: AnyDatabase,
+  db: Database,
   chatId: string,
   limit: number = DEFAULT_MEMORY_LIMIT
 ): Promise<string> {
@@ -165,7 +162,7 @@ export async function getMemoryContent(
  * @returns Number of pruned entries
  */
 export async function pruneMemory(
-  db: AnyDatabase,
+  db: Database,
   chatId: string,
   maxSize: number = DEFAULT_MEMORY_LIMIT
 ): Promise<number> {
@@ -201,7 +198,7 @@ export async function pruneMemory(
  * @returns Number of removed entries
  */
 export async function clearMemory(
-  db: AnyDatabase,
+  db: Database,
   chatId: string
 ): Promise<number> {
   const collection = db.collections.memories;
@@ -226,7 +223,7 @@ export async function clearMemory(
  * @returns Number of removed entries
  */
 export async function clearMemoryBySource(
-  db: AnyDatabase,
+  db: Database,
   chatId: string,
   source: MemorySource
 ): Promise<number> {
@@ -254,7 +251,7 @@ export async function clearMemoryBySource(
  * @returns Updated memory or null if not found
  */
 export async function touchMemory(
-  db: AnyDatabase,
+  db: Database,
   id: string
 ): Promise<MemoryDocument | null> {
   const collection = db.collections.memories;

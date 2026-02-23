@@ -188,14 +188,14 @@ export const PROVIDER_CONFIGS: Record<Provider, ProviderConfig> = {
     id: "zhipu",
     name: "Zhipu AI",
     sdkPackage: "openai", // Zhipu API is OpenAI-compatible
-    baseUrl: "https://open.bigmodel.cn/api/paas/v4",
+    baseUrl: "https://api.z.ai/api/paas/v4",
     requiresApiKey: true,
     apiKeyPlaceholder: "your-zhipu-api-key",
-    apiKeyUrl: "https://bigmodel.cn/usercenter/apikeys",
+    apiKeyUrl: "https://z.ai/model-api",
     modalities: ["text"],
     supportsReasoning: true,
-    // GLM-4.7 and GLM-4 Plus support thinking mode
-    reasoningModels: ["glm-4.7", "glm-4-plus"],
+    // GLM-5, GLM-4.7 and GLM-4 Plus support thinking mode
+    reasoningModels: ["glm-5", "glm-4.7", "glm-4-plus"],
   },
   falai: {
     id: "falai",
@@ -232,15 +232,18 @@ export const TEXT_MODEL_CONFIGS: Record<TextProvider, TextModelConfig> = {
     models: [
       { id: "gemini-3-flash-preview", name: "Gemini 3 Flash Preview" },
       { id: "gemini-3-pro-preview", name: "Gemini 3 Pro Preview" },
+      { id: "gemini-3.1-pro-preview", name: "Gemini 3.1 Pro Preview" },
+      { id: "gemini-2.5-pro", name: "Gemini 2.5 Pro" },
+      { id: "gemini-2.5-flash", name: "Gemini 2.5 Flash" },
     ],
   },
   openrouter: {
-    defaultModel: "xiaomi/mimo-v2-flash:free",
+    defaultModel: "arcee-ai/trinity-large-preview:free",
     models: [
-      { id: "xiaomi/mimo-v2-flash:free", name: "Mimo V2 Flash (Free)" },
-      { id: "tngtech/deepseek-r1t2-chimera:free", name: "DeepSeek R1T2 Chimera (Free)" },
-      { id: "tngtech/deepseek-r1t-chimera:free", name: "DeepSeek R1T Chimera (Free)" },
+      { id: "arcee-ai/trinity-large-preview:free", name: "Trinity Large Preview (Free)" },
+      { id: "stepfun/step-3.5-flash:free", name: "Step 3.5 Flash (Free)" },
       { id: "z-ai/glm-4.5-air:free", name: "GLM 4.5 Air (Free)" },
+      { id: "deepseek/deepseek-r1-0528:free", name: "DeepSeek R1 0528 (Free)" },
       { id: "nvidia/nemotron-3-nano-30b-a3b:free", name: "Nemotron 3 Nano 30B (Free)" },
     ],
   },
@@ -285,8 +288,9 @@ export const TEXT_MODEL_CONFIGS: Record<TextProvider, TextModelConfig> = {
     ],
   },
   zhipu: {
-    defaultModel: "glm-4.7",
+    defaultModel: "glm-5",
     models: [
+      { id: "glm-5", name: "GLM-5" },
       { id: "glm-4.7", name: "GLM-4.7" },
       { id: "glm-4-plus", name: "GLM-4 Plus" },
       { id: "glm-4-air", name: "GLM-4 Air" },

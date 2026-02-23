@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { Button } from "~/components/ui/button";
 import { Separator } from "~/components/ui/separator";
-import { Egg, Plus, UserPlus, FileUp, User, Loader2 } from "lucide-react";
+import { Egg, Plus, UserPlus, FileUp, FileJson, User, Loader2 } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,7 +15,7 @@ import {
   DropdownMenuSeparator,
 } from "~/components/ui/dropdown-menu";
 import { useCharacters, useChats, useSettings } from "~/lib/db/hooks";
-import { parseCharXToCharacter } from "~/lib/charx/hooks";
+import { parseCharXToCharacter, parseJsonToCharacter } from "~/lib/charx/hooks";
 import { CharacterEditor } from "./character-editor";
 import { PersonaEditor } from "./persona-editor";
 import { SettingsDropdown } from "~/components/settings-dropdown";
@@ -52,7 +52,8 @@ export function LeftPanel({
   const [characterEditorOpen, setCharacterEditorOpen] = useState(false);
   const [personaEditorOpen, setPersonaEditorOpen] = useState(false);
   const [editingCharacter, setEditingCharacter] = useState<CharacterDocument | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const charxInputRef = useRef<HTMLInputElement>(null);
+  const jsonInputRef = useRef<HTMLInputElement>(null);
   const [isImporting, setIsImporting] = useState(false);
 
   const handleCreateCharacter = () => {
@@ -65,31 +66,66 @@ export function LeftPanel({
   };
 
   const handleImportCharx = () => {
-    fileInputRef.current?.click();
+    charxInputRef.current?.click();
   };
 
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImportJson = () => {
+    jsonInputRef.current?.click();
+  };
+
+  const handleCharxFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
     // Reset file input
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
+    if (charxInputRef.current) {
+      charxInputRef.current.value = "";
     }
 
     setIsImporting(true);
     try {
-      // Parse the charx file and extract all data (character, avatar, lorebook, assets)
       const saveData = await parseCharXToCharacter(file);
 
-      console.log("Saving character with assets from /chat import:", {
+      console.log("Saving character from CharX import:", {
         characterName: saveData.character.name,
         hasAvatar: !!saveData.avatarBlob,
         lorebookEntriesCount: saveData.lorebookEntries.length,
         assetsCount: saveData.assets.length,
       });
 
-      // Save character with all assets using the comprehensive function
+      const saved = await saveCharacterWithAssets(saveData);
+
+      if (saved) {
+        toast.success(t("importSuccess"), { description: saved.name });
+        onSelectCharacter(saved);
+      }
+    } catch (error) {
+      console.error("Failed to import character:", error);
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      toast.error(t("importError"), { description: errorMessage });
+    } finally {
+      setIsImporting(false);
+    }
+  };
+
+  const handleJsonFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Reset file input
+    if (jsonInputRef.current) {
+      jsonInputRef.current.value = "";
+    }
+
+    setIsImporting(true);
+    try {
+      const saveData = await parseJsonToCharacter(file);
+
+      console.log("Saving character from JSON import:", {
+        characterName: saveData.character.name,
+        lorebookEntriesCount: saveData.lorebookEntries.length,
+      });
+
       const saved = await saveCharacterWithAssets(saveData);
 
       if (saved) {
@@ -168,12 +204,20 @@ export function LeftPanel({
         </div>
       </div>
 
-      {/* Hidden file input for import */}
+      {/* Hidden file inputs for import */}
       <input
-        ref={fileInputRef}
+        ref={charxInputRef}
         type="file"
         accept=".charx"
-        onChange={handleFileChange}
+        onChange={handleCharxFileChange}
+        className="hidden"
+        disabled={isImporting}
+      />
+      <input
+        ref={jsonInputRef}
+        type="file"
+        accept=".json"
+        onChange={handleJsonFileChange}
         className="hidden"
         disabled={isImporting}
       />
@@ -200,6 +244,14 @@ export function LeftPanel({
                   <FileUp className="mr-2 h-4 w-4" />
                 )}
                 {isImporting ? t("importing") : t("importCharx")}
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={handleImportJson} disabled={isImporting}>
+                {isImporting ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  <FileJson className="mr-2 h-4 w-4" />
+                )}
+                {isImporting ? t("importing") : t("importJson")}
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={handleCreatePersona}>

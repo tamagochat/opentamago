@@ -17,16 +17,17 @@ export interface CharacterDocument {
   characterVersion: string;
   groupOnlyGreetings: string[];
   nickname: string;
-  extensions: Record<string, any>; // Application-specific data (CCv3)
+  extensions: Record<string, unknown>; // Application-specific data (CCv3)
   creatorNotesMultilingual?: Record<string, string>; // Multilingual creator notes (CCv3)
   source?: string[]; // Source URLs/IDs (CCv3)
   avatarData?: string; // base64 encoded image
+  collectionId?: string; // Optional collection/folder reference
   createdAt: number; // Unix timestamp in milliseconds
   updatedAt: number; // Unix timestamp in milliseconds
 }
 
 export const characterSchema: RxJsonSchema<CharacterDocument> = {
-  version: 4,
+  version: 5,
   primaryKey: "id",
   type: "object",
   attachments: {
@@ -108,6 +109,10 @@ export const characterSchema: RxJsonSchema<CharacterDocument> = {
     },
     avatarData: {
       type: "string",
+    },
+    collectionId: {
+      type: "string",
+      maxLength: 36,
     },
     createdAt: {
       type: "number",
