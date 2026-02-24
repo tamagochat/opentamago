@@ -7,6 +7,12 @@
     "retry": "다시 해볼게요",
     "comingSoon": "곧 만나요"
   },
+  "announcement": {
+    "chatLaunchTitle": "채팅 기능이 나왔어요!",
+    "chatLaunchDescription": "나만의 API 키로 AI 캐릭터와 대화해 보세요. 프라이빗하고, 무료이며, 제한 없어요.",
+    "chatLaunchCta": "지금 해보기 →",
+    "dismiss": "닫기"
+  },
   "experimental": {
     "badge": "실험적 기능",
     "charx": "아직 열심히 개발하고 있는 기능이에요! CharX 버전 3을 지원하도록 만들고 있는데, 계속 개선 중이에요.",
@@ -593,7 +599,34 @@
       "reasoningTokens": "추론 토큰",
       "availableCharacters": "내 캐릭터",
       "chatUI": "채팅 UI",
-      "models": "모델"
+      "models": "모델",
+      "copyMessage": "복사",
+      "copied": "복사됨!",
+      "regenerate": "다시 생성",
+      "generationError": "응답 생성에 실패했어요",
+      "retry": "다시 시도",
+      "moreOptions": "더보기",
+      "voiceRequiresProvider": "음성 생성은 Gemini 또는 ElevenLabs 제공자가 필요해요"
+    },
+    "editDialog": {
+      "title": "메시지 편집",
+      "description": "메시지 내용을 수정하세요. AI 응답에 사용되는 대화 기록이 업데이트됩니다.",
+      "placeholder": "메시지 내용...",
+      "saveChanges": "변경 저장"
+    },
+    "memoryDialog": {
+      "title": "채팅 메모리",
+      "description": "AI가 이 대화에 대해 기억하는 중요한 사실과 맥락입니다.",
+      "loading": "메모리 불러오는 중...",
+      "empty": "저장된 메모리가 없어요.",
+      "emptyHint": "메신저 모드를 사용하면 대화에서 자동으로 메모리가 추출됩니다.",
+      "added": "메모리가 추가되었어요!",
+      "addError": "메모리 추가에 실패했어요",
+      "updated": "메모리가 업데이트되었어요!",
+      "updateError": "메모리 업데이트에 실패했어요",
+      "addNew": "새 메모리 추가",
+      "placeholder": "기억할 사실이나 맥락을 입력하세요...",
+      "addButton": "메모리 추가"
     },
     "setupChecklist": {
       "title": "시작하기",
@@ -632,7 +665,11 @@
       "lastUpdated": "최근 수정",
       "persona": "페르소나",
       "info": "정보",
-      "deleteCharacter": "\"{name}\"을(를) 삭제할까요? 관련 채팅도 다 삭제되고 되돌릴 수 없어요."
+      "deleteCharacter": "\"{name}\"을(를) 삭제할까요? 관련 채팅도 다 삭제되고 되돌릴 수 없어요.",
+      "lorebooks": "로어북",
+      "images": "이미지",
+      "confirmDeleteTitle": "정말 삭제할까요?",
+      "confirmDeleteDescription": "이 작업은 되돌릴 수 없습니다."
     },
     "editor": {
       "editCharacter": "캐릭터 수정",
@@ -722,7 +759,10 @@
       "blockMedium": "중간 이상 차단",
       "blockHigh": "높음만 차단",
       "saving": "저장 중...",
-      "saved": "설정 저장됨"
+      "saved": "설정 저장됨",
+      "modelsSection": "모델",
+      "modelsNotice": "전체 설정 페이지에서 텍스트, 이미지, 음성 모델을 설정하세요.",
+      "modelsLink": "모델 설정으로 이동"
     }
   },
   "connect": {

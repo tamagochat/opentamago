@@ -7,6 +7,12 @@
     "retry": "Tentar novamente",
     "comingSoon": "Em breve"
   },
+  "announcement": {
+    "chatLaunchTitle": "O chat chegou!",
+    "chatLaunchDescription": "Converse com personagens de IA usando sua própria chave de API. Privado, gratuito, sem limites.",
+    "chatLaunchCta": "Experimente agora →",
+    "dismiss": "Fechar"
+  },
   "experimental": {
     "badge": "Novidade",
     "charx": "Essa função ainda está em desenvolvimento! Suporta CharX v3, mas ainda estamos melhorando~",
@@ -593,7 +599,34 @@
       "reasoningTokens": "Tokens de raciocínio",
       "availableCharacters": "Seus personagens",
       "chatUI": "Interface de chat",
-      "models": "Modelos"
+      "models": "Modelos",
+      "copyMessage": "Copiar",
+      "copied": "Copiado!",
+      "regenerate": "Regenerar",
+      "generationError": "Falha ao gerar resposta",
+      "retry": "Tentar novamente",
+      "moreOptions": "Mais opções",
+      "voiceRequiresProvider": "A geração de voz requer o provedor Gemini ou ElevenLabs"
+    },
+    "editDialog": {
+      "title": "Editar mensagem",
+      "description": "Modifique o conteúdo da mensagem. Isso atualizará o histórico de chat usado para respostas da IA.",
+      "placeholder": "Conteúdo da mensagem...",
+      "saveChanges": "Salvar alterações"
+    },
+    "memoryDialog": {
+      "title": "Memória do chat",
+      "description": "Fatos importantes e contexto que a IA lembra sobre esta conversa.",
+      "loading": "Carregando memórias...",
+      "empty": "Nenhuma memória salva ainda.",
+      "emptyHint": "As memórias serão extraídas automaticamente das suas conversas ao usar o modo Messenger.",
+      "added": "Memória adicionada!",
+      "addError": "Falha ao adicionar memória",
+      "updated": "Memória atualizada!",
+      "updateError": "Falha ao atualizar memória",
+      "addNew": "Adicionar nova memória",
+      "placeholder": "Digite um fato ou contexto para lembrar...",
+      "addButton": "Adicionar memória"
     },
     "setupChecklist": {
       "title": "Começar",
@@ -632,7 +665,11 @@
       "lastUpdated": "Última Atualização",
       "persona": "Persona",
       "info": "Info",
-      "deleteCharacter": "Excluir \"{name}\"? Todos os chats relacionados também serão excluídos. Isso não pode ser desfeito."
+      "deleteCharacter": "Excluir \"{name}\"? Todos os chats relacionados também serão excluídos. Isso não pode ser desfeito.",
+      "lorebooks": "Lorebooks",
+      "images": "Imagens",
+      "confirmDeleteTitle": "Tem certeza?",
+      "confirmDeleteDescription": "Esta ação não pode ser desfeita."
     },
     "editor": {
       "editCharacter": "Editar Personagem",
@@ -722,7 +759,10 @@
       "blockMedium": "Bloquear Médio+",
       "blockHigh": "Só Bloquear Alto",
       "saving": "Salvando...",
-      "saved": "Configurações salvas"
+      "saved": "Configurações salvas",
+      "modelsSection": "Modelos",
+      "modelsNotice": "Configure os modelos de texto, imagem e voz na página de configurações completa.",
+      "modelsLink": "Ir para Configurações de Modelos"
     }
   },
   "connect": {

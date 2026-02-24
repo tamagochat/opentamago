@@ -7,6 +7,12 @@
     "retry": "Probeer opnieuw",
     "comingSoon": "Binnenkort beschikbaar"
   },
+  "announcement": {
+    "chatLaunchTitle": "Chat is er!",
+    "chatLaunchDescription": "Chat met AI-personages met je eigen API-sleutel. Privé, gratis, zonder limieten.",
+    "chatLaunchCta": "Probeer het nu →",
+    "dismiss": "Sluiten"
+  },
   "experimental": {
     "badge": "Experimenteel",
     "charx": "Deze functie is nog in ontwikkeling! Het is ontworpen om CharX versie 3 te ondersteunen, maar we zijn nog bezig met verbeteringen.",
@@ -593,7 +599,34 @@
       "reasoningTokens": "Redeneertokens",
       "availableCharacters": "Je personages",
       "chatUI": "Chat-interface",
-      "models": "Modellen"
+      "models": "Modellen",
+      "copyMessage": "Kopiëren",
+      "copied": "Gekopieerd!",
+      "regenerate": "Opnieuw genereren",
+      "generationError": "Antwoord genereren mislukt",
+      "retry": "Opnieuw proberen",
+      "moreOptions": "Meer opties",
+      "voiceRequiresProvider": "Spraakgeneratie vereist Gemini of ElevenLabs provider"
+    },
+    "editDialog": {
+      "title": "Bericht bewerken",
+      "description": "Wijzig de berichtinhoud. Dit update de chatgeschiedenis die wordt gebruikt voor AI-antwoorden.",
+      "placeholder": "Berichtinhoud...",
+      "saveChanges": "Wijzigingen opslaan"
+    },
+    "memoryDialog": {
+      "title": "Chatgeheugen",
+      "description": "Belangrijke feiten en context die de AI onthoudt over dit gesprek.",
+      "loading": "Herinneringen laden...",
+      "empty": "Nog geen herinneringen opgeslagen.",
+      "emptyHint": "Herinneringen worden automatisch uit je gesprekken gehaald in Messenger-modus.",
+      "added": "Herinnering toegevoegd!",
+      "addError": "Herinnering toevoegen mislukt",
+      "updated": "Herinnering bijgewerkt!",
+      "updateError": "Herinnering bijwerken mislukt",
+      "addNew": "Nieuwe herinnering toevoegen",
+      "placeholder": "Typ een feit of context om te onthouden...",
+      "addButton": "Herinnering toevoegen"
     },
     "setupChecklist": {
       "title": "Aan de slag",
@@ -632,7 +665,11 @@
       "lastUpdated": "Laatst bijgewerkt",
       "persona": "Persona",
       "info": "Info",
-      "deleteCharacter": "\"{name}\" verwijderen? Alle gerelateerde chats worden ook verwijderd. Dit kan niet ongedaan worden gemaakt."
+      "deleteCharacter": "\"{name}\" verwijderen? Alle gerelateerde chats worden ook verwijderd. Dit kan niet ongedaan worden gemaakt.",
+      "lorebooks": "Lorebooks",
+      "images": "Afbeeldingen",
+      "confirmDeleteTitle": "Weet je het zeker?",
+      "confirmDeleteDescription": "Deze actie kan niet ongedaan worden gemaakt."
     },
     "editor": {
       "editCharacter": "Karakter bewerken",
@@ -722,7 +759,10 @@
       "blockMedium": "Blokkeer Medium+",
       "blockHigh": "Alleen Hoog blokkeren",
       "saving": "Opslaan...",
-      "saved": "Instellingen opgeslagen"
+      "saved": "Instellingen opgeslagen",
+      "modelsSection": "Modellen",
+      "modelsNotice": "Configureer tekst-, afbeelding- en spraakmodelinstellingen op de volledige instellingenpagina.",
+      "modelsLink": "Ga naar modelinstellingen"
     }
   },
   "connect": {

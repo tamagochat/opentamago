@@ -8,6 +8,16 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Badge } from "~/components/ui/badge";
 import { Plus, Edit, Trash2 } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "~/components/ui/alert-dialog";
 import { useChats, useCharacters, useSettings } from "~/lib/db/hooks";
 import { ChatHistoryList } from "./chat-history-list";
 import { LorebookList } from "./lorebook-list";
@@ -37,13 +47,19 @@ export function RightPanel({
   const { createChat } = useChats(character?.id);
   const { settings } = useSettings();
   const [editorOpen, setEditorOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const tActions = useTranslations("actions");
 
-  const handleDelete = async () => {
+  const handleDelete = () => {
     if (!character) return;
-    if (confirm(t("deleteCharacter", { name: character.name }))) {
-      await deleteCharacter(character.id);
-      onCharacterUpdate(null);
-    }
+    setDeleteDialogOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!character) return;
+    await deleteCharacter(character.id);
+    onCharacterUpdate(null);
+    setDeleteDialogOpen(false);
   };
 
   const handleNewChat = async () => {
@@ -123,10 +139,10 @@ export function RightPanel({
               {tLeft("chats")}
             </TabsTrigger>
             <TabsTrigger value="lorebooks">
-              Lorebooks
+              {t("lorebooks")}
             </TabsTrigger>
             <TabsTrigger value="images">
-              Images
+              {t("images")}
             </TabsTrigger>
           </TabsList>
 
@@ -156,6 +172,26 @@ export function RightPanel({
           </TabsContent>
         </Tabs>
       </div>
+
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{t("confirmDeleteTitle")}</AlertDialogTitle>
+            <AlertDialogDescription>
+              {t("deleteCharacter", { name: character.name })}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>{tActions("cancel")}</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={confirmDelete}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              {tActions("delete")}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       <CharacterEditor
         open={editorOpen}

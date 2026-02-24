@@ -7,6 +7,12 @@
     "retry": "Tekrar dene",
     "comingSoon": "Yakında"
   },
+  "announcement": {
+    "chatLaunchTitle": "Sohbet özelliği geldi!",
+    "chatLaunchDescription": "Kendi API anahtarınızla AI karakterlerle sohbet edin. Gizli, ücretsiz, sınırsız.",
+    "chatLaunchCta": "Şimdi dene →",
+    "dismiss": "Kapat"
+  },
   "experimental": {
     "badge": "Yeni",
     "charx": "Bu özellik hâlâ geliştirme aşamasında! CharX v3'ü destekliyor, iyileştirmeye devam ediyoruz~",
@@ -593,7 +599,34 @@
       "reasoningTokens": "Akıl yürütme tokenları",
       "availableCharacters": "Karakterlerin",
       "chatUI": "Sohbet Arayüzü",
-      "models": "Modeller"
+      "models": "Modeller",
+      "copyMessage": "Kopyala",
+      "copied": "Kopyalandı!",
+      "regenerate": "Yeniden oluştur",
+      "generationError": "Yanıt oluşturulamadı",
+      "retry": "Tekrar dene",
+      "moreOptions": "Daha fazla seçenek",
+      "voiceRequiresProvider": "Ses oluşturma için Gemini veya ElevenLabs sağlayıcısı gereklidir"
+    },
+    "editDialog": {
+      "title": "Mesajı Düzenle",
+      "description": "Mesaj içeriğini değiştirin. Bu, AI yanıtları için kullanılan sohbet geçmişini güncelleyecektir.",
+      "placeholder": "Mesaj içeriği...",
+      "saveChanges": "Değişiklikleri Kaydet"
+    },
+    "memoryDialog": {
+      "title": "Sohbet Belleği",
+      "description": "AI'ın bu sohbet hakkında hatırladığı önemli bilgiler ve bağlam.",
+      "loading": "Bellekler yükleniyor...",
+      "empty": "Henüz kaydedilmiş bellek yok.",
+      "emptyHint": "Messenger modunu kullandığınızda bellekler konuşmalarınızdan otomatik olarak çıkarılacaktır.",
+      "added": "Bellek eklendi!",
+      "addError": "Bellek eklenemedi",
+      "updated": "Bellek güncellendi!",
+      "updateError": "Bellek güncellenemedi",
+      "addNew": "Yeni Bellek Ekle",
+      "placeholder": "Hatırlanacak bir bilgi veya bağlam yazın...",
+      "addButton": "Bellek Ekle"
     },
     "setupChecklist": {
       "title": "Başlayın",
@@ -632,7 +665,11 @@
       "lastUpdated": "Son Güncelleme",
       "persona": "Persona",
       "info": "Bilgi",
-      "deleteCharacter": "\"{name}\" silinsin mi? İlgili tüm sohbetler de silinecek. Bu geri alınamaz."
+      "deleteCharacter": "\"{name}\" silinsin mi? İlgili tüm sohbetler de silinecek. Bu geri alınamaz.",
+      "lorebooks": "Bilgi Kitapları",
+      "images": "Görseller",
+      "confirmDeleteTitle": "Emin misiniz?",
+      "confirmDeleteDescription": "Bu işlem geri alınamaz."
     },
     "editor": {
       "editCharacter": "Karakteri Düzenle",
@@ -722,7 +759,10 @@
       "blockMedium": "Orta+ Engelle",
       "blockHigh": "Yalnızca Yüksek Engelle",
       "saving": "Kaydediliyor...",
-      "saved": "Ayarlar kaydedildi"
+      "saved": "Ayarlar kaydedildi",
+      "modelsSection": "Modeller",
+      "modelsNotice": "Metin, görsel ve ses modeli ayarlarını tam ayarlar sayfasından yapılandırın.",
+      "modelsLink": "Model Ayarlarına Git"
     }
   },
   "connect": {

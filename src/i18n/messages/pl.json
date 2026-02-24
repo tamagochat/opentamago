@@ -7,6 +7,12 @@
     "retry": "Spróbuj ponownie",
     "comingSoon": "Wkrótce"
   },
+  "announcement": {
+    "chatLaunchTitle": "Czat już dostępny!",
+    "chatLaunchDescription": "Rozmawiaj z postaciami AI, używając własnego klucza API. Prywatnie, za darmo, bez limitów.",
+    "chatLaunchCta": "Wypróbuj teraz →",
+    "dismiss": "Zamknij"
+  },
   "experimental": {
     "badge": "Eksperymentalne",
     "charx": "Ta funkcja jest wciąż w trakcie rozwoju! Jest zaprojektowana do obsługi CharX w wersji 3, ale nadal ją ulepszamy.",
@@ -593,7 +599,34 @@
       "reasoningTokens": "Tokeny rozumowania",
       "availableCharacters": "Twoje postacie",
       "chatUI": "Interfejs czatu",
-      "models": "Modele"
+      "models": "Modele",
+      "copyMessage": "Kopiuj",
+      "copied": "Skopiowano!",
+      "regenerate": "Wygeneruj ponownie",
+      "generationError": "Nie udało się wygenerować odpowiedzi",
+      "retry": "Ponów",
+      "moreOptions": "Więcej opcji",
+      "voiceRequiresProvider": "Generowanie głosu wymaga dostawcy Gemini lub ElevenLabs"
+    },
+    "editDialog": {
+      "title": "Edytuj wiadomość",
+      "description": "Zmień treść wiadomości. Spowoduje to aktualizację historii czatu używanej do odpowiedzi AI.",
+      "placeholder": "Treść wiadomości...",
+      "saveChanges": "Zapisz zmiany"
+    },
+    "memoryDialog": {
+      "title": "Pamięć czatu",
+      "description": "Ważne fakty i kontekst, które AI zapamiętuje o tej rozmowie.",
+      "loading": "Ładowanie wspomnień...",
+      "empty": "Brak zapisanych wspomnień.",
+      "emptyHint": "Wspomnienia będą automatycznie wyodrębniane z rozmów w trybie Messenger.",
+      "added": "Wspomnienie dodane!",
+      "addError": "Nie udało się dodać wspomnienia",
+      "updated": "Wspomnienie zaktualizowane!",
+      "updateError": "Nie udało się zaktualizować wspomnienia",
+      "addNew": "Dodaj nowe wspomnienie",
+      "placeholder": "Wpisz fakt lub kontekst do zapamiętania...",
+      "addButton": "Dodaj wspomnienie"
     },
     "setupChecklist": {
       "title": "Rozpocznij",
@@ -632,7 +665,11 @@
       "lastUpdated": "Ostatnia aktualizacja",
       "persona": "Persona",
       "info": "Informacje",
-      "deleteCharacter": "Usunąć \"{name}\"? Wszystkie powiązane czaty również zostaną usunięte. Tej operacji nie można cofnąć."
+      "deleteCharacter": "Usunąć \"{name}\"? Wszystkie powiązane czaty również zostaną usunięte. Tej operacji nie można cofnąć.",
+      "lorebooks": "Lorebooki",
+      "images": "Obrazy",
+      "confirmDeleteTitle": "Czy na pewno?",
+      "confirmDeleteDescription": "Ta czynność jest nieodwracalna."
     },
     "editor": {
       "editCharacter": "Edytuj postać",
@@ -722,7 +759,10 @@
       "blockMedium": "Blokuj średnie+",
       "blockHigh": "Blokuj tylko wysokie",
       "saving": "Zapisywanie...",
-      "saved": "Ustawienia zapisane"
+      "saved": "Ustawienia zapisane",
+      "modelsSection": "Modele",
+      "modelsNotice": "Skonfiguruj ustawienia modeli tekstu, obrazu i głosu na pełnej stronie ustawień.",
+      "modelsLink": "Przejdź do ustawień modeli"
     }
   },
   "connect": {

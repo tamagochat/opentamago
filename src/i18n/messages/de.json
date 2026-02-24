@@ -7,6 +7,12 @@
     "retry": "Nochmal versuchen",
     "comingSoon": "Demnächst"
   },
+  "announcement": {
+    "chatLaunchTitle": "Der Chat ist da!",
+    "chatLaunchDescription": "Chatten Sie mit KI-Charakteren mit Ihrem eigenen API-Schlüssel. Privat, kostenlos, ohne Limits.",
+    "chatLaunchCta": "Jetzt ausprobieren →",
+    "dismiss": "Schließen"
+  },
   "experimental": {
     "badge": "Neu",
     "charx": "Dieses Feature ist noch in Entwicklung! Unterstützt CharX v3, wird aber noch verbessert~",
@@ -593,7 +599,34 @@
       "reasoningTokens": "Reasoning-Tokens",
       "availableCharacters": "Ihre Charaktere",
       "chatUI": "Chat-Oberfläche",
-      "models": "Modelle"
+      "models": "Modelle",
+      "copyMessage": "Kopieren",
+      "copied": "Kopiert!",
+      "regenerate": "Neu generieren",
+      "generationError": "Antwort konnte nicht generiert werden",
+      "retry": "Erneut versuchen",
+      "moreOptions": "Weitere Optionen",
+      "voiceRequiresProvider": "Sprachgenerierung erfordert Gemini oder ElevenLabs Anbieter"
+    },
+    "editDialog": {
+      "title": "Nachricht bearbeiten",
+      "description": "Ändern Sie den Nachrichteninhalt. Dies aktualisiert den Chatverlauf für KI-Antworten.",
+      "placeholder": "Nachrichteninhalt...",
+      "saveChanges": "Änderungen speichern"
+    },
+    "memoryDialog": {
+      "title": "Chat-Erinnerungen",
+      "description": "Wichtige Fakten und Kontext, die sich die KI über dieses Gespräch merkt.",
+      "loading": "Erinnerungen werden geladen...",
+      "empty": "Noch keine Erinnerungen gespeichert.",
+      "emptyHint": "Erinnerungen werden automatisch aus Ihren Gesprächen im Messenger-Modus extrahiert.",
+      "added": "Erinnerung hinzugefügt!",
+      "addError": "Erinnerung konnte nicht hinzugefügt werden",
+      "updated": "Erinnerung aktualisiert!",
+      "updateError": "Erinnerung konnte nicht aktualisiert werden",
+      "addNew": "Neue Erinnerung hinzufügen",
+      "placeholder": "Fakt oder Kontext zum Merken eingeben...",
+      "addButton": "Erinnerung hinzufügen"
     },
     "setupChecklist": {
       "title": "Erste Schritte",
@@ -632,7 +665,11 @@
       "lastUpdated": "Zuletzt aktualisiert",
       "persona": "Persona",
       "info": "Info",
-      "deleteCharacter": "\"{name}\" löschen? Alle zugehörigen Chats werden auch gelöscht. Das kann nicht rückgängig gemacht werden."
+      "deleteCharacter": "\"{name}\" löschen? Alle zugehörigen Chats werden auch gelöscht. Das kann nicht rückgängig gemacht werden.",
+      "lorebooks": "Lorebooks",
+      "images": "Bilder",
+      "confirmDeleteTitle": "Sind Sie sicher?",
+      "confirmDeleteDescription": "Diese Aktion kann nicht rückgängig gemacht werden."
     },
     "editor": {
       "editCharacter": "Charakter bearbeiten",
@@ -722,7 +759,10 @@
       "blockMedium": "Mittel+ blockieren",
       "blockHigh": "Nur Hoch blockieren",
       "saving": "Wird gespeichert...",
-      "saved": "Einstellungen gespeichert"
+      "saved": "Einstellungen gespeichert",
+      "modelsSection": "Modelle",
+      "modelsNotice": "Konfigurieren Sie die Text-, Bild- und Sprachmodelleinstellungen auf der vollständigen Einstellungsseite.",
+      "modelsLink": "Zu den Modelleinstellungen"
     }
   },
   "connect": {

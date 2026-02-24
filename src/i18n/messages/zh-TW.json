@@ -7,6 +7,12 @@
     "retry": "再試一次",
     "comingSoon": "敬請期待"
   },
+  "announcement": {
+    "chatLaunchTitle": "聊天功能來了！",
+    "chatLaunchDescription": "使用您自己的 API 金鑰與 AI 角色聊天。私密、免費、無限制。",
+    "chatLaunchCta": "立即體驗 →",
+    "dismiss": "關閉"
+  },
   "experimental": {
     "badge": "測試功能",
     "charx": "這個功能還在開發中！我們正在支援 CharX v3，會持續改進的～",
@@ -593,7 +599,34 @@
       "reasoningTokens": "推理令牌",
       "availableCharacters": "你的角色",
       "chatUI": "聊天介面",
-      "models": "模型"
+      "models": "模型",
+      "copyMessage": "複製",
+      "copied": "已複製！",
+      "regenerate": "重新生成",
+      "generationError": "生成回覆失敗",
+      "retry": "重試",
+      "moreOptions": "更多選項",
+      "voiceRequiresProvider": "語音生成需要 Gemini 或 ElevenLabs 供應商"
+    },
+    "editDialog": {
+      "title": "編輯訊息",
+      "description": "修改訊息內容。這將更新用於AI回覆的聊天記錄。",
+      "placeholder": "訊息內容...",
+      "saveChanges": "儲存變更"
+    },
+    "memoryDialog": {
+      "title": "聊天記憶",
+      "description": "AI記住的關於此對話的重要事實和上下文。",
+      "loading": "載入記憶中...",
+      "empty": "還沒有儲存的記憶。",
+      "emptyHint": "使用 Messenger 模式時，記憶將從對話中自動擷取。",
+      "added": "記憶已新增！",
+      "addError": "新增記憶失敗",
+      "updated": "記憶已更新！",
+      "updateError": "更新記憶失敗",
+      "addNew": "新增記憶",
+      "placeholder": "輸入要記住的事實或上下文...",
+      "addButton": "新增記憶"
     },
     "setupChecklist": {
       "title": "開始使用",
@@ -632,7 +665,11 @@
       "lastUpdated": "最後更新",
       "persona": "人設",
       "info": "資訊",
-      "deleteCharacter": "刪除「{name}」？相關聊天也會刪掉，沒法恢復喔。"
+      "deleteCharacter": "刪除「{name}」？相關聊天也會刪掉，沒法恢復喔。",
+      "lorebooks": "知識庫",
+      "images": "圖片",
+      "confirmDeleteTitle": "確定要刪除嗎？",
+      "confirmDeleteDescription": "此操作無法復原。"
     },
     "editor": {
       "editCharacter": "編輯角色",
@@ -722,7 +759,10 @@
       "blockMedium": "封鎖中級+",
       "blockHigh": "僅封鎖高級",
       "saving": "儲存中...",
-      "saved": "設定已儲存"
+      "saved": "設定已儲存",
+      "modelsSection": "模型",
+      "modelsNotice": "請在完整設定頁面中配置文字、圖片和語音模型設定。",
+      "modelsLink": "前往模型設定"
     }
   },
   "connect": {

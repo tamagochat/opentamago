@@ -7,6 +7,12 @@
     "retry": "Reintentar",
     "comingSoon": "Próximamente"
   },
+  "announcement": {
+    "chatLaunchTitle": "¡El chat ya está aquí!",
+    "chatLaunchDescription": "Chatea con personajes de IA usando tu propia clave API. Privado, gratis, sin límites.",
+    "chatLaunchCta": "Pruébalo ahora →",
+    "dismiss": "Cerrar"
+  },
   "experimental": {
     "badge": "Nuevo",
     "charx": "¡Esta función está en desarrollo! Soporta CharX v3 y seguimos mejorándola~",
@@ -593,7 +599,34 @@
       "reasoningTokens": "Tokens de razonamiento",
       "availableCharacters": "Tus personajes",
       "chatUI": "Interfaz de chat",
-      "models": "Modelos"
+      "models": "Modelos",
+      "copyMessage": "Copiar",
+      "copied": "¡Copiado!",
+      "regenerate": "Regenerar",
+      "generationError": "Error al generar respuesta",
+      "retry": "Reintentar",
+      "moreOptions": "Más opciones",
+      "voiceRequiresProvider": "La generación de voz requiere el proveedor Gemini o ElevenLabs"
+    },
+    "editDialog": {
+      "title": "Editar mensaje",
+      "description": "Modifica el contenido del mensaje. Esto actualizará el historial de chat usado para las respuestas de IA.",
+      "placeholder": "Contenido del mensaje...",
+      "saveChanges": "Guardar cambios"
+    },
+    "memoryDialog": {
+      "title": "Memoria del chat",
+      "description": "Hechos importantes y contexto que la IA recuerda sobre esta conversación.",
+      "loading": "Cargando memorias...",
+      "empty": "Aún no hay memorias guardadas.",
+      "emptyHint": "Las memorias se extraerán automáticamente de tus conversaciones al usar el modo Messenger.",
+      "added": "¡Memoria añadida!",
+      "addError": "Error al añadir memoria",
+      "updated": "¡Memoria actualizada!",
+      "updateError": "Error al actualizar memoria",
+      "addNew": "Añadir nueva memoria",
+      "placeholder": "Escribe un hecho o contexto para recordar...",
+      "addButton": "Añadir memoria"
     },
     "setupChecklist": {
       "title": "Comenzar",
@@ -632,7 +665,11 @@
       "lastUpdated": "Última Actualización",
       "persona": "Persona",
       "info": "Info",
-      "deleteCharacter": "¿Eliminar \"{name}\"? Todos los chats relacionados también se eliminarán. Esto no se puede deshacer."
+      "deleteCharacter": "¿Eliminar \"{name}\"? Todos los chats relacionados también se eliminarán. Esto no se puede deshacer.",
+      "lorebooks": "Lorebooks",
+      "images": "Imágenes",
+      "confirmDeleteTitle": "¿Estás seguro?",
+      "confirmDeleteDescription": "Esta acción no se puede deshacer."
     },
     "editor": {
       "editCharacter": "Editar Personaje",
@@ -722,7 +759,10 @@
       "blockMedium": "Bloquear Medio+",
       "blockHigh": "Solo Bloquear Alto",
       "saving": "Guardando...",
-      "saved": "Configuración guardada"
+      "saved": "Configuración guardada",
+      "modelsSection": "Modelos",
+      "modelsNotice": "Configura los modelos de texto, imagen y voz en la página de configuración completa.",
+      "modelsLink": "Ir a Configuración de Modelos"
     }
   },
   "connect": {
