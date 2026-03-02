@@ -1,6 +1,7 @@
 "use client";
 
 import { memo, useState, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "~/components/ui/button";
 import { Textarea } from "~/components/ui/textarea";
 import { ScrollArea } from "~/components/ui/scroll-area";
@@ -15,6 +16,7 @@ import { Loader2, Pencil, Trash2, Plus } from "lucide-react";
 import { toast } from "sonner";
 import type { MemoryDocument } from "~/lib/db/schemas";
 import type { Database } from "~/lib/db";
+import { formatTimeAgo } from "~/lib/utils";
 
 interface MemoryDialogProps {
   open: boolean;
@@ -28,20 +30,6 @@ interface MemoryDialogProps {
   onDeleteMemory: (memoryId: string) => Promise<void>;
 }
 
-function formatTimeAgo(createdAt: number): string {
-  const createdDate = new Date(createdAt);
-  const now = new Date();
-  const diffMs = now.getTime() - createdDate.getTime();
-  const diffMins = Math.floor(diffMs / 60000);
-  const diffHours = Math.floor(diffMs / 3600000);
-  const diffDays = Math.floor(diffMs / 86400000);
-
-  if (diffMins < 1) return "Just now";
-  if (diffMins < 60) return `${diffMins} minute${diffMins > 1 ? "s" : ""} ago`;
-  if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? "s" : ""} ago`;
-  return `${diffDays} day${diffDays > 1 ? "s" : ""} ago`;
-}
-
 export const MemoryDialog = memo(function MemoryDialog({
   open,
   onOpenChange,
@@ -53,6 +41,8 @@ export const MemoryDialog = memo(function MemoryDialog({
   onCreateMemory,
   onDeleteMemory,
 }: MemoryDialogProps) {
+  const t = useTranslations("chat.memoryDialog");
+  const tActions = useTranslations("actions");
   const [newMemory, setNewMemory] = useState("");
   const [editingMemoryId, setEditingMemoryId] = useState<string | null>(null);
   const [editingMemoryContent, setEditingMemoryContent] = useState("");
@@ -66,11 +56,11 @@ export const MemoryDialog = memo(function MemoryDialog({
         characterId,
         content: newMemory.trim(),
       });
-      toast.success("Memory added!");
+      toast.success(t("added"));
       setNewMemory("");
     } catch (error) {
       console.error("Failed to add memory:", error);
-      toast.error("Failed to add memory");
+      toast.error(t("addError"));
     }
   }, [newMemory, chatId, characterId, onCreateMemory]);
 
@@ -91,13 +81,13 @@ export const MemoryDialog = memo(function MemoryDialog({
       const memoryDoc = await db.memories.findOne(memoryId).exec();
       if (memoryDoc) {
         await memoryDoc.patch({ content: editingMemoryContent.trim() });
-        toast.success("Memory updated!");
+        toast.success(t("updated"));
         setEditingMemoryId(null);
         setEditingMemoryContent("");
       }
     } catch (error) {
       console.error("Failed to update memory:", error);
-      toast.error("Failed to update memory");
+      toast.error(t("updateError"));
     }
   }, [editingMemoryContent, db]);
 
@@ -105,9 +95,9 @@ export const MemoryDialog = memo(function MemoryDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle>Chat Memory</DialogTitle>
+          <DialogTitle>{t("title")}</DialogTitle>
           <DialogDescription>
-            Important facts and context that the AI remembers about this conversation.
+            {t("description")}
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-4 py-4">
@@ -117,14 +107,14 @@ export const MemoryDialog = memo(function MemoryDialog({
               {memoriesLoading ? (
                 <div className="text-sm text-muted-foreground text-center py-8">
                   <Loader2 className="h-4 w-4 animate-spin mx-auto mb-2" />
-                  Loading memories...
+                  {t("loading")}
                 </div>
               ) : memories.length === 0 ? (
                 <div className="text-sm text-muted-foreground text-center py-8">
-                  No memories saved yet.
+                  {t("empty")}
                   <br />
                   <span className="text-xs">
-                    Memories will be automatically extracted from your conversations when using Messenger mode.
+                    {t("emptyHint")}
                   </span>
                 </div>
               ) : (
@@ -149,14 +139,14 @@ export const MemoryDialog = memo(function MemoryDialog({
                               size="sm"
                               onClick={handleCancelEdit}
                             >
-                              Cancel
+                              {tActions("cancel")}
                             </Button>
                             <Button
                               size="sm"
                               onClick={() => handleSaveEdit(memory.id)}
                               disabled={!editingMemoryContent.trim()}
                             >
-                              Save
+                              {tActions("save")}
                             </Button>
                           </div>
                         </div>
@@ -196,12 +186,12 @@ export const MemoryDialog = memo(function MemoryDialog({
 
           {/* Add New Memory */}
           <div className="space-y-2">
-            <label className="text-sm font-medium">Add New Memory</label>
+            <label className="text-sm font-medium">{t("addNew")}</label>
             <div className="flex gap-2">
               <Textarea
                 value={newMemory}
                 onChange={(e) => setNewMemory(e.target.value)}
-                placeholder="Type a fact or context to remember..."
+                placeholder={t("placeholder")}
                 className="min-h-[80px] resize-none flex-1"
               />
             </div>
@@ -211,7 +201,7 @@ export const MemoryDialog = memo(function MemoryDialog({
               className="w-full"
             >
               <Plus className="mr-2 h-4 w-4" />
-              Add Memory
+              {t("addButton")}
             </Button>
           </div>
         </div>

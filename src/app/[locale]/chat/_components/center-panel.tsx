@@ -120,6 +120,7 @@ function CenterPanelInner({ character, chat, onSelectChat, onSelectCharacter, cl
       displayedContentLanguage: m.displayedContentLanguage,
       attachmentsMeta: m.attachmentsMeta,
       tokenUsage: m.tokenUsage,
+      createdAt: m.createdAt,
     }));
     setDisplayMessages(msgs);
   }, [storedMessages]);
@@ -417,6 +418,13 @@ function CenterPanelInner({ character, chat, onSelectChat, onSelectCharacter, cl
       // Clear streaming state on error
       streamingContentRef.current = "";
       setStreamingContent("");
+      toast.error(t("generationError"), {
+        action: {
+          label: t("retry"),
+          onClick: () => void handleSubmit(userMessage),
+        },
+        duration: 10000,
+      });
     } finally {
       // Cleanup RAF if running
       if (rafIdRef.current) {
@@ -443,6 +451,27 @@ function CenterPanelInner({ character, chat, onSelectChat, onSelectCharacter, cl
   const handleEditMessage = useCallback((messageId: string, content: string) => {
     openEditDialog(messageId, content);
   }, [openEditDialog]);
+
+  // Regenerate last response - delete last assistant message and re-send last user message
+  const handleRegenerate = useCallback(async () => {
+    if (isLoading || !storedMessages.length) return;
+
+    // Find the last user message
+    const lastUserMessage = [...storedMessages].reverse().find((m) => m.role === "user");
+    if (!lastUserMessage) return;
+
+    // Find the last assistant message
+    const lastAssistantMessage = [...storedMessages].reverse().find((m) => m.role === "assistant");
+    if (!lastAssistantMessage) return;
+
+    // Delete the last assistant message
+    await deleteMessage(lastAssistantMessage.id);
+
+    // Re-send the last user message content
+    // We need to delete the user message too since handleSubmit will re-add it
+    await deleteMessage(lastUserMessage.id);
+    void handleSubmit(lastUserMessage.content);
+  }, [isLoading, storedMessages, deleteMessage, handleSubmit]);
 
   // Translation handler
   const handleTranslate = useCallback(async (messageId: string, content: string) => {
@@ -588,7 +617,7 @@ function CenterPanelInner({ character, chat, onSelectChat, onSelectCharacter, cl
 
     // Check if voice provider is supported
     if (voiceProviderId !== "gemini" && voiceProviderId !== "elevenlabs") {
-      toast.error("Voice generation requires Gemini or ElevenLabs provider");
+      toast.error(t("voiceRequiresProvider"));
       return;
     }
 
@@ -811,6 +840,10 @@ function CenterPanelInner({ character, chat, onSelectChat, onSelectCharacter, cl
                 const isFirstInGroup = !prevMessage || prevMessage.role !== message.role;
                 const isLastInGroup = !nextMessage || nextMessage.role !== message.role;
 
+                // Check if this is the last assistant message (for regenerate button)
+                const isLastAssistantMessage = message.role === "assistant" &&
+                  !filteredMessages.slice(index + 1).some((m) => m.role === "assistant");
+
                 return (
                   <MessageBubble
                     key={message.id}
@@ -830,20 +863,26 @@ function CenterPanelInner({ character, chat, onSelectChat, onSelectCharacter, cl
                     isGeneratingVoice={isGeneratingVoice[message.id] ?? false}
                     getAttachmentDataUrl={getAttachmentDataUrl}
                     getAttachmentBlob={getAttachmentBlob}
+                    onRegenerate={isLastAssistantMessage ? handleRegenerate : undefined}
+                    isLastAssistantMessage={isLastAssistantMessage}
+                    isLoading={isLoading}
                   />
                 );
               })}
 
-            {/* Loading indicator - show when loading but no streaming content yet */}
+            {/* Typing indicator - animated dots */}
             {isLoading && !streamingContent && (
               <div className="flex gap-3">
                 <Avatar className="h-8 w-8 shrink-0">
                   <AvatarImage src={character.avatarData} />
                   <AvatarFallback>{character.name.slice(0, 2).toUpperCase()}</AvatarFallback>
                 </Avatar>
-                <div className="bg-muted flex items-center gap-2 rounded-2xl px-4 py-2">
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                  <span className="text-muted-foreground text-sm">{t("thinking")}</span>
+                <div className="bg-muted rounded-2xl px-4 py-3">
+                  <div className="flex gap-1">
+                    <span className="h-2 w-2 rounded-full bg-muted-foreground/40 animate-bounce [animation-delay:0ms]" />
+                    <span className="h-2 w-2 rounded-full bg-muted-foreground/40 animate-bounce [animation-delay:150ms]" />
+                    <span className="h-2 w-2 rounded-full bg-muted-foreground/40 animate-bounce [animation-delay:300ms]" />
+                  </div>
                 </div>
               </div>
             )}

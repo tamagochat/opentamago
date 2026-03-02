@@ -7,6 +7,12 @@
     "retry": "もう一度試す",
     "comingSoon": "もうすぐ登場"
   },
+  "announcement": {
+    "chatLaunchTitle": "チャット機能が登場！",
+    "chatLaunchDescription": "自分のAPIキーでAIキャラクターとチャットしよう。プライベートで、無料で、制限なし。",
+    "chatLaunchCta": "試してみる →",
+    "dismiss": "閉じる"
+  },
   "experimental": {
     "badge": "実験的機能",
     "charx": "まだ開発中の機能だよ！CharXバージョン3をサポートするように作ってるけど、どんどん改善していくね。",
@@ -593,7 +599,34 @@
       "reasoningTokens": "推論トークン",
       "availableCharacters": "キャラクター一覧",
       "chatUI": "チャットUI",
-      "models": "モデル"
+      "models": "モデル",
+      "copyMessage": "コピー",
+      "copied": "コピーしました！",
+      "regenerate": "再生成",
+      "generationError": "応答の生成に失敗しました",
+      "retry": "再試行",
+      "moreOptions": "その他のオプション",
+      "voiceRequiresProvider": "音声生成にはGeminiまたはElevenLabsプロバイダーが必要です"
+    },
+    "editDialog": {
+      "title": "メッセージを編集",
+      "description": "メッセージの内容を変更します。AI応答に使用されるチャット履歴が更新されます。",
+      "placeholder": "メッセージの内容...",
+      "saveChanges": "変更を保存"
+    },
+    "memoryDialog": {
+      "title": "チャットメモリー",
+      "description": "AIがこの会話について記憶している重要な事実とコンテキストです。",
+      "loading": "メモリーを読み込み中...",
+      "empty": "まだメモリーがありません。",
+      "emptyHint": "メッセンジャーモードを使用すると、会話から自動的にメモリーが抽出されます。",
+      "added": "メモリーを追加しました！",
+      "addError": "メモリーの追加に失敗しました",
+      "updated": "メモリーを更新しました！",
+      "updateError": "メモリーの更新に失敗しました",
+      "addNew": "新しいメモリーを追加",
+      "placeholder": "記憶する事実やコンテキストを入力...",
+      "addButton": "メモリーを追加"
     },
     "setupChecklist": {
       "title": "はじめに",
@@ -632,7 +665,11 @@
       "lastUpdated": "最終更新",
       "persona": "ペルソナ",
       "info": "情報",
-      "deleteCharacter": "「{name}」を削除する？関連するチャットも全部消えて、元に戻せないよ。"
+      "deleteCharacter": "「{name}」を削除する？関連するチャットも全部消えて、元に戻せないよ。",
+      "lorebooks": "ロアブック",
+      "images": "画像",
+      "confirmDeleteTitle": "本当に削除しますか？",
+      "confirmDeleteDescription": "この操作は元に戻せません。"
     },
     "editor": {
       "editCharacter": "キャラを編集",
@@ -722,7 +759,10 @@
       "blockMedium": "中以上をブロック",
       "blockHigh": "高のみブロック",
       "saving": "保存中...",
-      "saved": "設定を保存しました"
+      "saved": "設定を保存しました",
+      "modelsSection": "モデル",
+      "modelsNotice": "テキスト、画像、音声モデルの設定は設定ページで行えます。",
+      "modelsLink": "モデル設定へ"
     }
   },
   "connect": {

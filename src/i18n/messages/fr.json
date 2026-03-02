@@ -7,6 +7,12 @@
     "retry": "Réessayer",
     "comingSoon": "Bientôt disponible"
   },
+  "announcement": {
+    "chatLaunchTitle": "Le chat est arrivé !",
+    "chatLaunchDescription": "Discute avec des personnages IA en utilisant ta propre clé API. Privé, gratuit, sans limites.",
+    "chatLaunchCta": "Essaie maintenant →",
+    "dismiss": "Fermer"
+  },
   "experimental": {
     "badge": "Nouveau",
     "charx": "Cette fonctionnalité est encore en développement ! Supporte CharX v3, on améliore encore~",
@@ -593,7 +599,34 @@
       "reasoningTokens": "Tokens de raisonnement",
       "availableCharacters": "Tes personnages",
       "chatUI": "Interface de chat",
-      "models": "Modèles"
+      "models": "Modèles",
+      "copyMessage": "Copier",
+      "copied": "Copié !",
+      "regenerate": "Régénérer",
+      "generationError": "Échec de la génération de la réponse",
+      "retry": "Réessayer",
+      "moreOptions": "Plus d'options",
+      "voiceRequiresProvider": "La génération vocale nécessite le fournisseur Gemini ou ElevenLabs"
+    },
+    "editDialog": {
+      "title": "Modifier le message",
+      "description": "Modifie le contenu du message. Cela mettra à jour l'historique de chat utilisé pour les réponses IA.",
+      "placeholder": "Contenu du message...",
+      "saveChanges": "Enregistrer les modifications"
+    },
+    "memoryDialog": {
+      "title": "Mémoire du chat",
+      "description": "Faits importants et contexte que l'IA retient à propos de cette conversation.",
+      "loading": "Chargement des souvenirs...",
+      "empty": "Aucun souvenir enregistré pour l'instant.",
+      "emptyHint": "Les souvenirs seront automatiquement extraits de vos conversations en mode Messenger.",
+      "added": "Souvenir ajouté !",
+      "addError": "Échec de l'ajout du souvenir",
+      "updated": "Souvenir mis à jour !",
+      "updateError": "Échec de la mise à jour du souvenir",
+      "addNew": "Ajouter un nouveau souvenir",
+      "placeholder": "Saisir un fait ou un contexte à retenir...",
+      "addButton": "Ajouter un souvenir"
     },
     "setupChecklist": {
       "title": "Commencer",
@@ -632,7 +665,11 @@
       "lastUpdated": "Dernière mise à jour",
       "persona": "Persona",
       "info": "Info",
-      "deleteCharacter": "Supprimer « {name} » ? Tous les chats associés seront aussi supprimés. Cette action est irréversible."
+      "deleteCharacter": "Supprimer « {name} » ? Tous les chats associés seront aussi supprimés. Cette action est irréversible.",
+      "lorebooks": "Lorebooks",
+      "images": "Images",
+      "confirmDeleteTitle": "Êtes-vous sûr ?",
+      "confirmDeleteDescription": "Cette action ne peut pas être annulée."
     },
     "editor": {
       "editCharacter": "Modifier le personnage",
@@ -722,7 +759,10 @@
       "blockMedium": "Bloquer Moyen+",
       "blockHigh": "Bloquer Élevé seulement",
       "saving": "Enregistrement...",
-      "saved": "Paramètres enregistrés"
+      "saved": "Paramètres enregistrés",
+      "modelsSection": "Modèles",
+      "modelsNotice": "Configure les paramètres des modèles de texte, d'image et de voix sur la page de paramètres complète.",
+      "modelsLink": "Aller aux paramètres des modèles"
     }
   },
   "connect": {

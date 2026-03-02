@@ -14,6 +14,16 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSeparator,
 } from "~/components/ui/dropdown-menu";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "~/components/ui/alert-dialog";
 import { useCharacters, useChats, useSettings } from "~/lib/db/hooks";
 import { parseCharXToCharacter, parseJsonToCharacter } from "~/lib/charx/hooks";
 import { CharacterEditor } from "./character-editor";
@@ -48,6 +58,7 @@ export function LeftPanel({
 }: LeftPanelProps) {
   const t = useTranslations("chat.leftPanel");
   const tCommon = useTranslations("common");
+  const tActions = useTranslations("actions");
   const { characters, saveCharacterWithAssets, deleteCharacter } = useCharacters();
   const { createChat, deleteChat } = useChats(selectedCharacter?.id);
   const { settings } = useSettings();
@@ -57,6 +68,7 @@ export function LeftPanel({
   const charxInputRef = useRef<HTMLInputElement>(null);
   const jsonInputRef = useRef<HTMLInputElement>(null);
   const [isImporting, setIsImporting] = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState<{ type: "character" | "chat"; id: string; name: string } | null>(null);
 
   const handleCreateCharacter = () => {
     setEditingCharacter(null);
@@ -148,14 +160,25 @@ export function LeftPanel({
     setCharacterEditorOpen(true);
   };
 
-  const handleDeleteCharacter = async (character: CharacterDocument) => {
-    if (confirm(t("deleteCharacter", { name: character.name }))) {
-      await deleteCharacter(character.id);
-      if (selectedCharacter?.id === character.id) {
+  const handleDeleteCharacter = (character: CharacterDocument) => {
+    setDeleteTarget({ type: "character", id: character.id, name: character.name });
+  };
+
+  const confirmDelete = async () => {
+    if (!deleteTarget) return;
+    if (deleteTarget.type === "character") {
+      await deleteCharacter(deleteTarget.id);
+      if (selectedCharacter?.id === deleteTarget.id) {
         onSelectCharacter(null);
         onSelectChat(null);
       }
+    } else {
+      await deleteChat(deleteTarget.id);
+      if (selectedChat?.id === deleteTarget.id) {
+        onSelectChat(null);
+      }
     }
+    setDeleteTarget(null);
   };
 
   const handleStartChat = async (character?: CharacterDocument) => {
@@ -183,14 +206,9 @@ export function LeftPanel({
     onSelectChat(chat);
   };
 
-  const handleDeleteChat = async (chat: ChatDocument, e: React.MouseEvent) => {
+  const handleDeleteChat = (chat: ChatDocument, e: React.MouseEvent) => {
     e.stopPropagation();
-    if (confirm(t("deleteChat"))) {
-      await deleteChat(chat.id);
-      if (selectedChat?.id === chat.id) {
-        onSelectChat(null);
-      }
-    }
+    setDeleteTarget({ type: "chat", id: chat.id, name: chat.title ?? "this chat" });
   };
 
   return (
@@ -296,6 +314,32 @@ export function LeftPanel({
           </div>
         </div>
       </ScrollArea>
+
+      <AlertDialog open={!!deleteTarget} onOpenChange={(open) => !open && setDeleteTarget(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              {deleteTarget?.type === "character"
+                ? t("deleteCharacter", { name: deleteTarget.name })
+                : t("deleteChat")}
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              {deleteTarget?.type === "character"
+                ? t("deleteCharacter", { name: deleteTarget.name })
+                : t("deleteChat")}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>{tActions("cancel")}</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={confirmDelete}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              {tActions("delete")}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       <CharacterEditor
         open={characterEditorOpen}

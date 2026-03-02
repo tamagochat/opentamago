@@ -7,6 +7,12 @@
     "retry": "Coba lagi",
     "comingSoon": "Segera hadir"
   },
+  "announcement": {
+    "chatLaunchTitle": "Fitur chat telah hadir!",
+    "chatLaunchDescription": "Mengobrol dengan karakter AI menggunakan kunci API Anda sendiri. Privat, gratis, tanpa batasan.",
+    "chatLaunchCta": "Coba sekarang →",
+    "dismiss": "Tutup"
+  },
   "experimental": {
     "badge": "Fitur Baru",
     "charx": "Fitur ini masih dikembangkan! Sedang support CharX v3, dan terus diperbaiki ya~",
@@ -593,7 +599,34 @@
       "reasoningTokens": "Token penalaran",
       "availableCharacters": "Karakter Anda",
       "chatUI": "UI Obrolan",
-      "models": "Model"
+      "models": "Model",
+      "copyMessage": "Salin",
+      "copied": "Disalin!",
+      "regenerate": "Buat ulang",
+      "generationError": "Gagal menghasilkan respons",
+      "retry": "Coba lagi",
+      "moreOptions": "Opsi lainnya",
+      "voiceRequiresProvider": "Pembuatan suara memerlukan penyedia Gemini atau ElevenLabs"
+    },
+    "editDialog": {
+      "title": "Edit Pesan",
+      "description": "Ubah konten pesan. Ini akan memperbarui riwayat obrolan yang digunakan untuk respons AI.",
+      "placeholder": "Konten pesan...",
+      "saveChanges": "Simpan Perubahan"
+    },
+    "memoryDialog": {
+      "title": "Memori Obrolan",
+      "description": "Fakta penting dan konteks yang diingat AI tentang percakapan ini.",
+      "loading": "Memuat memori...",
+      "empty": "Belum ada memori yang disimpan.",
+      "emptyHint": "Memori akan otomatis diekstrak dari percakapan Anda saat menggunakan mode Messenger.",
+      "added": "Memori ditambahkan!",
+      "addError": "Gagal menambahkan memori",
+      "updated": "Memori diperbarui!",
+      "updateError": "Gagal memperbarui memori",
+      "addNew": "Tambah Memori Baru",
+      "placeholder": "Ketik fakta atau konteks untuk diingat...",
+      "addButton": "Tambah Memori"
     },
     "setupChecklist": {
       "title": "Mulai",
@@ -632,7 +665,11 @@
       "lastUpdated": "Update Terakhir",
       "persona": "Persona",
       "info": "Info",
-      "deleteCharacter": "Hapus \"{name}\"? Semua chat terkait juga ikut kehapus dan gak bisa diundo."
+      "deleteCharacter": "Hapus \"{name}\"? Semua chat terkait juga ikut kehapus dan gak bisa diundo.",
+      "lorebooks": "Lorebook",
+      "images": "Gambar",
+      "confirmDeleteTitle": "Apakah Anda yakin?",
+      "confirmDeleteDescription": "Tindakan ini tidak dapat dibatalkan."
     },
     "editor": {
       "editCharacter": "Edit Karakter",
@@ -722,7 +759,10 @@
       "blockMedium": "Blokir Sedang+",
       "blockHigh": "Blokir Tinggi Saja",
       "saving": "Menyimpan...",
-      "saved": "Pengaturan disimpan"
+      "saved": "Pengaturan disimpan",
+      "modelsSection": "Model",
+      "modelsNotice": "Konfigurasikan pengaturan model teks, gambar, dan suara di halaman pengaturan lengkap.",
+      "modelsLink": "Buka Pengaturan Model"
     }
   },
   "connect": {

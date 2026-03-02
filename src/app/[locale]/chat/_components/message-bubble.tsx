@@ -4,7 +4,7 @@ import { memo, useState, useCallback } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "~/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
-import { User, Trash2, Pencil, Image, Volume2, Languages, MoreHorizontal, MoreVertical, ArrowRightLeft, Loader2, Activity } from "lucide-react";
+import { User, Trash2, Pencil, Image, Volume2, Languages, MoreHorizontal, MoreVertical, ArrowRightLeft, Loader2, Activity, Copy, Check, RefreshCw } from "lucide-react";
 import { ImageZoomDialog } from "~/components/image-zoom-dialog";
 import {
   DropdownMenu,
@@ -18,7 +18,7 @@ import {
   DropdownMenuSeparator,
 } from "~/components/ui/dropdown-menu";
 import type { CharacterDocument, ChatBubbleTheme, MessageAttachmentMeta, MessageTokenUsage } from "~/lib/db/schemas";
-import { cn } from "~/lib/utils";
+import { cn, formatTimeAgo } from "~/lib/utils";
 import { ReasoningCollapsible } from "./reasoning-collapsible";
 import { MessageAttachments } from "./message-attachment";
 
@@ -37,6 +37,7 @@ interface DisplayMessage {
   displayedContentLanguage?: string;
   attachmentsMeta?: MessageAttachmentMeta[];
   tokenUsage?: MessageTokenUsage;
+  createdAt?: number;
 }
 
 // Recursive markdown-style parser for roleplay text
@@ -287,6 +288,9 @@ interface MessageBubbleProps {
   getAttachmentDataUrl: (messageId: string, attachmentId: string) => Promise<string | null>;
   /** Function to get attachment blob for audio playback */
   getAttachmentBlob: (messageId: string, attachmentId: string) => Promise<Blob | null>;
+  onRegenerate?: () => void;
+  isLastAssistantMessage?: boolean;
+  isLoading?: boolean;
 }
 
 export const MessageBubble = memo(function MessageBubble({
@@ -306,6 +310,9 @@ export const MessageBubble = memo(function MessageBubble({
   isGeneratingVoice,
   getAttachmentDataUrl,
   getAttachmentBlob,
+  onRegenerate,
+  isLastAssistantMessage,
+  isLoading,
 }: MessageBubbleProps) {
   const t = useTranslations("chat.centerPanel");
   const tActions = useTranslations("actions");
@@ -313,6 +320,15 @@ export const MessageBubble = memo(function MessageBubble({
   // LOCAL translation view state - isolated to this bubble
   // true = show translated, false = show original
   const [showTranslation, setShowTranslation] = useState(true);
+
+  // Copy to clipboard state
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = useCallback(async () => {
+    await navigator.clipboard.writeText(message.content);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }, [message.content]);
 
   const toggleTranslation = useCallback(() => {
     setShowTranslation(prev => !prev);
@@ -363,6 +379,27 @@ export const MessageBubble = memo(function MessageBubble({
         variant="ghost"
         size="icon"
         className="h-7 w-7 text-muted-foreground hover:text-foreground"
+        onClick={handleCopy}
+        title={copied ? t("copied") : t("copyMessage")}
+      >
+        {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
+      </Button>
+      {isLastAssistantMessage && message.role === "assistant" && onRegenerate && (
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-7 w-7 text-muted-foreground hover:text-foreground"
+          onClick={onRegenerate}
+          disabled={isLoading}
+          title={t("regenerate")}
+        >
+          <RefreshCw className="h-3.5 w-3.5" />
+        </Button>
+      )}
+      <Button
+        variant="ghost"
+        size="icon"
+        className="h-7 w-7 text-muted-foreground hover:text-foreground"
         onClick={handleEdit}
       >
         <Pencil className="h-3.5 w-3.5" />
@@ -381,7 +418,7 @@ export const MessageBubble = memo(function MessageBubble({
             variant="ghost"
             size="icon"
             className="h-7 w-7 text-muted-foreground hover:text-foreground"
-            title="More options"
+            title={t("moreOptions")}
           >
             <MoreHorizontal className="h-3.5 w-3.5" />
           </Button>
@@ -454,6 +491,16 @@ export const MessageBubble = memo(function MessageBubble({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
+          <DropdownMenuItem onClick={handleCopy}>
+            {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+            {copied ? t("copied") : t("copyMessage")}
+          </DropdownMenuItem>
+          {isLastAssistantMessage && message.role === "assistant" && onRegenerate && (
+            <DropdownMenuItem onClick={onRegenerate} disabled={isLoading}>
+              <RefreshCw className="h-4 w-4" />
+              {t("regenerate")}
+            </DropdownMenuItem>
+          )}
           <DropdownMenuItem onClick={handleEdit}>
             <Pencil className="h-4 w-4" />
             {tActions("edit")}
@@ -609,6 +656,16 @@ export const MessageBubble = memo(function MessageBubble({
           {desktopButtonGroup}
           {mobileButtonGroup}
         </div>
+
+        {/* Timestamp */}
+        {message.createdAt && (
+          <span className={cn(
+            "text-[10px] text-muted-foreground/60 px-1",
+            message.role === "user" ? "text-right" : "text-left"
+          )}>
+            {formatTimeAgo(message.createdAt)}
+          </span>
+        )}
       </div>
     </div>
   );

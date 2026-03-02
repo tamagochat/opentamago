@@ -7,6 +7,12 @@
     "retry": "Thử lại",
     "comingSoon": "Sắp ra mắt"
   },
+  "announcement": {
+    "chatLaunchTitle": "Tính năng chat đã có mặt!",
+    "chatLaunchDescription": "Trò chuyện với nhân vật AI bằng khóa API của bạn. Riêng tư, miễn phí, không giới hạn.",
+    "chatLaunchCta": "Thử ngay →",
+    "dismiss": "Đóng"
+  },
   "experimental": {
     "badge": "Tính năng mới",
     "charx": "Tính năng này đang được phát triển! Đang hỗ trợ CharX v3, sẽ cải thiện tiếp~",
@@ -593,7 +599,34 @@
       "reasoningTokens": "Token suy luận",
       "availableCharacters": "Nhân vật của bạn",
       "chatUI": "Giao diện chat",
-      "models": "Mô hình"
+      "models": "Mô hình",
+      "copyMessage": "Sao chép",
+      "copied": "Đã sao chép!",
+      "regenerate": "Tạo lại",
+      "generationError": "Không thể tạo phản hồi",
+      "retry": "Thử lại",
+      "moreOptions": "Tùy chọn khác",
+      "voiceRequiresProvider": "Tạo giọng nói yêu cầu nhà cung cấp Gemini hoặc ElevenLabs"
+    },
+    "editDialog": {
+      "title": "Chỉnh sửa tin nhắn",
+      "description": "Sửa đổi nội dung tin nhắn. Điều này sẽ cập nhật lịch sử trò chuyện được sử dụng cho phản hồi AI.",
+      "placeholder": "Nội dung tin nhắn...",
+      "saveChanges": "Lưu thay đổi"
+    },
+    "memoryDialog": {
+      "title": "Bộ nhớ trò chuyện",
+      "description": "Các sự kiện quan trọng và ngữ cảnh mà AI ghi nhớ về cuộc trò chuyện này.",
+      "loading": "Đang tải bộ nhớ...",
+      "empty": "Chưa có bộ nhớ nào được lưu.",
+      "emptyHint": "Bộ nhớ sẽ được tự động trích xuất từ cuộc trò chuyện khi sử dụng chế độ Messenger.",
+      "added": "Đã thêm bộ nhớ!",
+      "addError": "Không thể thêm bộ nhớ",
+      "updated": "Đã cập nhật bộ nhớ!",
+      "updateError": "Không thể cập nhật bộ nhớ",
+      "addNew": "Thêm bộ nhớ mới",
+      "placeholder": "Nhập sự kiện hoặc ngữ cảnh cần ghi nhớ...",
+      "addButton": "Thêm bộ nhớ"
     },
     "setupChecklist": {
       "title": "Bắt đầu",
@@ -632,7 +665,11 @@
       "lastUpdated": "Cập Nhật Lần Cuối",
       "persona": "Persona",
       "info": "Thông tin",
-      "deleteCharacter": "Xóa \"{name}\"? Tất cả chat liên quan cũng sẽ bị xóa. Không thể hoàn tác."
+      "deleteCharacter": "Xóa \"{name}\"? Tất cả chat liên quan cũng sẽ bị xóa. Không thể hoàn tác.",
+      "lorebooks": "Sách lore",
+      "images": "Hình ảnh",
+      "confirmDeleteTitle": "Bạn có chắc không?",
+      "confirmDeleteDescription": "Hành động này không thể hoàn tác."
     },
     "editor": {
       "editCharacter": "Sửa Nhân Vật",
@@ -722,7 +759,10 @@
       "blockMedium": "Chặn Trung Bình+",
       "blockHigh": "Chỉ Chặn Cao",
       "saving": "Đang lưu...",
-      "saved": "Đã lưu cài đặt"
+      "saved": "Đã lưu cài đặt",
+      "modelsSection": "Mô hình",
+      "modelsNotice": "Cấu hình cài đặt mô hình văn bản, hình ảnh và giọng nói trên trang cài đặt đầy đủ.",
+      "modelsLink": "Đi tới Cài đặt Mô hình"
     }
   },
   "connect": {

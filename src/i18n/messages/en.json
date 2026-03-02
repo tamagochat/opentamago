@@ -7,6 +7,12 @@
     "retry": "Try again",
     "comingSoon": "Coming Soon"
   },
+  "announcement": {
+    "chatLaunchTitle": "Chat is here!",
+    "chatLaunchDescription": "Chat with AI characters using your own API key. Private, free, no limits.",
+    "chatLaunchCta": "Try it now \u2192",
+    "dismiss": "Dismiss"
+  },
   "experimental": {
     "badge": "Experimental",
     "charx": "This feature is still a work in progress! It's designed to support CharX version 3, but we're still improving it.",
@@ -593,7 +599,34 @@
       "reasoningTokens": "Reasoning Tokens",
       "availableCharacters": "Your Characters",
       "chatUI": "Chat UI",
-      "models": "Models"
+      "models": "Models",
+      "copyMessage": "Copy",
+      "copied": "Copied!",
+      "regenerate": "Regenerate",
+      "generationError": "Failed to generate response",
+      "retry": "Retry",
+      "moreOptions": "More options",
+      "voiceRequiresProvider": "Voice generation requires Gemini or ElevenLabs provider"
+    },
+    "editDialog": {
+      "title": "Edit Message",
+      "description": "Modify the message content. This will update the chat history used for AI responses.",
+      "placeholder": "Message content...",
+      "saveChanges": "Save Changes"
+    },
+    "memoryDialog": {
+      "title": "Chat Memory",
+      "description": "Important facts and context that the AI remembers about this conversation.",
+      "loading": "Loading memories...",
+      "empty": "No memories saved yet.",
+      "emptyHint": "Memories will be automatically extracted from your conversations when using Messenger mode.",
+      "added": "Memory added!",
+      "addError": "Failed to add memory",
+      "updated": "Memory updated!",
+      "updateError": "Failed to update memory",
+      "addNew": "Add New Memory",
+      "placeholder": "Type a fact or context to remember...",
+      "addButton": "Add Memory"
     },
     "setupChecklist": {
       "title": "Get Started",
@@ -632,7 +665,11 @@
       "lastUpdated": "Last Updated",
       "persona": "Persona",
       "info": "Info",
-      "deleteCharacter": "Delete \"{name}\"? All related chats will be deleted too. This can't be undone."
+      "deleteCharacter": "Delete \"{name}\"? All related chats will be deleted too. This can't be undone.",
+      "lorebooks": "Lorebooks",
+      "images": "Images",
+      "confirmDeleteTitle": "Are you sure?",
+      "confirmDeleteDescription": "This action cannot be undone."
     },
     "editor": {
       "editCharacter": "Edit Character",
@@ -722,7 +759,10 @@
       "blockMedium": "Block Medium+",
       "blockHigh": "Block High Only",
       "saving": "Saving...",
-      "saved": "Settings saved"
+      "saved": "Settings saved",
+      "modelsSection": "Models",
+      "modelsNotice": "Configure text, image, and voice model settings on the full settings page.",
+      "modelsLink": "Go to Model Settings"
     }
   },
   "connect": {
