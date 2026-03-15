@@ -46,11 +46,15 @@
     }
   },
   "globalEnv": [
+    "DATABASE_URL",
     "POSTGRES_URL",
+    "AUTH_SECRET",
     "AUTH_DISCORD_ID",
     "AUTH_DISCORD_SECRET",
     "AUTH_REDIRECT_PROXY_URL",
-    "AUTH_SECRET",
+    "GOOGLE_GENERATIVE_AI_API_KEY",
+    "NEXT_PUBLIC_PEERJS_HOST",
+    "NEXT_PUBLIC_PEERJS_PATH",
     "PORT"
   ],
   "globalPassThroughEnv": [

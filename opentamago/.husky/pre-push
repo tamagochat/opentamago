@@ -1,0 +1,1 @@
+pnpm -F @acme/nextjs i18n:validate

@@ -1,23 +1,38 @@
-import { createJiti } from "jiti";
+/**
+ * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially useful
+ * for Docker builds.
+ */
+import "./src/env.js";
+import createNextIntlPlugin from "next-intl/plugin";
 
-const jiti = createJiti(import.meta.url);
-
-// Import env files to validate at build time. Use jiti so we can load .ts files in here.
-await jiti.import("./src/env");
+const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
 /** @type {import("next").NextConfig} */
 const config = {
-  /** Enables hot reloading for local packages without a build step */
-  transpilePackages: [
-    "@acme/api",
-    "@acme/auth",
-    "@acme/db",
-    "@acme/ui",
-    "@acme/validators",
-  ],
-
-  /** We already do linting and typechecking as separate tasks in CI */
+  // Disable strict mode to avoid calling useEffect twice in development.
+  // The uploader and downloader are both using useEffect to listen for peerjs events
+  // which causes the connection to be created twice.
+  reactStrictMode: false,
+  output: "standalone",
+  eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
+  async rewrites() {
+    const defaultLocale = "en";
+
+    return [
+      // Rewrite root to default locale
+      {
+        source: "/",
+        destination: `/${defaultLocale}`,
+      },
+      // Rewrite routes without locale prefix to default locale
+      // Matches paths that don't start with api, trpc, _next, _vercel, or locale prefixes
+      {
+        source: "/:path((?!api|trpc|_next|_vercel|en|ko|ja).+)",
+        destination: `/${defaultLocale}/:path*`,
+      },
+    ];
+  },
 };
 
-export default config;
+export default withNextIntl(config);

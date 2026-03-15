@@ -2,12 +2,17 @@
   "extends": "@acme/tsconfig/base.json",
   "compilerOptions": {
     "lib": ["ES2022", "dom", "dom.iterable"],
+    "noEmit": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "verbatimModuleSyntax": true,
     "jsx": "preserve",
+    "incremental": true,
     "paths": {
       "~/*": ["./src/*"]
     },
     "plugins": [{ "name": "next" }]
   },
-  "include": [".", ".next/types/**/*.ts"],
+  "include": [".", "next-env.d.ts", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }
