@@ -5,6 +5,7 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { oAuthProxy } from "better-auth/plugins";
 
 import { db } from "@acme/db/client";
+import * as authSchema from "@acme/db/schema";
 
 export function initAuth<
   TExtraPlugins extends BetterAuthPlugin[] = [],
@@ -20,6 +21,12 @@ export function initAuth<
   const config = {
     database: drizzleAdapter(db, {
       provider: "pg",
+      schema: {
+        user: authSchema.user,
+        session: authSchema.session,
+        account: authSchema.account,
+        verification: authSchema.verification,
+      },
     }),
     baseURL: options.baseUrl,
     secret: options.secret,
@@ -35,6 +42,11 @@ export function initAuth<
         clientId: options.discordClientId,
         clientSecret: options.discordClientSecret,
         redirectURI: `${options.productionUrl}/api/auth/callback/discord`,
+      },
+    },
+    advanced: {
+      database: {
+        generateId: () => crypto.randomUUID(),
       },
     },
     trustedOrigins: ["expo://"],

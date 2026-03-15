@@ -443,6 +443,21 @@
       "goHome": "回首頁"
     }
   },
+  "feedback": {
+    "title": "傳送回饋",
+    "description": "幫助我們改進 OpenTamago。您有什麼想法？",
+    "type": {
+      "bug": "錯誤回報",
+      "feature": "功能請求",
+      "other": "其他回饋"
+    },
+    "placeholder": "告訴我們更多（選填）",
+    "submit": "提交",
+    "submitting": "提交中...",
+    "success": "感謝您的回饋！",
+    "error": "提交回饋失敗，請重試。",
+    "signInRequired": "請登入後再提交回饋。"
+  },
   "footer": {
     "description": "開源 AI 角色平台。查看、分享、和 AI 角色聊天。",
     "product": "產品",

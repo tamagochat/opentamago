@@ -1,6 +1,15 @@
 {
-  "name": "create-t3-turbo",
+  "name": "opentamago",
+  "version": "0.1.0",
   "private": true,
+  "license": "GPL-3.0",
+  "author": "Tamago Chat",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tamagochat/opentamago"
+  },
+  "homepage": "https://open.tamago.chat",
+  "bugs": "https://github.com/tamagochat/opentamago/issues",
   "engines": {
     "node": "^22.21.0",
     "pnpm": "^10.19.0"

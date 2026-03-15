@@ -443,6 +443,21 @@
       "goHome": "Strona główna"
     }
   },
+  "feedback": {
+    "title": "Wyślij opinię",
+    "description": "Pomóż nam ulepszyć OpenTamago. Co masz na myśli?",
+    "type": {
+      "bug": "Zgłoszenie błędu",
+      "feature": "Prośba o funkcję",
+      "other": "Inna opinia"
+    },
+    "placeholder": "Powiedz nam więcej (opcjonalnie)",
+    "submit": "Wyślij",
+    "submitting": "Wysyłanie...",
+    "success": "Dziękujemy za opinię!",
+    "error": "Nie udało się wysłać opinii. Spróbuj ponownie.",
+    "signInRequired": "Zaloguj się, aby wysłać opinię."
+  },
   "footer": {
     "description": "Platforma postaci AI open source. Przeglądaj, udostępniaj i rozmawiaj z postaciami AI.",
     "product": "Produkt",

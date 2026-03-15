@@ -1,5 +1,6 @@
 import { p2pRouter } from "~/server/api/routers/p2p";
 import { connectRouter } from "~/server/api/routers/connect";
+import { feedbackRouter } from "~/server/api/routers/feedback";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 
 /**
@@ -10,6 +11,7 @@ import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 export const appRouter = createTRPCRouter({
   p2p: p2pRouter,
   connect: connectRouter,
+  feedback: feedbackRouter,
 });
 
 // export type definition of API

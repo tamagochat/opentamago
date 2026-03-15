@@ -443,6 +443,21 @@
       "goHome": "홈으로 가기"
     }
   },
+  "feedback": {
+    "title": "피드백 보내기",
+    "description": "OpenTamago를 개선하는 데 도움을 주세요. 무슨 생각이세요?",
+    "type": {
+      "bug": "버그 신고",
+      "feature": "기능 요청",
+      "other": "기타 피드백"
+    },
+    "placeholder": "자세히 알려주세요 (선택사항)",
+    "submit": "제출",
+    "submitting": "제출 중...",
+    "success": "피드백을 보내주셔서 감사합니다!",
+    "error": "피드백 제출에 실패했어요. 다시 시도해 주세요.",
+    "signInRequired": "피드백을 보내려면 로그인해 주세요."
+  },
   "footer": {
     "description": "오픈소스 AI 캐릭터 플랫폼. AI 캐릭터를 구경하고, 공유하고, 대화해 보세요.",
     "product": "제품",

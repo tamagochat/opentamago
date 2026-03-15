@@ -7,6 +7,9 @@
  * This configuration is consumed by the CLI command:
  * `pnpx @better-auth/cli generate --config script/auth-cli.ts --output ../db/src/auth-schema.ts`
  *
+ * NOTE: After regenerating, you must manually update the generated table names
+ * to use the "opentamago_" prefix (e.g., pgTable("opentamago_user", ...)).
+ *
  * For actual authentication usage, import from "../src/index.ts" instead.
  */
 

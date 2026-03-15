@@ -443,6 +443,21 @@
       "goHome": "Ana Sayfaya Git"
     }
   },
+  "feedback": {
+    "title": "Geri Bildirim Gönder",
+    "description": "OpenTamago'yu geliştirmemize yardımcı olun. Aklınızda ne var?",
+    "type": {
+      "bug": "Hata bildirimi",
+      "feature": "Özellik isteği",
+      "other": "Diğer geri bildirim"
+    },
+    "placeholder": "Daha fazla bilgi verin (isteğe bağlı)",
+    "submit": "Gönder",
+    "submitting": "Gönderiliyor...",
+    "success": "Geri bildiriminiz için teşekkürler!",
+    "error": "Geri bildirim gönderilemedi. Lütfen tekrar deneyin.",
+    "signInRequired": "Geri bildirim göndermek için lütfen giriş yapın."
+  },
   "footer": {
     "description": "Açık kaynak AI karakter platformu. AI karakterleri görüntüleyin, paylaşın ve sohbet edin.",
     "product": "Ürün",

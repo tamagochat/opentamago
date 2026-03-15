@@ -443,6 +443,21 @@
       "goHome": "Ke Beranda"
     }
   },
+  "feedback": {
+    "title": "Kirim Masukan",
+    "description": "Bantu kami meningkatkan OpenTamago. Apa yang ada di pikiran Anda?",
+    "type": {
+      "bug": "Laporan bug",
+      "feature": "Permintaan fitur",
+      "other": "Masukan lainnya"
+    },
+    "placeholder": "Ceritakan lebih lanjut (opsional)",
+    "submit": "Kirim",
+    "submitting": "Mengirim...",
+    "success": "Terima kasih atas masukan Anda!",
+    "error": "Gagal mengirim masukan. Silakan coba lagi.",
+    "signInRequired": "Silakan masuk untuk mengirim masukan."
+  },
   "footer": {
     "description": "Platform karakter AI open source. Lihat, bagikan, dan ngobrol dengan karakter AI.",
     "product": "Produk",

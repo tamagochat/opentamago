@@ -443,6 +443,21 @@
       "goHome": "Zur Startseite"
     }
   },
+  "feedback": {
+    "title": "Feedback senden",
+    "description": "Helfen Sie uns, OpenTamago zu verbessern. Was denken Sie?",
+    "type": {
+      "bug": "Fehlerbericht",
+      "feature": "Funktionsanfrage",
+      "other": "Sonstiges Feedback"
+    },
+    "placeholder": "Erzählen Sie uns mehr (optional)",
+    "submit": "Absenden",
+    "submitting": "Wird gesendet...",
+    "success": "Vielen Dank für Ihr Feedback!",
+    "error": "Feedback konnte nicht gesendet werden. Bitte versuchen Sie es erneut.",
+    "signInRequired": "Bitte melden Sie sich an, um Feedback zu senden."
+  },
   "footer": {
     "description": "Open-Source KI-Charakter Plattform. Betrachte, teile und chatte mit KI-Charakteren.",
     "product": "Produkt",

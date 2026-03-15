@@ -443,6 +443,21 @@
       "goHome": "Ir para Início"
     }
   },
+  "feedback": {
+    "title": "Enviar feedback",
+    "description": "Ajude-nos a melhorar o OpenTamago. O que você tem em mente?",
+    "type": {
+      "bug": "Relatório de bug",
+      "feature": "Solicitação de recurso",
+      "other": "Outro feedback"
+    },
+    "placeholder": "Conte-nos mais (opcional)",
+    "submit": "Enviar",
+    "submitting": "Enviando...",
+    "success": "Obrigado pelo seu feedback!",
+    "error": "Falha ao enviar feedback. Tente novamente.",
+    "signInRequired": "Faça login para enviar feedback."
+  },
   "footer": {
     "description": "Plataforma de personagens IA open source. Visualize, compartilhe e converse com personagens IA.",
     "product": "Produto",

@@ -1,7 +1,9 @@
-import { pgTable } from "drizzle-orm/pg-core";
+import { pgTableCreator } from "drizzle-orm/pg-core";
 
-export const user = pgTable("user", (t) => ({
-  id: t.text().primaryKey(),
+const createTable = pgTableCreator((name) => `opentamago_${name}`);
+
+export const user = createTable("user", (t) => ({
+  id: t.uuid().primaryKey().defaultRandom(),
   name: t.text().notNull(),
   email: t.text().notNull().unique(),
   emailVerified: t.boolean().notNull(),
@@ -10,8 +12,8 @@ export const user = pgTable("user", (t) => ({
   updatedAt: t.timestamp().notNull(),
 }));
 
-export const session = pgTable("session", (t) => ({
-  id: t.text().primaryKey(),
+export const session = createTable("session", (t) => ({
+  id: t.uuid().primaryKey().defaultRandom(),
   expiresAt: t.timestamp().notNull(),
   token: t.text().notNull().unique(),
   createdAt: t.timestamp().notNull(),
@@ -19,17 +21,17 @@ export const session = pgTable("session", (t) => ({
   ipAddress: t.text(),
   userAgent: t.text(),
   userId: t
-    .text()
+    .uuid()
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
 }));
 
-export const account = pgTable("account", (t) => ({
-  id: t.text().primaryKey(),
+export const account = createTable("account", (t) => ({
+  id: t.uuid().primaryKey().defaultRandom(),
   accountId: t.text().notNull(),
   providerId: t.text().notNull(),
   userId: t
-    .text()
+    .uuid()
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
   accessToken: t.text(),
@@ -43,8 +45,8 @@ export const account = pgTable("account", (t) => ({
   updatedAt: t.timestamp().notNull(),
 }));
 
-export const verification = pgTable("verification", (t) => ({
-  id: t.text().primaryKey(),
+export const verification = createTable("verification", (t) => ({
+  id: t.uuid().primaryKey().defaultRandom(),
   identifier: t.text().notNull(),
   value: t.text().notNull(),
   expiresAt: t.timestamp().notNull(),

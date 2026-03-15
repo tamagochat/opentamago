@@ -443,6 +443,21 @@
       "goHome": "ホームに戻る"
     }
   },
+  "feedback": {
+    "title": "フィードバックを送る",
+    "description": "OpenTamagoの改善にご協力ください。",
+    "type": {
+      "bug": "バグ報告",
+      "feature": "機能リクエスト",
+      "other": "その他のフィードバック"
+    },
+    "placeholder": "詳しく教えてください（任意）",
+    "submit": "送信",
+    "submitting": "送信中...",
+    "success": "フィードバックありがとうございます！",
+    "error": "フィードバックの送信に失敗しました。もう一度お試しください。",
+    "signInRequired": "フィードバックを送信するにはログインしてください。"
+  },
   "footer": {
     "description": "オープンソースAIキャラクタープラットフォーム。AIキャラクターを見て、共有して、おしゃべりしよう。",
     "product": "製品",

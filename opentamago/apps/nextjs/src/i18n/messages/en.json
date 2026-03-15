@@ -443,6 +443,21 @@
       "goHome": "Go Home"
     }
   },
+  "feedback": {
+    "title": "Send Feedback",
+    "description": "Help us improve OpenTamago. What's on your mind?",
+    "type": {
+      "bug": "Bug report",
+      "feature": "Feature request",
+      "other": "Other feedback"
+    },
+    "placeholder": "Tell us more (optional)",
+    "submit": "Submit",
+    "submitting": "Submitting...",
+    "success": "Thank you for your feedback!",
+    "error": "Failed to submit feedback. Please try again.",
+    "signInRequired": "Please sign in to submit feedback."
+  },
   "footer": {
     "description": "Open-source AI character platform. View, share, and chat with AI characters.",
     "product": "Product",

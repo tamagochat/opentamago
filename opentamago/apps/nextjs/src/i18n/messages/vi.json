@@ -443,6 +443,21 @@
       "goHome": "Về Trang Chủ"
     }
   },
+  "feedback": {
+    "title": "Gửi phản hồi",
+    "description": "Giúp chúng tôi cải thiện OpenTamago. Bạn đang nghĩ gì?",
+    "type": {
+      "bug": "Báo lỗi",
+      "feature": "Yêu cầu tính năng",
+      "other": "Phản hồi khác"
+    },
+    "placeholder": "Cho chúng tôi biết thêm (tùy chọn)",
+    "submit": "Gửi",
+    "submitting": "Đang gửi...",
+    "success": "Cảm ơn phản hồi của bạn!",
+    "error": "Gửi phản hồi thất bại. Vui lòng thử lại.",
+    "signInRequired": "Vui lòng đăng nhập để gửi phản hồi."
+  },
   "footer": {
     "description": "Nền tảng nhân vật AI mã nguồn mở. Xem, chia sẻ và chat với các nhân vật AI.",
     "product": "Sản phẩm",

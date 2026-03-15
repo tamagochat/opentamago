@@ -3,6 +3,7 @@
 import { Egg, Github } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Link } from "~/i18n/routing";
+import { FeedbackDialog } from "~/components/feedback-dialog";
 
 export function SiteFooter() {
   const t = useTranslations("footer");
@@ -76,6 +77,9 @@ export function SiteFooter() {
                   <Github className="h-3 w-3 sm:h-4 sm:w-4" />
                   {tNav("github")}
                 </a>
+              </li>
+              <li>
+                <FeedbackDialog />
               </li>
             </ul>
           </div>

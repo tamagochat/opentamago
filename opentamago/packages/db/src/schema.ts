@@ -1,25 +1,18 @@
-import { sql } from "drizzle-orm";
-import { pgTable } from "drizzle-orm/pg-core";
-import { createInsertSchema } from "drizzle-zod";
-import { z } from "zod/v4";
+import { pgTableCreator } from "drizzle-orm/pg-core";
 
-export const Post = pgTable("post", (t) => ({
+import { user } from "./auth-schema";
+
+const createTable = pgTableCreator((name) => `opentamago_${name}`);
+
+export const feedback = createTable("feedback", (t) => ({
   id: t.uuid().notNull().primaryKey().defaultRandom(),
-  title: t.varchar({ length: 256 }).notNull(),
-  content: t.text().notNull(),
-  createdAt: t.timestamp().defaultNow().notNull(),
-  updatedAt: t
-    .timestamp({ mode: "date", withTimezone: true })
-    .$onUpdateFn(() => sql`now()`),
+  userId: t
+    .uuid()
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  type: t.varchar({ length: 32 }).notNull(),
+  message: t.text(),
+  createdAt: t.timestamp({ withTimezone: true }).defaultNow().notNull(),
 }));
-
-export const CreatePostSchema = createInsertSchema(Post, {
-  title: z.string().max(256),
-  content: z.string().max(256),
-}).omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-});
 
 export * from "./auth-schema";

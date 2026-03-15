@@ -443,6 +443,21 @@
       "goHome": "Ir al Inicio"
     }
   },
+  "feedback": {
+    "title": "Enviar comentarios",
+    "description": "Ayúdanos a mejorar OpenTamago. ¿Qué tienes en mente?",
+    "type": {
+      "bug": "Reporte de error",
+      "feature": "Solicitud de función",
+      "other": "Otros comentarios"
+    },
+    "placeholder": "Cuéntanos más (opcional)",
+    "submit": "Enviar",
+    "submitting": "Enviando...",
+    "success": "¡Gracias por tus comentarios!",
+    "error": "Error al enviar comentarios. Inténtalo de nuevo.",
+    "signInRequired": "Inicia sesión para enviar comentarios."
+  },
   "footer": {
     "description": "Plataforma de personajes IA de código abierto. Visualiza, comparte y chatea con personajes IA.",
     "product": "Producto",

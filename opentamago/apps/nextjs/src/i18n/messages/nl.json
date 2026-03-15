@@ -443,6 +443,21 @@
       "goHome": "Naar Home"
     }
   },
+  "feedback": {
+    "title": "Feedback sturen",
+    "description": "Help ons OpenTamago te verbeteren. Waar denk je aan?",
+    "type": {
+      "bug": "Bugrapport",
+      "feature": "Functieverzoek",
+      "other": "Andere feedback"
+    },
+    "placeholder": "Vertel ons meer (optioneel)",
+    "submit": "Versturen",
+    "submitting": "Versturen...",
+    "success": "Bedankt voor je feedback!",
+    "error": "Feedback versturen mislukt. Probeer het opnieuw.",
+    "signInRequired": "Log in om feedback te sturen."
+  },
   "footer": {
     "description": "Open-source AI-karakterplatform. Bekijk, deel en chat met AI-karakters.",
     "product": "Product",
