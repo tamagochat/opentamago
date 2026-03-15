@@ -8,9 +8,9 @@ View, share, and chat with AI characters. From CharX viewer to P2P-based CharX s
 
 | CharX Viewer | P2P CharX Sharing |
 |:---:|:---:|
-| <img src="/public/examples/charx_viewer.png" width="400" alt="CharX Viewer"> | <img src="/public/examples/p2p_share.png" width="400" alt="P2P CharX Sharing"> |
+| <img src="opentamago/apps/nextjs/public/examples/charx_viewer.png" width="400" alt="CharX Viewer"> | <img src="opentamago/apps/nextjs/public/examples/p2p_share.png" width="400" alt="P2P CharX Sharing"> |
 | **P2P Connect Lobby** | **P2P Connect Chat** |
-| <img src="/public/examples/p2p_connect_lobby.png" width="400" alt="P2P Connect Lobby"> | <img src="/public/examples/p2p_connect_chat.png" width="400" alt="P2P Connect Chat"> |
+| <img src="opentamago/apps/nextjs/public/examples/p2p_connect_lobby.png" width="400" alt="P2P Connect Lobby"> | <img src="opentamago/apps/nextjs/public/examples/p2p_connect_chat.png" width="400" alt="P2P Connect Chat"> |
 
 ### CharX Viewer
 Check out character cards, lorebooks, and assets from CharX files. Everything runs right in your browser.
@@ -35,7 +35,7 @@ Set up chat sessions with multiple AI characters. Invite friends and watch chara
 
 ## Tech Stack
 
-Built with the [T3 Stack](https://create.t3.gg/):
+Built with the [T3 Stack](https://create.t3.gg/) in a [Turborepo](https://turborepo.com) monorepo based on [create-t3-turbo](https://github.com/t3-oss/create-t3-turbo):
 
 - [Next.js 15](https://nextjs.org) - React framework with App Router
 - [tRPC](https://trpc.io) - End-to-end typesafe APIs
@@ -43,163 +43,35 @@ Built with the [T3 Stack](https://create.t3.gg/):
 - [NextAuth.js](https://next-auth.js.org) - Authentication (Discord OAuth)
 - [Tailwind CSS](https://tailwindcss.com) + [shadcn/ui](https://ui.shadcn.com/) - Styling
 - [RxDB](https://rxdb.info/) - Client-side database with IndexedDB
-- [next-intl](https://next-intl-docs.vercel.app/) - Internationalization (en, ko, ja)
+- [next-intl](https://next-intl-docs.vercel.app/) - Internationalization (17 locales)
 - [WebRTC](https://webrtc.org/) - Peer-to-peer connections
 
-## Development
+## Project Structure
 
-### Prerequisites
+```text
+opentamago/                  # Turborepo monorepo
+  apps/
+    nextjs/                  # Next.js 15 web app (main app)
+    expo/                    # React Native mobile app (Expo SDK 54)
+  packages/
+    api, auth, db, ui, validators
+  tooling/
+    eslint, prettier, tailwind, typescript
+infra/
+  docker-compose.yml         # PostgreSQL dev database
+```
 
-- Node.js 18+ (LTS recommended)
-- pnpm 8+
-- PostgreSQL database
+## Quick Start
 
-### Getting Started
-
-1. Clone the repository:
 ```bash
 git clone https://github.com/tamagochat/opentamago.git
-cd opentamago
-```
-
-2. Install dependencies:
-```bash
+cd opentamago/opentamago
 pnpm install
+cp .env.example .env         # Configure DATABASE_URL, AUTH_SECRET
+pnpm dev:next                # http://localhost:3000
 ```
 
-3. Set up environment variables:
-```bash
-cp .env.example .env
-```
-
-Edit `.env` and configure:
-- `DATABASE_URL` - PostgreSQL connection string
-- `NEXTAUTH_SECRET` - Random secret for NextAuth.js
-- `NEXTAUTH_URL` - Your app URL (http://localhost:3000 for dev)
-- `DISCORD_CLIENT_ID` & `DISCORD_CLIENT_SECRET` - Discord OAuth credentials (optional)
-
-4. Push database schema:
-```bash
-pnpm db:push
-```
-
-5. Start the development server:
-```bash
-pnpm dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) to see the app.
-
-### Available Commands
-
-```bash
-pnpm dev          # Start dev server with Turbo
-pnpm build        # Production build
-pnpm start        # Start production server
-pnpm typecheck    # TypeScript type checking
-pnpm db:push      # Push schema to database
-pnpm db:generate  # Generate database migrations
-pnpm db:migrate   # Run migrations
-pnpm db:studio    # Open Drizzle Studio GUI
-```
-
-## LLM API Usage
-
-OpenTamago uses tRPC for type-safe API calls. The usage differs between server and client components:
-
-### Server Components
-
-Use `api` from `src/trpc/server.ts` for direct server-side calls:
-
-```tsx
-import { api, HydrateClient } from "~/trpc/server";
-
-export default async function Page() {
-  const data = await api.example.getData();
-
-  return (
-    <HydrateClient>
-      <div>{data.message}</div>
-    </HydrateClient>
-  );
-}
-```
-
-- Direct database access via tRPC procedures
-- No React Query overhead
-- Wrap with `HydrateClient` to hydrate client components
-
-### Client Components
-
-Use `api` from `src/trpc/react.tsx` with React Query hooks:
-
-```tsx
-"use client";
-import { api } from "~/trpc/react";
-
-export function MyComponent() {
-  const { data, isLoading } = api.example.getData.useQuery();
-  const mutation = api.example.updateData.useMutation();
-
-  return (
-    <div>
-      {isLoading ? "Loading..." : data?.message}
-      <button onClick={() => mutation.mutate({ id: 1 })}>
-        Update
-      </button>
-    </div>
-  );
-}
-```
-
-- React Query integration for caching and real-time updates
-- Automatic refetching and optimistic updates
-- Access to `isLoading`, `isError`, `refetch`, etc.
-
-### tRPC Procedure Types
-
-- **`publicProcedure`**: Unauthenticated endpoints (no login required)
-- **`protectedProcedure`**: Authenticated endpoints (requires login, access `ctx.session.user`)
-
-Example router:
-
-```tsx
-// src/server/api/routers/example.ts
-export const exampleRouter = createTRPCRouter({
-  getData: publicProcedure.query(async ({ ctx }) => {
-    return { message: "Hello world" };
-  }),
-
-  getUserData: protectedProcedure.query(async ({ ctx }) => {
-    // ctx.session.user is available here
-    return await ctx.db.user.findUnique({ where: { id: ctx.session.user.id } });
-  }),
-});
-```
-
-## Architecture
-
-- `src/app/[locale]/` - Next.js App Router pages with i18n support
-- `src/server/api/routers/` - tRPC API route definitions
-- `src/server/db/schema.ts` - Drizzle ORM database schema
-- `src/lib/db/` - RxDB client-side database (IndexedDB)
-- `src/i18n/messages/` - Translation files (en.json, ko.json, ja.json)
-- `src/components/ui/` - shadcn/ui components
-
-See [CLAUDE.md](./CLAUDE.md) for detailed architecture and patterns.
-
-## Internationalization
-
-Supports three locales:
-- `/` - English (default, no prefix)
-- `/ko/` - Korean
-- `/ja/` - Japanese
-
-Always use imports from `~/i18n/routing` for locale-aware navigation:
-
-```tsx
-import { Link, usePathname, useRouter } from "~/i18n/routing";
-```
+See [opentamago/README.md](./opentamago/README.md) for full development guide.
 
 ## Privacy & Security
 
@@ -216,12 +88,11 @@ Contributions are welcome! Please read our contributing guidelines and submit pu
 
 OpenTamago builds upon the excellent work of these open source projects:
 
+- **[create-t3-turbo](https://github.com/t3-oss/create-t3-turbo)** - Turborepo monorepo template
 - **[BlockNote](https://github.com/TypeCellOS/BlockNote)** - AI proxy implementation
 - **[yejingram](https://github.com/YEJIN-DEV/yejingram)** - Prompt engineering and layout design inspiration
 - **[RisuAI](https://github.com/kwaroran/Risuai)** - CharX file format specification
 - **[FilePizza](https://github.com/kern/filepizza)** - P2P file sharing implementation
-
-We're grateful to these projects and their contributors for making their work available to the community.
 
 ## License
 
@@ -231,7 +102,6 @@ We're grateful to these projects and their contributors for making their work av
 
 - **Website**: [open.tamago.chat](https://open.tamago.chat)
 - **GitHub**: [github.com/tamagochat/opentamago](https://github.com/tamagochat/opentamago)
-- **Documentation**: See [CLAUDE.md](./CLAUDE.md) for development docs
 
 ---
 
