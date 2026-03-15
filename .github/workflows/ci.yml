@@ -1,6 +1,9 @@
 # Disabled during monorepo migration — paths need updating
-# name: CI
-#
+name: CI (disabled)
+
+on:
+  workflow_dispatch:
+
 # on:
 #   pull_request:
 #     branches: ["*"]
@@ -56,3 +59,10 @@
 #
 #       - name: Typecheck
 #         run: cd opentamago && pnpm typecheck
+
+jobs:
+  disabled:
+    if: false
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "CI disabled during monorepo migration"
