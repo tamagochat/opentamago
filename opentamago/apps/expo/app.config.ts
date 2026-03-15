@@ -46,6 +46,19 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     "expo-secure-store",
     "expo-web-browser",
     [
+      "@config-plugins/react-native-webrtc",
+      {
+        cameraPermission: "Allow $(PRODUCT_NAME) to access your camera for QR code scanning",
+        microphonePermission: false,
+      },
+    ],
+    [
+      "expo-camera",
+      {
+        cameraPermission: "Allow $(PRODUCT_NAME) to access your camera for QR code scanning",
+      },
+    ],
+    [
       "expo-splash-screen",
       {
         backgroundColor: "#E4E4E7",
