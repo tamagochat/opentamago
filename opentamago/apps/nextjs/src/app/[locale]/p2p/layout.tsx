@@ -2,24 +2,18 @@ import { type Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { WebRTCProvider } from "~/app/_components/p2p/webrtc-provider";
 import { ConnectManagerProvider } from "~/app/_components/p2p/connect-manager-provider";
+import { localeToOgLocale, generateAlternateLanguages, BASE_URL } from "~/lib/seo";
 
 type Props = {
   params: Promise<{ locale: string }>;
-};
-
-const localeToOgLocale: Record<string, string> = {
-  en: "en_US",
-  ko: "ko_KR",
-  ja: "ja_JP",
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "p2p" });
 
-  const baseUrl = "https://open.tamago.chat";
   const localePath = locale === "en" ? "" : `/${locale}`;
-  const canonicalUrl = `${baseUrl}${localePath}/p2p`;
+  const canonicalUrl = `${BASE_URL}${localePath}/p2p`;
   const ogLocale = localeToOgLocale[locale] ?? "en_US";
 
   const title = t("title");
@@ -43,12 +37,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     ],
     alternates: {
       canonical: canonicalUrl,
-      languages: {
-        en: `${baseUrl}/p2p`,
-        ko: `${baseUrl}/ko/p2p`,
-        ja: `${baseUrl}/ja/p2p`,
-        "x-default": `${baseUrl}/p2p`,
-      },
+      languages: generateAlternateLanguages("/p2p"),
     },
     openGraph: {
       title: `${title} | OpenTamago`,

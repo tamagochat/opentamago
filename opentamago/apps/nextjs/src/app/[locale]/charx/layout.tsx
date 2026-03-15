@@ -1,23 +1,17 @@
 import { type Metadata } from "next";
 import { getTranslations } from "next-intl/server";
+import { localeToOgLocale, generateAlternateLanguages, BASE_URL } from "~/lib/seo";
 
 type Props = {
   params: Promise<{ locale: string }>;
-};
-
-const localeToOgLocale: Record<string, string> = {
-  en: "en_US",
-  ko: "ko_KR",
-  ja: "ja_JP",
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "charx" });
 
-  const baseUrl = "https://open.tamago.chat";
   const localePath = locale === "en" ? "" : `/${locale}`;
-  const canonicalUrl = `${baseUrl}${localePath}/charx`;
+  const canonicalUrl = `${BASE_URL}${localePath}/charx`;
   const ogLocale = localeToOgLocale[locale] ?? "en_US";
 
   const title = t("title");
@@ -41,12 +35,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     ],
     alternates: {
       canonical: canonicalUrl,
-      languages: {
-        en: `${baseUrl}/charx`,
-        ko: `${baseUrl}/ko/charx`,
-        ja: `${baseUrl}/ja/charx`,
-        "x-default": `${baseUrl}/charx`,
-      },
+      languages: generateAlternateLanguages("/charx"),
     },
     openGraph: {
       title: `${title} | OpenTamago`,
