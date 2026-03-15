@@ -1,14 +1,14 @@
 import { useState } from "react";
-import {
-  ActivityIndicator,
-  Pressable,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+import { ActivityIndicator, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Stack, useLocalSearchParams } from "expo-router";
 
+import { Text } from "~/components/ui/text";
+import { Button } from "~/components/ui/button";
+import { Card, CardContent } from "~/components/ui/card";
+import { Input } from "~/components/ui/input";
+import { Label } from "~/components/ui/label";
+import { Progress } from "~/components/ui/progress";
 import { useDownloader } from "~/hooks/use-downloader";
 
 export default function DownloadScreen() {
@@ -34,49 +34,50 @@ export default function DownloadScreen() {
   };
 
   return (
-    <SafeAreaView className="bg-background flex-1">
+    <SafeAreaView className="flex-1 bg-background">
       <Stack.Screen options={{ title: "Download File" }} />
-      <View className="flex-1 p-4">
-        <Text className="text-foreground text-2xl font-bold mb-4">
-          Download File
-        </Text>
+      <View className="flex-1 p-4 gap-4">
+        <Text className="text-2xl font-bold">Download File</Text>
 
         {isLoadingChannel && (
           <View className="items-center py-8">
-            <ActivityIndicator size="large" color="#c03484" />
-            <Text className="text-foreground mt-2">Looking up channel...</Text>
-          </View>
-        )}
-
-        {!isLoadingChannel && !channel && (
-          <View className="items-center py-8">
-            <Text className="text-foreground text-lg">Channel not found</Text>
-            <Text className="text-foreground/60 mt-2">
-              The share link may have expired or is invalid.
+            <ActivityIndicator size="large" />
+            <Text className="text-muted-foreground mt-2">
+              Looking up channel...
             </Text>
           </View>
         )}
 
-        {channel && status === "idle" && (
-          <View className="gap-4">
-            <View className="bg-muted rounded-lg p-4">
-              <Text className="text-foreground font-semibold">
-                {channel.fileName ?? "File available"}
+        {!isLoadingChannel && !channel && (
+          <Card>
+            <CardContent className="p-6 items-center">
+              <Text className="text-lg font-semibold">Channel not found</Text>
+              <Text className="text-muted-foreground mt-2 text-center">
+                The share link may have expired or is invalid.
               </Text>
-              {channel.fileSize ? (
-                <Text className="text-foreground/60">
-                  {formatSize(channel.fileSize)}
+            </CardContent>
+          </Card>
+        )}
+
+        {channel && status === "idle" && (
+          <>
+            <Card>
+              <CardContent className="p-4">
+                <Text className="font-semibold">
+                  {channel.fileName ?? "File available"}
                 </Text>
-              ) : null}
-            </View>
+                {channel.fileSize ? (
+                  <Text className="text-muted-foreground text-sm">
+                    {formatSize(channel.fileSize)}
+                  </Text>
+                ) : null}
+              </CardContent>
+            </Card>
 
             {channel.hasPassword && (
-              <View>
-                <Text className="text-foreground mb-1">
-                  This file is password protected
-                </Text>
-                <TextInput
-                  className="border border-gray-300 rounded-lg px-4 py-3 text-foreground"
+              <View className="gap-1.5">
+                <Label>This file is password protected</Label>
+                <Input
                   value={password}
                   onChangeText={setPassword}
                   placeholder="Enter password"
@@ -85,85 +86,71 @@ export default function DownloadScreen() {
               </View>
             )}
 
-            <Pressable
-              onPress={() => connect(password || undefined)}
-              className="bg-primary rounded-lg p-4 items-center"
-            >
-              <Text className="text-white text-lg font-semibold">
-                Download
-              </Text>
-            </Pressable>
-          </View>
+            <Button onPress={() => connect(password || undefined)}>
+              <Text>Download</Text>
+            </Button>
+          </>
         )}
 
-        {status === "connecting" && (
+        {(status === "connecting" || status === "authenticating") && (
           <View className="items-center py-8">
-            <ActivityIndicator size="large" color="#c03484" />
-            <Text className="text-foreground mt-2">Connecting to peer...</Text>
-          </View>
-        )}
-
-        {status === "authenticating" && (
-          <View className="items-center py-8">
-            <ActivityIndicator size="large" color="#c03484" />
-            <Text className="text-foreground mt-2">Authenticating...</Text>
+            <ActivityIndicator size="large" />
+            <Text className="text-muted-foreground mt-2">
+              {status === "connecting"
+                ? "Connecting to peer..."
+                : "Authenticating..."}
+            </Text>
           </View>
         )}
 
         {status === "downloading" && (
-          <View className="gap-4">
+          <>
             {fileInfo && (
-              <View className="bg-muted rounded-lg p-4">
-                <Text className="text-foreground font-semibold">
-                  {fileInfo.name}
-                </Text>
-                <Text className="text-foreground/60">
-                  {formatSize(fileInfo.size)}
-                </Text>
-              </View>
+              <Card>
+                <CardContent className="p-4">
+                  <Text className="font-semibold">{fileInfo.name}</Text>
+                  <Text className="text-muted-foreground text-sm">
+                    {formatSize(fileInfo.size)}
+                  </Text>
+                </CardContent>
+              </Card>
             )}
 
-            <View className="bg-muted rounded-lg p-4">
-              <Text className="text-foreground font-semibold mb-2">
-                Downloading... {progress}%
-              </Text>
-              <View className="bg-gray-300 rounded-full h-3">
-                <View
-                  className="bg-primary rounded-full h-3"
-                  style={{ width: `${progress}%` }}
-                />
-              </View>
-            </View>
-          </View>
+            <Card>
+              <CardContent className="p-4 gap-2">
+                <Text className="font-semibold">
+                  Downloading... {progress}%
+                </Text>
+                <Progress value={progress} />
+              </CardContent>
+            </Card>
+          </>
         )}
 
         {status === "complete" && (
-          <View className="items-center py-8">
-            <Text className="text-green-500 text-4xl mb-4">✓</Text>
-            <Text className="text-foreground text-xl font-semibold">
-              Download Complete
-            </Text>
-            {fileInfo && (
-              <Text className="text-foreground/60 mt-2">
-                {fileInfo.name}
-              </Text>
-            )}
-          </View>
+          <Card>
+            <CardContent className="p-6 items-center gap-2">
+              <Text className="text-primary text-4xl">✓</Text>
+              <Text className="text-xl font-semibold">Download Complete</Text>
+              {fileInfo && (
+                <Text className="text-muted-foreground">{fileInfo.name}</Text>
+              )}
+            </CardContent>
+          </Card>
         )}
 
         {status === "error" && (
-          <View className="items-center py-8">
-            <Text className="text-red-500 text-xl font-semibold mb-2">
-              Error
-            </Text>
-            <Text className="text-foreground/60">{error}</Text>
-            <Pressable
-              onPress={() => connect(password || undefined)}
-              className="bg-primary rounded-lg px-6 py-3 mt-4"
-            >
-              <Text className="text-white font-semibold">Retry</Text>
-            </Pressable>
-          </View>
+          <Card className="border-destructive">
+            <CardContent className="p-6 items-center gap-3">
+              <Text className="text-destructive text-xl font-semibold">
+                Error
+              </Text>
+              <Text className="text-muted-foreground">{error}</Text>
+              <Button onPress={() => connect(password || undefined)}>
+                <Text>Retry</Text>
+              </Button>
+            </CardContent>
+          </Card>
         )}
       </View>
     </SafeAreaView>

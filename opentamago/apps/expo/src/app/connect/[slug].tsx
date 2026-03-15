@@ -3,9 +3,6 @@ import {
   FlatList,
   KeyboardAvoidingView,
   Platform,
-  Pressable,
-  Text,
-  TextInput,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -13,6 +10,10 @@ import { Stack, useLocalSearchParams } from "expo-router";
 
 import type { ChatMessageType, SystemMessageType } from "@acme/p2p/messages";
 
+import { Text } from "~/components/ui/text";
+import { Button } from "~/components/ui/button";
+import { Input } from "~/components/ui/input";
+import { Badge } from "~/components/ui/badge";
 import { usePeer } from "~/hooks/use-peer";
 import { useConnectPeers } from "~/hooks/use-connect-peers";
 import { useConnectSession } from "~/hooks/use-connect-session";
@@ -47,15 +48,10 @@ export default function ChatRoom() {
       hostPeerId: isHost ? undefined : session?.hostPeerId,
     });
 
-  // Join session if guest
   const hasJoinedRef = useRef(false);
   if (!isHost && peerId && !hasJoinedRef.current) {
     hasJoinedRef.current = true;
-    void joinSession({
-      slug,
-      peerId,
-      characterName,
-    });
+    void joinSession({ slug, peerId, characterName });
   }
 
   const handleSend = useCallback(() => {
@@ -70,9 +66,9 @@ export default function ChatRoom() {
       if (item.type === "SystemMessage") {
         return (
           <View className="items-center py-2">
-            <Text className="text-foreground/50 text-sm italic">
-              {item.characterName} {item.event === "joined" ? "joined" : "left"}{" "}
-              the room
+            <Text className="text-muted-foreground text-sm italic">
+              {item.characterName}{" "}
+              {item.event === "joined" ? "joined" : "left"} the room
             </Text>
           </View>
         );
@@ -86,17 +82,19 @@ export default function ChatRoom() {
             isOwnMessage ? "self-end" : "self-start"
           }`}
         >
-          <Text className="text-foreground/60 text-xs mb-1">
+          <Text className="text-muted-foreground text-xs mb-1">
             {item.characterName}
             {!item.isHuman ? " (AI)" : ""}
           </Text>
           <View
             className={`rounded-2xl px-4 py-2 ${
-              isOwnMessage ? "bg-primary" : "bg-muted"
+              isOwnMessage ? "bg-primary" : "bg-card border border-border"
             }`}
           >
             <Text
-              className={isOwnMessage ? "text-white" : "text-foreground"}
+              className={
+                isOwnMessage ? "text-primary-foreground" : "text-card-foreground"
+              }
             >
               {item.content}
             </Text>
@@ -108,14 +106,14 @@ export default function ChatRoom() {
   );
 
   return (
-    <SafeAreaView className="bg-background flex-1" edges={["bottom"]}>
+    <SafeAreaView className="flex-1 bg-background" edges={["bottom"]}>
       <Stack.Screen
         options={{
           title: `Room: ${slug}`,
           headerRight: () => (
-            <Text className="text-white mr-4">
-              {peers.length + 1} online
-            </Text>
+            <Badge variant="secondary" className="mr-2">
+              <Text>{peers.length + 1} online</Text>
+            </Badge>
           ),
         }}
       />
@@ -124,22 +122,17 @@ export default function ChatRoom() {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         keyboardVerticalOffset={90}
       >
-        {/* Participants bar */}
-        <View className="px-4 py-2 bg-muted flex-row flex-wrap gap-2">
-          <View className="bg-primary/20 rounded-full px-3 py-1">
-            <Text className="text-primary text-sm">{characterName} (you)</Text>
-          </View>
+        {/* Participants */}
+        <View className="px-4 py-2 bg-card border-b border-border flex-row flex-wrap gap-2">
+          <Badge>
+            <Text>{characterName} (you)</Text>
+          </Badge>
           {peers
             .filter((p) => p.character)
             .map((p) => (
-              <View
-                key={p.peerId}
-                className="bg-muted rounded-full px-3 py-1 border border-gray-300"
-              >
-                <Text className="text-foreground text-sm">
-                  {p.character!.name}
-                </Text>
-              </View>
+              <Badge key={p.peerId} variant="outline">
+                <Text>{p.character!.name}</Text>
+              </Badge>
             ))}
         </View>
 
@@ -159,19 +152,19 @@ export default function ChatRoom() {
           }
         />
 
-        {/* Typing indicators */}
+        {/* Typing */}
         {typingPeers.size > 0 && (
           <View className="px-4 pb-1">
-            <Text className="text-foreground/50 text-sm italic">
+            <Text className="text-muted-foreground text-sm italic">
               Someone is typing...
             </Text>
           </View>
         )}
 
-        {/* Input */}
-        <View className="flex-row items-center px-4 py-2 border-t border-gray-200 bg-background">
-          <TextInput
-            className="flex-1 border border-gray-300 rounded-full px-4 py-2 text-foreground mr-2"
+        {/* Input bar */}
+        <View className="flex-row items-center px-4 py-2 border-t border-border bg-card gap-2">
+          <Input
+            className="flex-1"
             value={inputText}
             onChangeText={(text) => {
               setInputText(text);
@@ -181,15 +174,13 @@ export default function ChatRoom() {
             returnKeyType="send"
             onSubmitEditing={handleSend}
           />
-          <Pressable
+          <Button
+            size="icon"
             onPress={handleSend}
             disabled={!inputText.trim()}
-            className={`rounded-full w-10 h-10 items-center justify-center ${
-              inputText.trim() ? "bg-primary" : "bg-gray-400"
-            }`}
           >
-            <Text className="text-white font-bold">→</Text>
-          </Pressable>
+            <Text className="text-primary-foreground font-bold">→</Text>
+          </Button>
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>

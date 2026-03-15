@@ -1,15 +1,16 @@
 import { useState } from "react";
-import {
-  ActivityIndicator,
-  Pressable,
-  ScrollView,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+import { ActivityIndicator, ScrollView, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as DocumentPicker from "expo-document-picker";
 
+import { Text } from "~/components/ui/text";
+import { Button } from "~/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import { Input } from "~/components/ui/input";
+import { Label } from "~/components/ui/label";
+import { Badge } from "~/components/ui/badge";
+import { Progress } from "~/components/ui/progress";
+import { Separator } from "~/components/ui/separator";
 import { usePeer } from "~/hooks/use-peer";
 import { useUploader } from "~/hooks/use-uploader";
 
@@ -41,7 +42,6 @@ export default function ShareScreen() {
     const result = await DocumentPicker.getDocumentAsync({
       copyToCacheDirectory: true,
     });
-
     if (!result.canceled && result.assets[0]) {
       const asset = result.assets[0];
       setFile({
@@ -73,53 +73,61 @@ export default function ShareScreen() {
   };
 
   return (
-    <SafeAreaView className="bg-background flex-1" edges={["bottom"]}>
-      <ScrollView className="flex-1 p-4">
-        <Text className="text-foreground text-2xl font-bold mb-4">
-          P2P File Share
-        </Text>
+    <SafeAreaView className="flex-1 bg-background" edges={["bottom"]}>
+      <ScrollView className="flex-1 p-4" contentContainerClassName="gap-4">
+        <Text className="text-2xl font-bold">P2P File Share</Text>
 
         {peerLoading && (
           <View className="items-center py-8">
-            <ActivityIndicator size="large" color="#c03484" />
-            <Text className="text-foreground mt-2">Connecting to peer network...</Text>
+            <ActivityIndicator size="large" />
+            <Text className="text-muted-foreground mt-2">
+              Connecting to peer network...
+            </Text>
           </View>
         )}
 
         {peerError && (
-          <Text className="text-red-500 mb-4">Error: {peerError}</Text>
+          <Card className="border-destructive">
+            <CardContent className="p-4">
+              <Text className="text-destructive">Error: {peerError}</Text>
+            </CardContent>
+          </Card>
         )}
 
         {!isSharing && !channelInfo && (
-          <View className="gap-4">
+          <>
             {/* File picker */}
-            <Pressable
+            <Button
+              variant="outline"
+              className="h-auto py-8 border-dashed border-2"
               onPress={pickFile}
-              className="bg-muted rounded-lg p-6 items-center border-2 border-dashed border-gray-400"
             >
-              {file ? (
-                <View className="items-center">
-                  <Text className="text-foreground text-lg font-semibold">
-                    {file.name}
-                  </Text>
-                  <Text className="text-foreground/60 mt-1">
-                    {formatSize(file.size)}
-                  </Text>
-                  <Text className="text-primary mt-2">Tap to change file</Text>
-                </View>
-              ) : (
-                <View className="items-center">
-                  <Text className="text-foreground text-lg">Select a file to share</Text>
-                  <Text className="text-foreground/60 mt-1">Tap to browse</Text>
-                </View>
-              )}
-            </Pressable>
+              <View className="items-center">
+                {file ? (
+                  <>
+                    <Text className="text-lg font-semibold">{file.name}</Text>
+                    <Text className="text-muted-foreground mt-1">
+                      {formatSize(file.size)}
+                    </Text>
+                    <Text className="text-primary mt-2 text-sm">
+                      Tap to change file
+                    </Text>
+                  </>
+                ) : (
+                  <>
+                    <Text className="text-lg">Select a file to share</Text>
+                    <Text className="text-muted-foreground mt-1 text-sm">
+                      Tap to browse
+                    </Text>
+                  </>
+                )}
+              </View>
+            </Button>
 
-            {/* Password input */}
-            <View>
-              <Text className="text-foreground mb-1">Password (optional)</Text>
-              <TextInput
-                className="border border-gray-300 rounded-lg px-4 py-3 text-foreground"
+            {/* Password */}
+            <View className="gap-1.5">
+              <Label>Password (optional)</Label>
+              <Input
                 value={password}
                 onChangeText={setPassword}
                 placeholder="Enter password to protect file"
@@ -127,97 +135,109 @@ export default function ShareScreen() {
               />
             </View>
 
-            {/* Start sharing button */}
-            <Pressable
+            {/* Start */}
+            <Button
               onPress={startSharing}
               disabled={!file || !peerId || isCreating}
-              className={`rounded-lg p-4 items-center ${
-                file && peerId ? "bg-primary" : "bg-gray-400"
-              }`}
             >
               {isCreating ? (
-                <ActivityIndicator color="#fff" />
+                <ActivityIndicator color="#fff" size="small" />
               ) : (
-                <Text className="text-white text-lg font-semibold">
-                  Start Sharing
-                </Text>
+                <Text>Start Sharing</Text>
               )}
-            </Pressable>
-          </View>
+            </Button>
+          </>
         )}
 
-        {/* Sharing active */}
+        {/* Active sharing */}
         {channelInfo && (
-          <View className="gap-4">
-            <View className="bg-muted rounded-lg p-4">
-              <Text className="text-foreground font-semibold mb-2">
-                Share Code
-              </Text>
-              <Text className="text-primary text-2xl font-mono font-bold text-center py-2">
-                {channelInfo.shortSlug}
-              </Text>
-              <Text className="text-foreground/60 text-center text-sm mt-1">
-                or use: {channelInfo.longSlug}
-              </Text>
-            </View>
+          <>
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle>
+                  <Text className="text-base font-semibold">Share Code</Text>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Text className="text-primary text-3xl font-mono font-bold text-center py-2">
+                  {channelInfo.shortSlug}
+                </Text>
+                <Text className="text-muted-foreground text-center text-sm">
+                  or: {channelInfo.longSlug}
+                </Text>
+              </CardContent>
+            </Card>
 
             {file && (
-              <View className="bg-muted rounded-lg p-4">
-                <Text className="text-foreground font-semibold">
-                  {file.name}
-                </Text>
-                <Text className="text-foreground/60">
-                  {formatSize(file.size)}
-                </Text>
-              </View>
+              <Card>
+                <CardContent className="p-4 flex-row items-center justify-between">
+                  <View className="flex-1">
+                    <Text className="font-semibold" numberOfLines={1}>
+                      {file.name}
+                    </Text>
+                    <Text className="text-muted-foreground text-sm">
+                      {formatSize(file.size)}
+                    </Text>
+                  </View>
+                </CardContent>
+              </Card>
             )}
+
+            <Separator />
 
             {/* Connections */}
             <View>
-              <Text className="text-foreground font-semibold mb-2">
+              <Text className="font-semibold mb-2">
                 Connections ({connections.length})
               </Text>
               {connections.length === 0 ? (
-                <Text className="text-foreground/60">
+                <Text className="text-muted-foreground">
                   Waiting for someone to connect...
                 </Text>
               ) : (
                 connections.map((conn, i) => (
-                  <View
-                    key={i}
-                    className="bg-muted rounded-lg p-3 mb-2 flex-row justify-between items-center"
-                  >
-                    <View>
-                      <Text className="text-foreground">
-                        {conn.browserName ?? conn.osName ?? "Unknown"}
-                      </Text>
-                      <Text className="text-foreground/60 text-sm">
-                        {conn.status}
-                      </Text>
-                    </View>
-                    {conn.status === "uploading" && (
-                      <Text className="text-primary font-bold">
-                        {conn.progress}%
-                      </Text>
-                    )}
-                    {conn.status === "done" && (
-                      <Text className="text-green-500 font-bold">Done</Text>
-                    )}
-                  </View>
+                  <Card key={i} className="mb-2">
+                    <CardContent className="p-3 flex-row justify-between items-center">
+                      <View>
+                        <Text>
+                          {conn.browserName ?? conn.osName ?? "Unknown"}
+                        </Text>
+                        <Badge
+                          variant={
+                            conn.status === "done"
+                              ? "default"
+                              : conn.status === "uploading"
+                              ? "secondary"
+                              : "outline"
+                          }
+                          className="mt-1 self-start"
+                        >
+                          <Text>{conn.status}</Text>
+                        </Badge>
+                      </View>
+                      {conn.status === "uploading" && (
+                        <View className="w-20">
+                          <Progress value={conn.progress} />
+                          <Text className="text-xs text-center mt-1 text-muted-foreground">
+                            {conn.progress}%
+                          </Text>
+                        </View>
+                      )}
+                      {conn.status === "done" && (
+                        <Badge>
+                          <Text>Done</Text>
+                        </Badge>
+                      )}
+                    </CardContent>
+                  </Card>
                 ))
               )}
             </View>
 
-            {/* Stop sharing */}
-            <Pressable
-              onPress={stopSharing}
-              className="bg-red-500 rounded-lg p-4 items-center"
-            >
-              <Text className="text-white text-lg font-semibold">
-                Stop Sharing
-              </Text>
-            </Pressable>
-          </View>
+            <Button variant="destructive" onPress={stopSharing}>
+              <Text>Stop Sharing</Text>
+            </Button>
+          </>
         )}
       </ScrollView>
     </SafeAreaView>

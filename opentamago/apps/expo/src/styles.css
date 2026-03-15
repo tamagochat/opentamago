@@ -4,4 +4,68 @@
 
 @import "nativewind/theme";
 
-@import "@acme/tailwind-config/theme";
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+}
+
+:root {
+  --background: 48 79% 95%;
+  --foreground: 22 39% 18%;
+  --card: 48 79% 98%;
+  --card-foreground: 22 39% 18%;
+  --popover: 48 79% 98%;
+  --popover-foreground: 22 39% 18%;
+  --primary: 25 80% 43%;
+  --primary-foreground: 48 50% 96%;
+  --secondary: 48 57% 90%;
+  --secondary-foreground: 22 41% 27%;
+  --muted: 48 57% 90%;
+  --muted-foreground: 21 20% 50%;
+  --accent: 48 55% 87%;
+  --accent-foreground: 22 39% 18%;
+  --destructive: 0 85% 62%;
+  --destructive-foreground: 48 50% 96%;
+  --border: 48 34% 84%;
+  --input: 48 34% 84%;
+  --ring: 22 54% 61%;
+}
+
+.dark\:root {
+  --background: 21 44% 7%;
+  --foreground: 44 31% 94%;
+  --card: 22 47% 10%;
+  --card-foreground: 44 31% 94%;
+  --popover: 22 47% 10%;
+  --popover-foreground: 44 31% 94%;
+  --primary: 22 77% 66%;
+  --primary-foreground: 21 76% 8%;
+  --secondary: 21 32% 16%;
+  --secondary-foreground: 44 31% 94%;
+  --muted: 21 32% 16%;
+  --muted-foreground: 21 28% 62%;
+  --accent: 21 32% 16%;
+  --accent-foreground: 44 31% 94%;
+  --destructive: 359 72% 55%;
+  --destructive-foreground: 44 31% 94%;
+  --border: 21 19% 18%;
+  --input: 21 19% 18%;
+  --ring: 22 42% 48%;
+}
