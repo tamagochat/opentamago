@@ -1,5 +1,6 @@
 import { relations } from "drizzle-orm";
-import { index, pgTableCreator } from "drizzle-orm/pg-core";
+import { index, pgTableCreator, primaryKey } from "drizzle-orm/pg-core";
+import { type AdapterAccount } from "next-auth/adapters";
 
 /**
  * Multi-project schema: all tables prefixed with "opentamago_".
@@ -8,17 +9,24 @@ import { index, pgTableCreator } from "drizzle-orm/pg-core";
 export const createTable = pgTableCreator((name) => `opentamago_${name}`);
 
 // ============================================================
-// Auth tables (Better Auth compatible)
+// Auth tables (NextAuth / @auth/drizzle-adapter compatible)
 // ============================================================
 
 export const users = createTable("user", (d) => ({
-  id: d.uuid().primaryKey().defaultRandom(),
-  name: d.text().notNull(),
-  email: d.text().notNull().unique(),
-  emailVerified: d.boolean().notNull().default(false),
-  image: d.text(),
-  createdAt: d.timestamp().notNull().defaultNow(),
-  updatedAt: d.timestamp().notNull().defaultNow(),
+  id: d
+    .uuid()
+    .primaryKey()
+    .defaultRandom()
+    .$defaultFn(() => crypto.randomUUID()),
+  name: d.varchar({ length: 255 }),
+  email: d.varchar({ length: 255 }).notNull(),
+  emailVerified: d
+    .timestamp({
+      mode: "date",
+      withTimezone: true,
+    })
+    .$defaultFn(() => new Date()),
+  image: d.varchar({ length: 255 }),
 }));
 
 export const usersRelations = relations(users, ({ many }) => ({
@@ -26,19 +34,18 @@ export const usersRelations = relations(users, ({ many }) => ({
   feedback: many(feedback),
 }));
 
-export const sessions = createTable("session", (d) => ({
-  id: d.uuid().primaryKey().defaultRandom(),
-  expiresAt: d.timestamp().notNull(),
-  token: d.text().notNull().unique(),
-  createdAt: d.timestamp().notNull().defaultNow(),
-  updatedAt: d.timestamp().notNull().defaultNow(),
-  ipAddress: d.text(),
-  userAgent: d.text(),
-  userId: d
-    .uuid()
-    .notNull()
-    .references(() => users.id, { onDelete: "cascade" }),
-}));
+export const sessions = createTable(
+  "session",
+  (d) => ({
+    sessionToken: d.varchar({ length: 255 }).notNull().primaryKey(),
+    userId: d
+      .uuid()
+      .notNull()
+      .references(() => users.id),
+    expires: d.timestamp({ mode: "date", withTimezone: true }).notNull(),
+  }),
+  (t) => [index("session_user_id_idx").on(t.userId)],
+);
 
 export const sessionsRelations = relations(sessions, ({ one }) => ({
   user: one(users, { fields: [sessions.userId], references: [users.id] }),
@@ -47,38 +54,40 @@ export const sessionsRelations = relations(sessions, ({ one }) => ({
 export const accounts = createTable(
   "account",
   (d) => ({
-    id: d.uuid().primaryKey().defaultRandom(),
-    accountId: d.text().notNull(),
-    providerId: d.text().notNull(),
     userId: d
       .uuid()
       .notNull()
-      .references(() => users.id, { onDelete: "cascade" }),
-    accessToken: d.text(),
-    refreshToken: d.text(),
-    idToken: d.text(),
-    accessTokenExpiresAt: d.timestamp(),
-    refreshTokenExpiresAt: d.timestamp(),
-    scope: d.text(),
-    password: d.text(),
-    createdAt: d.timestamp().notNull().defaultNow(),
-    updatedAt: d.timestamp().notNull().defaultNow(),
+      .references(() => users.id),
+    type: d.varchar({ length: 255 }).$type<AdapterAccount["type"]>().notNull(),
+    provider: d.varchar({ length: 255 }).notNull(),
+    providerAccountId: d.varchar({ length: 255 }).notNull(),
+    refresh_token: d.text(),
+    access_token: d.text(),
+    expires_at: d.integer(),
+    token_type: d.varchar({ length: 255 }),
+    scope: d.varchar({ length: 255 }),
+    id_token: d.text(),
+    session_state: d.varchar({ length: 255 }),
   }),
-  (t) => [index("account_user_id_idx").on(t.userId)],
+  (t) => [
+    primaryKey({ columns: [t.provider, t.providerAccountId] }),
+    index("account_user_id_idx").on(t.userId),
+  ],
 );
 
 export const accountsRelations = relations(accounts, ({ one }) => ({
   user: one(users, { fields: [accounts.userId], references: [users.id] }),
 }));
 
-export const verificationTokens = createTable("verification", (d) => ({
-  id: d.uuid().primaryKey().defaultRandom(),
-  identifier: d.text().notNull(),
-  value: d.text().notNull(),
-  expiresAt: d.timestamp().notNull(),
-  createdAt: d.timestamp(),
-  updatedAt: d.timestamp(),
-}));
+export const verificationTokens = createTable(
+  "verification_token",
+  (d) => ({
+    identifier: d.varchar({ length: 255 }).notNull(),
+    token: d.varchar({ length: 255 }).notNull(),
+    expires: d.timestamp({ mode: "date", withTimezone: true }).notNull(),
+  }),
+  (t) => [primaryKey({ columns: [t.identifier, t.token] })],
+);
 
 // ============================================================
 // P2P File Sharing
@@ -208,7 +217,7 @@ export const feedback = createTable("feedback", (d) => ({
     .uuid()
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
-  type: d.varchar({ length: 32 }).notNull(),
+  feedbackType: d.varchar({ length: 32 }).notNull(),
   message: d.text(),
   createdAt: d.timestamp({ withTimezone: true }).notNull().defaultNow(),
 }));

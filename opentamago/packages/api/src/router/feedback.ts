@@ -9,14 +9,14 @@ export const feedbackRouter = {
   submit: protectedProcedure
     .input(
       z.object({
-        type: z.enum(["bug", "feature", "other"]),
+        feedbackType: z.enum(["bug", "feature", "other"]),
         message: z.string().max(2000).optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
       await ctx.db.insert(feedback).values({
         userId: ctx.session.user.id,
-        type: input.type,
+        feedbackType: input.feedbackType,
         message: input.message ?? null,
       });
       return { success: true };

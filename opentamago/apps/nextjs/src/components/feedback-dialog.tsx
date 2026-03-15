@@ -59,7 +59,7 @@ export function FeedbackDialog() {
           onSubmit={(e) => {
             e.preventDefault();
             submit.mutate({
-              type,
+              feedbackType: type,
               message: message.trim() || undefined,
             });
           }}

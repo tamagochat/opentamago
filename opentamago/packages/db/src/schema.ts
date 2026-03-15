@@ -10,7 +10,7 @@ export const feedback = createTable("feedback", (t) => ({
     .uuid()
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
-  type: t.varchar({ length: 32 }).notNull(),
+  feedbackType: t.varchar({ length: 32 }).notNull(),
   message: t.text(),
   createdAt: t.timestamp({ withTimezone: true }).defaultNow().notNull(),
 }));
