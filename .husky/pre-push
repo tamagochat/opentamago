@@ -1,1 +1,1 @@
-pnpm i18n:validate
+cd opentamago && pnpm -F @acme/nextjs i18n:validate
