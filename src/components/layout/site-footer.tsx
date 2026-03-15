@@ -41,6 +41,11 @@ export function SiteFooter() {
                 </Link>
               </li>
               <li>
+                <Link href="/chat" className="hover:text-foreground transition-colors">
+                  {tNav("chat")}
+                </Link>
+              </li>
+              <li>
                 <Link href="/p2p/share" className="hover:text-foreground transition-colors">
                   {tNav("p2pShare")}
                 </Link>

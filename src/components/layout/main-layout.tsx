@@ -2,6 +2,7 @@
 
 import { Suspense, useMemo } from "react";
 import { useTranslations } from "next-intl";
+import { AnnouncementBanner } from "./announcement-banner";
 import { SiteHeader } from "./site-header";
 import { SiteFooter } from "./site-footer";
 import { ErrorBoundary } from "~/components/error-boundary";
@@ -45,6 +46,7 @@ export function MainLayout({ children, showFooter = true }: MainLayoutProps) {
 
   return (
     <div className="relative min-h-screen flex flex-col">
+      <AnnouncementBanner />
       <Suspense fallback={<HeaderFallback />}>
         <SiteHeader />
       </Suspense>

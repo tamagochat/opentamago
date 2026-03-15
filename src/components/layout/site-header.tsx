@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Egg, FileArchive, FolderHeart, Menu, Pencil, Share2, Users } from "lucide-react";
+import { Egg, FileArchive, FolderHeart, Menu, MessageCircle, Pencil, Share2, Users } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "~/i18n/routing";
 import { Button } from "~/components/ui/button";
@@ -36,13 +36,12 @@ export function SiteHeader() {
     { name: t("charxPokebox"), href: "/pokebox" as const, icon: FolderHeart, description: "Your character collection" },
   ];
 
+  const chatItem = { name: t("chat"), href: "/chat" as const, icon: MessageCircle };
+
   const p2pItems = [
     { name: t("p2pShare"), href: "/p2p/share" as const, icon: Share2 },
     { name: t("connect"), href: "/p2p/connect" as const, icon: Users },
   ];
-
-  // All items for mobile menu
-  const allNavItems = [...charxItems, ...p2pItems];
 
   const isCharxActive = pathname.startsWith("/charx") || pathname.startsWith("/pokebox");
 
@@ -100,6 +99,21 @@ export function SiteHeader() {
                     })}
                   </ul>
                 </NavigationMenuContent>
+              </NavigationMenuItem>
+
+              {/* Chat Link */}
+              <NavigationMenuItem>
+                <NavigationMenuLink asChild>
+                  <Link
+                    href={chatItem.href}
+                    className={cn(
+                      "group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+                      pathname.startsWith("/chat") && "bg-accent text-accent-foreground"
+                    )}
+                  >
+                    {chatItem.name}
+                  </Link>
+                </NavigationMenuLink>
               </NavigationMenuItem>
 
               {/* P2P Links (flat, no dropdown) */}
@@ -167,6 +181,24 @@ export function SiteHeader() {
                     </Link>
                   );
                 })}
+
+                {/* Chat */}
+                <div className="px-4 py-2 mt-2">
+                  <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">{chatItem.name}</span>
+                </div>
+                <Link
+                  href={chatItem.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={cn(
+                    "flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors",
+                    pathname.startsWith("/chat")
+                      ? "bg-accent text-accent-foreground"
+                      : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
+                  )}
+                >
+                  <chatItem.icon className="h-5 w-5" />
+                  {chatItem.name}
+                </Link>
 
                 {/* P2P Section */}
                 <div className="px-4 py-2 mt-2">

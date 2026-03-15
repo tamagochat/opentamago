@@ -12,7 +12,7 @@ import {
 } from "~/components/ui/dialog";
 import { Button } from "~/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
-import { Key, Palette, Database } from "lucide-react";
+import { Key, Palette, Database, Cpu } from "lucide-react";
 import { useSettings, useProviderSettings } from "~/lib/db/hooks";
 import type { ChatBubbleTheme } from "~/lib/db/schemas";
 import { DatabaseTab } from "./database-tab";
@@ -28,8 +28,10 @@ import {
 } from "~/lib/ai";
 import { cn } from "~/lib/utils";
 import { useMediaQuery } from "~/hooks/use-media-query";
+import { Link } from "~/i18n/routing";
+import { ExternalLink } from "lucide-react";
 
-export type SettingsSection = "apiKeys" | "chatUI" | "database";
+export type SettingsSection = "apiKeys" | "models" | "chatUI" | "database";
 
 interface SettingsModalProps {
   open?: boolean;
@@ -52,7 +54,7 @@ export function SettingsModal({ open, onOpenChange, hiddenTabs = [], initialTab 
   } = useProviderSettings();
   // Compute initial active section (first non-hidden tab)
   const getDefaultSection = (): SettingsSection => {
-    const sections: SettingsSection[] = ["apiKeys", "chatUI", "database"];
+    const sections: SettingsSection[] = ["apiKeys", "models", "chatUI", "database"];
     return sections.find((s) => !hiddenTabs.includes(s)) ?? "apiKeys";
   };
   const [activeSection, setActiveSection] = useState<SettingsSection>(getDefaultSection);
@@ -144,6 +146,7 @@ export function SettingsModal({ open, onOpenChange, hiddenTabs = [], initialTab 
 
   const allSidebarItems = [
     { id: "apiKeys" as const, icon: Key, label: "API Keys" },
+    { id: "models" as const, icon: Cpu, label: t("modelsSection") },
     { id: "chatUI" as const, icon: Palette, label: "Chat UI" },
     { id: "database" as const, icon: Database, label: "Database" },
   ];
@@ -199,6 +202,9 @@ export function SettingsModal({ open, onOpenChange, hiddenTabs = [], initialTab 
                     initialApiKeys={initialApiKeys}
                     isProviderReady={isProviderReady}
                   />
+                )}
+                {activeSection === "models" && (
+                  <ModelsNoticeTab t={t} onClose={() => onOpenChange?.(false)} />
                 )}
                 {activeSection === "chatUI" && (
                   <ChatUITab
@@ -260,6 +266,9 @@ export function SettingsModal({ open, onOpenChange, hiddenTabs = [], initialTab 
                     isProviderReady={isProviderReady}
                   />
                 </TabsContent>
+                <TabsContent value="models" className="mt-0">
+                  <ModelsNoticeTab t={t} onClose={() => onOpenChange?.(false)} />
+                </TabsContent>
                 <TabsContent value="chatUI" className="mt-0">
                   <ChatUITab
                     ref={chatUITabRef}
@@ -285,5 +294,26 @@ export function SettingsModal({ open, onOpenChange, hiddenTabs = [], initialTab 
         )}
       </DialogContent>
     </Dialog>
+  );
+}
+
+function ModelsNoticeTab({ t, onClose }: { t: (key: string) => string; onClose: () => void }) {
+  return (
+    <div className="p-6 space-y-4">
+      <div className="space-y-1">
+        <h3 className="text-sm font-semibold">{t("modelsSection")}</h3>
+        <p className="text-sm text-muted-foreground">
+          {t("modelsNotice")}
+        </p>
+      </div>
+      <Link
+        href="/settings/models"
+        onClick={onClose}
+        className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline underline-offset-2"
+      >
+        {t("modelsLink")}
+        <ExternalLink className="h-3.5 w-3.5" />
+      </Link>
+    </div>
   );
 }
