@@ -1,6 +1,7 @@
 import { relations } from "drizzle-orm";
 import { index, pgTableCreator, primaryKey } from "drizzle-orm/pg-core";
-import { type AdapterAccount } from "next-auth/adapters";
+// Inline the type to avoid drizzle-kit resolution issues with next-auth/adapters
+type AdapterAccountType = "oauth" | "oidc" | "email" | "webauthn";
 
 /**
  * Multi-project schema: all tables prefixed with "opentamago_".
@@ -58,7 +59,7 @@ export const accounts = createTable(
       .uuid()
       .notNull()
       .references(() => users.id),
-    type: d.varchar({ length: 255 }).$type<AdapterAccount["type"]>().notNull(),
+    type: d.varchar({ length: 255 }).$type<AdapterAccountType>().notNull(),
     provider: d.varchar({ length: 255 }).notNull(),
     providerAccountId: d.varchar({ length: 255 }).notNull(),
     refresh_token: d.text(),

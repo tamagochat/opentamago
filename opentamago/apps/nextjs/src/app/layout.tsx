@@ -17,6 +17,7 @@ import {
   WebsiteJsonLd,
 } from "~/components/seo/json-ld";
 import { DatabaseProvider } from "~/lib/db";
+import { generateAlternateLanguages } from "~/lib/seo";
 
 export const metadata: Metadata = {
   title: {
@@ -46,12 +47,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://open.tamago.chat"),
   alternates: {
     canonical: "https://open.tamago.chat",
-    languages: {
-      en: "https://open.tamago.chat",
-      ko: "https://open.tamago.chat/ko",
-      ja: "https://open.tamago.chat/ja",
-      "x-default": "https://open.tamago.chat",
-    },
+    languages: generateAlternateLanguages(""),
   },
   openGraph: {
     type: "website",

@@ -9,7 +9,7 @@
 -- The shared packages/db auth-schema uses Better Auth format for other apps.
 --
 -- IMPORTANT: Back up your database before running this migration.
--- Run with: psql $DATABASE_URL -f migrations/0001_migrate_nextauth_to_betterauth.sql
+-- Run with: psql $POSTGRES_URL -f migrations/0001_migrate_nextauth_to_betterauth.sql
 
 BEGIN;
 

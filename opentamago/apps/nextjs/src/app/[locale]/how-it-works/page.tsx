@@ -26,24 +26,18 @@ import { Link } from "~/i18n/routing";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { MainLayout } from "~/components/layout";
+import { localeToOgLocale, generateAlternateLanguages, BASE_URL } from "~/lib/seo";
 
 type Props = {
   params: Promise<{ locale: string }>;
-};
-
-const localeToOgLocale: Record<string, string> = {
-  en: "en_US",
-  ko: "ko_KR",
-  ja: "ja_JP",
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "howItWorks" });
 
-  const baseUrl = "https://open.tamago.chat";
   const localePath = locale === "en" ? "" : `/${locale}`;
-  const canonicalUrl = `${baseUrl}${localePath}/how-it-works`;
+  const canonicalUrl = `${BASE_URL}${localePath}/how-it-works`;
   const ogLocale = localeToOgLocale[locale] ?? "en_US";
 
   const title = t("meta.title");
@@ -63,12 +57,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     ],
     alternates: {
       canonical: canonicalUrl,
-      languages: {
-        en: `${baseUrl}/how-it-works`,
-        ko: `${baseUrl}/ko/how-it-works`,
-        ja: `${baseUrl}/ja/how-it-works`,
-        "x-default": `${baseUrl}/how-it-works`,
-      },
+      languages: generateAlternateLanguages("/how-it-works"),
     },
     openGraph: {
       title: `${title} | OpenTamago`,

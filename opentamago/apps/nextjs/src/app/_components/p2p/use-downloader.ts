@@ -261,11 +261,11 @@ export function useDownloader({ peer, uploaderPeerId }: UseDownloaderOptions) {
     }, P2P_CONFIG.CONNECTION_TIMEOUT);
   }, [peer, uploaderPeerId, triggerDownload]);
 
-  const submitPassword = useCallback(async (password: string) => {
+  const submitPassword = useCallback((password: string) => {
     if (!connectionRef.current || !challengeRef.current) return;
 
     // Compute hash response using password + challenge
-    const response = await computeChallengeResponse(
+    const response = computeChallengeResponse(
       password,
       challengeRef.current
     );

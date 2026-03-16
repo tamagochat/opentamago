@@ -28,7 +28,7 @@
     "format:fix": "turbo run format --continue -- --write --cache --cache-location .cache/.prettiercache",
     "lint": "turbo run lint --continue -- --cache --cache-location .cache/.eslintcache",
     "lint:fix": "turbo run lint --continue -- --fix --cache --cache-location .cache/.eslintcache",
-    "lint:ws": "pnpm dlx sherif@latest",
+    "lint:ws": "pnpm dlx sherif@latest -i tailwindcss",
     "postinstall": "pnpm lint:ws",
     "prepare": "husky",
     "typecheck": "turbo run typecheck",

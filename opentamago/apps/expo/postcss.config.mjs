@@ -1,1 +1,5 @@
-export { default } from "@acme/tailwind-config/postcss-config";
+export default {
+  plugins: {
+    tailwindcss: {},
+  },
+};

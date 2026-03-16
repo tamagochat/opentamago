@@ -37,42 +37,34 @@ type Props = {
   params: Promise<{ locale: string }>;
 };
 
-const localeToOgLocale: Record<string, string> = {
-  en: "en_US",
-  ko: "ko_KR",
-  ja: "ja_JP",
-};
+import { localeToOgLocale, generateAlternateLanguages, BASE_URL } from "~/lib/seo";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "home" });
   const tCommon = await getTranslations({ locale, namespace: "common" });
 
-  const baseUrl = "https://open.tamago.chat";
   const localePath = locale === "en" ? "" : `/${locale}`;
-  const canonicalUrl = `${baseUrl}${localePath}`;
+  const canonicalUrl = `${BASE_URL}${localePath}`;
   const ogLocale = localeToOgLocale[locale] ?? "en_US";
 
   const title = tCommon("appName");
   const description = t("hero.description");
+
+  const allOgLocales = Object.values(localeToOgLocale);
 
   return {
     title,
     description,
     alternates: {
       canonical: canonicalUrl,
-      languages: {
-        en: baseUrl,
-        ko: `${baseUrl}/ko`,
-        ja: `${baseUrl}/ja`,
-        "x-default": baseUrl,
-      },
+      languages: generateAlternateLanguages(""),
     },
     openGraph: {
       title: `${title} - ${tCommon("tagline")}`,
       description,
       locale: ogLocale,
-      alternateLocale: ["en_US", "ko_KR", "ja_JP"].filter((l) => l !== ogLocale),
+      alternateLocale: allOgLocales.filter((l) => l !== ogLocale),
     },
     twitter: {
       title: `${title} - ${tCommon("tagline")}`,

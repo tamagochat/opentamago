@@ -1,7 +1,50 @@
-@import "tailwindcss/theme.css" layer(theme);
-@import "tailwindcss/preflight.css" layer(base);
-@import "tailwindcss/utilities.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@import "nativewind/theme";
+@layer base {
+  :root {
+    --background: 42 79% 95%;
+    --foreground: 22 39% 18%;
+    --card: 42 79% 98%;
+    --card-foreground: 22 39% 18%;
+    --popover: 42 79% 98%;
+    --popover-foreground: 22 39% 18%;
+    --primary: 25 80% 43%;
+    --primary-foreground: 42 40% 96%;
+    --secondary: 44 55% 90%;
+    --secondary-foreground: 22 44% 27%;
+    --muted: 44 55% 90%;
+    --muted-foreground: 22 20% 50%;
+    --accent: 44 50% 86%;
+    --accent-foreground: 22 39% 18%;
+    --destructive: 0 85% 62%;
+    --destructive-foreground: 42 40% 96%;
+    --border: 44 30% 84%;
+    --input: 44 30% 84%;
+    --ring: 25 45% 62%;
+    --radius: 1rem;
+  }
 
-@import "@acme/tailwind-config/theme";
+  .dark:root {
+    --background: 21 44% 7%;
+    --foreground: 44 31% 94%;
+    --card: 22 47% 10%;
+    --card-foreground: 44 31% 94%;
+    --popover: 22 47% 10%;
+    --popover-foreground: 44 31% 94%;
+    --primary: 22 77% 66%;
+    --primary-foreground: 22 65% 8%;
+    --secondary: 21 33% 16%;
+    --secondary-foreground: 44 31% 94%;
+    --muted: 21 33% 16%;
+    --muted-foreground: 22 25% 64%;
+    --accent: 21 33% 16%;
+    --accent-foreground: 44 31% 94%;
+    --destructive: 359 72% 55%;
+    --destructive-foreground: 44 31% 94%;
+    --border: 21 19% 18%;
+    --input: 21 19% 18%;
+    --ring: 25 40% 48%;
+  }
+}

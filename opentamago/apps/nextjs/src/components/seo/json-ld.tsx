@@ -1,3 +1,5 @@
+import { locales } from "~/i18n/config";
+
 export function WebApplicationJsonLd() {
   const schema = {
     "@context": "https://schema.org",
@@ -18,7 +20,7 @@ export function WebApplicationJsonLd() {
       "P2P file sharing via WebRTC",
       "Multi-character AI chat sessions",
       "100% browser-based processing",
-      "Multi-language support (EN, KO, JA)",
+      "Multi-language support (17 languages)",
       "Password-protected sharing",
       "QR code sharing",
     ],
@@ -71,7 +73,7 @@ export function WebsiteJsonLd() {
       },
       "query-input": "required name=search_term_string",
     },
-    inLanguage: ["en", "ko", "ja"],
+    inLanguage: [...locales],
   };
 
   return (

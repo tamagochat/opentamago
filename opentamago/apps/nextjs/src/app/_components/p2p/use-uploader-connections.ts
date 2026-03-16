@@ -162,34 +162,31 @@ export function useUploaderConnections({
             }
 
             // Compute expected response and compare
-            computeChallengeResponse(password, challenge).then(
-              (expectedResponse) => {
-                if (message.response === expectedResponse) {
-                  // Clear challenge after successful auth
-                  connectionChallenges.current.delete(connId);
-                  updateConnection(connId, { status: "ready" });
-                  if (file) {
-                    conn.send({
-                      type: "Info",
-                      file: {
-                        name: file.name,
-                        size: file.size,
-                        type: file.type,
-                      },
-                    });
-                  }
-                } else {
-                  // Generate new challenge for retry
-                  const newChallenge = generateChallenge();
-                  connectionChallenges.current.set(connId, newChallenge);
-                  conn.send({
-                    type: "PasswordRequired",
-                    challenge: newChallenge,
-                    error: "Invalid password",
-                  });
-                }
+            const expectedResponse = computeChallengeResponse(password, challenge);
+            if (message.response === expectedResponse) {
+              // Clear challenge after successful auth
+              connectionChallenges.current.delete(connId);
+              updateConnection(connId, { status: "ready" });
+              if (file) {
+                conn.send({
+                  type: "Info",
+                  file: {
+                    name: file.name,
+                    size: file.size,
+                    type: file.type,
+                  },
+                });
               }
-            );
+            } else {
+              // Generate new challenge for retry
+              const newChallenge = generateChallenge();
+              connectionChallenges.current.set(connId, newChallenge);
+              conn.send({
+                type: "PasswordRequired",
+                challenge: newChallenge,
+                error: "Invalid password",
+              });
+            }
           }
           break;
 
