@@ -11,6 +11,8 @@ View, share, and chat with AI characters. From CharX viewer to P2P-based CharX s
 |      <img src="opentamago/apps/nextjs/public/examples/charx_viewer.png" width="400" alt="CharX Viewer">      |    <img src="opentamago/apps/nextjs/public/examples/p2p_share.png" width="400" alt="P2P CharX Sharing">    |
 |                                            **P2P Connect Lobby**                                             |                                            **P2P Connect Chat**                                            |
 | <img src="opentamago/apps/nextjs/public/examples/p2p_connect_lobby.png" width="400" alt="P2P Connect Lobby"> | <img src="opentamago/apps/nextjs/public/examples/p2p_connect_chat.png" width="400" alt="P2P Connect Chat"> |
+|                                              **Expo Mobile App**                                              |                                                                                                            |
+|                        <img src="docs/assets/expo.png" width="400" alt="Expo Mobile App">                     |                                                                                                            |
 
 ### CharX Viewer
 Check out character cards, lorebooks, and assets from CharX files. Everything runs right in your browser.
