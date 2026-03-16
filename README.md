@@ -6,10 +6,10 @@ View, share, and chat with AI characters. From CharX viewer to P2P-based CharX s
 
 ## Features
 
-| CharX Viewer | P2P CharX Sharing |
-|:---:|:---:|
-| <img src="opentamago/apps/nextjs/public/examples/charx_viewer.png" width="400" alt="CharX Viewer"> | <img src="opentamago/apps/nextjs/public/examples/p2p_share.png" width="400" alt="P2P CharX Sharing"> |
-| **P2P Connect Lobby** | **P2P Connect Chat** |
+|                                                 CharX Viewer                                                 |                                             P2P CharX Sharing                                              |
+| :----------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------: |
+|      <img src="opentamago/apps/nextjs/public/examples/charx_viewer.png" width="400" alt="CharX Viewer">      |    <img src="opentamago/apps/nextjs/public/examples/p2p_share.png" width="400" alt="P2P CharX Sharing">    |
+|                                            **P2P Connect Lobby**                                             |                                            **P2P Connect Chat**                                            |
 | <img src="opentamago/apps/nextjs/public/examples/p2p_connect_lobby.png" width="400" alt="P2P Connect Lobby"> | <img src="opentamago/apps/nextjs/public/examples/p2p_connect_chat.png" width="400" alt="P2P Connect Chat"> |
 
 ### CharX Viewer
@@ -67,7 +67,7 @@ infra/
 git clone https://github.com/tamagochat/opentamago.git
 cd opentamago/opentamago
 pnpm install
-cp .env.example .env         # Configure DATABASE_URL, AUTH_SECRET
+cp .env.example .env         # Configure POSTGRES_URL, AUTH_SECRET
 pnpm dev:next                # http://localhost:3000
 ```
 

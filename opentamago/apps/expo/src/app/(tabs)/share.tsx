@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { ActivityIndicator, ScrollView, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import * as DocumentPicker from "expo-document-picker";
 
 import { Text } from "~/components/ui/text";
@@ -24,7 +23,8 @@ export default function ShareScreen() {
   const [password, setPassword] = useState("");
   const [isSharing, setIsSharing] = useState(false);
 
-  const { peer, peerId, error: peerError, isLoading: peerLoading } = usePeer("p2p");
+  const { peer, isReady: peerReady, error: peerError } = usePeer();
+  const peerId = peer?.id ?? null;
   const {
     channelInfo,
     connections,
@@ -73,11 +73,11 @@ export default function ShareScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-background" edges={["bottom"]}>
-      <ScrollView className="flex-1 p-4" contentContainerClassName="gap-4">
-        <Text className="text-2xl font-bold">P2P File Share</Text>
-
-        {peerLoading && (
+    <ScrollView
+      className="flex-1 bg-background"
+      contentContainerClassName="p-4 gap-4 pb-8"
+    >
+        {!peerReady && !peerError && (
           <View className="items-center py-8">
             <ActivityIndicator size="large" />
             <Text className="text-muted-foreground mt-2">
@@ -89,7 +89,7 @@ export default function ShareScreen() {
         {peerError && (
           <Card className="border-destructive">
             <CardContent className="p-4">
-              <Text className="text-destructive">Error: {peerError}</Text>
+              <Text className="text-destructive">Error: {peerError.message}</Text>
             </CardContent>
           </Card>
         )}
@@ -99,30 +99,16 @@ export default function ShareScreen() {
             {/* File picker */}
             <Button
               variant="outline"
-              className="h-auto py-8 border-dashed border-2"
+              size="lg"
               onPress={pickFile}
             >
-              <View className="items-center">
-                {file ? (
-                  <>
-                    <Text className="text-lg font-semibold">{file.name}</Text>
-                    <Text className="text-muted-foreground mt-1">
-                      {formatSize(file.size)}
-                    </Text>
-                    <Text className="text-primary mt-2 text-sm">
-                      Tap to change file
-                    </Text>
-                  </>
-                ) : (
-                  <>
-                    <Text className="text-lg">Select a file to share</Text>
-                    <Text className="text-muted-foreground mt-1 text-sm">
-                      Tap to browse
-                    </Text>
-                  </>
-                )}
-              </View>
+              <Text>{file ? file.name : "Select a file to share"}</Text>
             </Button>
+            {file && (
+              <Text className="text-muted-foreground text-sm text-center">
+                {formatSize(file.size)} — Tap above to change
+              </Text>
+            )}
 
             {/* Password */}
             <View className="gap-1.5">
@@ -154,9 +140,7 @@ export default function ShareScreen() {
           <>
             <Card>
               <CardHeader className="pb-2">
-                <CardTitle>
-                  <Text className="text-base font-semibold">Share Code</Text>
-                </CardTitle>
+                <CardTitle className="text-base">Share Code</CardTitle>
               </CardHeader>
               <CardContent>
                 <Text className="text-primary text-3xl font-mono font-bold text-center py-2">
@@ -239,7 +223,6 @@ export default function ShareScreen() {
             </Button>
           </>
         )}
-      </ScrollView>
-    </SafeAreaView>
+    </ScrollView>
   );
 }

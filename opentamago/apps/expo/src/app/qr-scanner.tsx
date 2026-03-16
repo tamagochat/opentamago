@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { CameraView, useCameraPermissions } from "expo-camera";
-import { router, Stack } from "expo-router";
+import { router, Stack, useLocalSearchParams } from "expo-router";
 
 export default function QRScanner() {
+  const params = useLocalSearchParams<{
+    target?: string;
+  }>();
   const [permission, requestPermission] = useCameraPermissions();
   const [scanned, setScanned] = useState(false);
 
@@ -40,6 +43,17 @@ export default function QRScanner() {
                 const slug = data.includes("/")
                   ? data.split("/").pop() ?? data
                   : data;
+                if (params.target === "connect") {
+                  router.replace({
+                    pathname: "/connect",
+                    params: {
+                      mode: "join",
+                      joinSlug: slug,
+                    },
+                  });
+                  return;
+                }
+
                 router.back();
                 router.push({ pathname: "/share/[slug]", params: { slug } });
               }

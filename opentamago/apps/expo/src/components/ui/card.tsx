@@ -1,8 +1,7 @@
 import * as React from "react";
-import { View } from "react-native";
+import { Text as RNText, View } from "react-native";
 
 import { cn } from "~/lib/utils";
-import { TextClassContext } from "~/components/ui/text";
 
 const Card = React.forwardRef<
   React.ComponentRef<typeof View>,
@@ -11,7 +10,7 @@ const Card = React.forwardRef<
   <View
     ref={ref}
     className={cn(
-      "rounded-2xl border border-border bg-card",
+      "rounded-lg border border-border bg-card shadow-sm",
       className
     )}
     {...props}
@@ -32,22 +31,29 @@ const CardHeader = React.forwardRef<
 CardHeader.displayName = "CardHeader";
 
 const CardTitle = React.forwardRef<
-  React.ComponentRef<typeof View>,
-  React.ComponentPropsWithoutRef<typeof View>
+  React.ComponentRef<typeof RNText>,
+  React.ComponentPropsWithoutRef<typeof RNText>
 >(({ className, ...props }, ref) => (
-  <TextClassContext.Provider value="text-2xl text-card-foreground font-semibold leading-none tracking-tight">
-    <View ref={ref} className={className} {...props} />
-  </TextClassContext.Provider>
+  <RNText
+    ref={ref}
+    className={cn(
+      "text-2xl font-semibold leading-none tracking-tight text-card-foreground",
+      className
+    )}
+    {...props}
+  />
 ));
 CardTitle.displayName = "CardTitle";
 
 const CardDescription = React.forwardRef<
-  React.ComponentRef<typeof View>,
-  React.ComponentPropsWithoutRef<typeof View>
+  React.ComponentRef<typeof RNText>,
+  React.ComponentPropsWithoutRef<typeof RNText>
 >(({ className, ...props }, ref) => (
-  <TextClassContext.Provider value="text-sm text-muted-foreground">
-    <View ref={ref} className={className} {...props} />
-  </TextClassContext.Provider>
+  <RNText
+    ref={ref}
+    className={cn("text-sm text-muted-foreground", className)}
+    {...props}
+  />
 ));
 CardDescription.displayName = "CardDescription";
 

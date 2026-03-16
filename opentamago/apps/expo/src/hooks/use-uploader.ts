@@ -84,6 +84,9 @@ export function useUploader({ peer, peerId, file, password }: UseUploaderOptions
     }
   }, [peerId, file, password, createChannelMutation]);
 
+  // Store challenges per connection for password verification
+  const connectionChallenges = useRef<Map<string, string>>(new Map());
+
   // Handle incoming connections
   useEffect(() => {
     if (!peer || !file) return;
@@ -123,6 +126,7 @@ export function useUploader({ peer, peerId, file, password }: UseUploaderOptions
             if (password) {
               const { generateChallenge } = await import("@acme/p2p/core");
               const challenge = generateChallenge();
+              connectionChallenges.current.set(connId, challenge);
               conn.send({ type: "PasswordRequired", challenge });
               setConnections((prev) => {
                 const next = new Map(prev);
@@ -150,23 +154,59 @@ export function useUploader({ peer, peerId, file, password }: UseUploaderOptions
           }
 
           case "UsePassword": {
-            // Password verification happens via challenge-response on the P2P channel
-            // For simplicity, verify using the crypto module
-            const { computeChallengeResponse } = await import("@acme/p2p/core");
-            // The challenge was sent earlier, we trust the response mechanism
-            // In production, we'd store the challenge per-connection
-            conn.send({
-              type: "Info",
-              file: { name: file.name, size: file.size, type: file.type },
-            });
-            setConnections((prev) => {
-              const next = new Map(prev);
-              const existing = next.get(connId);
-              if (existing) {
-                next.set(connId, { ...existing, status: "ready" });
-              }
-              return next;
-            });
+            const { computeChallengeResponse, generateChallenge } =
+              await import("@acme/p2p/core");
+            const challenge = connectionChallenges.current.get(connId);
+
+            if (!challenge || !password) {
+              const newChallenge = generateChallenge();
+              connectionChallenges.current.set(connId, newChallenge);
+              conn.send({
+                type: "PasswordRequired",
+                challenge: newChallenge,
+                error: "Authentication error",
+              });
+              break;
+            }
+
+            const expectedResponse = await computeChallengeResponse(
+              password,
+              challenge,
+            );
+
+            if (data.response === expectedResponse) {
+              // Password correct — clear challenge and send file info
+              connectionChallenges.current.delete(connId);
+              conn.send({
+                type: "Info",
+                file: { name: file.name, size: file.size, type: file.type },
+              });
+              setConnections((prev) => {
+                const next = new Map(prev);
+                const existing = next.get(connId);
+                if (existing) {
+                  next.set(connId, { ...existing, status: "ready" });
+                }
+                return next;
+              });
+            } else {
+              // Wrong password — generate new challenge for retry
+              const newChallenge = generateChallenge();
+              connectionChallenges.current.set(connId, newChallenge);
+              conn.send({
+                type: "PasswordRequired",
+                challenge: newChallenge,
+                error: "Invalid password",
+              });
+              setConnections((prev) => {
+                const next = new Map(prev);
+                const existing = next.get(connId);
+                if (existing) {
+                  next.set(connId, { ...existing, status: "invalid-password" });
+                }
+                return next;
+              });
+            }
             break;
           }
 

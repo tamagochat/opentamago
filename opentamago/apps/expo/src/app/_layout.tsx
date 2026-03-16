@@ -1,50 +1,40 @@
-import "../utils/webrtc-polyfill";
-
 import { useColorScheme } from "react-native";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { ThemeProvider, DarkTheme, DefaultTheme } from "@react-navigation/native";
+import { ThemeProvider } from "@react-navigation/native";
 
 import { queryClient } from "~/utils/api";
 import { NAV_THEME } from "~/lib/theme";
 
 import "../styles.css";
 
-const LIGHT_THEME = {
-  ...DefaultTheme,
-  colors: NAV_THEME.light,
-};
-
-const DARK_THEME = {
-  ...DarkTheme,
-  colors: NAV_THEME.dark,
-};
-
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === "dark";
+  const theme = isDark ? NAV_THEME.dark : NAV_THEME.light;
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider value={isDark ? DARK_THEME : LIGHT_THEME}>
+      <ThemeProvider value={theme}>
         <Stack
           screenOptions={{
             headerStyle: {
               backgroundColor: isDark
-                ? NAV_THEME.dark.card
-                : NAV_THEME.light.primary,
+                ? theme.colors.card
+                : theme.colors.primary,
             },
             headerTintColor: isDark
-              ? NAV_THEME.dark.text
-              : NAV_THEME.light.card,
+              ? theme.colors.text
+              : "#fff",
             contentStyle: {
-              backgroundColor: isDark
-                ? NAV_THEME.dark.background
-                : NAV_THEME.light.background,
+              backgroundColor: theme.colors.background,
             },
           }}
-        />
+        >
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="charx-viewer" options={{ headerBackTitle: "Back" }} />
+        </Stack>
         <StatusBar style={isDark ? "light" : "dark"} />
       </ThemeProvider>
     </QueryClientProvider>

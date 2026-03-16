@@ -10,6 +10,6 @@ export default {
   schema: "./src/schema.ts",
   dialect: "postgresql",
   dbCredentials: { url: nonPoolingUrl },
-  casing: "snake_case",
+  casing: "camelCase",
   tablesFilter: ["opentamago_*"],
 } satisfies Config;

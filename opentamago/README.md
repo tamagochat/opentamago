@@ -21,7 +21,7 @@ cp .env.example .env
 ```
 
 Edit `.env` and configure:
-- `DATABASE_URL` — PostgreSQL connection string
+- `POSTGRES_URL` — PostgreSQL connection string
 - `AUTH_SECRET` — Random secret for NextAuth.js
 - `AUTH_DISCORD_ID` & `AUTH_DISCORD_SECRET` — Discord OAuth credentials (optional)
 - `GOOGLE_GENERATIVE_AI_API_KEY` — Gemini API key (optional)
@@ -150,7 +150,7 @@ When adding new translation keys, add to `en.json` first, then all other locale 
 ### Vercel
 
 1. Create a new project on Vercel, set **Root Directory** to `opentamago/apps/nextjs`
-2. Add environment variables (`DATABASE_URL`, `AUTH_SECRET`, etc.)
+2. Add environment variables (`POSTGRES_URL`, `AUTH_SECRET`, etc.)
 3. Deploy
 
 See the [Turborepo Vercel guide](https://vercel.com/docs/concepts/monorepos/turborepo) for more details.

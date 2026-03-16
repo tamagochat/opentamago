@@ -3,7 +3,7 @@ import { Text as RNText } from "react-native";
 
 import { cn } from "~/lib/utils";
 
-const TextClassContext = React.createContext<string>("text-base text-foreground");
+const TextClassContext = React.createContext<string | undefined>(undefined);
 
 function Text({
   className,
@@ -11,7 +11,10 @@ function Text({
 }: React.ComponentPropsWithoutRef<typeof RNText>) {
   const textClass = React.useContext(TextClassContext);
   return (
-    <RNText className={cn(textClass, className)} {...props} />
+    <RNText
+      className={cn("text-base text-foreground", textClass, className)}
+      {...props}
+    />
   );
 }
 

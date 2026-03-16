@@ -1,18 +1,73 @@
-export const NAV_THEME = {
+import { DarkTheme, DefaultTheme, type Theme } from "@react-navigation/native";
+
+export const THEME = {
   light: {
-    background: "hsl(48, 79%, 95%)", // #fcf9ea - warm cream
-    border: "hsl(48, 34%, 84%)", // #e4dec8
-    card: "hsl(48, 79%, 98%)", // #fefcf4
-    notification: "hsl(0, 85%, 62%)", // #f14d4c - destructive
-    primary: "hsl(25, 80%, 43%)", // #c46016 - warm terracotta
-    text: "hsl(22, 39%, 18%)", // #3e281b - deep warm brown
+    background: "hsl(42 79% 95%)",
+    foreground: "hsl(22 39% 18%)",
+    card: "hsl(42 79% 98%)",
+    cardForeground: "hsl(22 39% 18%)",
+    popover: "hsl(42 79% 98%)",
+    popoverForeground: "hsl(22 39% 18%)",
+    primary: "hsl(25 80% 43%)",
+    primaryForeground: "hsl(42 40% 96%)",
+    secondary: "hsl(44 55% 90%)",
+    secondaryForeground: "hsl(22 44% 27%)",
+    muted: "hsl(44 55% 90%)",
+    mutedForeground: "hsl(22 20% 50%)",
+    accent: "hsl(44 50% 86%)",
+    accentForeground: "hsl(22 39% 18%)",
+    destructive: "hsl(0 85% 62%)",
+    destructiveForeground: "hsl(42 40% 96%)",
+    border: "hsl(44 30% 84%)",
+    input: "hsl(44 30% 84%)",
+    ring: "hsl(25 45% 62%)",
+    radius: "1rem",
   },
   dark: {
-    background: "hsl(21, 44%, 7%)", // #190f0a - deep cocoa
-    border: "hsl(21, 19%, 18%)", // #362b25
-    card: "hsl(22, 47%, 10%)", // #26160e
-    notification: "hsl(359, 72%, 55%)", // #de3b3d - destructive
-    primary: "hsl(22, 77%, 66%)", // #eb9666 - light apricot
-    text: "hsl(44, 31%, 94%)", // #f4f2ea - warm white
+    background: "hsl(21 44% 7%)",
+    foreground: "hsl(44 31% 94%)",
+    card: "hsl(22 47% 10%)",
+    cardForeground: "hsl(44 31% 94%)",
+    popover: "hsl(22 47% 10%)",
+    popoverForeground: "hsl(44 31% 94%)",
+    primary: "hsl(22 77% 66%)",
+    primaryForeground: "hsl(22 65% 8%)",
+    secondary: "hsl(21 33% 16%)",
+    secondaryForeground: "hsl(44 31% 94%)",
+    muted: "hsl(21 33% 16%)",
+    mutedForeground: "hsl(22 25% 64%)",
+    accent: "hsl(21 33% 16%)",
+    accentForeground: "hsl(44 31% 94%)",
+    destructive: "hsl(359 72% 55%)",
+    destructiveForeground: "hsl(44 31% 94%)",
+    border: "hsl(21 19% 18%)",
+    input: "hsl(21 19% 18%)",
+    ring: "hsl(25 40% 48%)",
+    radius: "1rem",
+  },
+};
+
+export const NAV_THEME: Record<"light" | "dark", Theme> = {
+  light: {
+    ...DefaultTheme,
+    colors: {
+      background: THEME.light.background,
+      border: THEME.light.border,
+      card: THEME.light.card,
+      notification: THEME.light.destructive,
+      primary: THEME.light.primary,
+      text: THEME.light.foreground,
+    },
+  },
+  dark: {
+    ...DarkTheme,
+    colors: {
+      background: THEME.dark.background,
+      border: THEME.dark.border,
+      card: THEME.dark.card,
+      notification: THEME.dark.destructive,
+      primary: THEME.dark.primary,
+      text: THEME.dark.foreground,
+    },
   },
 };

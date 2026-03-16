@@ -30,7 +30,8 @@
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
-    "peerjs": "^1.5.5",
+    "@noble/hashes": "^2.0.1",
+    "peerjs": "^1.5.4",
     "zod": "catalog:"
   },
   "devDependencies": {

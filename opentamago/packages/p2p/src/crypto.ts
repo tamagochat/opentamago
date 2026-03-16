@@ -1,9 +1,11 @@
 /**
  * P2P Challenge-Response Authentication
  *
- * Uses SHA-256 to hash password + challenge for secure password verification
- * without transmitting plaintext passwords over the P2P channel.
+ * Uses @noble/hashes for cross-platform SHA-256 (Next.js, Expo iOS/Android).
  */
+
+import { sha256 } from "@noble/hashes/sha2.js";
+import { bytesToHex } from "@noble/hashes/utils.js";
 
 /**
  * Generate a random challenge string for password verification.
@@ -17,13 +19,9 @@ export function generateChallenge(): string {
  * Compute SHA-256 hash of password + challenge.
  * Used by both uploader (to verify) and downloader (to respond).
  */
-export async function computeChallengeResponse(
+export function computeChallengeResponse(
   password: string,
-  challenge: string
-): Promise<string> {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(password + challenge);
-  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
+  challenge: string,
+): string {
+  return bytesToHex(sha256(new TextEncoder().encode(password + challenge)));
 }

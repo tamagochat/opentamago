@@ -46,7 +46,7 @@
     }
   },
   "globalEnv": [
-    "DATABASE_URL",
+    "POSTGRES_URL",
     "POSTGRES_URL",
     "AUTH_SECRET",
     "AUTH_DISCORD_ID",

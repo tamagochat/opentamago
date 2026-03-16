@@ -1,12 +1,14 @@
 import * as React from "react";
 import { Pressable } from "react-native";
-import { cva, type VariantProps } from "class-variance-authority";
+import { cva } from "class-variance-authority";
+import type { VariantProps } from "class-variance-authority";
 
 import { cn } from "~/lib/utils";
+import { Text } from "~/components/ui/text";
 import { TextClassContext } from "~/components/ui/text";
 
 const buttonVariants = cva(
-  "group flex items-center justify-center rounded-md",
+  "group flex-row items-center justify-center gap-2 rounded-md",
   {
     variants: {
       variant: {
@@ -56,16 +58,29 @@ const buttonTextVariants = cva("text-sm native:text-base font-medium", {
 });
 
 type ButtonProps = React.ComponentPropsWithoutRef<typeof Pressable> &
-  VariantProps<typeof buttonVariants>;
+  VariantProps<typeof buttonVariants> & {
+    textClassName?: string;
+  };
 
 const Button = React.forwardRef<
   React.ComponentRef<typeof Pressable>,
   ButtonProps
->(({ className, variant, size, ...props }, ref) => {
+>(({ children, className, textClassName, variant, size, ...props }, ref) => {
+  const textClassValue = cn(buttonTextVariants({ variant, size }), textClassName);
+
+  const normalizedChildren =
+    typeof children === "function"
+      ? children
+      : React.Children.map(children, (child) => {
+          if (typeof child === "string" || typeof child === "number") {
+            return <Text>{child}</Text>;
+          }
+
+          return child;
+        });
+
   return (
-    <TextClassContext.Provider
-      value={buttonTextVariants({ variant, size })}
-    >
+    <TextClassContext.Provider value={textClassValue}>
       <Pressable
         className={cn(
           props.disabled && "opacity-50",
@@ -74,7 +89,9 @@ const Button = React.forwardRef<
         ref={ref}
         role="button"
         {...props}
-      />
+      >
+        {normalizedChildren}
+      </Pressable>
     </TextClassContext.Provider>
   );
 });

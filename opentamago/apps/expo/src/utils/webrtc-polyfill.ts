@@ -6,6 +6,8 @@ try {
     registerGlobals: () => void;
   };
   registerGlobals();
-} catch {
-  // WebRTC native module not available (e.g. running in Expo Go)
+  console.log("[WebRTC] Polyfill registered successfully");
+} catch (e) {
+  // WebRTC native module not available — needs a dev client build (not Expo Go)
+  console.warn("[WebRTC] Native module not available. Run `npx expo run:ios` to build with WebRTC support.", e);
 }

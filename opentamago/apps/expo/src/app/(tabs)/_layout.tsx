@@ -1,4 +1,4 @@
-import { useColorScheme } from "react-native";
+import { Text as RNText, useColorScheme } from "react-native";
 import { Tabs } from "expo-router";
 
 import { NAV_THEME } from "~/lib/theme";
@@ -11,52 +11,59 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        headerShown: false,
-        tabBarStyle: {
-          backgroundColor: isDark ? theme.card : theme.background,
-          borderTopColor: theme.border,
+        headerStyle: {
+          backgroundColor: isDark ? theme.colors.card : theme.colors.primary,
         },
-        tabBarActiveTintColor: theme.primary,
+        headerTintColor: isDark ? theme.colors.text : "#fff",
+        headerTitleStyle: { fontWeight: "700" },
+        tabBarStyle: {
+          backgroundColor: isDark ? theme.colors.card : theme.colors.background,
+          borderTopColor: theme.colors.border,
+        },
+        tabBarActiveTintColor: theme.colors.primary,
         tabBarInactiveTintColor: isDark ? "#b99683" : "#997866",
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
-          title: "Home",
+          title: "Open Tamago",
+          tabBarLabel: "Home",
           tabBarIcon: ({ color, size }) => (
-            <TabIcon label="H" color={color} />
+            <RNText style={{ fontSize: size - 4 }}>🏠</RNText>
           ),
         }}
       />
       <Tabs.Screen
         name="share"
         options={{
-          title: "Share",
-          tabBarIcon: ({ color }) => (
-            <TabIcon label="S" color={color} />
+          title: "P2P Share",
+          tabBarLabel: "Share",
+          tabBarIcon: ({ color, size }) => (
+            <RNText style={{ fontSize: size - 4 }}>📤</RNText>
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="download"
+        options={{
+          title: "Download",
+          tabBarLabel: "Download",
+          tabBarIcon: ({ color, size }) => (
+            <RNText style={{ fontSize: size - 4 }}>📲</RNText>
           ),
         }}
       />
       <Tabs.Screen
         name="connect"
         options={{
-          title: "Connect",
-          tabBarIcon: ({ color }) => (
-            <TabIcon label="C" color={color} />
+          title: "P2P Connect",
+          tabBarLabel: "Connect",
+          tabBarIcon: ({ color, size }) => (
+            <RNText style={{ fontSize: size - 4 }}>💬</RNText>
           ),
         }}
       />
     </Tabs>
   );
 }
-
-function TabIcon({ label, color }: { label: string; color: string }) {
-  return (
-    <_RNText style={{ color, fontSize: 18, fontWeight: "700" }}>
-      {label}
-    </_RNText>
-  );
-}
-
-import { Text as _RNText } from "react-native";
