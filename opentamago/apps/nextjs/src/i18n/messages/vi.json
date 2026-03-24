@@ -44,7 +44,7 @@
       "startSharing": "Bắt Đầu Chia Sẻ CharX",
       "startConnect": "Bắt Đầu Phiên CharX",
       "p2pLabel": "Tính năng P2P",
-      "openEditor": "Open Editor",
+      "openEditor": "Mở CharX Editor",
       "openPokebox": "Open PokeBox"
     },
     "features": {
@@ -53,6 +53,14 @@
       "charxViewer": {
         "title": "Trình Xem CharX",
         "description": "Xem thẻ nhân vật, lorebook và tài nguyên từ file CharX. Mọi thứ chạy ngay trong trình duyệt của bạn."
+      },
+      "charxEditor": {
+        "title": "CharX Editor",
+        "description": "Tạo và chỉnh sửa nhân vật AI với trợ lý AI. Thiết kế tính cách, viết lời chào và xây dựng lorebook."
+      },
+      "chat": {
+        "title": "Chat",
+        "description": "Trò chuyện với nhân vật AI ngay trên máy. Mọi cuộc trò chuyện được lưu trên thiết bị để đảm bảo quyền riêng tư."
       },
       "p2pSharing": {
         "title": "Chia Sẻ CharX P2P",
@@ -105,7 +113,7 @@
     "highlights": {
       "privacy": {
         "title": "100% Xử Lý Cục Bộ",
-        "description": "Xem file CharX ngay trong trình duyệt của bạn. Dữ liệu không bao giờ rời khỏi thiết bị của bạn."
+        "description": "Xem file CharX và trò chuyện với nhân vật AI ngay trên trình duyệt. Dữ liệu của bạn không bao giờ rời khỏi thiết bị."
       },
       "fast": {
         "title": "Kết Nối P2P Trực Tiếp",
@@ -118,7 +126,7 @@
     },
     "ready": {
       "title": "Sẵn Sàng Bắt Đầu?",
-      "description": "Khám phá file nhân vật của bạn với trình xem ưu tiên quyền riêng tư của chúng tôi."
+      "description": "Khám phá, tạo và trò chuyện với nhân vật AI — tất cả đều ưu tiên quyền riêng tư."
     },
     "demo": {
       "charx": {
@@ -466,7 +474,21 @@
     "legal": "Pháp lý",
     "privacy": "Chính Sách Quyền Riêng Tư",
     "terms": "Điều Khoản Dịch Vụ",
-    "copyright": "OpenTamago. Đã đăng ký bản quyền."
+    "copyright": "OpenTamago. Đã đăng ký bản quyền.",
+    "openSource": "Open Source",
+    "openSourceProjects": "Tất cả dự án"
+  },
+  "opensource": {
+    "meta": {
+      "title": "Dự án mã nguồn mở",
+      "description": "Khám phá các dự án mã nguồn mở của đội ngũ OpenTamago."
+    },
+    "title": "Open Source",
+    "subtitle": "Chúng tôi phát triển công khai. Xem các dự án của chúng tôi trên GitHub.",
+    "opentamagoDesc": "Nền tảng nhân vật AI mã nguồn mở. Xem, chia sẻ và trò chuyện với các nhân vật AI bằng định dạng CharX.",
+    "vaultDesc": "Plugin SillyTavern để sao lưu và đồng bộ đám mây. Lưu trữ an toàn nhân vật, cuộc trò chuyện và cài đặt của bạn.",
+    "hetznerDesc": "Triển khai SillyTavern một cú nhấp trên Hetzner Cloud. Sở hữu máy chủ chat AI riêng trong vài phút.",
+    "viewOnGithub": "Xem trên GitHub"
   },
   "nav": {
     "home": "Trang Chủ",
@@ -474,9 +496,11 @@
     "charxViewer": "Trình Xem CharX",
     "charxEditor": "Trình Soạn CharX",
     "charxPokebox": "CharX PokeBox",
-    "p2pShare": "Chia Sẻ P2P",
+    "p2pShare": "Chia Sẻ",
+    "p2pShareDesc": "Chia sẻ file CharX trực tiếp qua P2P",
     "chat": "Chat",
-    "connect": "Kết Nối P2P",
+    "connect": "Kết Nối",
+    "connectDesc": "Phòng chat đa nhân vật cùng bạn bè",
     "howItWorks": "Cách Hoạt Động",
     "github": "GitHub",
     "toggleMenu": "Chuyển đổi menu",

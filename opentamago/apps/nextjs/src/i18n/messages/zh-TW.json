@@ -44,7 +44,7 @@
       "startSharing": "開始分享",
       "startConnect": "開始聊天",
       "p2pLabel": "P2P 功能",
-      "openEditor": "Open Editor",
+      "openEditor": "開啟 CharX 編輯器",
       "openPokebox": "Open PokeBox"
     },
     "features": {
@@ -53,6 +53,14 @@
       "charxViewer": {
         "title": "CharX 查看器",
         "description": "瀏覽 CharX 檔案裡的角色卡、世界書和資源，全在瀏覽器裡搞定。"
+      },
+      "charxEditor": {
+        "title": "CharX 編輯器",
+        "description": "透過AI助手建立和編輯AI角色。設計個性、撰寫問候語、建構知識書。"
+      },
+      "chat": {
+        "title": "聊天",
+        "description": "在本機與AI角色聊天。所有對話都儲存在您的裝置上，確保完全隱私。"
       },
       "p2pSharing": {
         "title": "P2P 分享",
@@ -105,7 +113,7 @@
     "highlights": {
       "privacy": {
         "title": "完全本地",
-        "description": "CharX 檔案在瀏覽器裡開啟，資料不出裝置"
+        "description": "在瀏覽器中查看CharX檔案並與AI角色聊天。您的資料永遠不會離開您的裝置。"
       },
       "fast": {
         "title": "點對點直連",
@@ -118,7 +126,7 @@
     },
     "ready": {
       "title": "準備好了嗎？",
-      "description": "用我們的隱私友善查看器來探索你的角色檔案吧～"
+      "description": "探索、建立AI角色並與之聊天 — 一切以隱私為先。"
     },
     "demo": {
       "charx": {
@@ -466,7 +474,21 @@
     "legal": "法律",
     "privacy": "隱私權政策",
     "terms": "服務條款",
-    "copyright": "OpenTamago. 保留所有權利。"
+    "copyright": "OpenTamago. 保留所有權利。",
+    "openSource": "Open Source",
+    "openSourceProjects": "所有專案"
+  },
+  "opensource": {
+    "meta": {
+      "title": "開源專案",
+      "description": "探索 OpenTamago 團隊的開源專案。"
+    },
+    "title": "Open Source",
+    "subtitle": "我們公開開發。在 GitHub 上查看我們的專案。",
+    "opentamagoDesc": "開源 AI 角色平台。使用 CharX 格式瀏覽、分享和與 AI 角色聊天。",
+    "vaultDesc": "SillyTavern 雲端備份與同步外掛。安全儲存你的角色、聊天記錄和設定。",
+    "hetznerDesc": "在 Hetzner Cloud 上一鍵部署 SillyTavern。幾分鐘內擁有你自己的私人 AI 聊天伺服器。",
+    "viewOnGithub": "在 GitHub 上查看"
   },
   "nav": {
     "home": "首頁",
@@ -474,9 +496,11 @@
     "charxViewer": "查看器",
     "charxEditor": "編輯器",
     "charxPokebox": "PokeBox",
-    "p2pShare": "P2P 分享",
+    "p2pShare": "分享",
+    "p2pShareDesc": "透過P2P直接分享CharX檔案",
     "chat": "聊天",
-    "connect": "P2P 連線",
+    "connect": "連線",
+    "connectDesc": "與朋友一起的多角色聊天室",
     "howItWorks": "使用指南",
     "github": "GitHub",
     "toggleMenu": "選單",

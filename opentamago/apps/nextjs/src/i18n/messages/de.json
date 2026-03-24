@@ -44,7 +44,7 @@
       "startSharing": "CharX Sharing starten",
       "startConnect": "CharX Session starten",
       "p2pLabel": "P2P Features",
-      "openEditor": "Open Editor",
+      "openEditor": "CharX Editor öffnen",
       "openPokebox": "Open PokeBox"
     },
     "features": {
@@ -53,6 +53,14 @@
       "charxViewer": {
         "title": "CharX Viewer",
         "description": "Schau dir Character Cards, Lorebooks und Assets aus CharX-Dateien an. Alles läuft direkt im Browser."
+      },
+      "charxEditor": {
+        "title": "CharX Editor",
+        "description": "Erstelle und bearbeite KI-Charaktere mit einem KI-Assistenten. Gestalte Persönlichkeiten, schreibe Begrüßungen und erstelle Lorebooks."
+      },
+      "chat": {
+        "title": "Chat",
+        "description": "Chatte lokal mit deinen KI-Charakteren. Alle Gespräche bleiben für vollständige Privatsphäre auf deinem Gerät."
       },
       "p2pSharing": {
         "title": "P2P CharX Sharing",
@@ -105,7 +113,7 @@
     "highlights": {
       "privacy": {
         "title": "100% lokale Verarbeitung",
-        "description": "CharX-Dateien direkt im Browser ansehen. Deine Daten verlassen nie dein Gerät."
+        "description": "Sieh dir CharX-Dateien an und chatte mit KI-Charakteren direkt in deinem Browser. Deine Daten verlassen niemals dein Gerät."
       },
       "fast": {
         "title": "Direkte P2P-Verbindung",
@@ -118,7 +126,7 @@
     },
     "ready": {
       "title": "Bereit loszulegen?",
-      "description": "Erkunde deine Charakter-Dateien mit unserem privatsphäre-fokussierten Viewer."
+      "description": "Erkunde, erstelle und chatte mit KI-Charakteren — alles mit Privatsphäre an erster Stelle."
     },
     "demo": {
       "charx": {
@@ -466,7 +474,21 @@
     "legal": "Rechtliches",
     "privacy": "Datenschutz",
     "terms": "Nutzungsbedingungen",
-    "copyright": "OpenTamago. Alle Rechte vorbehalten."
+    "copyright": "OpenTamago. Alle Rechte vorbehalten.",
+    "openSource": "Open Source",
+    "openSourceProjects": "Alle Projekte"
+  },
+  "opensource": {
+    "meta": {
+      "title": "Open-Source-Projekte",
+      "description": "Entdecke die Open-Source-Projekte des OpenTamago-Teams."
+    },
+    "title": "Open Source",
+    "subtitle": "Wir entwickeln öffentlich. Schau dir unsere Projekte auf GitHub an.",
+    "opentamagoDesc": "Open-Source-Plattform für KI-Charaktere. Betrachte, teile und chatte mit KI-Charakteren im CharX-Format.",
+    "vaultDesc": "SillyTavern-Plugin für Cloud-Backup und Synchronisierung. Speichere deine Charaktere, Chats und Einstellungen sicher.",
+    "hetznerDesc": "SillyTavern mit einem Klick auf Hetzner Cloud bereitstellen. Erhalte deinen eigenen privaten KI-Chat-Server in wenigen Minuten.",
+    "viewOnGithub": "Auf GitHub ansehen"
   },
   "nav": {
     "home": "Startseite",
@@ -474,9 +496,11 @@
     "charxViewer": "CharX Viewer",
     "charxEditor": "CharX Editor",
     "charxPokebox": "CharX PokeBox",
-    "p2pShare": "P2P Share",
+    "p2pShare": "Teilen",
+    "p2pShareDesc": "CharX-Dateien direkt per P2P teilen",
     "chat": "Chat",
-    "connect": "P2P Connect",
+    "connect": "Verbinden",
+    "connectDesc": "Multi-Charakter-Chaträume mit Freunden",
     "howItWorks": "So funktioniert's",
     "github": "GitHub",
     "toggleMenu": "Menü umschalten",

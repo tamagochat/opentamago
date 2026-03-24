@@ -44,7 +44,7 @@
       "startSharing": "CharX शेयरिंग शुरू करें",
       "startConnect": "CharX सेशन शुरू करें",
       "p2pLabel": "P2P फीचर्स",
-      "openEditor": "Open Editor",
+      "openEditor": "CharX Editor खोलें",
       "openPokebox": "Open PokeBox"
     },
     "features": {
@@ -53,6 +53,14 @@
       "charxViewer": {
         "title": "CharX व्यूअर",
         "description": "CharX फाइलों से कैरेक्टर कार्ड्स, लोरबुक्स और एसेट्स देखें। सब कुछ आपके ब्राउज़र में ही चलता है।"
+      },
+      "charxEditor": {
+        "title": "CharX Editor",
+        "description": "AI सहायक के साथ AI कैरेक्टर बनाएं और संपादित करें। व्यक्तित्व डिज़ाइन करें, अभिवादन लिखें और लोरबुक बनाएं।"
+      },
+      "chat": {
+        "title": "चैट",
+        "description": "अपने AI कैरेक्टर के साथ स्थानीय रूप से चैट करें। पूर्ण गोपनीयता के लिए सभी बातचीत आपके डिवाइस पर रहती हैं।"
       },
       "p2pSharing": {
         "title": "P2P CharX शेयरिंग",
@@ -105,7 +113,7 @@
     "highlights": {
       "privacy": {
         "title": "100% लोकल प्रोसेसिंग",
-        "description": "CharX फाइलें सीधे अपने ब्राउज़र में देखें। आपका डेटा कभी आपके डिवाइस को नहीं छोड़ता।"
+        "description": "अपने ब्राउज़र में CharX फ़ाइलें देखें और AI कैरेक्टर के साथ चैट करें। आपका डेटा कभी भी आपके डिवाइस से नहीं जाता।"
       },
       "fast": {
         "title": "डायरेक्ट P2P कनेक्शन",
@@ -118,7 +126,7 @@
     },
     "ready": {
       "title": "शुरू करने के लिए तैयार?",
-      "description": "हमारे प्राइवेसी-फर्स्ट व्यूअर के साथ अपनी कैरेक्टर फाइलें एक्सप्लोर करें।"
+      "description": "AI कैरेक्टर खोजें, बनाएं और उनसे चैट करें — सब कुछ गोपनीयता को प्राथमिकता देते हुए।"
     },
     "demo": {
       "charx": {
@@ -466,7 +474,21 @@
     "legal": "लीगल",
     "privacy": "प्राइवेसी पॉलिसी",
     "terms": "सर्विस की शर्तें",
-    "copyright": "OpenTamago. सर्वाधिकार सुरक्षित।"
+    "copyright": "OpenTamago. सर्वाधिकार सुरक्षित।",
+    "openSource": "Open Source",
+    "openSourceProjects": "सभी प्रोजेक्ट"
+  },
+  "opensource": {
+    "meta": {
+      "title": "ओपन सोर्स प्रोजेक्ट",
+      "description": "OpenTamago टीम के ओपन सोर्स प्रोजेक्ट देखें।"
+    },
+    "title": "Open Source",
+    "subtitle": "हम खुले तौर पर विकास करते हैं। GitHub पर हमारे प्रोजेक्ट देखें।",
+    "opentamagoDesc": "ओपन सोर्स AI कैरेक्टर प्लेटफ़ॉर्म। CharX फ़ॉर्मेट में AI कैरेक्टर देखें, शेयर करें और चैट करें।",
+    "vaultDesc": "SillyTavern के लिए क्लाउड बैकअप और सिंक प्लगइन। अपने कैरेक्टर, चैट और सेटिंग्स को सुरक्षित रूप से स्टोर करें।",
+    "hetznerDesc": "Hetzner Cloud पर एक क्लिक में SillyTavern डिप्लॉय करें। कुछ ही मिनटों में अपना निजी AI चैट सर्वर पाएं।",
+    "viewOnGithub": "GitHub पर देखें"
   },
   "nav": {
     "home": "होम",
@@ -474,9 +496,11 @@
     "charxViewer": "CharX व्यूअर",
     "charxEditor": "CharX एडिटर",
     "charxPokebox": "CharX PokeBox",
-    "p2pShare": "P2P शेयर",
+    "p2pShare": "शेयर",
+    "p2pShareDesc": "P2P के माध्यम से CharX फ़ाइलें सीधे साझा करें",
     "chat": "चैट",
-    "connect": "P2P Connect",
+    "connect": "कनेक्ट",
+    "connectDesc": "दोस्तों के साथ मल्टी-कैरेक्टर चैट रूम",
     "howItWorks": "कैसे काम करता है",
     "github": "GitHub",
     "toggleMenu": "मेन्यू टॉगल करें",

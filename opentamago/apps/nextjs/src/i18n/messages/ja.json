@@ -44,7 +44,7 @@
       "startSharing": "CharX共有を始める",
       "startConnect": "CharXセッションを始める",
       "p2pLabel": "P2P機能",
-      "openEditor": "Open Editor",
+      "openEditor": "CharX エディターを開く",
       "openPokebox": "Open PokeBox"
     },
     "features": {
@@ -53,6 +53,14 @@
       "charxViewer": {
         "title": "CharXビューアー",
         "description": "CharXファイルの中身をまるごとチェック。キャラクターカード、ロアブック、画像も全部ブラウザで見れるよ。"
+      },
+      "charxEditor": {
+        "title": "CharX エディター",
+        "description": "AIアシスタントと一緒にAIキャラクターを作成・編集できます。性格をデザインし、挨拶を書き、ロアブックを作りましょう。"
+      },
+      "chat": {
+        "title": "チャット",
+        "description": "AIキャラクターとローカルでチャットできます。すべての会話はプライバシーのためにデバイスに保存されます。"
       },
       "p2pSharing": {
         "title": "P2P CharX共有",
@@ -105,7 +113,7 @@
     "highlights": {
       "privacy": {
         "title": "100%ローカル処理",
-        "description": "CharXファイルをブラウザですぐ開ける。データがデバイスを離れることはないよ。"
+        "description": "ブラウザでCharXファイルを閲覧し、AIキャラクターとチャットできます。データがデバイスから出ることはありません。"
       },
       "fast": {
         "title": "ダイレクトP2P接続",
@@ -118,7 +126,7 @@
     },
     "ready": {
       "title": "始める準備はできた？",
-      "description": "プライバシーを守りながらキャラクターファイルを探検しよう。"
+      "description": "AIキャラクターの閲覧、作成、チャット — すべてプライバシー重視で。"
     },
     "demo": {
       "charx": {
@@ -466,7 +474,21 @@
     "legal": "法的情報",
     "privacy": "プライバシーポリシー",
     "terms": "利用規約",
-    "copyright": "OpenTamago. All rights reserved."
+    "copyright": "OpenTamago. All rights reserved.",
+    "openSource": "Open Source",
+    "openSourceProjects": "すべてのプロジェクト"
+  },
+  "opensource": {
+    "meta": {
+      "title": "オープンソースプロジェクト",
+      "description": "OpenTamagoチームのオープンソースプロジェクトをご覧ください。"
+    },
+    "title": "Open Source",
+    "subtitle": "私たちはオープンに開発しています。GitHubでプロジェクトをチェックしてください。",
+    "opentamagoDesc": "オープンソースAIキャラクタープラットフォーム。CharX形式でAIキャラクターの閲覧、共有、チャットができます。",
+    "vaultDesc": "SillyTavernのクラウドバックアップ・同期プラグイン。キャラクター、チャット、設定を安全に保存できます。",
+    "hetznerDesc": "Hetzner CloudでSillyTavernをワンクリックデプロイ。数分で自分専用のAIチャットサーバーを構築できます。",
+    "viewOnGithub": "GitHubで見る"
   },
   "nav": {
     "home": "ホーム",
@@ -474,9 +496,11 @@
     "charxViewer": "CharXビューアー",
     "charxEditor": "CharXエディター",
     "charxPokebox": "CharX PokeBox",
-    "p2pShare": "P2P共有",
+    "p2pShare": "共有",
+    "p2pShareDesc": "P2PでCharXファイルを直接共有",
     "chat": "チャット",
-    "connect": "P2Pコネクト",
+    "connect": "コネクト",
+    "connectDesc": "友達とマルチキャラクターチャットルーム",
     "howItWorks": "使い方",
     "github": "GitHub",
     "toggleMenu": "メニューを切り替え",

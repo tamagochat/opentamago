@@ -44,7 +44,7 @@
       "startSharing": "CharX 공유 시작하기",
       "startConnect": "CharX 세션 시작하기",
       "p2pLabel": "P2P 기능",
-      "openEditor": "Open Editor",
+      "openEditor": "CharX 에디터 열기",
       "openPokebox": "Open PokeBox"
     },
     "features": {
@@ -53,6 +53,14 @@
       "charxViewer": {
         "title": "CharX 뷰어",
         "description": "CharX 파일 안에 있는 캐릭터 카드, 로어북, 이미지를 한눈에 확인할 수 있어요. 브라우저에서 바로 실행돼요."
+      },
+      "charxEditor": {
+        "title": "CharX 에디터",
+        "description": "AI 어시스턴트와 함께 AI 캐릭터를 만들고 편집하세요. 성격을 디자인하고, 인사말을 작성하고, 로어북을 만들어보세요."
+      },
+      "chat": {
+        "title": "채팅",
+        "description": "AI 캐릭터와 로컬에서 채팅하세요. 모든 대화는 완벽한 프라이버시를 위해 기기에 저장됩니다."
       },
       "p2pSharing": {
         "title": "P2P CharX 공유",
@@ -105,7 +113,7 @@
     "highlights": {
       "privacy": {
         "title": "100% 로컬 처리",
-        "description": "CharX 파일을 브라우저에서 바로 열어봐요. 데이터가 내 기기를 떠나지 않아요."
+        "description": "브라우저에서 CharX 파일을 보고 AI 캐릭터와 채팅하세요. 데이터는 절대 기기를 떠나지 않습니다."
       },
       "fast": {
         "title": "직접 P2P 연결",
@@ -118,7 +126,7 @@
     },
     "ready": {
       "title": "시작할 준비 됐나요?",
-      "description": "프라이버시를 지키면서 캐릭터 파일을 탐색해 보세요."
+      "description": "AI 캐릭터를 탐색하고, 만들고, 대화하세요 — 모두 프라이버시 우선으로."
     },
     "demo": {
       "charx": {
@@ -466,7 +474,21 @@
     "legal": "법적 고지",
     "privacy": "개인정보 처리방침",
     "terms": "이용약관",
-    "copyright": "OpenTamago. All rights reserved."
+    "copyright": "OpenTamago. All rights reserved.",
+    "openSource": "Open Source",
+    "openSourceProjects": "모든 프로젝트"
+  },
+  "opensource": {
+    "meta": {
+      "title": "오픈소스 프로젝트",
+      "description": "OpenTamago 팀의 오픈소스 프로젝트를 살펴보세요."
+    },
+    "title": "Open Source",
+    "subtitle": "우리는 공개적으로 개발해요. GitHub에서 프로젝트를 확인해 보세요.",
+    "opentamagoDesc": "오픈소스 AI 캐릭터 플랫폼. CharX 형식으로 AI 캐릭터를 보고, 공유하고, 대화하세요.",
+    "vaultDesc": "SillyTavern 클라우드 백업 및 동기화 플러그인. 캐릭터, 채팅, 설정을 안전하게 저장하세요.",
+    "hetznerDesc": "Hetzner Cloud에서 SillyTavern을 원클릭 배포. 몇 분 만에 나만의 AI 채팅 서버를 만드세요.",
+    "viewOnGithub": "GitHub에서 보기"
   },
   "nav": {
     "home": "홈",
@@ -474,9 +496,11 @@
     "charxViewer": "CharX 뷰어",
     "charxEditor": "CharX 에디터",
     "charxPokebox": "CharX PokeBox",
-    "p2pShare": "P2P 공유",
+    "p2pShare": "공유",
+    "p2pShareDesc": "P2P로 CharX 파일을 직접 공유하세요",
     "chat": "채팅",
-    "connect": "P2P 연결",
+    "connect": "연결",
+    "connectDesc": "친구와 함께하는 멀티 캐릭터 채팅방",
     "howItWorks": "사용법",
     "github": "GitHub",
     "toggleMenu": "메뉴 열기/닫기",

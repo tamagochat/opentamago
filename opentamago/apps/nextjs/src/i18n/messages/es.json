@@ -44,7 +44,7 @@
       "startSharing": "Empezar a Compartir CharX",
       "startConnect": "Iniciar Sesión CharX",
       "p2pLabel": "Funciones P2P",
-      "openEditor": "Open Editor",
+      "openEditor": "Abrir CharX Editor",
       "openPokebox": "Open PokeBox"
     },
     "features": {
@@ -53,6 +53,14 @@
       "charxViewer": {
         "title": "Visor CharX",
         "description": "Explora tarjetas de personajes, lorebooks y recursos desde archivos CharX. Todo funciona directamente en tu navegador."
+      },
+      "charxEditor": {
+        "title": "CharX Editor",
+        "description": "Crea y edita personajes de IA con un asistente inteligente. Diseña personalidades, escribe saludos y construye lorebooks."
+      },
+      "chat": {
+        "title": "Chat",
+        "description": "Chatea con tus personajes de IA localmente. Todas las conversaciones se guardan en tu dispositivo para total privacidad."
       },
       "p2pSharing": {
         "title": "Compartir CharX P2P",
@@ -105,7 +113,7 @@
     "highlights": {
       "privacy": {
         "title": "100% Procesamiento Local",
-        "description": "Visualiza archivos CharX directamente en tu navegador. Tus datos nunca salen de tu dispositivo."
+        "description": "Visualiza archivos CharX y chatea con personajes de IA directamente en tu navegador. Tus datos nunca salen de tu dispositivo."
       },
       "fast": {
         "title": "Conexión P2P Directa",
@@ -118,7 +126,7 @@
     },
     "ready": {
       "title": "¿Listo para Empezar?",
-      "description": "Explora tus archivos de personajes con nuestro visor que prioriza la privacidad."
+      "description": "Explora, crea y chatea con personajes de IA — todo con privacidad primero."
     },
     "demo": {
       "charx": {
@@ -466,7 +474,21 @@
     "legal": "Legal",
     "privacy": "Política de Privacidad",
     "terms": "Términos de Servicio",
-    "copyright": "OpenTamago. Todos los derechos reservados."
+    "copyright": "OpenTamago. Todos los derechos reservados.",
+    "openSource": "Open Source",
+    "openSourceProjects": "Todos los proyectos"
+  },
+  "opensource": {
+    "meta": {
+      "title": "Proyectos Open Source",
+      "description": "Explora los proyectos de código abierto del equipo de OpenTamago."
+    },
+    "title": "Open Source",
+    "subtitle": "Construimos en abierto. Consulta nuestros proyectos en GitHub.",
+    "opentamagoDesc": "Plataforma de personajes de IA de código abierto. Visualiza, comparte y chatea con personajes de IA usando el formato CharX.",
+    "vaultDesc": "Plugin de SillyTavern para respaldo y sincronización en la nube. Almacena tus personajes, chats y configuraciones de forma segura.",
+    "hetznerDesc": "Despliega SillyTavern en Hetzner Cloud con un solo clic. Ten tu propio servidor privado de chat con IA en minutos.",
+    "viewOnGithub": "Ver en GitHub"
   },
   "nav": {
     "home": "Inicio",
@@ -474,9 +496,11 @@
     "charxViewer": "Visor CharX",
     "charxEditor": "Editor CharX",
     "charxPokebox": "CharX PokeBox",
-    "p2pShare": "Compartir P2P",
+    "p2pShare": "Compartir",
+    "p2pShareDesc": "Comparte archivos CharX directamente vía P2P",
     "chat": "Chat",
-    "connect": "Conectar P2P",
+    "connect": "Conectar",
+    "connectDesc": "Salas de chat multipersonaje con amigos",
     "howItWorks": "Cómo Funciona",
     "github": "GitHub",
     "toggleMenu": "Alternar menú",

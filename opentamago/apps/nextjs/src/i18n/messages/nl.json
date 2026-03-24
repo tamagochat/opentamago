@@ -44,7 +44,7 @@
       "startSharing": "Start CharX Delen",
       "startConnect": "Start CharX Sessie",
       "p2pLabel": "P2P Functies",
-      "openEditor": "Open Editor",
+      "openEditor": "Open CharX Editor",
       "openPokebox": "Open PokeBox"
     },
     "features": {
@@ -53,6 +53,14 @@
       "charxViewer": {
         "title": "CharX Viewer",
         "description": "Bekijk karakterkaarten, lorebooks en assets van CharX-bestanden. Alles draait direct in je browser."
+      },
+      "charxEditor": {
+        "title": "CharX Editor",
+        "description": "Maak en bewerk AI-personages met een AI-assistent. Ontwerp persoonlijkheden, schrijf begroetingen en bouw lorebooks."
+      },
+      "chat": {
+        "title": "Chat",
+        "description": "Chat lokaal met je AI-personages. Alle gesprekken blijven op je apparaat voor volledige privacy."
       },
       "p2pSharing": {
         "title": "P2P CharX Delen",
@@ -105,7 +113,7 @@
     "highlights": {
       "privacy": {
         "title": "100% Lokale Verwerking",
-        "description": "Bekijk CharX-bestanden direct in je browser. Je gegevens verlaten nooit je apparaat."
+        "description": "Bekijk CharX-bestanden en chat met AI-personages direct in je browser. Je gegevens verlaten nooit je apparaat."
       },
       "fast": {
         "title": "Directe P2P-Verbinding",
@@ -118,7 +126,7 @@
     },
     "ready": {
       "title": "Klaar om te beginnen?",
-      "description": "Verken je karakterbestanden met onze privacy-first viewer."
+      "description": "Verken, maak en chat met AI-personages — alles met privacy voorop."
     },
     "demo": {
       "charx": {
@@ -466,7 +474,21 @@
     "legal": "Juridisch",
     "privacy": "Privacybeleid",
     "terms": "Servicevoorwaarden",
-    "copyright": "OpenTamago. Alle rechten voorbehouden."
+    "copyright": "OpenTamago. Alle rechten voorbehouden.",
+    "openSource": "Open Source",
+    "openSourceProjects": "Alle projecten"
+  },
+  "opensource": {
+    "meta": {
+      "title": "Open Source-projecten",
+      "description": "Ontdek de open source-projecten van het OpenTamago-team."
+    },
+    "title": "Open Source",
+    "subtitle": "We bouwen in het openbaar. Bekijk onze projecten op GitHub.",
+    "opentamagoDesc": "Open source AI-karakterplatform. Bekijk, deel en chat met AI-karakters in CharX-formaat.",
+    "vaultDesc": "SillyTavern-plugin voor cloudback-up en synchronisatie. Sla je karakters, chats en instellingen veilig op.",
+    "hetznerDesc": "SillyTavern met één klik implementeren op Hetzner Cloud. Krijg je eigen privé AI-chatserver in enkele minuten.",
+    "viewOnGithub": "Bekijk op GitHub"
   },
   "nav": {
     "home": "Home",
@@ -474,9 +496,11 @@
     "charxViewer": "CharX Viewer",
     "charxEditor": "CharX Editor",
     "charxPokebox": "CharX PokeBox",
-    "p2pShare": "P2P Delen",
+    "p2pShare": "Delen",
+    "p2pShareDesc": "Deel CharX-bestanden rechtstreeks via P2P",
     "chat": "Chat",
-    "connect": "P2P Connect",
+    "connect": "Verbinden",
+    "connectDesc": "Multi-karakter chatruimtes met vrienden",
     "howItWorks": "Hoe het werkt",
     "github": "GitHub",
     "toggleMenu": "Menu schakelen",

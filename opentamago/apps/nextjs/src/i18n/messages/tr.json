@@ -44,7 +44,7 @@
       "startSharing": "CharX Paylaşımını Başlat",
       "startConnect": "CharX Oturumu Başlat",
       "p2pLabel": "P2P Özellikler",
-      "openEditor": "Open Editor",
+      "openEditor": "CharX Editor'ü Aç",
       "openPokebox": "Open PokeBox"
     },
     "features": {
@@ -53,6 +53,14 @@
       "charxViewer": {
         "title": "CharX Görüntüleyici",
         "description": "CharX dosyalarından karakter kartlarını, lorebook'ları ve varlıkları inceleyin. Her şey doğrudan tarayıcınızda çalışır."
+      },
+      "charxEditor": {
+        "title": "CharX Editor",
+        "description": "AI asistanla AI karakterler oluşturun ve düzenleyin. Kişilikler tasarlayın, selamlamalar yazın ve lorebook'lar oluşturun."
+      },
+      "chat": {
+        "title": "Sohbet",
+        "description": "AI karakterlerle yerel olarak sohbet edin. Tüm konuşmalar tam gizlilik için cihazınızda kalır."
       },
       "p2pSharing": {
         "title": "P2P CharX Paylaşımı",
@@ -105,7 +113,7 @@
     "highlights": {
       "privacy": {
         "title": "%100 Yerel İşleme",
-        "description": "CharX dosyalarını doğrudan tarayıcınızda görüntüleyin. Verileriniz asla cihazınızdan ayrılmaz."
+        "description": "CharX dosyalarını görüntüleyin ve AI karakterlerle doğrudan tarayıcınızda sohbet edin. Verileriniz asla cihazınızdan ayrılmaz."
       },
       "fast": {
         "title": "Doğrudan P2P Bağlantısı",
@@ -118,7 +126,7 @@
     },
     "ready": {
       "title": "Başlamaya Hazır mısınız?",
-      "description": "Gizlilik odaklı görüntüleyicimizle karakter dosyalarınızı keşfedin."
+      "description": "AI karakterleri keşfedin, oluşturun ve sohbet edin — her şey gizlilik öncelikli."
     },
     "demo": {
       "charx": {
@@ -466,7 +474,21 @@
     "legal": "Yasal",
     "privacy": "Gizlilik Politikası",
     "terms": "Hizmet Şartları",
-    "copyright": "OpenTamago. Tüm hakları saklıdır."
+    "copyright": "OpenTamago. Tüm hakları saklıdır.",
+    "openSource": "Open Source",
+    "openSourceProjects": "Tüm Projeler"
+  },
+  "opensource": {
+    "meta": {
+      "title": "Açık Kaynak Projeler",
+      "description": "OpenTamago ekibinin açık kaynak projelerini keşfedin."
+    },
+    "title": "Open Source",
+    "subtitle": "Açık şekilde geliştiriyoruz. GitHub'da projelerimize göz atın.",
+    "opentamagoDesc": "Açık kaynak AI karakter platformu. CharX formatıyla AI karakterlerini görüntüleyin, paylaşın ve sohbet edin.",
+    "vaultDesc": "SillyTavern için bulut yedekleme ve senkronizasyon eklentisi. Karakterlerinizi, sohbetlerinizi ve ayarlarınızı güvenle saklayın.",
+    "hetznerDesc": "Hetzner Cloud üzerinde tek tıkla SillyTavern kurulumu. Birkaç dakikada kendi özel AI sohbet sunucunuza sahip olun.",
+    "viewOnGithub": "GitHub'da Görüntüle"
   },
   "nav": {
     "home": "Ana Sayfa",
@@ -474,9 +496,11 @@
     "charxViewer": "CharX Görüntüleyici",
     "charxEditor": "CharX Düzenleyici",
     "charxPokebox": "CharX PokeBox",
-    "p2pShare": "P2P Paylaşım",
+    "p2pShare": "Paylaş",
+    "p2pShareDesc": "CharX dosyalarını P2P ile doğrudan paylaşın",
     "chat": "Sohbet",
-    "connect": "P2P Bağlantı",
+    "connect": "Bağlan",
+    "connectDesc": "Arkadaşlarla çok karakterli sohbet odaları",
     "howItWorks": "Nasıl Çalışır",
     "github": "GitHub",
     "toggleMenu": "Menüyü aç/kapat",

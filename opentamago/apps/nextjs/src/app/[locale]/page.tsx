@@ -89,6 +89,20 @@ export default async function Home({ params }: Props) {
       available: true,
     },
     {
+      icon: PenLine,
+      title: t("features.charxEditor.title"),
+      description: t("features.charxEditor.description"),
+      href: "/charx/editor" as const,
+      available: true,
+    },
+    {
+      icon: MessageSquare,
+      title: t("features.chat.title"),
+      description: t("features.chat.description"),
+      href: "/chat" as const,
+      available: true,
+    },
+    {
       icon: Share2,
       title: t("features.p2pSharing.title"),
       description: t("features.p2pSharing.description"),
@@ -142,12 +156,20 @@ export default async function Home({ params }: Props) {
               {t("hero.description")}
             </p>
             <div className="mt-8 sm:mt-10 flex flex-col gap-4 sm:gap-6 items-center">
-              <Button size="lg" asChild className="gap-2">
-                <Link href="/charx">
-                  <FileArchive className="h-5 w-5" />
-                  {t("cta.openViewer")}
-                </Link>
-              </Button>
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+                <Button size="lg" asChild className="gap-2">
+                  <Link href="/charx">
+                    <FileArchive className="h-5 w-5" />
+                    {t("cta.openViewer")}
+                  </Link>
+                </Button>
+                <Button size="lg" variant="outline" asChild className="gap-2">
+                  <Link href="/charx/editor">
+                    <PenLine className="h-5 w-5" />
+                    {t("cta.openEditor")}
+                  </Link>
+                </Button>
+              </div>
               <div className="flex flex-col items-center gap-2">
                 <span className="text-xs text-muted-foreground">{t("cta.p2pLabel")}</span>
                 <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
@@ -587,12 +609,20 @@ export default async function Home({ params }: Props) {
               {t("ready.description")}
             </p>
             <div className="mt-6 sm:mt-8 flex flex-col gap-4 sm:gap-6 items-center">
-              <Button size="lg" asChild className="gap-2">
-                <Link href="/charx">
-                  <FileArchive className="h-5 w-5" />
-                  {t("cta.openViewer")}
-                </Link>
-              </Button>
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+                <Button size="lg" asChild className="gap-2">
+                  <Link href="/charx">
+                    <FileArchive className="h-5 w-5" />
+                    {t("cta.openViewer")}
+                  </Link>
+                </Button>
+                <Button size="lg" variant="outline" asChild className="gap-2">
+                  <Link href="/charx/editor">
+                    <PenLine className="h-5 w-5" />
+                    {t("cta.openEditor")}
+                  </Link>
+                </Button>
+              </div>
               <div className="flex flex-col items-center gap-2">
                 <span className="text-xs text-muted-foreground">{t("cta.p2pLabel")}</span>
                 <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">

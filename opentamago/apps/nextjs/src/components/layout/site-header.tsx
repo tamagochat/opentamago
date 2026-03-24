@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Egg, FileArchive, FolderHeart, Menu, MessageCircle, Pencil, Share2, Users } from "lucide-react";
+import { Egg, FileArchive, FolderHeart, Menu, MessageCircle, Network, Pencil, Share2, Users } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "~/i18n/routing";
 import { Button } from "~/components/ui/button";
@@ -39,11 +39,12 @@ export function SiteHeader() {
   const chatItem = { name: t("chat"), href: "/chat" as const, icon: MessageCircle };
 
   const p2pItems = [
-    { name: t("p2pShare"), href: "/p2p/share" as const, icon: Share2 },
-    { name: t("connect"), href: "/p2p/connect" as const, icon: Users },
+    { name: t("p2pShare"), href: "/p2p/share" as const, icon: Share2, description: t("p2pShareDesc") },
+    { name: t("connect"), href: "/p2p/connect" as const, icon: Users, description: t("connectDesc") },
   ];
 
   const isCharxActive = pathname.startsWith("/charx") || pathname.startsWith("/pokebox");
+  const isP2pActive = pathname.startsWith("/p2p");
 
   useEffect(() => {
     setMounted(true);
@@ -70,6 +71,7 @@ export function SiteHeader() {
                     isCharxActive && "bg-accent text-accent-foreground"
                   )}
                 >
+                  <FileArchive className="h-4 w-4 mr-1.5" />
                   {t("charx")}
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
@@ -103,38 +105,57 @@ export function SiteHeader() {
 
               {/* Chat Link */}
               <NavigationMenuItem>
-                <NavigationMenuLink asChild>
-                  <Link
-                    href={chatItem.href}
-                    className={cn(
-                      "group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-                      pathname.startsWith("/chat") && "bg-accent text-accent-foreground"
-                    )}
-                  >
-                    {chatItem.name}
-                  </Link>
-                </NavigationMenuLink>
+                <Link
+                  href={chatItem.href}
+                  className={cn(
+                    "group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+                    pathname.startsWith("/chat") && "bg-accent text-accent-foreground"
+                  )}
+                >
+                  <MessageCircle className="h-4 w-4 mr-1.5" />
+                  {chatItem.name}
+                </Link>
               </NavigationMenuItem>
 
-              {/* P2P Links (flat, no dropdown) */}
-              {p2pItems.map((item) => {
-                const isActive = pathname === item.href;
-                return (
-                  <NavigationMenuItem key={item.href}>
-                    <NavigationMenuLink asChild>
-                      <Link
-                        href={item.href}
-                        className={cn(
-                          "group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-                          isActive && "bg-accent text-accent-foreground"
-                        )}
-                      >
-                        {item.name}
-                      </Link>
-                    </NavigationMenuLink>
-                  </NavigationMenuItem>
-                );
-              })}
+              {/* P2P Dropdown */}
+              <NavigationMenuItem>
+                <NavigationMenuTrigger
+                  className={cn(
+                    "text-sm font-medium",
+                    isP2pActive && "bg-accent text-accent-foreground"
+                  )}
+                >
+                  <Network className="h-4 w-4 mr-1.5" />
+                  P2P
+                </NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="grid w-[280px] gap-1 p-2">
+                    {p2pItems.map((item) => {
+                      const Icon = item.icon;
+                      const isActive = pathname === item.href;
+                      return (
+                        <li key={item.href}>
+                          <NavigationMenuLink asChild>
+                            <Link
+                              href={item.href}
+                              className={cn(
+                                "flex items-start gap-3 rounded-md p-3 transition-colors hover:bg-accent",
+                                isActive && "bg-accent"
+                              )}
+                            >
+                              <Icon className="h-5 w-5 mt-0.5 text-muted-foreground" />
+                              <div className="flex flex-col gap-0.5">
+                                <span className="text-sm font-medium">{item.name}</span>
+                                <span className="text-xs text-muted-foreground">{item.description}</span>
+                              </div>
+                            </Link>
+                          </NavigationMenuLink>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
         </div>

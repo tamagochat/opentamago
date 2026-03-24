@@ -44,7 +44,7 @@
       "startSharing": "Mulai Berbagi CharX",
       "startConnect": "Mulai Sesi CharX",
       "p2pLabel": "Fitur P2P",
-      "openEditor": "Open Editor",
+      "openEditor": "Buka CharX Editor",
       "openPokebox": "Open PokeBox"
     },
     "features": {
@@ -53,6 +53,14 @@
       "charxViewer": {
         "title": "Penampil CharX",
         "description": "Lihat kartu karakter, lorebook, dan aset dari file CharX. Semuanya berjalan langsung di browser Anda."
+      },
+      "charxEditor": {
+        "title": "CharX Editor",
+        "description": "Buat dan edit karakter AI dengan asisten AI. Desain kepribadian, tulis salam, dan bangun lorebook."
+      },
+      "chat": {
+        "title": "Chat",
+        "description": "Chat dengan karakter AI secara lokal. Semua percakapan tersimpan di perangkatmu untuk privasi penuh."
       },
       "p2pSharing": {
         "title": "Berbagi CharX P2P",
@@ -105,7 +113,7 @@
     "highlights": {
       "privacy": {
         "title": "100% Pemrosesan Lokal",
-        "description": "Lihat file CharX langsung di browser Anda. Data Anda tidak pernah meninggalkan perangkat."
+        "description": "Lihat file CharX dan chat dengan karakter AI langsung di browsermu. Datamu tidak pernah keluar dari perangkat."
       },
       "fast": {
         "title": "Koneksi P2P Langsung",
@@ -118,7 +126,7 @@
     },
     "ready": {
       "title": "Siap Mulai?",
-      "description": "Jelajahi file karakter Anda dengan penampil yang mengutamakan privasi."
+      "description": "Jelajahi, buat, dan chat dengan karakter AI — semuanya mengutamakan privasi."
     },
     "demo": {
       "charx": {
@@ -466,7 +474,21 @@
     "legal": "Hukum",
     "privacy": "Kebijakan Privasi",
     "terms": "Ketentuan Layanan",
-    "copyright": "OpenTamago. Hak cipta dilindungi."
+    "copyright": "OpenTamago. Hak cipta dilindungi.",
+    "openSource": "Open Source",
+    "openSourceProjects": "Semua Proyek"
+  },
+  "opensource": {
+    "meta": {
+      "title": "Proyek Open Source",
+      "description": "Jelajahi proyek open-source dari tim OpenTamago."
+    },
+    "title": "Open Source",
+    "subtitle": "Kami membangun secara terbuka. Lihat proyek kami di GitHub.",
+    "opentamagoDesc": "Platform karakter AI open-source. Lihat, bagikan, dan chat dengan karakter AI menggunakan format CharX.",
+    "vaultDesc": "Plugin SillyTavern untuk backup dan sinkronisasi cloud. Simpan karakter, chat, dan pengaturan Anda dengan aman.",
+    "hetznerDesc": "Deploy SillyTavern satu klik di Hetzner Cloud. Dapatkan server chat AI pribadi Anda dalam hitungan menit.",
+    "viewOnGithub": "Lihat di GitHub"
   },
   "nav": {
     "home": "Beranda",
@@ -474,9 +496,11 @@
     "charxViewer": "Penampil CharX",
     "charxEditor": "Editor CharX",
     "charxPokebox": "CharX PokeBox",
-    "p2pShare": "Berbagi P2P",
+    "p2pShare": "Berbagi",
+    "p2pShareDesc": "Bagikan file CharX langsung via P2P",
     "chat": "Chat",
-    "connect": "Koneksi P2P",
+    "connect": "Koneksi",
+    "connectDesc": "Ruang obrolan multi-karakter bersama teman",
     "howItWorks": "Cara Kerja",
     "github": "GitHub",
     "toggleMenu": "Alihkan menu",
