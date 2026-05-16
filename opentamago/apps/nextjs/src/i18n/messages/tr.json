@@ -8,9 +8,9 @@
     "comingSoon": "Yakında"
   },
   "announcement": {
-    "chatLaunchTitle": "Sohbet özelliği geldi!",
-    "chatLaunchDescription": "Kendi API anahtarınızla AI karakterlerle sohbet edin. Gizli, ücretsiz, sınırsız.",
-    "chatLaunchCta": "Şimdi dene →",
+    "chatLaunchTitle": "vly ile tanış!",
+    "chatLaunchDescription": "Sohbet edip arayabileceğin AI arkadaşlar.",
+    "chatLaunchCta": "real.tamago.chat'i ziyaret et →",
     "dismiss": "Kapat"
   },
   "experimental": {

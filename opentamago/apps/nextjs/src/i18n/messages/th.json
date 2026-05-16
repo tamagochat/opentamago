@@ -8,9 +8,9 @@
     "comingSoon": "เร็วๆ นี้"
   },
   "announcement": {
-    "chatLaunchTitle": "ฟีเจอร์แชทมาแล้ว!",
-    "chatLaunchDescription": "แชทกับตัวละคร AI ด้วยคีย์ API ของคุณเอง เป็นส่วนตัว ฟรี ไม่จำกัด",
-    "chatLaunchCta": "ลองเลย →",
+    "chatLaunchTitle": "ลอง vly!",
+    "chatLaunchDescription": "เพื่อน AI สำหรับแชทและโทรคุย",
+    "chatLaunchCta": "เยี่ยมชม real.tamago.chat →",
     "dismiss": "ปิด"
   },
   "experimental": {

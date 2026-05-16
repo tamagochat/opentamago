@@ -8,9 +8,9 @@
     "comingSoon": "곧 만나요"
   },
   "announcement": {
-    "chatLaunchTitle": "채팅 기능이 나왔어요!",
-    "chatLaunchDescription": "나만의 API 키로 AI 캐릭터와 대화해 보세요. 프라이빗하고, 무료이며, 제한 없어요.",
-    "chatLaunchCta": "지금 해보기 →",
+    "chatLaunchTitle": "블리 써보세요!",
+    "chatLaunchDescription": "톡, 통화, 영상까지 — 마음 맞는 AI 친구를 만나보세요.",
+    "chatLaunchCta": "real.tamago.chat 방문하기 →",
     "dismiss": "닫기"
   },
   "experimental": {

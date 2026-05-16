@@ -8,9 +8,9 @@
     "comingSoon": "敬請期待"
   },
   "announcement": {
-    "chatLaunchTitle": "聊天功能來了！",
-    "chatLaunchDescription": "使用您自己的 API 金鑰與 AI 角色聊天。私密、免費、無限制。",
-    "chatLaunchCta": "立即體驗 →",
+    "chatLaunchTitle": "試試 vly！",
+    "chatLaunchDescription": "AI 朋友陪你聊天、通話和視訊。",
+    "chatLaunchCta": "前往 real.tamago.chat →",
     "dismiss": "關閉"
   },
   "experimental": {

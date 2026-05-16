@@ -8,9 +8,9 @@
     "comingSoon": "जल्द आ रहा है"
   },
   "announcement": {
-    "chatLaunchTitle": "चैट आ गया है!",
-    "chatLaunchDescription": "अपनी खुद की API कुंजी से AI पात्रों से बात करें। निजी, मुफ़्त, बिना किसी सीमा के।",
-    "chatLaunchCta": "अभी आज़माएँ →",
+    "chatLaunchTitle": "vly आज़माएँ!",
+    "chatLaunchDescription": "चैट और कॉल के लिए AI दोस्त।",
+    "chatLaunchCta": "real.tamago.chat पर जाएँ →",
     "dismiss": "बंद करें"
   },
   "experimental": {

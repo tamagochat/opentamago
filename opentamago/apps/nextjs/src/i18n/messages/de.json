@@ -8,9 +8,9 @@
     "comingSoon": "Demnächst"
   },
   "announcement": {
-    "chatLaunchTitle": "Der Chat ist da!",
-    "chatLaunchDescription": "Chatten Sie mit KI-Charakteren mit Ihrem eigenen API-Schlüssel. Privat, kostenlos, ohne Limits.",
-    "chatLaunchCta": "Jetzt ausprobieren →",
+    "chatLaunchTitle": "Probier vly!",
+    "chatLaunchDescription": "KI-Freunde zum Chatten und Anrufen.",
+    "chatLaunchCta": "Besuche real.tamago.chat →",
     "dismiss": "Schließen"
   },
   "experimental": {

@@ -8,9 +8,9 @@
     "comingSoon": "Скоро"
   },
   "announcement": {
-    "chatLaunchTitle": "Чат уже здесь!",
-    "chatLaunchDescription": "Общайся с AI-персонажами, используя свой API-ключ. Приватно, бесплатно, без ограничений.",
-    "chatLaunchCta": "Попробовать →",
+    "chatLaunchTitle": "Попробуй vly!",
+    "chatLaunchDescription": "ИИ-друзья для чата и звонков.",
+    "chatLaunchCta": "Перейти на real.tamago.chat →",
     "dismiss": "Закрыть"
   },
   "experimental": {

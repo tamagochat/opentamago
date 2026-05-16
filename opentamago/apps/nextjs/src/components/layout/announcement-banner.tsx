@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { MessageCircle, X } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { Link } from "~/i18n/routing";
 
 export function AnnouncementBanner() {
   const [dismissed, setDismissed] = useState(false);
@@ -20,12 +19,14 @@ export function AnnouncementBanner() {
           {" "}
           {t("chatLaunchDescription")}
           {" "}
-          <Link
-            href="/chat"
+          <a
+            href="https://real.tamago.chat"
+            target="_blank"
+            rel="noopener noreferrer"
             className="underline underline-offset-2 font-medium hover:opacity-80 transition-opacity"
           >
             {t("chatLaunchCta")}
-          </Link>
+          </a>
         </p>
         <button
           onClick={() => setDismissed(true)}

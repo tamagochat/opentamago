@@ -8,9 +8,9 @@
     "comingSoon": "Bientôt disponible"
   },
   "announcement": {
-    "chatLaunchTitle": "Le chat est arrivé !",
-    "chatLaunchDescription": "Discute avec des personnages IA en utilisant ta propre clé API. Privé, gratuit, sans limites.",
-    "chatLaunchCta": "Essaie maintenant →",
+    "chatLaunchTitle": "Essaie vly !",
+    "chatLaunchDescription": "Des amis IA pour discuter et appeler.",
+    "chatLaunchCta": "Visite real.tamago.chat →",
     "dismiss": "Fermer"
   },
   "experimental": {

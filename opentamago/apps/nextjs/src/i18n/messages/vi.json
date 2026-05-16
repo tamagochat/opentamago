@@ -8,9 +8,9 @@
     "comingSoon": "Sắp ra mắt"
   },
   "announcement": {
-    "chatLaunchTitle": "Tính năng chat đã có mặt!",
-    "chatLaunchDescription": "Trò chuyện với nhân vật AI bằng khóa API của bạn. Riêng tư, miễn phí, không giới hạn.",
-    "chatLaunchCta": "Thử ngay →",
+    "chatLaunchTitle": "Thử vly!",
+    "chatLaunchDescription": "Bạn AI để trò chuyện và gọi điện.",
+    "chatLaunchCta": "Truy cập real.tamago.chat →",
     "dismiss": "Đóng"
   },
   "experimental": {

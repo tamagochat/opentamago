@@ -8,9 +8,9 @@
     "comingSoon": "もうすぐ登場"
   },
   "announcement": {
-    "chatLaunchTitle": "チャット機能が登場！",
-    "chatLaunchDescription": "自分のAPIキーでAIキャラクターとチャットしよう。プライベートで、無料で、制限なし。",
-    "chatLaunchCta": "試してみる →",
+    "chatLaunchTitle": "vlyを試そう！",
+    "chatLaunchDescription": "チャット・通話・映像で楽しむAIの友達。",
+    "chatLaunchCta": "real.tamago.chat へ →",
     "dismiss": "閉じる"
   },
   "experimental": {
