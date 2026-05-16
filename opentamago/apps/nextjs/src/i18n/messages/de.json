@@ -252,9 +252,9 @@
     }
   },
   "charx": {
-    "title": "CharX Viewer",
+    "title": ".charx-Dateien öffnen — Kostenloser CharX-Viewer",
     "subtitle": "Schau dir Character Cards, Lorebooks und Assets an. Läuft direkt im Browser!",
-    "description": "Öffne CharX Charakter-Dateien direkt im Browser. Sieh Character Cards, Lorebooks und Assets mit kompletter Privatsphäre.",
+    "description": "Öffne .charx-Charakterdateien direkt im Browser. Keine Installation, kein Upload — Character Cards, Lorebooks und Assets privat ansehen.",
     "upload": {
       "title": "CharX-Datei hochladen",
       "description": "Drag and Drop eine .charx-Datei oder klicke zum Durchsuchen",

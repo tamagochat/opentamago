@@ -252,9 +252,9 @@
     }
   },
   "charx": {
-    "title": "CharX Viewer",
+    "title": "Ouvrir des fichiers .charx — Visionneuse CharX gratuite",
     "subtitle": "Découvre les fiches de personnages, lorebooks et assets. Fonctionne directement dans ton navigateur !",
-    "description": "Ouvre les fichiers CharX directement dans ton navigateur. Visualise les fiches de personnages, lorebooks et assets en toute confidentialité.",
+    "description": "Ouvre tes fichiers de personnages .charx directement dans le navigateur. Sans installation, sans téléversement — consulte fiches, lorebooks et assets en toute confidentialité.",
     "upload": {
       "title": "Téléverser fichier CharX",
       "description": "Glisse-dépose un fichier .charx ou clique pour parcourir",

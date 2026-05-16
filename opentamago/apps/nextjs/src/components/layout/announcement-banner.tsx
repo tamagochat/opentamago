@@ -3,11 +3,15 @@
 import { useState } from "react";
 import { MessageCircle, X } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { usePathname } from "~/i18n/routing";
 
 export function AnnouncementBanner() {
   const [dismissed, setDismissed] = useState(false);
   const t = useTranslations("announcement");
+  const pathname = usePathname();
 
+  // High-intent SEO traffic lands on /charx — don't deflect them to a different product.
+  if (pathname.startsWith("/charx")) return null;
   if (dismissed) return null;
 
   return (

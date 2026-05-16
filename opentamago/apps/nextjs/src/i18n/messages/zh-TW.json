@@ -252,9 +252,9 @@
     }
   },
   "charx": {
-    "title": "CharX 查看器",
+    "title": "開啟 .charx 檔案 — 免費 CharX 檢視器",
     "subtitle": "查看角色卡、世界書和資源。瀏覽器裡直接看！",
-    "description": "在瀏覽器裡開啟 CharX 角色檔案，完全隱私地查看角色卡、世界書和資源。",
+    "description": "直接在瀏覽器開啟 .charx 角色檔案。免安裝、免上傳 — 私密檢視角色卡、世界書與資源。",
     "upload": {
       "title": "上傳 CharX 檔案",
       "description": "拖放 .charx 檔案，或點擊選擇",

@@ -252,9 +252,9 @@
     }
   },
   "charx": {
-    "title": "Trình Xem CharX",
+    "title": "Mở tệp .charx — Trình xem CharX miễn phí",
     "subtitle": "Xem thẻ nhân vật, lorebook và tài nguyên. Chạy ngay trong trình duyệt của bạn!",
-    "description": "Mở file nhân vật CharX ngay trong trình duyệt của bạn. Xem thẻ nhân vật, lorebook và tài nguyên với quyền riêng tư hoàn chỉnh.",
+    "description": "Mở tệp nhân vật .charx ngay trong trình duyệt. Không cần cài đặt, không cần tải lên — xem thẻ nhân vật, lorebook và tài nguyên một cách riêng tư.",
     "upload": {
       "title": "Tải Lên File CharX",
       "description": "Kéo và thả file .charx hoặc nhấp để duyệt",

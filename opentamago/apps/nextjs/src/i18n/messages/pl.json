@@ -252,9 +252,9 @@
     }
   },
   "charx": {
-    "title": "Przeglądarka CharX",
+    "title": "Otwórz pliki .charx — Darmowa przeglądarka CharX",
     "subtitle": "Sprawdź karty postaci, lorebooki i zasoby. Działa bezpośrednio w przeglądarce!",
-    "description": "Otwieraj pliki postaci CharX bezpośrednio w przeglądarce. Przeglądaj karty postaci, lorebooki i zasoby z pełną prywatnością.",
+    "description": "Otwieraj pliki postaci .charx bezpośrednio w przeglądarce. Bez instalacji, bez wysyłania — przeglądaj karty, lorebooki i zasoby prywatnie.",
     "upload": {
       "title": "Prześlij plik CharX",
       "description": "Przeciągnij i upuść plik .charx lub kliknij, aby przeglądać",

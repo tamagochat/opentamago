@@ -252,9 +252,9 @@
     }
   },
   "charx": {
-    "title": "CharX Görüntüleyici",
+    "title": ".charx dosyalarını aç — Ücretsiz CharX görüntüleyici",
     "subtitle": "Karakter kartlarını, lorebook'ları ve varlıkları inceleyin. Doğrudan tarayıcınızda çalışır!",
-    "description": "CharX karakter dosyalarını doğrudan tarayıcınızda açın. Tam gizlilikle karakter kartlarını, lorebook'ları ve varlıkları görüntüleyin.",
+    "description": ".charx karakter dosyalarını doğrudan tarayıcınızda açın. Kurulum yok, yükleme yok — kartları, lorebook'ları ve varlıkları gizlilikle görüntüleyin.",
     "upload": {
       "title": "CharX Dosyası Yükle",
       "description": "Bir .charx dosyasını sürükleyip bırakın veya göz atmak için tıklayın",

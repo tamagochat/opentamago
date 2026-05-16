@@ -252,9 +252,9 @@
     }
   },
   "charx": {
-    "title": "Visor CharX",
+    "title": "Abrir archivos .charx — Visor CharX gratuito",
     "subtitle": "Explora tarjetas de personajes, lorebooks y recursos. ¡Funciona directo en tu navegador!",
-    "description": "Abre archivos de personajes CharX directamente en tu navegador. Visualiza tarjetas de personajes, lorebooks y recursos con privacidad completa.",
+    "description": "Abre archivos de personajes .charx directamente en tu navegador. Sin instalación, sin subir nada — visualiza tarjetas, lorebooks y recursos en privado.",
     "upload": {
       "title": "Subir Archivo CharX",
       "description": "Arrastra y suelta un archivo .charx o haz clic para explorar",

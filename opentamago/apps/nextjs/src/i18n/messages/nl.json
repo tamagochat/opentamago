@@ -252,9 +252,9 @@
     }
   },
   "charx": {
-    "title": "CharX Viewer",
+    "title": ".charx-bestanden openen — Gratis CharX-viewer",
     "subtitle": "Bekijk karakterkaarten, lorebooks en assets. Draait direct in je browser!",
-    "description": "Open CharX-karakterbestanden direct in je browser. Bekijk karakterkaarten, lorebooks en assets met volledige privacy.",
+    "description": "Open .charx-karakterbestanden direct in je browser. Geen installatie, geen upload — bekijk kaarten, lorebooks en assets privé.",
     "upload": {
       "title": "Upload CharX-bestand",
       "description": "Sleep een .charx-bestand of klik om te bladeren",
